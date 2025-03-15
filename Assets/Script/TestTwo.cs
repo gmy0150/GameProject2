@@ -28,12 +28,6 @@ public class TestTwo : MonoBehaviour
         result.blockedPoints = new List<Vector3>();
 
         Transform enemyTransform = transform;
-        GameObject player = GameObject.FindAnyObjectByType<Player>().gameObject; // "Player" 태그 사용
-
-        if (player == null)
-        {
-            return result;
-        }
 
         // 부채꼴 내에서 Raycast
         for (int i = 0; i <= rayCount; i++)
@@ -50,7 +44,7 @@ public class TestTwo : MonoBehaviour
             if (Physics.Raycast(enemyTransform.position, rayDirection, out hit, fanRenderer.radius))
             {
                 // Player를 감지하면 visiblePoints에 추가
-                if (hit.collider.CompareTag("Player"))
+                if (hit.collider.GetComponent<Player>())
                 {
 
                 }

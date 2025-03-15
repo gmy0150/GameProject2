@@ -1,10 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class EnemyAI : Character
 {
+    public Vector3[] wayPoints;
+    Vector3 curPosition;
+    int wayPointIndex = 0;
+    float speed = 3f;
     public override void Action()
     {
         throw new System.NotImplementedException();
@@ -15,41 +20,41 @@ public class EnemyAI : Character
         return MoveSpeed;
     }
     [Range(0, 360)]
-    public float angle = 90f;  // 부채꼴 각도
-    public float radius = 5f;   // 부채꼴 반지름
-    [Range(2, 64)]
-    public int segments = 16;   // 부채꼴 분할 수
-    public Color fanColor = Color.gray; // 부채꼴 색상
-
-    private MeshFilter meshFilter;
-    private MeshRenderer meshRenderer;
+    public float RadiusAngle = 90f;  // 부채꼴 각도
+    public float Distance = 5f;   // 부채꼴 반지름
+    TestOne fanRenderer;
     void Start()
     {
-        fanRenderer = transform.GetChild(0).GetComponent<TestOne>();
-    }
+        //wayPoints = new Vector3[3];
 
+        fanRenderer = GetComponentInChildren<TestOne>();
+    }
+    BehaviorTreeRunner _BTRunner = null;
 
     void Update()
     {
-        
+        _BTRunner.Operate();
+    }
+    private void Awake()
+    {
+        _BTRunner = new BehaviorTreeRunner(SettingBT());
     }
 
-    
 
     // 기즈모 그리기 (선택 사항)
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, radius);
+        Gizmos.DrawWireSphere(transform.position, Distance);
 
-        Vector3 left = Quaternion.Euler(0, -angle / 2, 0) * transform.forward;
-        Vector3 right = Quaternion.Euler(0, angle / 2, 0) * transform.forward;
+        Vector3 left = Quaternion.Euler(0, -RadiusAngle / 2, 0) * transform.forward;
+        Vector3 right = Quaternion.Euler(0, RadiusAngle / 2, 0) * transform.forward;
 
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(transform.position, transform.position + left * radius);
-        Gizmos.DrawLine(transform.position, transform.position + right * radius);
+        Gizmos.DrawLine(transform.position, transform.position + left * Distance);
+        Gizmos.DrawLine(transform.position, transform.position + right * Distance);
     }
-    
+
 
     INode SettingBT()
     {
@@ -70,114 +75,124 @@ public class EnemyAI : Character
 
     private INode.ENodeState WaitAtPoint()
     {
+        return INode.ENodeState.ENS_Success;
         throw new NotImplementedException();
     }
 
     private INode.ENodeState FollowPath()
     {
-        throw new NotImplementedException();
+        curPosition = transform.position;
+        if (wayPointIndex < wayPoints.Length)
+        {
+            float step = MoveSpeed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(curPosition, wayPoints[wayPointIndex], step);
+
+            Vector3 direction = (wayPoints[wayPointIndex] - curPosition).normalized;
+            if (direction != Vector3.zero) // 회전할 필요가 있을 때만 실행
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 30 * Time.deltaTime);
+            }
+
+            // 목표 지점에 도달하면 다음 웨이포인트로 이동
+            if (Vector3.Distance(wayPoints[wayPointIndex], curPosition) < 0.1f)
+            {
+                wayPointIndex++;
+            }
+
+            return INode.ENodeState.ENS_Running; // 경로를 따라가는 중
+        }
+        return INode.ENodeState.ENS_Success;
     }
 
     private INode.ENodeState ChasePlayer()
     {
-        throw new NotImplementedException();
+        Player player = GameObject.FindAnyObjectByType<Player>();
+        
+        if(player == null) return INode.ENodeState.ENS_Failure;
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+        if(distanceToPlayer < (Distance *1.5f))
+        {
+            Vector3 direction = (player.transform.position - transform.position).normalized;
+            transform.position += direction * (MoveSpeed * 2 )* Time.deltaTime;
+            return INode.ENodeState.ENS_Running;
+        }
+
+        DetectPlayer = false;
+        return INode.ENodeState.ENS_Failure;
     }
 
     private INode.ENodeState CheckDetectPlayer()
     {
-        Transform enemyTrnas = this.transform;
-
-        GameObject player = GameObject.FindAnyObjectByType<Player>().gameObject;
-        if (player == null) return INode.ENodeState.ENS_Failure;
-
-        Vector3 directionToPlayer = (player.transform.position - enemyTrnas.position).normalized;
-        float distanceTOPlayer = Vector3.Distance(enemyTrnas.position, player.transform.position);
-
-        if(distanceTOPlayer > radius)
-            return INode.ENodeState.ENS_Failure;
-
-        float angle = Vector3.Angle(enemyTrnas.forward, directionToPlayer);
-        if ((angle > angle / 2f))
-            return INode.ENodeState.ENS_Failure;
-
-        RaycastHit hit;
-        if (Physics.Raycast(enemyTrnas.position, directionToPlayer, out hit, radius))
+        if (DetectPlayer)
         {
-            if (hit.collider.GetComponent<Player>())
-            {
-                return INode.ENodeState.ENS_Success;
-            }
-            else
-            {
-                return INode.ENodeState.ENS_Failure;
-            }
+            return INode.ENodeState.ENS_Success;
         }
-        return INode.ENodeState.ENS_Failure;
+        else
+        {
+            return INode.ENodeState.ENS_Failure;
+        }
+
     }
-    public TestOne fanRenderer; // FanRenderer 스크립트에 대한 참조
-
-    // 시야 검사 결과를 저장할 구조체
-
-
+    bool DetectPlayer;
     public struct VisibilityResult
     {
-        public List<Vector3> visiblePoints; // 보이는 지점 목록
-        public List<Vector3> blockedPoints; // 막힌 지점 목록
+        public List<Vector3> visiblePoints;
+        public List<Vector3> blockedPoints;
     }
-
-
-    // 시야 검사 함수
+    public bool GetPlayer()
+    {
+        return DetectPlayer;
+    }
     public VisibilityResult CheckVisibility(int rayCount)
     {
-        Transform enemyTransform = transform;
         VisibilityResult result = new VisibilityResult();
         result.visiblePoints = new List<Vector3>();
         result.blockedPoints = new List<Vector3>();
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player"); // tag로 찾는게 안전.
-        if (player == null)
-        {
-            return result; // 플레이어가 없으면 빈 결과 반환
-        }
+        Transform enemyTransform = transform;
 
-
-        // 부채꼴 내에서 여러 개의 Raycast를 쏨
+        // 부채꼴 내에서 Raycast
         for (int i = 0; i <= rayCount; i++)
         {
             float currentAngle = -fanRenderer.angle / 2 + fanRenderer.angle * (i / (float)rayCount);
             Quaternion rotation = Quaternion.Euler(0, currentAngle, 0);
-            Vector3 rayDirection = rotation * enemyTransform.forward;
+            Vector3 rayDirection = rotation * enemyTransform.forward; // 방향
 
-            // 디버깅을 위해 Ray 그리기 (Scene 뷰에서 확인)
-            Debug.DrawRay(enemyTransform.position, rayDirection * fanRenderer.radius, Color.yellow);
-
-
-            RaycastHit hit;
+            // 2D 평면에서 y축을 무시하고 rayDirection의 y값을 0으로 설정
+            rayDirection.y = 0;
 
             // Raycast 실행
+            RaycastHit hit;
             if (Physics.Raycast(enemyTransform.position, rayDirection, out hit, fanRenderer.radius))
             {
-                // Raycast가 Player에 맞았으면 보이는 지점
-                if (hit.collider.CompareTag("Player"))
+                // Player를 감지하면 visiblePoints에 추가
+                if (hit.collider.GetComponent<Player>())
                 {
-                    result.visiblePoints.Add(hit.point);
-                    //Debug.Log("visible");
+                    DetectPlayer = true;
+                    return result;
                 }
-                // 다른 물체에 맞았으면 막힌 지점
                 else
                 {
-                    result.blockedPoints.Add(hit.point);
-                    //Debug.Log("blocked");
+                    DetectPlayer = false;
                 }
+                result.visiblePoints.Add(hit.point);
+
             }
-            else // Ray가 아무것에도 맞지 않았다면, 최대 거리 지점을 사용 (부채꼴 경계)
+            else // Raycast가 아무것에도 맞지 않은 경우 (부채꼴 끝점)
             {
-
                 result.visiblePoints.Add(enemyTransform.position + rayDirection * fanRenderer.radius);
-
             }
         }
 
-        return result; // 보이는/막힌 지점 목록 반환
+        return result;
+
+
     }
+
+
+
+
 }

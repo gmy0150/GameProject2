@@ -21,31 +21,28 @@ public class TestOne : MonoBehaviour
     {
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
-
-        if (meshFilter == null)
-        {
-            Debug.LogError("MeshFilter is missing!");
-        }
-        if (meshRenderer == null)
-        {
-            Debug.LogError("MeshRenderer is missing!");
-        }
-
         meshRenderer.material = CreateFanMaterial();
     }
 
     void Update()
     {
-        TestTwo enemyAI = GetComponentInParent<TestTwo>();
+        EnemyAI enemyAI = GetComponentInParent<EnemyAI>();
         if (enemyAI == null)
         {
             Debug.LogError("EnemyAI script not found!");
             return;
         }
 
-        TestTwo.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
-        meshFilter.mesh = CreateFanMesh(visibility);
-        Debug.Log("Mesh Assigned: " + (meshFilter.mesh != null));
+        if (!enemyAI.GetPlayer())
+        {
+            EnemyAI.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
+            meshFilter.mesh = CreateFanMesh(visibility);
+        }
+        else
+        {
+            meshFilter.mesh.Clear();
+        }
+        //Debug.Log("Mesh Assigned: " + (meshFilter.mesh != null));
     }
 
     Material CreateFanMaterial()
@@ -61,7 +58,7 @@ public class TestOne : MonoBehaviour
         return new Material(shader);
     }
 
-    Mesh CreateFanMesh(TestTwo.VisibilityResult visibility)
+    Mesh CreateFanMesh(EnemyAI.VisibilityResult visibility)
     {
         Mesh mesh = new Mesh();
         List<Vector3> visiblePoints = visibility.visiblePoints;
