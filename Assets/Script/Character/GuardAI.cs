@@ -34,7 +34,6 @@ public class GuardAI : Enemy
         }
     }
 
-
     private void Awake()
     {
         _BTRunner = new BehaviorTreeRunner(SettingBT());
@@ -132,6 +131,7 @@ public class GuardAI : Enemy
 
     public override void ProbArea(Vector3 pos)
     {
+        Debug.Log("작동중?");
         noise = pos;
         noise.y = transform.position.y;
     }
@@ -201,8 +201,6 @@ public class GuardAI : Enemy
                 // 현재 회전과 목표 회전 간의 각도 차이 계산
                 float angleDifference = Quaternion.Angle(transform.rotation, lookRotation);
 
-                // 디버그로 각도 차이 출력
-                Debug.Log("Current angle difference: " + angleDifference);
                 StopAllCoroutines();
                 // 각도 차이가 충분히 작으면 회전 완료로 간주
                 if (angleDifference <= 1f) // 회전이 거의 완료된 상태
@@ -255,7 +253,6 @@ public class GuardAI : Enemy
     float lookAngle = 30f;
     private INode.ENodeState FollowPath()
     {
-        Debug.Log("여깅");
         curPosition = transform.position;
         if (wayPointIndex < wayPoints.Length)
         {
@@ -357,7 +354,6 @@ public class GuardAI : Enemy
     }
     private INode.ENodeState ListenNoise()
     {
-        Debug.Log(GetNoise());
         if (GetNoise() != Vector3.zero)
         {
             StopAllCoroutines();
@@ -373,16 +369,13 @@ public class GuardAI : Enemy
     private INode.ENodeState MoveProbArea()
     {
         isPath = false; isWaiting = false;
-        Debug.Log("Noise Position: " + GetNoise());
         curPosition = transform.position;
         agent.SetDestination(GetNoise());
         StartNav();
-        Debug.Log(Vector3.Distance(GetNoise(), curPosition));
         if (Vector3.Distance(GetNoise(), curPosition) < 0.1f)
         {
 
             StoptNav();
-            Debug.Log("wklreh");
             return INode.ENodeState.ENS_Success;
 
         }

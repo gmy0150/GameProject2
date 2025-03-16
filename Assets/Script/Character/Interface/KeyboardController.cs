@@ -15,7 +15,8 @@ public class KeyboardController : IController
         mainCam = Camera.main;
         rigid = controllerableCharacter.GetComponent<Rigidbody>();
     }
-
+    float throwForce = 10;
+    float maxThrowDistance = 10;
     public void Tick(float deltaTime)
     {
         Transform tr = controllerableCharacter.transform;
@@ -43,6 +44,12 @@ public class KeyboardController : IController
             }
 
         }
+        if (Input.GetMouseButtonDown(0))
+        {
+
+            controllerableCharacter.Action();
+
+        }
         bool bMoveKeyDown = false;
         if (Input.GetKey(KeyCode.W))
         {
@@ -67,7 +74,8 @@ public class KeyboardController : IController
         if (bMoveKeyDown)
         {
             direction.Normalize();
-            rigid.velocity = direction * controllerableCharacter.ReturnSpeed();
+            Vector3 curVel = rigid.velocity;
+            rigid.velocity = new Vector3( direction.x * controllerableCharacter.ReturnSpeed(),rigid.velocity.y , direction.z * controllerableCharacter.ReturnSpeed());
             //tr.localPosition += direction * deltaTime * controllerableCharacter.ReturnSpeed();
         }
         else
