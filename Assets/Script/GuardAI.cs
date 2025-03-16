@@ -1,0 +1,406 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.AI;
+using UnityEngine.Experimental.GlobalIllumination;
+
+public class GuardAI : Enemy
+{
+    [Header("경로")]
+    public Vector3[] wayPoints;//경로
+    Vector3 curPosition;
+    public int wayPointIndex = 0;
+    [Header("시야범위, 거리")]
+    [Range(0, 360)]
+    public float RadiusAngle = 90f;  // 부채꼴 각도
+    public float Distance = 5f;   // 부채꼴 반지름
+    bool DetectPlayer;
+    bool isUsingNav;
+    public NavMeshAgent agent;
+
+    private void Start()
+    {
+        applyspeed = MoveSpeed;
+        if (agent == null)
+        {
+            agent = GetComponent<NavMeshAgent>();
+        }
+        for (int i = 0; i < wayPoints.Length; i++)
+        {
+            wayPoints[i] = new Vector3(wayPoints[i].x, transform.position.y, wayPoints[i].z);
+
+        }
+    }
+
+
+    private void Awake()
+    {
+        _BTRunner = new BehaviorTreeRunner(SettingBT());
+    }
+    void Update()
+    {
+        _BTRunner.Operate();
+        if (agent != null)
+        {
+            agent.speed = applyspeed;
+        }
+    }
+    BehaviorTreeRunner _BTRunner = null;
+    public override void Action()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override float ReturnSpeed()
+    {
+        return MoveSpeed;
+    }
+
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, Distance);
+
+        Vector3 left = Quaternion.Euler(0, -RadiusAngle / 2, 0) * transform.forward;
+        Vector3 right = Quaternion.Euler(0, RadiusAngle / 2, 0) * transform.forward;
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawLine(transform.position, transform.position + left * Distance);
+        Gizmos.DrawLine(transform.position, transform.position + right * Distance);
+    }
+
+    public bool GetPlayer()
+    {
+        return DetectPlayer;
+    }
+
+    public struct VisibilityResult
+    {
+        public List<Vector3> visiblePoints;
+        public List<Vector3> blockedPoints;
+    }
+
+    public VisibilityResult CheckVisibility(int rayCount)
+    {
+        VisibilityResult result = new VisibilityResult();
+        result.visiblePoints = new List<Vector3>();
+        result.blockedPoints = new List<Vector3>();
+
+        Transform enemyTransform = transform;
+
+        // 부채꼴 내에서 Raycast
+        for (int i = 0; i <= rayCount; i++)
+        {
+            float currentAngle = -RadiusAngle / 2 + RadiusAngle * (i / (float)rayCount);
+            Quaternion rotation = Quaternion.Euler(0, currentAngle, 0);
+            Vector3 rayDirection = rotation * enemyTransform.forward; // 방향
+
+            // 2D 평면에서 y축을 무시하고 rayDirection의 y값을 0으로 설정
+            rayDirection.y = 0;
+
+            // Raycast 실행
+            RaycastHit hit;
+            if (Physics.Raycast(enemyTransform.position, rayDirection, out hit, Distance))
+            {
+                // Player를 감지하면 visiblePoints에 추가
+                if (hit.collider.GetComponent<Player>())
+                {
+                    DetectPlayer = true;
+                    //return result;
+                }
+                else
+                {
+                    DetectPlayer = false;
+                }
+                result.visiblePoints.Add(hit.point);
+
+            }
+            else // Raycast가 아무것에도 맞지 않은 경우 (부채꼴 끝점)
+            {
+                result.visiblePoints.Add(enemyTransform.position + rayDirection * Distance);
+            }
+        }
+        return result;
+    }
+
+
+
+    Vector3 noise;
+
+    public override void ProbArea(Vector3 pos)
+    {
+        noise = pos;
+        noise.y = transform.position.y;
+    }
+    Vector3 GetNoise()
+    {
+        return noise;
+    }
+
+
+
+
+
+
+
+    /// <summary>
+    /// BehaviorTree
+    /// </summary>
+    /// <returns></returns>
+    INode SettingBT()
+    {
+        return new SelectorNode(new List<INode>()
+        {
+            new SequenceNode(new List<INode>()
+            {
+                new ActionNode(CheckDetectPlayer),
+                new ActionNode(ChasePlayer),
+            }),
+            new SequenceNode(new List<INode>()
+            {
+                new ActionNode(ListenNoise),
+                new ActionNode(MoveProbArea),
+                new ActionNode(WaitAtPoint),
+            }),
+            new SequenceNode(new List<INode>()
+            {
+                new ActionNode(WaitAtPoint),
+                new ActionNode(FollowPath),
+            })
+        });
+    }
+    Vector3 currentLookDirection;
+    float waitTime = 5;
+    float waitTimer = 0;
+    bool isWaiting = false;
+    int repeatCount = 3;
+    public int currentRepeat = 0;
+    bool isPath = false;
+    private INode.ENodeState WaitAtPoint()
+    {
+        StoptNav();  // Navmesh 멈추기
+        if (!isPath)
+        {
+
+            if (!isWaiting)
+            {
+                StartCoroutine(WaitPoint());
+                isWaiting = true;
+                return INode.ENodeState.ENS_Running;
+
+            }
+            if (currentRepeat >= repeatCount)
+            {
+                // 목표 지점으로의 방향 계산
+                Vector3 direction = (wayPoints[wayPointIndex] - transform.position).normalized;
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+
+                // 현재 회전과 목표 회전 간의 각도 차이 계산
+                float angleDifference = Quaternion.Angle(transform.rotation, lookRotation);
+
+                // 디버그로 각도 차이 출력
+                Debug.Log("Current angle difference: " + angleDifference);
+                StopAllCoroutines();
+                // 각도 차이가 충분히 작으면 회전 완료로 간주
+                if (angleDifference <= 1f) // 회전이 거의 완료된 상태
+                {
+                isPath = true; 
+                    return INode.ENodeState.ENS_Success;  // 회전 완료, Success 반환
+                }
+
+                // 회전이 아직 목표와 일치하지 않으면 계속 회전
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5 * Time.deltaTime);
+                return INode.ENodeState.ENS_Running;  // 회전 중
+            }
+        }
+        if (isPath)
+            return INode.ENodeState.ENS_Success;
+
+        return INode.ENodeState.ENS_Running;
+    }
+    private IEnumerator WaitPoint()
+    {
+
+        yield return new WaitForSeconds(0.2f);
+        // 회전할 시간 없이 그냥 랜덤으로 회전
+        float randomAngle = UnityEngine.Random.Range(-45, 45);
+
+        // 랜덤 각도만큼 회전하는 Quaternion 생성
+        Quaternion randomRotation = Quaternion.Euler(0, randomAngle, 0);
+
+        // transform.rotation에 randomRotation만 적용하여 회전
+        transform.rotation = Quaternion.Slerp(transform.rotation, randomRotation, 5 * Time.deltaTime);
+        while (Quaternion.Angle(transform.rotation, randomRotation) > 1f)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, randomRotation, 5 * Time.deltaTime);
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        // 회전이 완료되면 카운트 증가
+        currentRepeat++;
+        // 회전 후 바로 Success 반환
+        yield return new WaitForSeconds(0.2f);
+        isWaiting = false;
+
+    }
+    public void InitNoise()
+    {
+        noise = Vector3.zero;
+    }
+    private float lookAroundTimer = 0f;
+    private float lookAroundInterval = 1.5f;
+    float lookAngle = 30f;
+    private INode.ENodeState FollowPath()
+    {
+        Debug.Log("여깅");
+        curPosition = transform.position;
+        if (wayPointIndex < wayPoints.Length)
+        {
+            float step = MoveSpeed * Time.deltaTime;
+            transform.position = Vector3.MoveTowards(curPosition, wayPoints[wayPointIndex], step);
+
+            Vector3 direction = (wayPoints[wayPointIndex] - curPosition).normalized;
+            if (Vector3.Distance(wayPoints[wayPointIndex], curPosition) < 0.1f)
+            {
+                wayPointIndex++;
+                if (wayPointIndex == wayPoints.Length)
+                {
+                    wayPointIndex = 0;
+                }
+                direction = (wayPoints[wayPointIndex] - curPosition).normalized;
+                currentLookDirection = direction;
+                Quaternion lookRotation = Quaternion.LookRotation(currentLookDirection);
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5 * Time.deltaTime);
+                isPath = false; isWaiting = false;
+                currentRepeat = 0;
+                return INode.ENodeState.ENS_Success;
+
+            }
+            else
+            {
+                lookAroundTimer += Time.deltaTime;
+                if (lookAroundTimer >= lookAroundInterval)
+                {
+                    lookAroundTimer = 0f;
+
+                    float randomAngle = UnityEngine.Random.Range(-lookAngle, lookAngle);
+                    Quaternion randomRotation = Quaternion.Euler(0, randomAngle, 0);
+                    currentLookDirection = randomRotation * direction;
+                }
+            }
+            if (currentLookDirection == Vector3.zero)
+            {
+                currentLookDirection = direction;
+            }
+            if (currentLookDirection != Vector3.zero) // 회전할 필요가 있을 때만 실행
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(currentLookDirection);
+                float angleDifference = Quaternion.Angle(transform.rotation, lookRotation);
+
+                float rotationspeed = (angleDifference > 60f) ? 5f : 2f;
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationspeed * Time.deltaTime);
+            }
+
+            // 목표 지점에 도달하면 다음 웨이포인트로 이동
+
+
+            return INode.ENodeState.ENS_Running; // 경로를 따라가는 중
+        }
+        else
+        {
+            currentRepeat = 0;
+            wayPointIndex = 0;
+            isPath = false; isWaiting = false;
+            return INode.ENodeState.ENS_Success;
+        }
+    }
+
+    private INode.ENodeState ChasePlayer()
+    {
+        Player player = GameObject.FindAnyObjectByType<Player>();
+
+        if (player == null) return INode.ENodeState.ENS_Failure;
+
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+        if (distanceToPlayer < (Distance * 1.5f))
+        {
+            Vector3 direction = (player.transform.position - transform.position).normalized;
+            applyspeed = MoveSpeed * 2;
+            transform.position += direction * applyspeed * Time.deltaTime;
+            return INode.ENodeState.ENS_Running;
+        }
+        applyspeed = MoveSpeed;
+        DetectPlayer = false;
+        return INode.ENodeState.ENS_Failure;
+    }
+
+    private INode.ENodeState CheckDetectPlayer()
+    {
+        if (DetectPlayer)
+        {
+            StoptNav();
+            isPath = false; isWaiting = false;
+
+            return INode.ENodeState.ENS_Success;
+        }
+        else
+        {
+            return INode.ENodeState.ENS_Failure;
+        }
+
+    }
+    private INode.ENodeState ListenNoise()
+    {
+        Debug.Log(GetNoise());
+        if (GetNoise() != Vector3.zero)
+        {
+            StopAllCoroutines();
+            isPath = false; isWaiting = false;
+
+            return INode.ENodeState.ENS_Success;
+        }
+        else
+        {
+            return INode.ENodeState.ENS_Failure;
+        }
+    }
+    private INode.ENodeState MoveProbArea()
+    {
+        isPath = false; isWaiting = false;
+        Debug.Log("Noise Position: " + GetNoise());
+        curPosition = transform.position;
+        agent.SetDestination(GetNoise());
+        StartNav();
+        Debug.Log(Vector3.Distance(GetNoise(), curPosition));
+        if (Vector3.Distance(GetNoise(), curPosition) < 0.1f)
+        {
+
+            StoptNav();
+            Debug.Log("wklreh");
+            return INode.ENodeState.ENS_Success;
+
+        }
+        return INode.ENodeState.ENS_Running;
+
+    }
+
+    public void StartNav()
+    {
+        isUsingNav = true;
+        agent.isStopped = false;
+    }
+    public void StoptNav()
+    {
+        isUsingNav = false;
+        agent.isStopped = true;
+        InitNoise();
+    }
+
+
+}

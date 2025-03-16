@@ -7,8 +7,8 @@ public class Player : Character
     IController controller;
     public float RunSpeed;
     public float CrouchSpeed;
-    protected float applyspeed;
     bool isCrouch,isRun;
+    bool GenNoise;
 
     public override void Action()
     {
@@ -35,7 +35,10 @@ public class Player : Character
         TryRun();
         TryCrouch();
         
-
+        if(!isRun && !isCrouch)
+        {
+            MakeNoise(gameObject, 3, 10);
+        }
 
     }
     public void TransSpeed(float speed)
@@ -46,6 +49,7 @@ public class Player : Character
     {
         return applyspeed;
     }
+    
     void TryRun()
     {
         if (Input.GetKey(KeyCode.LeftShift))
@@ -57,12 +61,14 @@ public class Player : Character
             RunningCancel();
         }
     }
+
     void Running()
     {
         if (isCrouch)
             Crouch();
         isRun = true;
         applyspeed = RunSpeed;
+        MakeNoise(gameObject, 5, 10);
 
     }
     void RunningCancel()
@@ -76,17 +82,42 @@ public class Player : Character
         {
             Crouch();
         }
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            CrouchCancel();
+        }
+    }
+    void CrouchCancel()
+    {
+        isCrouch = false;
+        GenNoise = true;
+        applyspeed = MoveSpeed;
     }
     void Crouch()
     {
-        isCrouch = !isCrouch;
-        if (isCrouch)
+        isCrouch = true;
+        GenNoise = false;
+        applyspeed = CrouchSpeed;
+    }
+    public void MakeNoise(GameObject obj, float radius, float stepsize)
+    {
+        Vector3 origin = obj.transform.position;
+        for (float anglestep = 0; anglestep < 360f; anglestep += stepsize)
         {
-            applyspeed = CrouchSpeed;
-        }
-        else
-        {
-            applyspeed = MoveSpeed; 
+            float currentAngle = anglestep * Mathf.Deg2Rad;
+
+            Vector3 direction = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle));
+
+            RaycastHit[] hits = Physics.RaycastAll(origin, direction, radius);
+
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.collider.GetComponent<Enemy>())
+                {
+                    Enemy enemy = hit.collider.GetComponent<Enemy>();
+                    enemy.ProbArea(origin);
+                }
+            }
         }
     }
 }

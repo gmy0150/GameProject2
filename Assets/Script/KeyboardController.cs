@@ -8,10 +8,12 @@ public class KeyboardController : IController
     
     Character controllerableCharacter = null;
     Camera mainCam;
+    Rigidbody rigid;
     public void OnPosessed(Character controllerableCharacter)
     {
         this.controllerableCharacter = controllerableCharacter;
         mainCam = Camera.main;
+        rigid = controllerableCharacter.GetComponent<Rigidbody>();
     }
 
     public void Tick(float deltaTime)
@@ -65,7 +67,12 @@ public class KeyboardController : IController
         if (bMoveKeyDown)
         {
             direction.Normalize();
-            tr.localPosition += direction * deltaTime * controllerableCharacter.ReturnSpeed();
+            rigid.velocity = direction * controllerableCharacter.ReturnSpeed();
+            //tr.localPosition += direction * deltaTime * controllerableCharacter.ReturnSpeed();
+        }
+        else
+        {
+            rigid.velocity = new Vector3(0,rigid.velocity.y,0);
         }
     }
 }

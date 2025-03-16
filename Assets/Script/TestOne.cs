@@ -6,12 +6,10 @@ using static UnityEngine.Rendering.HableCurve;
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class TestOne : MonoBehaviour
 {
-    [Range(0, 360)]
-    public float angle = 90f;
-    public float radius = 5f;
+
     [Range(2, 64)]
     public int segments = 16;
-    public Color visibleColor = Color.green;
+    public Color visibleColor = Color.red;
     public Color blockedColor = new Color(1f, 0f, 0f, 0.5f); // 반투명 빨강
 
     private MeshFilter meshFilter;
@@ -26,7 +24,7 @@ public class TestOne : MonoBehaviour
 
     void Update()
     {
-        EnemyAI enemyAI = GetComponentInParent<EnemyAI>();
+        GuardAI enemyAI = GetComponentInParent<GuardAI>();
         if (enemyAI == null)
         {
             Debug.LogError("EnemyAI script not found!");
@@ -35,7 +33,7 @@ public class TestOne : MonoBehaviour
 
         if (!enemyAI.GetPlayer())
         {
-            EnemyAI.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
+            GuardAI.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
             meshFilter.mesh = CreateFanMesh(visibility);
         }
         else
@@ -58,7 +56,7 @@ public class TestOne : MonoBehaviour
         return new Material(shader);
     }
 
-    Mesh CreateFanMesh(EnemyAI.VisibilityResult visibility)
+    Mesh CreateFanMesh(GuardAI.VisibilityResult visibility)
     {
         Mesh mesh = new Mesh();
         List<Vector3> visiblePoints = visibility.visiblePoints;
@@ -69,13 +67,13 @@ public class TestOne : MonoBehaviour
         Color[] colors = new Color[vertices.Length];  // 색상 배열 추가
 
         vertices[0] = Vector3.zero; // 중심점은 항상 로컬 좌표 (0, 0, 0)
-        colors[0] = Color.white;    // 중심점 색상 (기본값)
+        colors[0] = Color.red;    // 중심점 색상 (기본값)
 
         // Visible Points (로컬 좌표로 변환)
         for (int i = 0; i < visiblePoints.Count; i++)
         {
             vertices[i + 1] = transform.InverseTransformPoint(visiblePoints[i]);
-            colors[i + 1] = Color.green; // Visible 부분 색상 설정
+            colors[i + 1] = Color.red; // Visible 부분 색상 설정
         }
 
         // Blocked Points (로컬 좌표로 변환)
