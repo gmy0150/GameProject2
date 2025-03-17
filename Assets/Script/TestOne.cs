@@ -49,10 +49,8 @@ public class TestOne : MonoBehaviour
         Shader shader = Shader.Find("Custom/UnlitVertexColor");
         if (shader == null)
         {
-            Debug.LogError("'Unlit/VertexColor' shader not found!");
             return null; // 쉐이더를 찾지 못하면 null 반환
         }
-        Debug.Log("Fan Material Created with Shader: " + shader.name);
         return new Material(shader);
     }
 
@@ -74,6 +72,7 @@ public class TestOne : MonoBehaviour
         {
             vertices[i + 1] = transform.InverseTransformPoint(visiblePoints[i]);
             colors[i + 1] = Color.red; // Visible 부분 색상 설정
+            
         }
 
         // Blocked Points (로컬 좌표로 변환)

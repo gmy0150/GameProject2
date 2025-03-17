@@ -107,13 +107,17 @@ public class GuardAI : Enemy
                 // Player를 감지하면 visiblePoints에 추가
                 if (hit.collider.GetComponent<Player>())
                 {
+
                     DetectPlayer = true;
-                    //return result;
+                    if (hit.collider.GetComponent<Player>().GetHide()) { 
+                        DetectPlayer = false;
+                    }
                 }
                 else
                 {
                     DetectPlayer = false;
                 }
+
                 result.visiblePoints.Add(hit.point);
 
             }
@@ -131,7 +135,6 @@ public class GuardAI : Enemy
 
     public override void ProbArea(Vector3 pos)
     {
-        Debug.Log("작동중?");
         noise = pos;
         noise.y = transform.position.y;
     }
@@ -194,22 +197,21 @@ public class GuardAI : Enemy
             }
             if (currentRepeat >= repeatCount)
             {
-                // 목표 지점으로의 방향 계산
+
                 Vector3 direction = (wayPoints[wayPointIndex] - transform.position).normalized;
                 Quaternion lookRotation = Quaternion.LookRotation(direction);
 
-                // 현재 회전과 목표 회전 간의 각도 차이 계산
+
                 float angleDifference = Quaternion.Angle(transform.rotation, lookRotation);
 
                 StopAllCoroutines();
-                // 각도 차이가 충분히 작으면 회전 완료로 간주
+
                 if (angleDifference <= 1f) // 회전이 거의 완료된 상태
                 {
                 isPath = true; 
-                    return INode.ENodeState.ENS_Success;  // 회전 완료, Success 반환
+                    return INode.ENodeState.ENS_Success;  
                 }
 
-                // 회전이 아직 목표와 일치하지 않으면 계속 회전
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5 * Time.deltaTime);
                 return INode.ENodeState.ENS_Running;  // 회전 중
             }
@@ -325,7 +327,13 @@ public class GuardAI : Enemy
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
 
-        if (distanceToPlayer < (Distance * 1.5f))
+        if (player.GetHide())
+        {
+            applyspeed = MoveSpeed;
+            DetectPlayer = false;
+            return INode.ENodeState.ENS_Failure;
+        }
+        if (distanceToPlayer < (Distance * 20))
         {
             Vector3 direction = (player.transform.position - transform.position).normalized;
             applyspeed = MoveSpeed * 2;

@@ -1,5 +1,8 @@
+using JetBrains.Annotations;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Player : Character
@@ -7,7 +10,7 @@ public class Player : Character
     IController controller;
     public float RunSpeed;
     public float CrouchSpeed;
-    bool isCrouch,isRun;
+    bool isCrouch, isRun;
     bool GenNoise;
     public GameObject Prefab;
 
@@ -16,6 +19,13 @@ public class Player : Character
     public float RunNoise, WalkNoise, CoinNoise;
     float throwForce = 10f;
     float maxThrowDistance = 10;
+    public bool isHide;
+
+    public bool GetHide()
+    {
+        return isHide;
+    }
+
 
     public override void Action()
     {
@@ -23,24 +33,19 @@ public class Player : Character
         RaycastHit hit;
         Vector3 targetPoint;
 
-        // 바닥에 레이캐스트, "Ground" 레이어에만 반응하도록 함
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
             targetPoint = hit.point;
         }
         else
         {
-            // 바닥에 맞지 않으면 최대 거리로 설정
             targetPoint = ray.origin + ray.direction * maxThrowDistance;
         }
 
-        // 목표 지점과 y축 위치 고정
         targetPoint.y = transform.position.y;
 
-        // 목표 지점과의 방향 벡터 계산
         Vector3 throwDirection = (targetPoint - transform.position).normalized;
 
-        // 최대 거리 제한
         if (Vector3.Distance(transform.position, targetPoint) > maxThrowDistance)
         {
             targetPoint = transform.position + throwDirection * maxThrowDistance;
@@ -52,25 +57,121 @@ public class Player : Character
 
         if (rb != null)
         {
-            // AddForce로 물체 날리기
+            Vector3 lookDir = hit.point - transform.position;
+            lookDir.y = 0;
+
+            if (lookDir.magnitude > 0.1f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+                transform.rotation = targetRotation;
+            }
             rb.AddForce(throwDirection * throwForce + Vector3.up * 2.0f, ForceMode.Impulse);
 
-            // 물체 떨어지도록 하기 (필요 시)
-            CoinDrop(rb.gameObject);
         }
 
     }
-    public void CoinDrop(GameObject prefab)
+    public LayerMask closetLayer;
+    Collider nearCloset = null;
+    bool Closet;
+    bool Box;
+    public void HideOnCloset()
     {
+        if (nearCloset != null && Input.GetKeyDown(KeyCode.E)&&!Box)
+        {
+            {
+                Hide();
+            }
+        }
         
     }
-    
+    void Hide()
+    {
+        Renderer renderer = GetComponent<Renderer>();
 
-    // Start is called before the first frame update
+        isHide = !isHide;
+        Closet = !Closet;
+        if (isHide)
+        {
+            Rigidbody rigidbody = GetComponent<Rigidbody>();
+            rigidbody.velocity = Vector3.zero;
+            if(renderer != null)            GetComponent<Renderer>().enabled = false;
+            Crouch();
+            GenNoise = false;
+            GetComponent<Collider>().enabled = false ;
+            GetComponent<Rigidbody>().useGravity = false;
+            controller = null;
+            Debug.Log("옷장에 숨");
+        }
+        else
+        {
+            CrouchCancel();
+            if (renderer != null) GetComponent<Renderer>().enabled = true;
+            GetComponent<Collider>().enabled = true;
+            GetComponent<Rigidbody>().useGravity = true;
+            controller = KeyboardControll;
+            GenNoise = true;
+            Debug.Log("옷장에 나옴");
+        }
+    }
+    float cooldownTime = 5;
+    float lastTransTime = 0;
+
+    bool firstTime = false;
+    void TransBox()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && !Closet && Box)
+        {
+            CancelTransformation();
+        }
+        else if(Input.GetKeyDown(KeyCode.R) && !Closet && Time.time - lastTransTime >= cooldownTime || Input.GetKeyDown(KeyCode.R) && !firstTime)
+        {
+            firstTime = true;
+            Box = true;
+            isHide=true;
+            Crouch();
+            Debug.Log("변신");
+            applyspeed = MoveSpeed;
+            GetComponent<MeshRenderer>().material.color = Color.green;
+
+        }
+        else if (Input.GetKeyDown(KeyCode.R)&& Time.time - lastTransTime < cooldownTime)
+        {
+            // 쿨타임 중일 때 변신을 시도할 경우
+            //Debug.Log("쿨타임 중입니다. " + (cooldownTime - (Time.time - lastTransTime)) + "초 남았습니다.");
+        }
+        if (Box)
+        {
+            TransTimer += Time.deltaTime;
+            if(TransTimer > 10)
+            {
+                CancelTransformation();
+
+            }
+        }
+    }
+    void CancelTransformation()
+    {
+        Box = false;
+        isHide = false;
+        CrouchCancel();
+        Debug.Log("시간초풀림");
+        lastTransTime = Time.time;
+        GetComponent<MeshRenderer>().material.color = Color.gray;
+        TransTimer = 0;
+    }
+    float TransTimer;
+    
+    void DetectCloset()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 4, closetLayer);
+        nearCloset = colliders.Length > 0 ? colliders[0] : null;
+    }
+
+    IController KeyboardControll;
     void Start()
     {
 
-        IController KeyboardControll = new KeyboardController();
+        KeyboardControll = new KeyboardController();
         KeyboardControll.OnPosessed(this);
         this.controller = KeyboardControll;
         applyspeed = MoveSpeed;
@@ -84,15 +185,20 @@ public class Player : Character
         {
             controller.Tick(Time.deltaTime);
         }
-        TryRun();
-        TryCrouch();
-        
-        if(!isRun && !isCrouch)
+        if (!isHide)
+        {
+            TryRun();
+            TryCrouch();
+        }
+        if (!isRun && !isCrouch && GenNoise)
         {
             MakeNoise(gameObject, WalkNoise, 10);
         }
-
+        DetectCloset();
+        HideOnCloset();
+        TransBox();
     }
+
     public void TransSpeed(float speed)
     {
         applyspeed = speed;
@@ -101,7 +207,7 @@ public class Player : Character
     {
         return applyspeed;
     }
-    
+
     void TryRun()
     {
         if (Input.GetKey(KeyCode.LeftShift))
@@ -120,6 +226,7 @@ public class Player : Character
             Crouch();
         isRun = true;
         applyspeed = RunSpeed;
+        if(GenNoise)
         MakeNoise(gameObject, RunNoise, 10);
 
     }
@@ -161,7 +268,7 @@ public class Player : Character
             float currentAngle = anglestep * Mathf.Deg2Rad;
 
             Vector3 direction = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle));
-            Debug.DrawRay(origin, direction * radius, Color.red, 5f); // 1초 동안 레이 표시
+            Debug.DrawRay(origin, direction * radius, Color.red, 5f);
 
             RaycastHit[] hits = Physics.RaycastAll(origin, direction, radius);
 

@@ -19,6 +19,7 @@ public class KeyboardController : IController
     float maxThrowDistance = 10;
     public void Tick(float deltaTime)
     {
+
         Transform tr = controllerableCharacter.transform;
         Vector3 direction = Vector3.zero;
 
