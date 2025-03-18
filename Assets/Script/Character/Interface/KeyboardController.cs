@@ -15,8 +15,7 @@ public class KeyboardController : IController
         mainCam = Camera.main;
         rigid = controllerableCharacter.GetComponent<Rigidbody>();
     }
-    float throwForce = 10;
-    float maxThrowDistance = 10;
+
     public void Tick(float deltaTime)
     {
 
@@ -78,10 +77,17 @@ public class KeyboardController : IController
             Vector3 curVel = rigid.velocity;
             rigid.velocity = new Vector3( direction.x * controllerableCharacter.ReturnSpeed(),rigid.velocity.y , direction.z * controllerableCharacter.ReturnSpeed());
             //tr.localPosition += direction * deltaTime * controllerableCharacter.ReturnSpeed();
+            Debug.Log(controllerableCharacter.GetNoise());
+            if (controllerableCharacter.GetNoise())
+            {
+                Debug.Log(controllerableCharacter.gameObject);
+                controllerableCharacter.MakeNoise(controllerableCharacter.gameObject, controllerableCharacter.ReturnNoise(), 10);
+            }
         }
         else
         {
             rigid.velocity = new Vector3(0,rigid.velocity.y,0);
         }
     }
+    
 }

@@ -367,6 +367,7 @@ MonoBehaviour:
   RadiusAngle: 90
   Distance: 6
   agent: {fileID: 0}
+  GuardColor: {r: 0, g: 1, b: 0, a: 1}
   currentRepeat: 0
 --- !u!136 &141036181
 CapsuleCollider:
@@ -471,7 +472,6 @@ GameObject:
   - component: {fileID: 310186452}
   - component: {fileID: 310186457}
   - component: {fileID: 310186458}
-  - component: {fileID: 310186459}
   m_Layer: 8
   m_Name: GuardAI
   m_TagString: Untagged
@@ -501,6 +501,7 @@ MonoBehaviour:
   RadiusAngle: 90
   Distance: 6
   agent: {fileID: 0}
+  GuardColor: {r: 0, g: 0, b: 0, a: 1}
   currentRepeat: 0
 --- !u!23 &310186454
 MeshRenderer:
@@ -611,20 +612,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1.7200973, z: 1}
   m_Center: {x: 0, y: -0.01460437, z: 0}
---- !u!114 &310186459
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 310186451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b8715bf08ff189488ae095229d130c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  normalMaterial: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  outlineMaterial: {fileID: 2100000, guid: b20dd77e0a60e86459e5a0fe483d7fe7, type: 2}
 --- !u!1 &317858857
 GameObject:
   m_ObjectHideFlags: 0

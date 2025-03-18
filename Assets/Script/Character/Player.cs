@@ -20,7 +20,6 @@ public class Player : Character
     float throwForce = 10f;
     float maxThrowDistance = 10;
     public bool isHide;
-
     public bool GetHide()
     {
         return isHide;
@@ -86,7 +85,6 @@ public class Player : Character
     }
     void Hide()
     {
-        Renderer renderer = GetComponent<Renderer>();
 
         isHide = !isHide;
         Closet = !Closet;
@@ -94,10 +92,10 @@ public class Player : Character
         {
             Rigidbody rigidbody = GetComponent<Rigidbody>();
             rigidbody.velocity = Vector3.zero;
-            if(renderer != null)            GetComponent<Renderer>().enabled = false;
+            GetComponentInChildren<Renderer>().enabled = false;
             Crouch();
             GenNoise = false;
-            GetComponent<Collider>().enabled = false ;
+            GetComponentInChildren<Collider>().enabled = false ;
             GetComponent<Rigidbody>().useGravity = false;
             controller = null;
             Debug.Log("옷장에 숨");
@@ -105,8 +103,8 @@ public class Player : Character
         else
         {
             CrouchCancel();
-            if (renderer != null) GetComponent<Renderer>().enabled = true;
-            GetComponent<Collider>().enabled = true;
+            GetComponentInChildren<Renderer>().enabled = true;
+            GetComponentInChildren<Collider>().enabled = true;
             GetComponent<Rigidbody>().useGravity = true;
             controller = KeyboardControll;
             GenNoise = true;
@@ -156,7 +154,7 @@ public class Player : Character
         CrouchCancel();
         Debug.Log("시간초풀림");
         lastTransTime = Time.time;
-        GetComponent<MeshRenderer>().material.color = Color.gray;
+        GetComponent<MeshRenderer>().material.color = Color.red;
         TransTimer = 0;
     }
     float TransTimer;
@@ -175,8 +173,11 @@ public class Player : Character
         KeyboardControll.OnPosessed(this);
         this.controller = KeyboardControll;
         applyspeed = MoveSpeed;
-    }
+        applyNoise = WalkNoise;
 
+        GenNoise = true;
+    }
+    
 
     // Update is called once per frame
     void Update()
@@ -190,10 +191,10 @@ public class Player : Character
             TryRun();
             TryCrouch();
         }
-        if (!isRun && !isCrouch && GenNoise)
-        {
-            MakeNoise(gameObject, WalkNoise, 10);
-        }
+        //if (!isRun && !isCrouch && GenNoise)
+        //{
+        //    MakeNoise(gameObject, WalkNoise, 10);
+        //}
         DetectCloset();
         HideOnCloset();
         TransBox();
@@ -225,15 +226,22 @@ public class Player : Character
         if (isCrouch)
             Crouch();
         isRun = true;
+        GenNoise = true;
         applyspeed = RunSpeed;
-        if(GenNoise)
-        MakeNoise(gameObject, RunNoise, 10);
+        applyNoise = RunNoise;
 
+
+    }
+    public override float ReturnNoise()
+    {
+        return applyNoise;
     }
     void RunningCancel()
     {
         isRun = false;
         applyspeed = MoveSpeed;
+        applyNoise = WalkNoise;
+        GenNoise = true;
     }
     void TryCrouch()
     {
@@ -246,20 +254,27 @@ public class Player : Character
             CrouchCancel();
         }
     }
+    public override bool GetNoise()
+    {
+        return GenNoise;
+    }
     void CrouchCancel()
     {
         isCrouch = false;
         GenNoise = true;
         applyspeed = MoveSpeed;
+        applyNoise = WalkNoise;
     }
     void Crouch()
     {
         isCrouch = true;
         GenNoise = false;
         applyspeed = CrouchSpeed;
+        applyNoise = 0;
     }
-    public void MakeNoise(GameObject obj, float radius, float stepsize)
+    public override void MakeNoise(GameObject obj, float radius, float stepsize)
     {
+        Debug.Log("확인");
         Vector3 origin = obj.transform.position;
         origin.y = 1.5f;
 

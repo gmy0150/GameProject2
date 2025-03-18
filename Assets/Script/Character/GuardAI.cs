@@ -19,6 +19,8 @@ public class GuardAI : Enemy
     bool DetectPlayer;
     bool isUsingNav;
     public NavMeshAgent agent;
+    [Header("이거 바꾸면 그 컬러 색으로 보임")]
+    public Color GuardColor = Color.green;
 
     private void Start()
     {
@@ -27,8 +29,9 @@ public class GuardAI : Enemy
         {
             agent = GetComponent<NavMeshAgent>();
         }
-        for (int i = 0; i < wayPoints.Length; i++)
+        for (int i = 1; i < wayPoints.Length; i++)
         {
+
             wayPoints[i] = new Vector3(wayPoints[i].x, transform.position.y, wayPoints[i].z);
 
         }
@@ -56,6 +59,32 @@ public class GuardAI : Enemy
     {
         return MoveSpeed;
     }
+
+    private void OnDrawGizmos()
+    {
+        if (wayPoints == null || wayPoints.Length == 0)
+            return;
+
+        Gizmos.color = GuardColor; 
+
+        Vector3 newTrans = transform.position;
+        newTrans.y = 4;
+        for (int i = 0; i < wayPoints.Length; i++)
+        {
+            
+            Gizmos.DrawCube(newTrans, Vector3.one);
+
+            Gizmos.DrawSphere(wayPoints[i], 0.5f);
+
+            if (i < wayPoints.Length - 1)
+            {
+                Gizmos.DrawLine(wayPoints[i], wayPoints[i + 1]);
+            }
+        }
+    }
+
+
+
 
 
     void OnDrawGizmosSelected()
