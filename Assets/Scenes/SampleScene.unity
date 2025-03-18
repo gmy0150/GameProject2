@@ -368,6 +368,7 @@ MonoBehaviour:
   Distance: 6
   agent: {fileID: 0}
   GuardColor: {r: 0, g: 1, b: 0, a: 1}
+  Loop: 0
   currentRepeat: 0
 --- !u!136 &141036181
 CapsuleCollider:
@@ -502,6 +503,7 @@ MonoBehaviour:
   Distance: 6
   agent: {fileID: 0}
   GuardColor: {r: 0, g: 0, b: 0, a: 1}
+  Loop: 1
   currentRepeat: 0
 --- !u!23 &310186454
 MeshRenderer:
