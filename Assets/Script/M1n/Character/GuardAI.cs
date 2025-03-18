@@ -1,3 +1,4 @@
+using Pathfinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,20 +19,20 @@ public class GuardAI : Enemy
     public float Distance = 5f;   // 부채꼴 반지름
     bool DetectPlayer;
     bool isUsingNav;
-    public NavMeshAgent agent;
     [Header("이거 바꾸면 그 컬러 색으로 보임")]
     public Color GuardColor = Color.green;
 
     [Header("이거 넣으면 네모로 표시")]
     public bool Loop = false;
-
+    Seeker seeker;
+    AIPath aIPath;
     private void Start()
     {
         applyspeed = MoveSpeed;
-        if (agent == null)
-        {
-            agent = GetComponent<NavMeshAgent>();
-        }
+        seeker = GetComponent<Seeker>();
+        aIPath = GetComponent<AIPath>();
+        
+
         for (int i = 1; i < wayPoints.Length; i++)
         {
 
@@ -39,7 +40,20 @@ public class GuardAI : Enemy
 
         }
     }
+    void MoveToTarget(Vector3 newTarget)
+    {
+        aIPath.destination = newTarget;
+        isUsingNav = true;
+        aIPath.isStopped = false;
+        aIPath.SearchPath();
+    }
+    void StopMove()
+    {
+        isUsingNav = false;
+        aIPath.isStopped = true;
+        InitNoise();
 
+    }
     private void Awake()
     {
         _BTRunner = new BehaviorTreeRunner(SettingBT());
@@ -47,10 +61,9 @@ public class GuardAI : Enemy
     void Update()
     {
         _BTRunner.Operate();
-        if (agent != null)
-        {
-            agent.speed = applyspeed;
-        }
+        
+        aIPath.maxSpeed = applyspeed;
+        
     }
     BehaviorTreeRunner _BTRunner = null;
     public override void Action()
@@ -220,7 +233,7 @@ public class GuardAI : Enemy
     bool isPath = false;
     private INode.ENodeState WaitAtPoint()
     {
-        StoptNav();  // Navmesh 멈추기
+        StopMove();  // Navmesh 멈추기
         if (!isPath)
         {
 
@@ -294,54 +307,34 @@ public class GuardAI : Enemy
         curPosition = transform.position;
         if (wayPointIndex < wayPoints.Length)
         {
-            float step = MoveSpeed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(curPosition, wayPoints[wayPointIndex], step);
+            MoveToTarget(wayPoints[wayPointIndex]);
 
-            Vector3 direction = (wayPoints[wayPointIndex] - curPosition).normalized;
-            if (Vector3.Distance(wayPoints[wayPointIndex], curPosition) < 0.1f)
+            if (aIPath.reachedDestination)
             {
+
                 wayPointIndex++;
                 if (wayPointIndex == wayPoints.Length)
                 {
                     wayPointIndex = 0;
                 }
-                direction = (wayPoints[wayPointIndex] - curPosition).normalized;
-                currentLookDirection = direction;
-                Quaternion lookRotation = Quaternion.LookRotation(currentLookDirection);
-
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5 * Time.deltaTime);
                 isPath = false; isWaiting = false;
                 currentRepeat = 0;
                 return INode.ENodeState.ENS_Success;
-
             }
-            else
-            {
-                lookAroundTimer += Time.deltaTime;
-                if (lookAroundTimer >= lookAroundInterval)
-                {
-                    lookAroundTimer = 0f;
+            //else
+            //{
+            //    lookAroundTimer += Time.deltaTime;
+            //    if (lookAroundTimer >= lookAroundInterval)
+            //    {
+            //        lookAroundTimer = 0f;
 
-                    float randomAngle = UnityEngine.Random.Range(-lookAngle, lookAngle);
-                    Quaternion randomRotation = Quaternion.Euler(0, randomAngle, 0);
-                    currentLookDirection = randomRotation * direction;
-                }
-            }
-            if (currentLookDirection == Vector3.zero)
-            {
-                currentLookDirection = direction;
-            }
-            if (currentLookDirection != Vector3.zero) // 회전할 필요가 있을 때만 실행
-            {
-                Quaternion lookRotation = Quaternion.LookRotation(currentLookDirection);
-                float angleDifference = Quaternion.Angle(transform.rotation, lookRotation);
+            //        // 랜덤 회전 각도 생성
+            //        float randomAngle = UnityEngine.Random.Range(-lookAngle, lookAngle);
+            //        Quaternion randomRotation = Quaternion.Euler(0, randomAngle, 0);
 
-                float rotationspeed = (angleDifference > 60f) ? 5f : 2f;
+            //    }
 
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationspeed * Time.deltaTime);
-            }
-
-            // 목표 지점에 도달하면 다음 웨이포인트로 이동
+            //}
 
 
             return INode.ENodeState.ENS_Running; // 경로를 따라가는 중
@@ -366,14 +359,15 @@ public class GuardAI : Enemy
         if (player.GetHide())
         {
             applyspeed = MoveSpeed;
+
             DetectPlayer = false;
             return INode.ENodeState.ENS_Failure;
         }
         if (distanceToPlayer < (Distance * 20))
         {
-            Vector3 direction = (player.transform.position - transform.position).normalized;
+            MoveToTarget(player.transform.position);
             applyspeed = MoveSpeed * 2;
-            transform.position += direction * applyspeed * Time.deltaTime;
+            
             return INode.ENodeState.ENS_Running;
         }
         applyspeed = MoveSpeed;
@@ -385,7 +379,8 @@ public class GuardAI : Enemy
     {
         if (DetectPlayer)
         {
-            StoptNav();
+            StopMove();
+
             isPath = false; isWaiting = false;
 
             return INode.ENodeState.ENS_Success;
@@ -414,12 +409,16 @@ public class GuardAI : Enemy
     {
         isPath = false; isWaiting = false;
         curPosition = transform.position;
-        agent.SetDestination(GetNoise());
-        StartNav();
-        if (Vector3.Distance(GetNoise(), curPosition) < 0.1f)
-        {
 
-            StoptNav();
+        MoveToTarget(GetNoise());
+
+
+        //agent.SetDestination(GetNoise());
+        //StartNav();
+        if (Vector3.Distance(GetNoise(), curPosition) < 0.1f || aIPath.reachedDestination)
+        {
+            Debug.Log("test");
+            StopMove();
             return INode.ENodeState.ENS_Success;
 
         }
@@ -427,17 +426,6 @@ public class GuardAI : Enemy
 
     }
 
-    public void StartNav()
-    {
-        isUsingNav = true;
-        agent.isStopped = false;
-    }
-    public void StoptNav()
-    {
-        isUsingNav = false;
-        agent.isStopped = true;
-        InitNoise();
-    }
-
+   
 
 }
