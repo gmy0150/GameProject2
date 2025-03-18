@@ -25,7 +25,6 @@ public class Player : Character
         return isHide;
     }
 
-
     public override void Action()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
