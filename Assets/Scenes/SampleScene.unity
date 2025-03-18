@@ -359,10 +359,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 3
   wayPoints:
-  - {x: 3, y: 0.5, z: -14}
-  - {x: 3, y: 0.5, z: 8}
-  - {x: 5, y: 0.5, z: -1}
-  - {x: -12, y: 0.5, z: -1}
+  - {x: 3, y: 1.7, z: -14}
+  - {x: 3, y: 1.7, z: 8}
+  - {x: 5, y: 1.7, z: -1}
+  - {x: -12, y: 1.7, z: -1}
   wayPointIndex: 0
   RadiusAngle: 90
   Distance: 6
@@ -494,10 +494,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 3
   wayPoints:
-  - {x: 8, y: 0.5, z: 8}
-  - {x: -8, y: 0.5, z: 8}
-  - {x: -8, y: 0.5, z: -8}
-  - {x: 8, y: 0.5, z: -8}
+  - {x: 8, y: 1.7, z: 8}
+  - {x: -8, y: 1.7, z: 8}
+  - {x: -8, y: 1.7, z: -8}
+  - {x: 8, y: 1.7, z: -8}
   wayPointIndex: 0
   RadiusAngle: 90
   Distance: 6
