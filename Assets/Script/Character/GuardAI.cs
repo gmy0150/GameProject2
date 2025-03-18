@@ -22,6 +22,9 @@ public class GuardAI : Enemy
     [Header("이거 바꾸면 그 컬러 색으로 보임")]
     public Color GuardColor = Color.green;
 
+    [Header("이거 넣으면 네모로 표시")]
+    public bool Loop = false;
+
     private void Start()
     {
         applyspeed = MoveSpeed;
@@ -80,6 +83,10 @@ public class GuardAI : Enemy
             {
                 Gizmos.DrawLine(wayPoints[i], wayPoints[i + 1]);
             }
+        }
+        if (Loop && wayPoints.Length > 1)
+        {
+            Gizmos.DrawLine(wayPoints[wayPoints.Length - 1], wayPoints[0]);
         }
     }
 
