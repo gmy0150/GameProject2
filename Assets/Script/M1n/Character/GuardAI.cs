@@ -6,7 +6,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Experimental.GlobalIllumination;
-
+using EPOOutline;
+using Unity.VisualScripting;
 public class GuardAI : Enemy
 {
     [Header("경로")]
@@ -18,41 +19,102 @@ public class GuardAI : Enemy
     public float RadiusAngle = 90f;  // 부채꼴 각도
     public float Distance = 5f;   // 부채꼴 반지름
     bool DetectPlayer;
-    bool isUsingNav;
     [Header("이거 바꾸면 그 컬러 색으로 보임")]
     public Color GuardColor = Color.green;
 
     [Header("이거 넣으면 네모로 표시")]
     public bool Loop = false;
-    Seeker seeker;
     AIPath aIPath;
+
+    public Outlinable Outlinable;
+
     private void Start()
     {
+        HideShape();
         applyspeed = MoveSpeed;
-        seeker = GetComponent<Seeker>();
         aIPath = GetComponent<AIPath>();
         
 
         for (int i = 1; i < wayPoints.Length; i++)
         {
-
             wayPoints[i] = new Vector3(wayPoints[i].x, transform.position.y, wayPoints[i].z);
-
         }
+
     }
+
+    Coroutine timer;
+    float timeDuration = 5f;
+    public override void ShowOutline()
+    {
+        Outlinable.OutlineParameters.Enabled = true;
+        if(timer != null)
+        {
+            StopCoroutine(timer);
+        }
+        timer = StartCoroutine(TimerCoroutine());
+    }
+
+    IEnumerator TimerCoroutine()
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < timeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        Debug.Log($"{gameObject.name} : t{elapsedTime}");
+        }
+        HideOutline();
+
+    }
+
+    public override void HideOutline()
+    {
+        Outlinable.OutlineParameters.Enabled = false;
+    }
+
     void MoveToTarget(Vector3 newTarget)
     {
         aIPath.destination = newTarget;
-        isUsingNav = true;
+
         aIPath.isStopped = false;
         aIPath.SearchPath();
     }
     void StopMove()
     {
-        isUsingNav = false;
         aIPath.isStopped = true;
         InitNoise();
+    }
+    public override void ShowShape()
+    {
+        base.ShowShape();
+    }
+    public override void HideShape()
+    {
+        base.HideShape();
+    }
+    public override void MakeNoise(GameObject obj, float radius, float stepsize)
+    {
+        Vector3 origin = obj.transform.position;
+        origin.y = 1.5f;
 
+        for (float anglestep = 0; anglestep < 360f; anglestep += stepsize)
+        {
+            float currentAngle = anglestep * Mathf.Deg2Rad;
+
+            Vector3 direction = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle));
+            Debug.DrawRay(origin, direction * radius, Color.red, 5f);
+
+            RaycastHit[] hits = Physics.RaycastAll(origin, direction, radius);
+
+            foreach (RaycastHit hit in hits)
+            {
+                if (hit.collider.GetComponent<Player>())
+                {
+                    Player player = hit.collider.GetComponent<Player>();
+                    player.ListenSound(this);
+                }
+            }
+        }
     }
     private void Awake()
     {
@@ -64,6 +126,7 @@ public class GuardAI : Enemy
         
         aIPath.maxSpeed = applyspeed;
         
+        MakeNoise(gameObject, 15,10);
     }
     BehaviorTreeRunner _BTRunner = null;
     public override void Action()
@@ -415,7 +478,7 @@ public class GuardAI : Enemy
 
         //agent.SetDestination(GetNoise());
         //StartNav();
-        if (Vector3.Distance(GetNoise(), curPosition) < 0.1f || aIPath.reachedDestination)
+        if (Vector3.Distance(GetNoise(), curPosition) < 1f || aIPath.reachedDestination)
         {
             Debug.Log("test");
             StopMove();
