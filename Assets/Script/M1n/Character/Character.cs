@@ -7,6 +7,7 @@ public abstract class Character : MonoBehaviour
 {
     [Header("기본속도")]
     public float MoveSpeed;
+    public float RunSpeed;
     protected float applyspeed;
     protected float applyNoise;
     public abstract void Action();
