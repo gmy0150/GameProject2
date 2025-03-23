@@ -14,9 +14,7 @@ public class PlayerDropCoin : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground")
         {
-        Debug.Log(collision.gameObject.tag);
             player.MakeNoise(gameObject, player.CoinNoise, 3);
-            Debug.Log("¿€µø«ÿ?");
         }
     }
     // Update is called once per frame

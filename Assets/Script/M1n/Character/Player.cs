@@ -7,7 +7,7 @@ using UnityEngine;
 public class Player : Character
 {
     IController controller;
-    public float RunSpeed;
+    //public float RunSpeed;
     public float CrouchSpeed;
     bool isCrouch;
     bool GenNoise;
@@ -280,7 +280,7 @@ public class Player : Character
         DetectEnemies.Clear();
 
         // 플레이어 주위 5 유닛 거리 내에서 모든 콜라이더를 감지 (벽 제외)
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 5f, detectionMask);
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 8f, detectionMask);
 
         foreach (var collider in colliders)
         {
@@ -288,8 +288,6 @@ public class Player : Character
             Enemy enemy = collider.GetComponentInParent<Enemy>();
             if (enemy != null)
             {
-                // 적을 보이게 하고 DetectEnemies에 추가
-                Debug.Log("5m 범위 내 적 발견: " + enemy.name);
                 enemy.ShowShape();
                 DetectEnemies.Add(enemy);
             }
@@ -326,7 +324,7 @@ public class Player : Character
                     {
                         if (hit.collider.GetComponentInParent<Enemy>() != null)
                         {
-                            Debug.Log("시야 내 적 발견: " + enemy.name);
+                            Debug.Log("????");
                             enemy.ShowShape();
                             DetectEnemies.Add(enemy);
                         }
@@ -374,7 +372,6 @@ public class Player : Character
 
     public override void MakeNoise(GameObject obj, float radius, float stepsize)
     {
-        Debug.Log("확인");
         Vector3 origin = obj.transform.position;
         origin.y = 1.5f;
 
@@ -383,7 +380,7 @@ public class Player : Character
             float currentAngle = anglestep * Mathf.Deg2Rad;
 
             Vector3 direction = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle));
-            Debug.DrawRay(origin, direction * radius, Color.red, 5f);
+            //Debug.DrawRay(origin, direction * radius, Color.red, 5f);
 
             RaycastHit[] hits = Physics.RaycastAll(origin, direction, radius);
 
