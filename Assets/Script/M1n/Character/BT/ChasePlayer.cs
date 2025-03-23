@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class ChasePlayer : TestNode
+using BehaviorTree;
+public class ChasePlayer : Node
 {
-    GuardAI GuardAI;
+    Enemy GuardAI;
     Player player;
-    public ChasePlayer(GuardAI GuardAI)
+    public ChasePlayer(Enemy GuardAI)
     {
         this.GuardAI = GuardAI;
         this.player = GameObject.FindAnyObjectByType<Player>();

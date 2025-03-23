@@ -324,6 +324,7 @@ public class Player : Character
                     {
                         if (hit.collider.GetComponentInParent<Enemy>() != null)
                         {
+                            Debug.Log("????");
                             enemy.ShowShape();
                             DetectEnemies.Add(enemy);
                         }

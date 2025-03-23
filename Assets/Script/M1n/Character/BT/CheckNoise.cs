@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
-
-public class CheckNoise : TestNode
+using BehaviorTree;
+public class CheckNoise : Node
 {
-    private GuardAI GuardAI;
+    private Enemy GuardAI;
     private float ArroundTimer = 0f;
     private float Timer = 1f;
     private Vector3 TempVec = Vector3.zero;
     private bool isRotating = false;
 
-    public CheckNoise(GuardAI guardAI)
+    public CheckNoise(Enemy guardAI)
     {
         GuardAI = guardAI;
     }
@@ -47,8 +47,7 @@ public class CheckNoise : TestNode
 
             if (ArroundTimer >= Timer)
             {
-                GuardAI.End();
-                GuardAI.SetTarget();
+                GuardAI.EndProbarea();
                 return NodeState.SUCCESS;
             }
          return NodeState.RUNNING;

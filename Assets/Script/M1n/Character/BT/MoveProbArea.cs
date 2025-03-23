@@ -1,8 +1,10 @@
+using BehaviorTree;
 using UnityEngine;
-public class MoveProbArea : TestNode
+
+public class MoveProbArea : Node
 {
-    GuardAI GuardAI;
-    public MoveProbArea(GuardAI guardAI)
+    Enemy GuardAI;
+    public MoveProbArea(Enemy guardAI)
     {
         GuardAI = guardAI;
     }
@@ -10,7 +12,7 @@ public class MoveProbArea : TestNode
 
     public override NodeState Evaluate()
     {
-        if (GuardAI.isEnd())
+        if (GuardAI.isEndProb())
         {
             GuardAI.MoveProb(GuardAI.GetNoiseVec());
             if (GuardAI.GetProb())

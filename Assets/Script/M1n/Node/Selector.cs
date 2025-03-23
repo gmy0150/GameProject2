@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BehaviorTree;
 
-public class TestSelector : TestNode
+public class Selector : Node
 {
-    private List<TestNode> nodes;
-    public TestSelector(List<TestNode> nodes)
+    private List<Node> nodes;
+    public Selector(List<Node> nodes)
     {
         this.nodes = nodes;
     }

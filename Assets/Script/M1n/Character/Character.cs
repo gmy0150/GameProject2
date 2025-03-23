@@ -13,11 +13,8 @@ public abstract class Character : MonoBehaviour
     public abstract void Action();
 
     public abstract float ReturnSpeed();
-    public virtual float ReturnNoise() { return applyNoise; }
-    public virtual bool GetNoise() {  return false; }
-    public virtual void MakeNoise(GameObject obj, float radius, float stepsize)
-    {
-
-    }
+    public abstract float ReturnNoise();
+    public abstract bool GetNoise();
+    public abstract void MakeNoise(GameObject obj, float radius, float stepsize);
 
 }

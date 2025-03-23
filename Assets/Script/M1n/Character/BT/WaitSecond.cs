@@ -1,10 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
+using BehaviorTree;
 using UnityEngine;
-public class WaitSecond : TestNode
+
+public class WaitSecond : Node
 {
-    GuardAI GuardAI;
-    public WaitSecond(GuardAI guardAI)
+    Enemy GuardAI;
+    public WaitSecond(Enemy guardAI)
     {
         GuardAI = guardAI;
         ArroundTimer = 0;

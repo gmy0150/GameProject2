@@ -1,12 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class TestSequence : TestNode
+using BehaviorTree;
+public class Sequence : Node
 {
-    private List<TestNode> nodes;
+    private List<Node> nodes;
 
-    public TestSequence(List<TestNode> nodes)
+    public Sequence(List<Node> nodes)
     {
         this.nodes = nodes;
     }

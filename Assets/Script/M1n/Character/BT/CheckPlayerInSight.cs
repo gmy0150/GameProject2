@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class CheckPlayerInSight : TestNode
+using BehaviorTree;
+public class CheckPlayerInSight : Node
 {
-    GuardAI GuardAI;
-    public CheckPlayerInSight(GuardAI guardAI)
+    Enemy GuardAI;
+    public CheckPlayerInSight(Enemy guardAI)
     {
         GuardAI = guardAI;
     }

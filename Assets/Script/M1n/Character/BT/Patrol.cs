@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Unity.VisualScripting;
-public class Patrol : TestNode
+using BehaviorTree;
+public class Patrol : Node
 {
-    GuardAI GuardAI;
-    bool first;
-    public Patrol(GuardAI guardAI)
+    Enemy GuardAI;
+    public Patrol(Enemy guardAI)
     {
         GuardAI = guardAI;
     }
