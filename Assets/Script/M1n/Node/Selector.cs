@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using BehaviorTree;
 
-public class Selector : Node
+[CreateAssetMenu(fileName = "SelectoreNode", menuName = "BehaviorTree/Selector")]
+public class Selector : CompositeNode
 {
-    private List<Node> nodes;
-    public Selector(List<Node> nodes)
-    {
-        this.nodes = nodes;
-    }
+    //public Selector(List<Node> nodes)
+    //{
+    //    this.nodes = nodes;
+    //}
     public override NodeState Evaluate()
     {
         foreach (var node in nodes)

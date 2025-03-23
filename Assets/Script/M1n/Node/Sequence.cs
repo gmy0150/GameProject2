@@ -2,14 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BehaviorTree;
-public class Sequence : Node
-{
-    private List<Node> nodes;
 
-    public Sequence(List<Node> nodes)
-    {
-        this.nodes = nodes;
-    }
+[CreateAssetMenu(fileName = "SequenceNode", menuName = "BehaviorTree/Sequence")]
+public class Sequence : CompositeNode
+{
+
 
     public override NodeState Evaluate()
     {

@@ -11,7 +11,6 @@ using BehaviorTree;
 public class GuardAI : Enemy
 {
 
-
     [Header("경로")]
     public Vector3[] wayPoints;//경로
     public int wayPointIndex = 0;
@@ -25,43 +24,29 @@ public class GuardAI : Enemy
     
 
     public Outlinable Outlinable;
-
-
+    //public Node node;
+    ActionTree ActionTree;
     private void Awake()
     {
 
     }
-    Node GuardNode;
+    //Node GuardNode;
     protected override void Start()
     {
         base.Start();
         RestartPatrol();
 
-        HideShape();
         applyspeed = MoveSpeed;
 
         for (int i = 1; i < wayPoints.Length; i++)
         {
             wayPoints[i] = new Vector3(wayPoints[i].x, transform.position.y, wayPoints[i].z);
         }
-        GuardNode = new Selector(new List<Node>()
+        if (node != null)
         {
-            new Sequence(new List<Node>()
-            {
-                new CheckPlayerInSight(this),
-                new ChasePlayer(this),
-            }),
-            new Sequence(new List<Node>()
-            {
-                new CheckNoise(this),
-                new MoveProbArea(this),
-            }),
-            new Sequence(new List<Node>()
-            {
-                new Patrol(this),
-                new WaitSecond(this),
-            }),
-        });
+
+            node.SetRunner(this);
+        }
 
     }
 
@@ -103,8 +88,15 @@ public class GuardAI : Enemy
             StartMove();
         }
 
-
-        GuardNode.Evaluate();
+        if (ActionTree != null)
+        {
+            ActionTree.EvaluateTree();
+        }
+        if (node != null)
+        {
+            node.Evaluate();
+        }
+        //GuardNode.Evaluate();
     }
 
     public void SetNoise()

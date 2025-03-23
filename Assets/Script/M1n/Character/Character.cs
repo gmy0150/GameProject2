@@ -17,4 +17,6 @@ public abstract class Character : MonoBehaviour
     public abstract bool GetNoise();
     public abstract void MakeNoise(GameObject obj, float radius, float stepsize);
 
+
+
 }

@@ -3,33 +3,40 @@ using System.Collections.Generic;
 using BehaviorTree;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "CCTVMove", menuName = "BehaviorTree/ActionNode/CCTVMove")]
 public class CCTVMove : Node
 {
-    Enemy GuardAI;
-    public CCTVMove(Enemy guardAI)
-    {
-        GuardAI = guardAI;
-        ArroundTimer = 0;
-        SwitchTimer = 0;
-        initYRotation = GuardAI.transform.eulerAngles.y;
-    }
+
     float ArroundTimer;
     float SwitchTimer;
-    float Timer = 6;
-    float lookAngle = 30;
-    float rotationSpeed = 1;
+    public float Timer = 6;
+    public float lookAngle = 30;
+    public float rotationSpeed = 3;
     bool lookingRight = true;
-    float switchTime = 3;
+    public float switchTime = 3;
     float initYRotation;
+
+
+    public override void SetRunner(Enemy runner)
+    {
+        base.SetRunner(runner);
+        initYRotation = runner.transform.eulerAngles.y;
+
+
+    }
     public override NodeState Evaluate()
     {
+        if (runner == null) return NodeState.FAILURE;  // runner가 null인 경우 FAILURE 반환
+
         ArroundTimer += Time.deltaTime;
         SwitchTimer += Time.deltaTime;
 
         float targetAngle = initYRotation + (lookingRight ? lookAngle : -lookAngle);
-        Quaternion targetRotation = Quaternion.Euler(GuardAI.transform.eulerAngles.x, targetAngle, GuardAI.transform.eulerAngles.z);
+        Quaternion targetRotation = Quaternion.Euler(runner.transform.eulerAngles.x, targetAngle, runner.transform.eulerAngles.z);
         float t = 1 - Mathf.Exp(-rotationSpeed * Time.deltaTime);
-        GuardAI.transform.rotation = Quaternion.Slerp(GuardAI.transform.rotation, targetRotation, t);
+        runner.transform.rotation = Quaternion.Slerp(runner.transform.rotation, targetRotation, t);
+
+
 
         if (SwitchTimer >= switchTime)
         {
@@ -40,6 +47,7 @@ public class CCTVMove : Node
         {
             ArroundTimer = 0;
             SwitchTimer = 0;
+            lookingRight = !lookingRight;
             return NodeState.SUCCESS;
         }
 

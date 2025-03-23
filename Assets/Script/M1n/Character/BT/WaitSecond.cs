@@ -1,30 +1,30 @@
 using BehaviorTree;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "WaitSecond", menuName = "BehaviorTree/ActionNode/WaitSecond")]
 public class WaitSecond : Node
 {
-    Enemy GuardAI;
-    public WaitSecond(Enemy guardAI)
+    public override void SetRunner(Enemy runner)
     {
-        GuardAI = guardAI;
+        base.SetRunner(runner);
         ArroundTimer = 0;
-
     }
+
     float ArroundTimer;
     float SwitchTimer;
-    float Timer = 6;
-    float lookAngle = 45;
+    public float Timer = 6;
+    public float lookAngle = 45;
     float rotationSpeed = 1;
     bool lookingRight = true;
-    float switchTime = 3;
+    public float switchTime = 3;
     public override NodeState Evaluate()
     {
-        GuardAI.StopMove();
+        runner.StopMove();
         ArroundTimer += Time.deltaTime;
         SwitchTimer += Time.deltaTime;
         float targetAngle = lookingRight ? lookAngle : -lookAngle;
         Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
-        GuardAI.transform.rotation = Quaternion.Slerp(GuardAI.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        runner.transform.rotation = Quaternion.Slerp(runner.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
         if (SwitchTimer >= switchTime)
         {
@@ -34,7 +34,7 @@ public class WaitSecond : Node
         if (ArroundTimer > Timer)
         {
             Debug.Log("success");
-            GuardAI.RestartPatrol();
+            runner.RestartPatrol();
             ArroundTimer = 0;
             return NodeState.SUCCESS;
         }

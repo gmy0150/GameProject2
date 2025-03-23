@@ -5,24 +5,51 @@ using UnityEngine;
 
 public class CCTV : Enemy
 {
-    Node CCTVNode;
+    ActionTree CCTVNode;
     void Start()
     {
-
-        CCTVNode = new Selector(new List<Node>()
+        base.Start();
+        if (node != null)
         {
-            new Sequence(new List<Node>()
-            {
-                new CheckPlayerInSight(this),
-                new ifCheckPlayer(this),
-            } ),
-            new CCTVMove(this),
-        });
+            node.SetRunner(this);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        CCTVNode.Evaluate();
+
+        node.Evaluate();
+    }
+    public override void ShowShape()
+    {
+        Debug.Log("?11>");
+        MeshRenderer[] mesh = GetComponentsInParent<MeshRenderer>();
+        for (int i = 0; i < mesh.Length; i++)
+        {
+            mesh[1].material = BaseOneMesh;
+            mesh[0].material =BaseMesh;
+
+}
+if (GetComponentInChildren<TestOne>())
+        {
+            TestOne t1 = GetComponentInChildren<TestOne>();
+            t1.ShowMesh();
+        }
+    }
+
+    public override void HideShape()
+    {
+        Debug.Log("?>");
+        MeshRenderer[] mesh = GetComponentsInParent<MeshRenderer>();
+        for (int i = 0; i < mesh.Length; i++)
+        {
+            mesh[i].material = invMesh;
+        }
+        if (GetComponentInChildren<TestOne>())
+        {
+            TestOne t1 = GetComponentInChildren<TestOne>();
+            t1.InvMeshRen();
+        }
     }
 }

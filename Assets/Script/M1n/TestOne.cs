@@ -14,19 +14,18 @@ public class TestOne : MonoBehaviour
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
     private Material BaseMesh;
-    public Material InvMesh;
+    public Material InvMeshes;
 
 
     void Start()
     {
         meshFilter = GetComponent<MeshFilter>();
-        meshRenderer = GetComponent<MeshRenderer>();
-        meshRenderer.material = CreateFanMaterial();
-
+        BaseMesh = CreateFanMaterial();
     }
     private void Awake()
     {
-        BaseMesh= CreateFanMaterial();
+        meshRenderer = GetComponent<MeshRenderer>();
+
 
     }
 
@@ -39,16 +38,9 @@ public class TestOne : MonoBehaviour
             return;
         }
 
-        if (!enemyAI.GetPlayer() && show)
-        {
-        }
-        else
-        {
-            meshFilter.mesh.Clear();
-        }
+
         if (enemyAI.GetType().ToString() == "CCTV")
         {
-            Debug.Log("역니옴?");
             Player player = GameObject.FindAnyObjectByType<Player>();
             Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments,player.transform.localPosition.y);//?
             //meshFilter.mesh = CreateFanMesh(visibility,player.transform.position.y);
@@ -65,13 +57,28 @@ public class TestOne : MonoBehaviour
 
     Material CreateFanMaterial()
     {
+
         // "Unlit/VertexColor" 쉐이더 사용 (쉐이더 수정 필수)
         Shader shader = Shader.Find("Custom/UnlitVertexColor");
         if (shader == null)
         {
+            Debug.Log("못찾?");
             return null; // 쉐이더를 찾지 못하면 null 반환
         }
         return new Material(shader);
+    }
+    void CheckShowMat()
+    {
+        if (show)
+        {
+            meshRenderer.material = BaseMesh;
+
+        }
+        else
+        {
+            Debug.Log("ㅈㅈㅈ");
+            meshRenderer.material = InvMeshes;
+        }
     }
     public virtual Mesh CreateFanMesh(Enemy.VisibilityResult visibility)
     {
@@ -190,10 +197,13 @@ public class TestOne : MonoBehaviour
     public void ShowMesh()
     {
         show = true;
+        CheckShowMat();
     }
     public void InvMeshRen()
     {
-        show = false;
+        show = false; 
+        CheckShowMat();
+
     }
 
 

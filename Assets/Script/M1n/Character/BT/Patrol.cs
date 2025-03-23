@@ -1,22 +1,20 @@
 using BehaviorTree;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "Patrol", menuName = "BehaviorTree/ActionNode/Patrol")]
 public class Patrol : Node
 {
-    Enemy GuardAI;
-    public Patrol(Enemy guardAI)
-    {
-        GuardAI = guardAI;
-    }
+
     public override NodeState Evaluate()
     {
 
-        if (!GuardAI.GetPatrol())
+        if (!runner.GetPatrol())
         {
-            GuardAI.Patrols();
+            runner.Patrols();
 
         }
         else
         {
-
             return NodeState.SUCCESS;
         }
         return NodeState.RUNNING;

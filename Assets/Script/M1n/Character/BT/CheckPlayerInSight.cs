@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using BehaviorTree;
+[CreateAssetMenu(fileName = "CheckSight", menuName = "BehaviorTree/ActionNode/CheckSight")]
 public class CheckPlayerInSight : Node
 {
-    Enemy GuardAI;
-    public CheckPlayerInSight(Enemy guardAI)
-    {
-        GuardAI = guardAI;
-    }
+
     public override NodeState Evaluate()
     {
-        return GuardAI.GetPlayer() ? NodeState.SUCCESS : NodeState.FAILURE;
+        if (runner != null)
+        {
+            return runner.GetPlayer() ? NodeState.SUCCESS : NodeState.FAILURE;
+        }
+        Debug.Log("¾ø´Ù");
+        return NodeState.FAILURE;
     }
 }

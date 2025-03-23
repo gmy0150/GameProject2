@@ -1,29 +1,27 @@
 using BehaviorTree;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "MoveProbArea", menuName = "BehaviorTree/ActionNode/MoveProbArea")]
 public class MoveProbArea : Node
 {
-    Enemy GuardAI;
-    public MoveProbArea(Enemy guardAI)
-    {
-        GuardAI = guardAI;
-    }
+
+
     float ProbTime;
 
     public override NodeState Evaluate()
     {
-        if (GuardAI.isEndProb())
+        if (runner.isEndProb())
         {
-            GuardAI.MoveProb(GuardAI.GetNoiseVec());
-            if (GuardAI.GetProb())
+            runner.MoveProb(runner.GetNoiseVec());
+            if (runner.GetProb())
             {
                 ProbTime += Time.deltaTime;
                 if (ProbTime > 3)
                 {
                     ProbTime = 0;
-                    GuardAI.InitNoise();
-                    GuardAI.InitProb();
-                    GuardAI.StopMove();
+                    runner.InitNoise();
+                    runner.InitProb();
+                    runner.StopMove();
                     return NodeState.SUCCESS;
                 }
             }

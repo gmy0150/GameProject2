@@ -2,27 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
-using Unity.VisualScripting;
-using Unity.Mathematics;
+using BehaviorTree;
+
 public class Enemy : Character
 {
     public Material invMesh;
     public Material BaseMesh;
+    public Material BaseOneMesh;
     protected bool DetectPlayer;
-    public virtual bool GetPlayer() => DetectPlayer;
     protected AIPath aIPath;
     [Header("시야범위, 거리")]
     [Range(0, 360)]
     public float RadiusAngle = 90f;  // 부채꼴 각도
     public float Distance = 5f;   // 부채꼴 반지름
+
+    public Node node;
+
     protected virtual void Start()
     {
         if (GetComponent<AIPath>() != null)
         {
             aIPath = GetComponent<AIPath>();
         }
+        HideShape();
 
     }
+
+    public virtual bool GetPlayer() => DetectPlayer;
+
     public virtual void missPlayer()
     {
         DetectPlayer = false;
@@ -229,7 +236,6 @@ public class Enemy : Character
             Vector3 rayDirection = rotation * enemyTransform.forward; // 방향
             // 2D 평면에서 y축을 무시하고 rayDirection의 y값을 0으로 설정
             rayDirection.y = 0;
-            Debug.Log(rayDirection);
             // Raycast 실행
             RaycastHit hit;
             if (Physics.Raycast(rayStartPos, rayDirection, out hit, Distance))

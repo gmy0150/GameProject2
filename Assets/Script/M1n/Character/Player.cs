@@ -324,7 +324,6 @@ public class Player : Character
                     {
                         if (hit.collider.GetComponentInParent<Enemy>() != null)
                         {
-                            Debug.Log("????");
                             enemy.ShowShape();
                             DetectEnemies.Add(enemy);
                         }
@@ -340,6 +339,8 @@ public class Player : Character
         // 시각화: 플레이어 주위 5 유닛 거리 내에서 감지 범위 시각화
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, 5f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 8f);
 
         // 시야 범위 및 각도 시각화
         float angleLimit = 60f; // 45도

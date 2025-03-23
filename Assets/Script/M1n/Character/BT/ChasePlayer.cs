@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using BehaviorTree;
+[CreateAssetMenu(fileName = "ChasePlayer", menuName = "BehaviorTree/ActionNode/ChasePlayer")]
 public class ChasePlayer : Node
 {
-    Enemy GuardAI;
+
     Player player;
-    public ChasePlayer(Enemy GuardAI)
+
+    public override void SetRunner(Enemy runner)
     {
-        this.GuardAI = GuardAI;
+        base.SetRunner(runner);
         this.player = GameObject.FindAnyObjectByType<Player>();
     }
 
@@ -16,11 +18,11 @@ public class ChasePlayer : Node
     {
         if(player.GetHide())
         {
-            GuardAI.missPlayer();
-            GuardAI.StopMove();
+            runner.missPlayer();
+            runner.StopMove();
             return NodeState.FAILURE;
         }
-        GuardAI.StartChase(player);
+        runner.StartChase(player);
         
         return NodeState.RUNNING;
     }
