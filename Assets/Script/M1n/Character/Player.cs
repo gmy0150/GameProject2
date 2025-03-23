@@ -1,8 +1,7 @@
-using JetBrains.Annotations;
+
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using Unity.Mathematics;
+using UnityEditor;
 using UnityEngine;
 
 public class Player : Character
@@ -10,7 +9,7 @@ public class Player : Character
     IController controller;
     public float RunSpeed;
     public float CrouchSpeed;
-    bool isCrouch, isRun;
+    bool isCrouch;
     bool GenNoise;
     public GameObject Prefab;
 
@@ -24,7 +23,6 @@ public class Player : Character
     {
         return isHide;
     }
-
 
     public override void Action()
     {
@@ -81,8 +79,8 @@ public class Player : Character
                 Hide();
             }
         }
-        
     }
+
     void Hide()
     {
 
@@ -191,13 +189,10 @@ public class Player : Character
             TryRun();
             TryCrouch();
         }
-        //if (!isRun && !isCrouch && GenNoise)
-        //{
-        //    MakeNoise(gameObject, WalkNoise, 10);
-        //}
         DetectCloset();
         HideOnCloset();
         TransBox();
+        DetectEnemy();
     }
 
     public void TransSpeed(float speed)
@@ -225,7 +220,7 @@ public class Player : Character
     {
         if (isCrouch)
             Crouch();
-        isRun = true;
+
         GenNoise = true;
         applyspeed = RunSpeed;
         applyNoise = RunNoise;
@@ -238,7 +233,7 @@ public class Player : Character
     }
     void RunningCancel()
     {
-        isRun = false;
+
         applyspeed = MoveSpeed;
         applyNoise = WalkNoise;
         GenNoise = true;
@@ -272,6 +267,111 @@ public class Player : Character
         applyspeed = CrouchSpeed;
         applyNoise = 0;
     }
+    public List<Enemy> DetectEnemies = new List<Enemy>();
+    public LayerMask detectionMask;  // LayerMask를 public으로 설정하여 인스펙터에서 수정 가능하게 함
+    public LayerMask wallLayer;
+    void DetectEnemy()
+    {
+        // 이전에 감지된 적을 숨김
+        foreach (var enemy in DetectEnemies)
+        {
+            enemy.HideShape();
+        }
+        DetectEnemies.Clear();
+
+        // 플레이어 주위 5 유닛 거리 내에서 모든 콜라이더를 감지 (벽 제외)
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 5f, detectionMask);
+
+        foreach (var collider in colliders)
+        {
+            // 콜라이더가 적의 부모 오브젝트인지 확인
+            Enemy enemy = collider.GetComponentInParent<Enemy>();
+            if (enemy != null)
+            {
+                // 적을 보이게 하고 DetectEnemies에 추가
+                Debug.Log("5m 범위 내 적 발견: " + enemy.name);
+                enemy.ShowShape();
+                DetectEnemies.Add(enemy);
+            }
+        }
+
+        // 플레이어 앞 방향으로 90도 시야 내에서 8 유닛 거리로 적 감지
+        float angleLimit = 60f; // 90도 시야의 반으로 45도
+        float detectionRange = 20f;
+
+        // 시야 내 적 감지
+        Collider[] frontColliders = Physics.OverlapSphere(transform.position, detectionRange, detectionMask);
+
+        foreach (var collider in frontColliders)
+        {
+            // 콜라이더가 적의 부모 오브젝트인지 확인
+            Enemy enemy = collider.GetComponentInParent<Enemy>();
+            if (enemy != null)
+            {
+                // 플레이어와 적의 방향 벡터를 계산
+                Vector3 directionToEnemy = enemy.transform.position - transform.position;
+                directionToEnemy.y = 1.2f; // y값 무시 (수평 방향만 고려)
+
+                // 플레이어의 앞 방향 벡터
+                Vector3 forward = transform.forward;
+
+                // 플레이어의 전방 90도 시야 내에 적이 있는지 확인
+                float angle = Vector3.Angle(forward, directionToEnemy);
+
+                if (angle <= angleLimit) // 45도 이하 각도에 있을 때만 감지
+                {
+                    // 벽을 뚫고 적을 감지하지 않도록 Raycast로 확인
+                    RaycastHit hit;
+                    if (Physics.Raycast(transform.position, directionToEnemy, out hit, detectionRange, ~wallLayer))
+                    {
+                        if (hit.collider.GetComponentInParent<Enemy>() != null)
+                        {
+                            Debug.Log("시야 내 적 발견: " + enemy.name);
+                            enemy.ShowShape();
+                            DetectEnemies.Add(enemy);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Gizmos로 시각화 (옵션)
+    private void OnDrawGizmos()
+    {
+        // 시각화: 플레이어 주위 5 유닛 거리 내에서 감지 범위 시각화
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, 5f);
+
+        // 시야 범위 및 각도 시각화
+        float angleLimit = 60f; // 45도
+        float detectionRange = 20f;
+
+        // 전방 시야 범위 그리기
+        Vector3 forward = transform.forward;
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position, transform.position + forward * detectionRange);
+
+        // 시야 각도 시각화
+        Vector3 leftBound = Quaternion.Euler(0, -angleLimit, 0) * forward * detectionRange;
+        Vector3 rightBound = Quaternion.Euler(0, angleLimit, 0) * forward * detectionRange;
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.position + leftBound);
+        Gizmos.DrawLine(transform.position, transform.position + rightBound);
+
+        // 시야 각도 내 영역을 시각적으로 그리기
+        Gizmos.color = new Color(0, 1, 1, 0.1f); // 반투명 Cyan 색
+        Gizmos.DrawLine(transform.position, transform.position + leftBound);
+        Gizmos.DrawLine(transform.position, transform.position + rightBound);
+    }
+
+
+    public void ListenSound(GuardAI enemy)
+    {
+        enemy.ShowOutline();
+    }
+
     public override void MakeNoise(GameObject obj, float radius, float stepsize)
     {
         Debug.Log("확인");

@@ -15,9 +15,9 @@ TagManager:
   - Ground
   - Closet
   - Enemy
-  - 
-  - 
-  - 
+  - Player
+  - Wall
+  - Coin
   - 
   - 
   - 

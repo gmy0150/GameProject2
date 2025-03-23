@@ -14,12 +14,21 @@ public class TestOne : MonoBehaviour
 
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
+    private Material BaseMesh;
+    public Material InvMesh;
+
 
     void Start()
     {
         meshFilter = GetComponent<MeshFilter>();
         meshRenderer = GetComponent<MeshRenderer>();
         meshRenderer.material = CreateFanMaterial();
+
+    }
+    private void Awake()
+    {
+        BaseMesh= CreateFanMaterial();
+
     }
 
     void Update()
@@ -31,7 +40,7 @@ public class TestOne : MonoBehaviour
             return;
         }
 
-        if (!enemyAI.GetPlayer())
+        if (!enemyAI.GetPlayer() && show)
         {
             GuardAI.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
             meshFilter.mesh = CreateFanMesh(visibility);
@@ -53,7 +62,6 @@ public class TestOne : MonoBehaviour
         }
         return new Material(shader);
     }
-
     Mesh CreateFanMesh(GuardAI.VisibilityResult visibility)
     {
         Mesh mesh = new Mesh();
@@ -110,5 +118,16 @@ public class TestOne : MonoBehaviour
 
         return mesh;
     }
+    bool show;
+    public void ShowMesh()
+    {
+        show = true;
+    }
+    public void InvMeshRen()
+    {
+        show = false;
+    }
+
+
 }
 
