@@ -469,7 +469,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &362886898
 Transform:
   m_ObjectHideFlags: 0
@@ -1062,12 +1062,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 8
-  RunSpeed: 8
+  RunSpeed: 15
   invMesh: {fileID: 2100000, guid: 09445e6409ab0bc41ba6e8e3065ae8c4, type: 2}
   BaseMesh: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-  RadiusAngle: 90
+  RadiusAngle: 50
   Distance: 5
   node: {fileID: 11400000, guid: e9cd0a3a883b2a84ab0c948c3044a9b5, type: 2}
+  NewNode: {fileID: 0}
 --- !u!65 &729525568
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3877,7 +3878,7 @@ PrefabInstance:
     - target: {fileID: 1521689911725386532, guid: 8c74793bb2ffe5047ac3e4d1780fe5b6,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2879806563330005036, guid: 8c74793bb2ffe5047ac3e4d1780fe5b6,
         type: 3}
@@ -4086,12 +4087,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveSpeed: 10
-  RunSpeed: 8
+  RunSpeed: 4
   invMesh: {fileID: 2100000, guid: 09445e6409ab0bc41ba6e8e3065ae8c4, type: 2}
   BaseMesh: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   RadiusAngle: 67
   Distance: 10
   node: {fileID: 11400000, guid: a75c4d3b84d5d9844a09266a28732553, type: 2}
+  NewNode: {fileID: 0}
   wayPoints:
   - {x: -19.48, y: 1.7, z: 10}
   - {x: 3, y: 1.7, z: 8}
@@ -4116,7 +4118,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8709266209851964347
 MonoBehaviour:
   m_ObjectHideFlags: 0

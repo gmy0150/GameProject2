@@ -66,7 +66,7 @@ public class GuardAI : Enemy
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
     }
-    void Update()
+    protected override void Update()
     {
         base.Update();
 
@@ -238,8 +238,6 @@ public class GuardAI : Enemy
     bool patrolSuccess = false;
     public override void Patrols()
     {
-        Debug.Log("why");
-        Debug.Log(transform.name);
         MoveToTarget(wayPoints[wayPointIndex]);
 
         isPatrolling = true;

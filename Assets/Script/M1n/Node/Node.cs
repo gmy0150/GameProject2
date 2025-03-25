@@ -23,6 +23,12 @@ namespace BehaviorTree
                 }
             }
         }
+        public void NewNode()
+        {
+            Node game = Instantiate(this);
+            Debug.Log(game.GetType());
+        }
+
         public abstract NodeState Evaluate();
     }
 }

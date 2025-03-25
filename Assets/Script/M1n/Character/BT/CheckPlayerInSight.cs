@@ -8,7 +8,7 @@ public class CheckPlayerInSight : Node
 {
     public override Node Clone()
     {
-        return new CheckPlayerInSight();
+        return ScriptableObject.CreateInstance<CheckPlayerInSight>();
     }
 
     public override NodeState Evaluate()

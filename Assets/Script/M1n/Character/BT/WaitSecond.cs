@@ -12,10 +12,10 @@ public class WaitSecond : Node
 
     float ArroundTimer;
     float SwitchTimer;
-    public float Timer = 6;
-    public float lookAngle = 45;
     float rotationSpeed = 1;
     bool lookingRight = true;
+    public float Timer = 6;
+    public float lookAngle = 45;
     public float switchTime = 3;
     public override NodeState Evaluate()
     {
@@ -44,6 +44,11 @@ public class WaitSecond : Node
 
     public override Node Clone()
     {
-        return new WaitSecond();
+        var clone = new WaitSecond();
+
+        clone.Timer = this.Timer;
+        clone.lookAngle = this.lookAngle;
+        clone.switchTime = this.switchTime;
+        return clone;
     }
 }

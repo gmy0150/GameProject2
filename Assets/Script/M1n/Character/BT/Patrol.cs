@@ -6,7 +6,7 @@ public class Patrol : Node
 {
     public override Node Clone()
     {
-        return new Patrol();
+        return ScriptableObject.CreateInstance<Patrol>();
     }
 
     public override NodeState Evaluate()

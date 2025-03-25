@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using BehaviorTree;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CCTVMove", menuName = "BehaviorTree/ActionNode/CCTVMove")]
@@ -9,12 +10,12 @@ public class CCTVMove : Node
 
     float ArroundTimer;
     float SwitchTimer;
+    bool lookingRight = true;
+    float initYRotation;
+    public float switchTime = 3;
     public float Timer = 6;
     public float lookAngle = 30;
     public float rotationSpeed = 3;
-    bool lookingRight = true;
-    public float switchTime = 3;
-    float initYRotation;
 
 
     public override void SetRunner(Enemy runner)
@@ -56,6 +57,12 @@ public class CCTVMove : Node
 
     public override Node Clone()
     {
-        return new CCTVMove();
+        var clone = CreateInstance<CCTVMove>();
+        clone.Timer = this.Timer;
+        clone.lookAngle = this.lookAngle;
+        clone.rotationSpeed = this.rotationSpeed;
+        clone.switchTime = this.switchTime;
+
+        return clone;
     }
 }

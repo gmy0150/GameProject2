@@ -37,18 +37,24 @@ public class TestOne : MonoBehaviour
             Debug.LogError("EnemyAI script not found!");
             return;
         }
-        if (!enemyAI.GetPlayer())
+        if (!enemyAI.GetPlayer() )
         {
             if (enemyAI.GetType().ToString() == "CCTV")
             {
                 Player player = GameObject.FindAnyObjectByType<Player>();
-                Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments,player.transform.localPosition.y);//?
+                Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments,player.transform.localPosition.y);
                 meshFilter.mesh = CreateFanMesh(visibility);
             }
             else
             {
-                Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
-                meshFilter.mesh = CreateFanMesh(visibility);
+                Debug.Log(enemyAI.GetHome());
+
+                if (enemyAI.IsHome())
+                {
+                    Debug.Log("?>");
+                    Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
+                    meshFilter.mesh = CreateFanMesh(visibility);
+                }
             }
         }
 

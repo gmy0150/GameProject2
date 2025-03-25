@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class GuardDog : Enemy
 {
-    void Start()
+    protected override void Start()
     {
         base.Start();
     }
 
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         base.Update();
     }
+    public override void StartChase(Player player)
+    {
+        base.StartChase(player);
+        HomeSuccess = false;
 
+    }
     public override void MakeNoise(GameObject obj, float radius, float stepsize)
     {
         Vector3 origin = obj.transform.position;
@@ -25,7 +30,7 @@ public class GuardDog : Enemy
             float currentAngle = anglestep * Mathf.Deg2Rad;
 
             Vector3 direction = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle));
-            //Debug.DrawRay(origin, direction * radius, Color.red, 5f);
+            Debug.DrawRay(origin, direction * radius, Color.red, 5f);
 
             RaycastHit[] hits = Physics.RaycastAll(origin, direction, radius);
 

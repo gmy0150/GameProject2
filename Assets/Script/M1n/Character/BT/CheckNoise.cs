@@ -11,7 +11,6 @@ public class CheckNoise : Node
     private float ArroundTimer = 0f;
     private float Timer = 1f;
     private Vector3 TempVec = Vector3.zero;
-    private bool isRotating = false;
 
     public override Node Clone()
     {
@@ -41,7 +40,6 @@ public class CheckNoise : Node
 
             if (Quaternion.Angle(currentRotation, targetRotation) < 1f)
             {
-                isRotating = false;
                 ArroundTimer += Time.deltaTime;
             }
 

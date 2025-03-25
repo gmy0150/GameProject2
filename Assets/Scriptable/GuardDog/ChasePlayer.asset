@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: ChasePlayer
   m_EditorClassIdentifier: 
   Timer: 5
+  BarkTimer: 1

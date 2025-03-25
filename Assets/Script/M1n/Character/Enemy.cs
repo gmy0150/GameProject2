@@ -16,7 +16,7 @@ public class Enemy : Character
     public float Distance = 5f;   // 부채꼴 반지름
 
     public Node node;
-    Node NewNode;
+    public Node NewNode;
 
     protected virtual void Start()
     {
@@ -29,13 +29,15 @@ public class Enemy : Character
         if (node != null)
         {
             NewNode = node.Clone();
-            Debug.Log(NewNode);
+            Debug.Log(NewNode.GetType());
+
+
             NewNode.SetRunner(this);
         }
         HideShape();
 
     }
-    protected void Update()
+    protected virtual void Update()
     {
         if (aIPath != null)
         {
@@ -47,10 +49,11 @@ public class Enemy : Character
         }
     }
     public virtual bool GetPlayer() => DetectPlayer;
-
+    
     public virtual void missPlayer()
     {
         DetectPlayer = false;
+        Debug.Log(DetectPlayer);
 
     }
     public virtual void StopMove()
@@ -109,6 +112,7 @@ public class Enemy : Character
     protected virtual void MoveToTarget(Vector3 newTarget)
     {
         aIPath.enabled = true;
+        
         aIPath.destination = newTarget;
 
         aIPath.isStopped = false;
@@ -156,8 +160,40 @@ public class Enemy : Character
     }
 
     protected bool probSuccess = false;
+    protected bool HomeSuccess = false;
+    Vector3 HomeSave;
+    public  void MoveHome()
+    {
+        MoveToTarget(HomeSave);
+        applyspeed = MoveSpeed;
+        Vector3 curPos = transform.position;
+        Vector3 targetPos = new Vector3(HomeSave.x, curPos.y, HomeSave.z);
+        float distanceToTarget = Vector3.Distance(transform.position, HomeSave);
+        TestOne t1;
+        t1 = GetComponentInChildren<TestOne>();
+        t1.InvMeshRen();
 
+        if (distanceToTarget < 0.5f)  // 원하는 도달 범위 설정
+        {
+            Debug.Log("도착!");
+            HomeSuccess = true;
+            t1.ShowMesh();
+        }
+    }
+    public void SetHome(Vector3 vec)
+    {
+        HomeSave = vec;
 
+    }
+    public bool IsHome()
+    {
+        return Vector3.Distance(HomeSave, transform.position) < 1.0f;
+
+    }
+    public void HomeArrive() { HomeSuccess = false; }
+
+    public bool GetHome() { return HomeSuccess; }
+    
     public void MoveProb(Vector3 vec)
     {
         MoveToTarget(vec);
