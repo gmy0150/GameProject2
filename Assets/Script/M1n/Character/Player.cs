@@ -16,13 +16,9 @@ public class Player : Character
 
     [Header("소리 거리")]
     public float RunNoise, WalkNoise, CoinNoise;
-    float throwForce = 10f;
-    float maxThrowDistance = 10;
-    public bool isHide;
-    public bool GetHide()
-    {
-        return isHide;
-    }
+    public float maxThrowDistance = 40;
+    public float maxThrowForce = 40;
+
 
     public override void Action()
     {
@@ -42,11 +38,13 @@ public class Player : Character
         targetPoint.y = transform.position.y;
 
         Vector3 throwDirection = (targetPoint - transform.position).normalized;
-
-        if (Vector3.Distance(transform.position, targetPoint) > maxThrowDistance)
+        float distance = Vector3.Distance(transform.position, targetPoint);
+        if (distance > maxThrowDistance)
         {
             targetPoint = transform.position + throwDirection * maxThrowDistance;
+            distance = maxThrowDistance;
         }
+        float throwForce = Mathf.Lerp(2f, maxThrowForce, distance / maxThrowDistance);
 
         // 목표 지점으로 물체 생성
         GameObject projectile = Instantiate(Prefab, transform.position + throwDirection, Quaternion.identity);
@@ -62,10 +60,15 @@ public class Player : Character
                 Quaternion targetRotation = Quaternion.LookRotation(lookDir);
                 transform.rotation = targetRotation;
             }
-            rb.AddForce(throwDirection * throwForce + Vector3.up * 2.0f, ForceMode.Impulse);
+            rb.AddForce(throwDirection * throwForce + Vector3.up *(throwForce * 0.2f) , ForceMode.Impulse);
 
         }
 
+    }
+    public bool isHide;
+    public bool GetHide()
+    {
+        return isHide;
     }
     public LayerMask closetLayer;
     Collider nearCloset = null;
