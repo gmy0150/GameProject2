@@ -25,7 +25,7 @@ public class GuardAI : Enemy
 
     public Outlinable Outlinable;
     //public Node node;
-    ActionTree ActionTree;
+
     private void Awake()
     {
 
@@ -36,17 +36,12 @@ public class GuardAI : Enemy
         base.Start();
         RestartPatrol();
 
-        applyspeed = MoveSpeed;
 
         for (int i = 1; i < wayPoints.Length; i++)
         {
             wayPoints[i] = new Vector3(wayPoints[i].x, transform.position.y, wayPoints[i].z);
         }
-        if (node != null)
-        {
 
-            node.SetRunner(this);
-        }
 
     }
 
@@ -61,8 +56,6 @@ public class GuardAI : Enemy
     float rotationSpeed = 2;
     public void SeeOther()
     {
-        
-
         if (!targetRotationSet)
         {
             targetRotation = Quaternion.LookRotation(noise - transform.position);
@@ -75,7 +68,7 @@ public class GuardAI : Enemy
     }
     void Update()
     {
-        aIPath.maxSpeed = applyspeed;
+        base.Update();
 
         MakeNoise(gameObject, 15, 10);
         if (Input.GetKeyDown(KeyCode.V))
@@ -87,16 +80,6 @@ public class GuardAI : Enemy
         {
             StartMove();
         }
-
-        if (ActionTree != null)
-        {
-            ActionTree.EvaluateTree();
-        }
-        if (node != null)
-        {
-            node.Evaluate();
-        }
-        //GuardNode.Evaluate();
     }
 
     public void SetNoise()
@@ -255,7 +238,8 @@ public class GuardAI : Enemy
     bool patrolSuccess = false;
     public override void Patrols()
     {
-
+        Debug.Log("why");
+        Debug.Log(transform.name);
         MoveToTarget(wayPoints[wayPointIndex]);
 
         isPatrolling = true;

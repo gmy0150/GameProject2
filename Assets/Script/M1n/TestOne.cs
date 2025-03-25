@@ -37,33 +37,31 @@ public class TestOne : MonoBehaviour
             Debug.LogError("EnemyAI script not found!");
             return;
         }
-
-
-        if (enemyAI.GetType().ToString() == "CCTV")
+        if (!enemyAI.GetPlayer())
         {
-            Player player = GameObject.FindAnyObjectByType<Player>();
-            Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments,player.transform.localPosition.y);//?
-            //meshFilter.mesh = CreateFanMesh(visibility,player.transform.position.y);
-            meshFilter.mesh = CreateFanMesh(visibility);
+            if (enemyAI.GetType().ToString() == "CCTV")
+            {
+                Player player = GameObject.FindAnyObjectByType<Player>();
+                Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments,player.transform.localPosition.y);//?
+                meshFilter.mesh = CreateFanMesh(visibility);
+            }
+            else
+            {
+                Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
+                meshFilter.mesh = CreateFanMesh(visibility);
+            }
         }
-        else
-        {
-            Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
 
-            meshFilter.mesh = CreateFanMesh(visibility);
-        }
-        //Debug.Log("Mesh Assigned: " + (meshFilter.mesh != null));
     }
 
     Material CreateFanMaterial()
     {
 
-        // "Unlit/VertexColor" 쉐이더 사용 (쉐이더 수정 필수)
         Shader shader = Shader.Find("Custom/UnlitVertexColor");
         if (shader == null)
         {
             Debug.Log("못찾?");
-            return null; // 쉐이더를 찾지 못하면 null 반환
+            return null; 
         }
         return new Material(shader);
     }
@@ -76,7 +74,6 @@ public class TestOne : MonoBehaviour
         }
         else
         {
-            Debug.Log("ㅈㅈㅈ");
             meshRenderer.material = InvMeshes;
         }
     }

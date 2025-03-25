@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class CCTV : Enemy
 {
-    ActionTree CCTVNode;
+    public Material BaseOneMesh;
+
     void Start()
     {
         base.Start();
@@ -31,7 +32,7 @@ public class CCTV : Enemy
             mesh[0].material =BaseMesh;
 
 }
-if (GetComponentInChildren<TestOne>())
+        if (GetComponentInChildren<TestOne>())
         {
             TestOne t1 = GetComponentInChildren<TestOne>();
             t1.ShowMesh();

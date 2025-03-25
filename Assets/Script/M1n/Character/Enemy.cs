@@ -8,7 +8,6 @@ public class Enemy : Character
 {
     public Material invMesh;
     public Material BaseMesh;
-    public Material BaseOneMesh;
     protected bool DetectPlayer;
     protected AIPath aIPath;
     [Header("시야범위, 거리")]
@@ -23,11 +22,27 @@ public class Enemy : Character
         if (GetComponent<AIPath>() != null)
         {
             aIPath = GetComponent<AIPath>();
+            applyspeed = MoveSpeed;
+
+        }
+        if (node != null)
+        {
+            node.SetRunner(this);
         }
         HideShape();
 
     }
-
+    protected void Update()
+    {
+        if (aIPath != null)
+        {
+            aIPath.maxSpeed = applyspeed;
+        }
+        if (node != null)
+        {
+            node.Evaluate();
+        }
+    }
     public virtual bool GetPlayer() => DetectPlayer;
 
     public virtual void missPlayer()
@@ -50,7 +65,7 @@ public class Enemy : Character
 
     public override float ReturnSpeed()
     {
-        throw new System.NotImplementedException();
+        return applyspeed;
     }
 
 
@@ -79,9 +94,13 @@ public class Enemy : Character
 
     public virtual void StartChase(Player player)
     {
-        MoveToTarget(player.transform.position);
-
         applyspeed = RunSpeed;
+        MoveToTarget(player.transform.position);
+        if (GetComponentInChildren<TestOne>())
+        {
+            TestOne t1 = GetComponentInChildren<TestOne>();
+            t1.InvMeshRen();
+        }
     }
 
     protected virtual void MoveToTarget(Vector3 newTarget)
@@ -144,7 +163,6 @@ public class Enemy : Character
         Vector3 curPos = transform.position;
         Vector3 targetPos = new Vector3(vec.x, curPos.y, vec.z);
         float distanceToTarget = Vector3.Distance(transform.position, vec);
-        Debug.Log(distanceToTarget);
         if (distanceToTarget < 0.5f)  // 원하는 도달 범위 설정
         {
             Debug.Log("도착!");
