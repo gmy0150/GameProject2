@@ -6,7 +6,7 @@ namespace BehaviorTree
 {
     public abstract class Node :ScriptableObject
     {
-
+        public abstract Node Clone();
         public enum NodeState
         {
             SUCCESS, FAILURE, RUNNING

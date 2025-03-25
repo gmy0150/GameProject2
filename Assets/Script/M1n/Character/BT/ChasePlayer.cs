@@ -52,4 +52,8 @@ public class ChasePlayer : Node
         return NodeState.RUNNING;
     }
 
+    public override Node Clone()
+    {
+        return new ChasePlayer();
+    }
 }

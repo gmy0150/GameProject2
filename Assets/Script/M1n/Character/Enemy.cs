@@ -16,6 +16,7 @@ public class Enemy : Character
     public float Distance = 5f;   // 부채꼴 반지름
 
     public Node node;
+    Node NewNode;
 
     protected virtual void Start()
     {
@@ -27,7 +28,9 @@ public class Enemy : Character
         }
         if (node != null)
         {
-            node.SetRunner(this);
+            NewNode = node.Clone();
+            Debug.Log(NewNode);
+            NewNode.SetRunner(this);
         }
         HideShape();
 
@@ -38,9 +41,9 @@ public class Enemy : Character
         {
             aIPath.maxSpeed = applyspeed;
         }
-        if (node != null)
+        if (NewNode != null)
         {
-            node.Evaluate();
+            NewNode.Evaluate();
         }
     }
     public virtual bool GetPlayer() => DetectPlayer;

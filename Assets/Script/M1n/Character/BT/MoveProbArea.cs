@@ -8,6 +8,11 @@ public class MoveProbArea : Node
 
     float ProbTime;
 
+    public override Node Clone()
+    {
+        return new MoveProbArea();
+    }
+
     public override NodeState Evaluate()
     {
         if (runner.isEndProb())

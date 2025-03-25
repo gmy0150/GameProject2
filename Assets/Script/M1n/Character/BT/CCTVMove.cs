@@ -54,4 +54,8 @@ public class CCTVMove : Node
         return NodeState.RUNNING;
     }
 
+    public override Node Clone()
+    {
+        return new CCTVMove();
+    }
 }

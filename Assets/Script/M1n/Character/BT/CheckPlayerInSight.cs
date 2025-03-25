@@ -6,6 +6,10 @@ using BehaviorTree;
 [CreateAssetMenu(fileName = "CheckSight", menuName = "BehaviorTree/ActionNode/CheckSight")]
 public class CheckPlayerInSight : Node
 {
+    public override Node Clone()
+    {
+        return new CheckPlayerInSight();
+    }
 
     public override NodeState Evaluate()
     {

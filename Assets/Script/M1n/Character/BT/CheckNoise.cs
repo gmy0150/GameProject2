@@ -13,7 +13,10 @@ public class CheckNoise : Node
     private Vector3 TempVec = Vector3.zero;
     private bool isRotating = false;
 
-
+    public override Node Clone()
+    {
+        return new CheckNoise();
+    }
 
     public override NodeState Evaluate()
     {
