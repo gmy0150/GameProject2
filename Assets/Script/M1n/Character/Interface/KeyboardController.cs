@@ -47,7 +47,7 @@ public class KeyboardController : IController
         if (Input.GetMouseButtonDown(0))
         {
 
-            controllerableCharacter.Action();
+            //controllerableCharacter.Action();
 
         }
         bool bMoveKeyDown = false;

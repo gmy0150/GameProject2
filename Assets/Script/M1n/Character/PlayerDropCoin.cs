@@ -14,6 +14,8 @@ public class PlayerDropCoin : MonoBehaviour
     {
         if (collision.gameObject.tag == "Ground")
         {
+            Rigidbody rigid = GetComponent<Rigidbody>();
+            rigid.velocity = Vector3.zero;
             player.MakeNoise(gameObject, player.CoinNoise, 3);
         }
     }

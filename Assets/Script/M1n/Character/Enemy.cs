@@ -16,7 +16,7 @@ public class Enemy : Character
     public float Distance = 5f;   // 부채꼴 반지름
 
     public Node node;
-    public Node NewNode;
+    Node NewNode;
 
     protected virtual void Start()
     {
@@ -62,6 +62,8 @@ public class Enemy : Character
         {
             aIPath.enabled = false;
         }
+        if(chase)
+            chase = false;
         //aIPath.isStopped = true;
     }
     public override void Action()
@@ -83,7 +85,8 @@ public class Enemy : Character
         if (GetComponentInChildren<TestOne>())
         {
             TestOne t1 = GetComponentInChildren<TestOne>();
-            t1.ShowMesh();
+            if(chase == false)
+                t1.ShowMesh();
         }
     }
 
@@ -97,7 +100,7 @@ public class Enemy : Character
             t1.InvMeshRen();
         }
     }
-
+    bool chase;
     public virtual void StartChase(Player player)
     {
         applyspeed = RunSpeed;
@@ -106,6 +109,8 @@ public class Enemy : Character
         {
             TestOne t1 = GetComponentInChildren<TestOne>();
             t1.InvMeshRen();
+            chase = true;   
+            Debug.Log("?");
         }
     }
 

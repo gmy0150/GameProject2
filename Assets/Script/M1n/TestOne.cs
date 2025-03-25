@@ -47,11 +47,17 @@ public class TestOne : MonoBehaviour
             }
             else
             {
-                Debug.Log(enemyAI.GetHome());
+                Debug.Log(enemyAI.GetType().ToString());
 
-                if (enemyAI.IsHome())
+                if (enemyAI.IsHome() && enemyAI.GetType().ToString() == "GuardDog")
                 {
                     Debug.Log("?>");
+                    Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
+                    meshFilter.mesh = CreateFanMesh(visibility);
+                }
+                
+                if(enemyAI.GetType().ToString() == "GuardAI")
+                {
                     Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
                     meshFilter.mesh = CreateFanMesh(visibility);
                 }
@@ -139,6 +145,7 @@ public class TestOne : MonoBehaviour
     }
     public virtual Mesh CreateFanMesh(Enemy.VisibilityResult visibility,float any)
     {
+        Debug.Log("???");
         Mesh mesh = new Mesh();
         List<Vector3> visiblePoints = visibility.visiblePoints;
         List<Vector3> blockedPoints = visibility.blockedPoints;

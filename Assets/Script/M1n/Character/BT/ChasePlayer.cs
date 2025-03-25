@@ -47,7 +47,6 @@ public class ChasePlayer : Node
                 return NodeState.FAILURE;
             }
             runner.StartChase(player);
-
         }
         else
         {
