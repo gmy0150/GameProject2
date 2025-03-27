@@ -7,16 +7,16 @@ using UnityEngine;
 
 public class ifCheckPlayer : Node
 {
-    AlertSystem alertSystem;
+    //AlertSystem alertSystem;
 
     private void OnEnable()
     {
         // 여기서 FindAnyObjectByType을 호출하면 정상 작동함
-        alertSystem = FindAnyObjectByType<AlertSystem>();
+        //alertSystem = FindAnyObjectByType<AlertSystem>();
     }
     public override NodeState Evaluate()
     {
-        alertSystem.WorkLight();
+        //alertSystem.WorkLight();
         return NodeState.RUNNING;
     }
 
