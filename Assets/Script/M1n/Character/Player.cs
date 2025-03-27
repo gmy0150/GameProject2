@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : Character
 {
@@ -118,6 +119,8 @@ public class Player : Character
     float lastTransTime = 0;
 
     bool firstTime = false;
+    public Mesh BaseMesh;
+    public Mesh BoxMesh;
     void TransBox()
     {
         if (Input.GetKeyDown(KeyCode.R) && !Closet && Box)
@@ -132,8 +135,8 @@ public class Player : Character
             Crouch();
             Debug.Log("변신");
             applyspeed = MoveSpeed;
-            GetComponent<MeshRenderer>().material.color = Color.green;
-
+            SkinnedMeshRenderer skined = GetComponentInChildren<SkinnedMeshRenderer>();
+            skined.sharedMesh = BoxMesh;
         }
         else if (Input.GetKeyDown(KeyCode.R) && Time.time - lastTransTime < cooldownTime)
         {
@@ -157,7 +160,8 @@ public class Player : Character
         CrouchCancel();
         Debug.Log("시간초풀림");
         lastTransTime = Time.time;
-        GetComponent<MeshRenderer>().material.color = Color.red;
+        SkinnedMeshRenderer skined = GetComponentInChildren<SkinnedMeshRenderer>();
+        skined.sharedMesh = BaseMesh;
         TransTimer = 0;
     }
     float TransTimer;
@@ -189,10 +193,7 @@ public class Player : Character
         {
             controller.Tick(Time.deltaTime);
         }
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            GetCoin();
-        }
+
         if (!isHide)
         {
             TryRun();
@@ -212,7 +213,6 @@ public class Player : Character
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, 4, Coin);
         GameObject CoinObj = colliders.Length > 0 ? colliders[0].gameObject : null;
-        Debug.Log(CoinObj);
         if (CoinObj != null && Input.GetKeyDown(KeyCode.E))
         {
             CoinObj.SetActive(false);
