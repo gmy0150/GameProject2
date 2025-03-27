@@ -1,4 +1,5 @@
-
+ï»¿
+using Cinemachine.Utility;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -7,22 +8,18 @@ using UnityEngine;
 public class Player : Character
 {
     IController controller;
-    public float RunSpeed;
+    //public float RunSpeed;
     public float CrouchSpeed;
     bool isCrouch;
     bool GenNoise;
     public GameObject Prefab;
 
 
-    [Header("¼Ò¸® °Å¸®")]
+    [Header("ì†Œë¦¬ ê±°ë¦¬")]
     public float RunNoise, WalkNoise, CoinNoise;
-    float throwForce = 10f;
-    float maxThrowDistance = 10;
-    public bool isHide;
-    public bool GetHide()
-    {
-        return isHide;
-    }
+    public float maxThrowDistance = 40;
+    public float maxThrowForce = 40;
+
 
     public override void Action()
     {
@@ -42,13 +39,15 @@ public class Player : Character
         targetPoint.y = transform.position.y;
 
         Vector3 throwDirection = (targetPoint - transform.position).normalized;
-
-        if (Vector3.Distance(transform.position, targetPoint) > maxThrowDistance)
+        float distance = Vector3.Distance(transform.position, targetPoint);
+        if (distance > maxThrowDistance)
         {
             targetPoint = transform.position + throwDirection * maxThrowDistance;
+            distance = maxThrowDistance;
         }
+        float throwForce = Mathf.Lerp(2f, maxThrowForce, distance / maxThrowDistance);
 
-        // ¸ñÇ¥ ÁöÁ¡À¸·Î ¹°Ã¼ »ı¼º
+        // ëª©í‘œ ì§€ì ìœ¼ë¡œ ë¬¼ì²´ ìƒì„±
         GameObject projectile = Instantiate(Prefab, transform.position + throwDirection, Quaternion.identity);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
 
@@ -62,10 +61,15 @@ public class Player : Character
                 Quaternion targetRotation = Quaternion.LookRotation(lookDir);
                 transform.rotation = targetRotation;
             }
-            rb.AddForce(throwDirection * throwForce + Vector3.up * 2.0f, ForceMode.Impulse);
+            rb.AddForce(throwDirection * throwForce + Vector3.up * (throwForce * 0.2f), ForceMode.Impulse);
 
         }
 
+    }
+    public bool isHide;
+    public bool GetHide()
+    {
+        return isHide;
     }
     public LayerMask closetLayer;
     Collider nearCloset = null;
@@ -73,7 +77,7 @@ public class Player : Character
     bool Box;
     public void HideOnCloset()
     {
-        if (nearCloset != null && Input.GetKeyDown(KeyCode.E)&&!Box)
+        if (nearCloset != null && Input.GetKeyDown(KeyCode.E) && !Box)
         {
             {
                 Hide();
@@ -93,10 +97,10 @@ public class Player : Character
             GetComponentInChildren<Renderer>().enabled = false;
             Crouch();
             GenNoise = false;
-            GetComponentInChildren<Collider>().enabled = false ;
+            GetComponentInChildren<Collider>().enabled = false;
             GetComponent<Rigidbody>().useGravity = false;
             controller = null;
-            Debug.Log("¿ÊÀå¿¡ ¼û");
+            Debug.Log("ì˜·ì¥ì— ìˆ¨");
         }
         else
         {
@@ -106,7 +110,7 @@ public class Player : Character
             GetComponent<Rigidbody>().useGravity = true;
             controller = KeyboardControll;
             GenNoise = true;
-            Debug.Log("¿ÊÀå¿¡ ³ª¿È");
+            Debug.Log("ì˜·ì¥ì— ë‚˜ì˜´");
         }
     }
     float cooldownTime = 5;
@@ -119,26 +123,26 @@ public class Player : Character
         {
             CancelTransformation();
         }
-        else if(Input.GetKeyDown(KeyCode.R) && !Closet && Time.time - lastTransTime >= cooldownTime || Input.GetKeyDown(KeyCode.R) && !firstTime)
+        else if (Input.GetKeyDown(KeyCode.R) && !Closet && Time.time - lastTransTime >= cooldownTime || Input.GetKeyDown(KeyCode.R) && !firstTime)
         {
             firstTime = true;
             Box = true;
-            isHide=true;
+            isHide = true;
             Crouch();
-            Debug.Log("º¯½Å");
+            Debug.Log("ë³€ì‹ ");
             applyspeed = MoveSpeed;
             GetComponent<MeshRenderer>().material.color = Color.green;
 
         }
-        else if (Input.GetKeyDown(KeyCode.R)&& Time.time - lastTransTime < cooldownTime)
+        else if (Input.GetKeyDown(KeyCode.R) && Time.time - lastTransTime < cooldownTime)
         {
-            // ÄğÅ¸ÀÓ ÁßÀÏ ¶§ º¯½ÅÀ» ½ÃµµÇÒ °æ¿ì
-            //Debug.Log("ÄğÅ¸ÀÓ ÁßÀÔ´Ï´Ù. " + (cooldownTime - (Time.time - lastTransTime)) + "ÃÊ ³²¾Ò½À´Ï´Ù.");
+            // ì¿¨íƒ€ì„ ì¤‘ì¼ ë•Œ ë³€ì‹ ì„ ì‹œë„í•  ê²½ìš°
+            //Debug.Log("ì¿¨íƒ€ì„ ì¤‘ì…ë‹ˆë‹¤. " + (cooldownTime - (Time.time - lastTransTime)) + "ì´ˆ ë‚¨ì•˜ìŠµë‹ˆë‹¤.");
         }
         if (Box)
         {
             TransTimer += Time.deltaTime;
-            if(TransTimer > 10)
+            if (TransTimer > 10)
             {
                 CancelTransformation();
 
@@ -150,13 +154,13 @@ public class Player : Character
         Box = false;
         isHide = false;
         CrouchCancel();
-        Debug.Log("½Ã°£ÃÊÇ®¸²");
+        Debug.Log("ì‹œê°„ì´ˆí’€ë¦¼");
         lastTransTime = Time.time;
         GetComponent<MeshRenderer>().material.color = Color.red;
         TransTimer = 0;
     }
     float TransTimer;
-    
+
     void DetectCloset()
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, 4, closetLayer);
@@ -175,7 +179,7 @@ public class Player : Character
 
         GenNoise = true;
     }
-    
+
 
     // Update is called once per frame
     void Update()
@@ -183,6 +187,10 @@ public class Player : Character
         if (controller != null)
         {
             controller.Tick(Time.deltaTime);
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            hasCoin = true;
         }
         if (!isHide)
         {
@@ -193,7 +201,120 @@ public class Player : Character
         HideOnCloset();
         TransBox();
         DetectEnemy();
+        HasCoin();
     }
+    bool hasCoin;
+    public LineRenderer lineRenderer;
+    float gravity = -9.81f;
+    public void HasCoin()
+    {
+        if (hasCoin) // ì½”ì¸ì„ ì–»ì—ˆì„ ë•Œë§Œ í¬ë¬¼ì„  í‘œì‹œ
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            Vector3 targetPoint;
+
+            // ë§ˆìš°ìŠ¤ ìœ„ì¹˜ê°€ ë•…ê³¼ ì¶©ëŒí•˜ëŠ” ì§€ì ì„ ëª©í‘œ ì§€ì ìœ¼ë¡œ ì„¤ì •
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+            {
+                targetPoint = hit.point;
+            }
+            else
+            {
+                targetPoint = ray.origin + ray.direction * maxThrowDistance;
+            }
+
+            targetPoint.y = transform.position.y; // ìˆ˜í‰ë©´ì—ì„œë§Œ ëª©í‘œ ì„¤ì •
+
+            // ë˜ì§€ëŠ” ë°©í–¥ ê³„ì‚°
+            Vector3 throwDirection = (targetPoint - transform.position).normalized;
+            float distance = Vector3.Distance(transform.position, targetPoint);
+
+            if (distance > maxThrowDistance)
+            {
+                targetPoint = transform.position + throwDirection * maxThrowDistance;
+                distance = maxThrowDistance; // ìµœëŒ€ ê±°ë¦¬ë¡œ ì œí•œ
+            }
+
+            // ëª©í‘œ ì§€ì ê¹Œì§€ì˜ ê±°ë¦¬ë¡œ ë˜ì§€ëŠ” í˜ ê³„ì‚°
+            float throwForce = Mathf.Lerp(2f, maxThrowForce, distance / maxThrowDistance);
+
+            // í¬ë¬¼ì„  ê²½ë¡œë¥¼ ì‹¤ì‹œê°„ìœ¼ë¡œ ê·¸ë¦¬ê¸°
+            DrawThrowPreview(throwDirection, throwForce);
+
+            // ì¢Œí´ë¦­í•˜ë©´ ì½”ì¸ ë˜ì§€ê¸°
+            if (Input.GetMouseButtonDown(0))
+            {
+                ThrowCoin(throwDirection, throwForce);
+            }
+        }
+        else
+        {
+            lineRenderer.positionCount = 0; // ì½”ì¸ì´ ì—†ìœ¼ë©´ í¬ë¬¼ì„  ìˆ¨ê¹€
+        }
+    }
+
+    // í¬ë¬¼ì„  ê²½ë¡œë¥¼ ê·¸ë¦¬ëŠ” í•¨ìˆ˜
+    void DrawThrowPreview(Vector3 throwDirection, float throwForce)
+    {
+        lineRenderer.positionCount = 0;
+
+        Vector3 startPos = transform.position;
+        Vector3 velocity = throwDirection * throwForce;
+        velocity.y = throwForce * 0.2f; // ğŸ¯ ê¸°ì¡´ ë°©ì‹ê³¼ ì¼ê´€ë˜ë„ë¡ Yì¶• ì´ë™ëŸ‰ ì¡°ì •
+
+        int numSteps = 8;
+        float timeStep = 0.1f;
+        List<Vector3> positions = new List<Vector3>();
+
+        for (int i = 0; i < numSteps; i++)
+        {
+            float time = i * timeStep;
+            Vector3 position = startPos + velocity * time;
+            position.y += gravity * time * time / 2f;
+
+            if (position.y < 0) break;  // y ê°’ì´ 0 ì´í•˜ì´ë©´ ê·¸ë¦¬ê¸° ì¢…ë£Œ
+
+            positions.Add(position);
+        }
+
+        lineRenderer.positionCount = positions.Count;
+        lineRenderer.SetPositions(positions.ToArray());
+    }
+
+    // ì½”ì¸ ë˜ì§€ëŠ” í•¨ìˆ˜
+    void ThrowCoin(Vector3 throwDirection, float throwForce)
+    {
+        GameObject coin = Instantiate(Prefab, transform.position + throwDirection, Quaternion.identity);
+        Rigidbody rb = coin.GetComponent<Rigidbody>();
+
+        if (rb != null)
+        {
+            Vector3 force = throwDirection * throwForce;
+            force.y = throwForce * 0.2f; // ğŸ¯ Yì¶• ì´ë™ ì ìš©
+            rb.AddForce(force, ForceMode.Impulse);
+        }
+
+        hasCoin = false; // ì½”ì¸ì„ ë˜ì¡Œìœ¼ë¯€ë¡œ ìƒíƒœ ë³€ê²½
+        lineRenderer.positionCount = 0; // í¬ë¬¼ì„  ìˆ¨ê¸°ê¸°
+    }
+
+    // ì½”ì¸ì„ ì–»ì—ˆì„ ë•Œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
+    public void GetCoin()
+    {
+        hasCoin = true;
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public void TransSpeed(float speed)
     {
@@ -268,65 +389,62 @@ public class Player : Character
         applyNoise = 0;
     }
     public List<Enemy> DetectEnemies = new List<Enemy>();
-    public LayerMask detectionMask;  // LayerMask¸¦ publicÀ¸·Î ¼³Á¤ÇÏ¿© ÀÎ½ºÆåÅÍ¿¡¼­ ¼öÁ¤ °¡´ÉÇÏ°Ô ÇÔ
+    public LayerMask detectionMask;  // LayerMaskë¥¼ publicìœ¼ë¡œ ì„¤ì •í•˜ì—¬ ì¸ìŠ¤í™í„°ì—ì„œ ìˆ˜ì • ê°€ëŠ¥í•˜ê²Œ í•¨
     public LayerMask wallLayer;
     void DetectEnemy()
     {
-        // ÀÌÀü¿¡ °¨ÁöµÈ ÀûÀ» ¼û±è
+        // ì´ì „ì— ê°ì§€ëœ ì ì„ ìˆ¨ê¹€
         foreach (var enemy in DetectEnemies)
         {
             enemy.HideShape();
         }
         DetectEnemies.Clear();
 
-        // ÇÃ·¹ÀÌ¾î ÁÖÀ§ 5 À¯´Ö °Å¸® ³»¿¡¼­ ¸ğµç Äİ¶óÀÌ´õ¸¦ °¨Áö (º® Á¦¿Ü)
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 5f, detectionMask);
+        // í”Œë ˆì´ì–´ ì£¼ìœ„ 5 ìœ ë‹› ê±°ë¦¬ ë‚´ì—ì„œ ëª¨ë“  ì½œë¼ì´ë”ë¥¼ ê°ì§€ (ë²½ ì œì™¸)
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 8f, detectionMask);
 
         foreach (var collider in colliders)
         {
-            // Äİ¶óÀÌ´õ°¡ ÀûÀÇ ºÎ¸ğ ¿ÀºêÁ§Æ®ÀÎÁö È®ÀÎ
+            // ì½œë¼ì´ë”ê°€ ì ì˜ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ì¸ì§€ í™•ì¸
             Enemy enemy = collider.GetComponentInParent<Enemy>();
             if (enemy != null)
             {
-                // ÀûÀ» º¸ÀÌ°Ô ÇÏ°í DetectEnemies¿¡ Ãß°¡
-                Debug.Log("5m ¹üÀ§ ³» Àû ¹ß°ß: " + enemy.name);
                 enemy.ShowShape();
                 DetectEnemies.Add(enemy);
             }
         }
 
-        // ÇÃ·¹ÀÌ¾î ¾Õ ¹æÇâÀ¸·Î 90µµ ½Ã¾ß ³»¿¡¼­ 8 À¯´Ö °Å¸®·Î Àû °¨Áö
-        float angleLimit = 60f; // 90µµ ½Ã¾ßÀÇ ¹İÀ¸·Î 45µµ
+        // í”Œë ˆì´ì–´ ì• ë°©í–¥ìœ¼ë¡œ 90ë„ ì‹œì•¼ ë‚´ì—ì„œ 8 ìœ ë‹› ê±°ë¦¬ë¡œ ì  ê°ì§€
+        float angleLimit = 60f; // 90ë„ ì‹œì•¼ì˜ ë°˜ìœ¼ë¡œ 45ë„
         float detectionRange = 20f;
 
-        // ½Ã¾ß ³» Àû °¨Áö
+        // ì‹œì•¼ ë‚´ ì  ê°ì§€
         Collider[] frontColliders = Physics.OverlapSphere(transform.position, detectionRange, detectionMask);
 
         foreach (var collider in frontColliders)
         {
-            // Äİ¶óÀÌ´õ°¡ ÀûÀÇ ºÎ¸ğ ¿ÀºêÁ§Æ®ÀÎÁö È®ÀÎ
+            // ì½œë¼ì´ë”ê°€ ì ì˜ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ì¸ì§€ í™•ì¸
             Enemy enemy = collider.GetComponentInParent<Enemy>();
             if (enemy != null)
             {
-                // ÇÃ·¹ÀÌ¾î¿Í ÀûÀÇ ¹æÇâ º¤ÅÍ¸¦ °è»ê
+                // í”Œë ˆì´ì–´ì™€ ì ì˜ ë°©í–¥ ë²¡í„°ë¥¼ ê³„ì‚°
                 Vector3 directionToEnemy = enemy.transform.position - transform.position;
-                directionToEnemy.y = 1.2f; // y°ª ¹«½Ã (¼öÆò ¹æÇâ¸¸ °í·Á)
+                directionToEnemy.y = 1.2f; // yê°’ ë¬´ì‹œ (ìˆ˜í‰ ë°©í–¥ë§Œ ê³ ë ¤)
 
-                // ÇÃ·¹ÀÌ¾îÀÇ ¾Õ ¹æÇâ º¤ÅÍ
+                // í”Œë ˆì´ì–´ì˜ ì• ë°©í–¥ ë²¡í„°
                 Vector3 forward = transform.forward;
 
-                // ÇÃ·¹ÀÌ¾îÀÇ Àü¹æ 90µµ ½Ã¾ß ³»¿¡ ÀûÀÌ ÀÖ´ÂÁö È®ÀÎ
+                // í”Œë ˆì´ì–´ì˜ ì „ë°© 90ë„ ì‹œì•¼ ë‚´ì— ì ì´ ìˆëŠ”ì§€ í™•ì¸
                 float angle = Vector3.Angle(forward, directionToEnemy);
 
-                if (angle <= angleLimit) // 45µµ ÀÌÇÏ °¢µµ¿¡ ÀÖÀ» ¶§¸¸ °¨Áö
+                if (angle <= angleLimit) // 45ë„ ì´í•˜ ê°ë„ì— ìˆì„ ë•Œë§Œ ê°ì§€
                 {
-                    // º®À» ¶Õ°í ÀûÀ» °¨ÁöÇÏÁö ¾Êµµ·Ï Raycast·Î È®ÀÎ
+                    // ë²½ì„ ëš«ê³  ì ì„ ê°ì§€í•˜ì§€ ì•Šë„ë¡ Raycastë¡œ í™•ì¸
                     RaycastHit hit;
                     if (Physics.Raycast(transform.position, directionToEnemy, out hit, detectionRange, ~wallLayer))
                     {
                         if (hit.collider.GetComponentInParent<Enemy>() != null)
                         {
-                            Debug.Log("½Ã¾ß ³» Àû ¹ß°ß: " + enemy.name);
                             enemy.ShowShape();
                             DetectEnemies.Add(enemy);
                         }
@@ -336,23 +454,25 @@ public class Player : Character
         }
     }
 
-    // Gizmos·Î ½Ã°¢È­ (¿É¼Ç)
+    // Gizmosë¡œ ì‹œê°í™” (ì˜µì…˜)
     private void OnDrawGizmos()
     {
-        // ½Ã°¢È­: ÇÃ·¹ÀÌ¾î ÁÖÀ§ 5 À¯´Ö °Å¸® ³»¿¡¼­ °¨Áö ¹üÀ§ ½Ã°¢È­
+        // ì‹œê°í™”: í”Œë ˆì´ì–´ ì£¼ìœ„ 5 ìœ ë‹› ê±°ë¦¬ ë‚´ì—ì„œ ê°ì§€ ë²”ìœ„ ì‹œê°í™”
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, 5f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, 8f);
 
-        // ½Ã¾ß ¹üÀ§ ¹× °¢µµ ½Ã°¢È­
-        float angleLimit = 60f; // 45µµ
+        // ì‹œì•¼ ë²”ìœ„ ë° ê°ë„ ì‹œê°í™”
+        float angleLimit = 60f; // 45ë„
         float detectionRange = 20f;
 
-        // Àü¹æ ½Ã¾ß ¹üÀ§ ±×¸®±â
+        // ì „ë°© ì‹œì•¼ ë²”ìœ„ ê·¸ë¦¬ê¸°
         Vector3 forward = transform.forward;
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position, transform.position + forward * detectionRange);
 
-        // ½Ã¾ß °¢µµ ½Ã°¢È­
+        // ì‹œì•¼ ê°ë„ ì‹œê°í™”
         Vector3 leftBound = Quaternion.Euler(0, -angleLimit, 0) * forward * detectionRange;
         Vector3 rightBound = Quaternion.Euler(0, angleLimit, 0) * forward * detectionRange;
 
@@ -360,10 +480,15 @@ public class Player : Character
         Gizmos.DrawLine(transform.position, transform.position + leftBound);
         Gizmos.DrawLine(transform.position, transform.position + rightBound);
 
-        // ½Ã¾ß °¢µµ ³» ¿µ¿ªÀ» ½Ã°¢ÀûÀ¸·Î ±×¸®±â
-        Gizmos.color = new Color(0, 1, 1, 0.1f); // ¹İÅõ¸í Cyan »ö
+        // ì‹œì•¼ ê°ë„ ë‚´ ì˜ì—­ì„ ì‹œê°ì ìœ¼ë¡œ ê·¸ë¦¬ê¸°
+        Gizmos.color = new Color(0, 1, 1, 0.1f); // ë°˜íˆ¬ëª… Cyan ìƒ‰
         Gizmos.DrawLine(transform.position, transform.position + leftBound);
         Gizmos.DrawLine(transform.position, transform.position + rightBound);
+
+        Gizmos.color = Color.red;
+
+        // ìµœëŒ€ ë˜ì§ ê±°ë¦¬ë§Œí¼ì˜ ì› ê·¸ë¦¬ê¸° (í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ì—ì„œ)
+        Gizmos.DrawWireSphere(transform.position, maxThrowDistance);
     }
 
 
@@ -374,7 +499,6 @@ public class Player : Character
 
     public override void MakeNoise(GameObject obj, float radius, float stepsize)
     {
-        Debug.Log("È®ÀÎ");
         Vector3 origin = obj.transform.position;
         origin.y = 1.5f;
 
@@ -383,7 +507,7 @@ public class Player : Character
             float currentAngle = anglestep * Mathf.Deg2Rad;
 
             Vector3 direction = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle));
-            Debug.DrawRay(origin, direction * radius, Color.red, 5f);
+            //Debug.DrawRay(origin, direction * radius, Color.red, 5f);
 
             RaycastHit[] hits = Physics.RaycastAll(origin, direction, radius);
 

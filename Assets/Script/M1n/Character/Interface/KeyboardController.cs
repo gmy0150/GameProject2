@@ -47,7 +47,7 @@ public class KeyboardController : IController
         if (Input.GetMouseButtonDown(0))
         {
 
-            controllerableCharacter.Action();
+            //controllerableCharacter.Action();
 
         }
         bool bMoveKeyDown = false;
@@ -77,10 +77,9 @@ public class KeyboardController : IController
             Vector3 curVel = rigid.velocity;
             rigid.velocity = new Vector3( direction.x * controllerableCharacter.ReturnSpeed(),rigid.velocity.y , direction.z * controllerableCharacter.ReturnSpeed());
             //tr.localPosition += direction * deltaTime * controllerableCharacter.ReturnSpeed();
-            Debug.Log(controllerableCharacter.GetNoise());
+
             if (controllerableCharacter.GetNoise())
             {
-                Debug.Log(controllerableCharacter.gameObject);
                 controllerableCharacter.MakeNoise(controllerableCharacter.gameObject, controllerableCharacter.ReturnNoise(), 10);
             }
         }
