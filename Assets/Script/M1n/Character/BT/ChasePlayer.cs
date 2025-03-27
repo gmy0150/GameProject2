@@ -32,7 +32,7 @@ public class ChasePlayer : Node
                 Debug.Log("Â¢¾î");
                 BarkTime = 0;
             }
-            if (player.GetHide())
+            if (player.GetControll().GetHide())
             {
                 runner.missPlayer();
                 runner.StopMove();
@@ -50,7 +50,7 @@ public class ChasePlayer : Node
         }
         else
         {
-            if(player.GetHide())
+            if(player.GetControll().GetHide())
             {
                 runner.missPlayer();
                 runner.StopMove();

@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class Player : Character
 {
     IController controller;
-    //public float RunSpeed;
     public float CrouchSpeed;
     bool isCrouch;
     bool GenNoise;
@@ -21,149 +20,156 @@ public class Player : Character
     public float maxThrowDistance = 40;
     public float maxThrowForce = 40;
 
-
+    InteractController interactController;
     public override void Action()
     {
 
     }
-    public bool isHide;
-    public bool GetHide()
-    {
-        return isHide;
-    }
+
     public LayerMask closetLayer;
     public LayerMask Coin;
-    Collider nearCloset = null;
-    bool Closet;
-    bool Box;
-    public void HideOnCloset()
+
+
+
+    public IController GetControll()
     {
-        if (nearCloset != null && Input.GetKeyDown(KeyCode.E) && !Box)
-        {
-            {
-                Hide();
-            }
-        }
+        return KeyboardControll;
     }
-
-    void Hide()
+    public void ControllerDisable()
     {
-
-        isHide = !isHide;
-        Closet = !Closet;
-        if (isHide)
-        {
-            Rigidbody rigidbody = GetComponent<Rigidbody>();
-            rigidbody.velocity = Vector3.zero;
-            GetComponentInChildren<Renderer>().enabled = false;
-            Crouch();
-            GenNoise = false;
-            GetComponentInChildren<Collider>().enabled = false;
-            GetComponent<Rigidbody>().useGravity = false;
-            controller = null;
-            Debug.Log("옷장에 숨");
-        }
-        else
-        {
-            CrouchCancel();
-            GetComponentInChildren<Renderer>().enabled = true;
-            GetComponentInChildren<Collider>().enabled = true;
-            GetComponent<Rigidbody>().useGravity = true;
-            controller = KeyboardControll;
-            GenNoise = true;
-            Debug.Log("옷장에 나옴");
-        }
+        controller = null;
     }
-    float cooldownTime = 5;
-    float lastTransTime = 0;
+    public void ControllerEnable()
+    {
+        controller = KeyboardControll;
+    }
+    //void Hide()
+    //{
+    //    isHide = !isHide;
+    //    Closet = !Closet;
+    //    if (isHide)
+    //    {
+    //        Rigidbody rigidbody = GetComponent<Rigidbody>();
+    //        rigidbody.velocity = Vector3.zero;
+    //        Crouch();
+    //        Render(false);
+    //        controller = null;
+    //        Debug.Log("옷장에 숨");
+    //    }
+    //    else
+    //    {
+    //        CrouchCancel();
+    //        Render(true);
+    //        controller = KeyboardControll;
+    //        Debug.Log("옷장에 나옴");
+    //    }
+    //}
+    //void Render(bool x)
+    //{
+    //    GenNoise = x;
+    //    GetComponentInChildren<Renderer>().enabled = x;
+    //    GetComponentInChildren<Collider>().enabled = x;
+    //    GetComponent<Rigidbody>().useGravity = x;
+    //}
 
-    bool firstTime = false;
     public Mesh BaseMesh;
     public Mesh BoxMesh;
-    void TransBox()
-    {
-        if (Input.GetKeyDown(KeyCode.R) && !Closet && Box)
-        {
-            CancelTransformation();
-        }
-        else if (Input.GetKeyDown(KeyCode.R) && !Closet && Time.time - lastTransTime >= cooldownTime || Input.GetKeyDown(KeyCode.R) && !firstTime)
-        {
-            firstTime = true;
-            Box = true;
-            isHide = true;
-            Crouch();
-            Debug.Log("변신");
-            applyspeed = MoveSpeed;
-            SkinnedMeshRenderer skined = GetComponentInChildren<SkinnedMeshRenderer>();
-            skined.sharedMesh = BoxMesh;
-        }
-        else if (Input.GetKeyDown(KeyCode.R) && Time.time - lastTransTime < cooldownTime)
-        {
-            // 쿨타임 중일 때 변신을 시도할 경우
-            //Debug.Log("쿨타임 중입니다. " + (cooldownTime - (Time.time - lastTransTime)) + "초 남았습니다.");
-        }
-        if (Box)
-        {
-            TransTimer += Time.deltaTime;
-            if (TransTimer > 10)
-            {
-                CancelTransformation();
+    //void TransBox()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.R) && !Closet && Box)
+    //    {
+    //        CancelTransformation();
+    //    }
+    //    else if (Input.GetKeyDown(KeyCode.R) && !Closet && Time.time - lastTransTime >= cooldownTime || Input.GetKeyDown(KeyCode.R) && !firstTime)
+    //    {
+    //        firstTime = true;
+    //        Box = true;
+    //        isHide = true;
+    //        Crouch();
+    //        Debug.Log("변신");
+    //        applyspeed = MoveSpeed;
+    //        SkinnedMeshRenderer skined = GetComponentInChildren<SkinnedMeshRenderer>();
+    //        skined.sharedMesh = BoxMesh;
+    //    }
+    //    else if (Input.GetKeyDown(KeyCode.R) && Time.time - lastTransTime < cooldownTime)
+    //    {
+    //        // 쿨타임 중일 때 변신을 시도할 경우
+    //        //Debug.Log("쿨타임 중입니다. " + (cooldownTime - (Time.time - lastTransTime)) + "초 남았습니다.");
+    //    }
+    //    if (Box)
+    //    {
+    //        TransTimer += Time.deltaTime;
+    //        if (TransTimer > 10)
+    //        {
+    //            CancelTransformation();
 
-            }
-        }
-    }
-    void CancelTransformation()
-    {
-        Box = false;
-        isHide = false;
-        CrouchCancel();
-        Debug.Log("시간초풀림");
-        lastTransTime = Time.time;
-        SkinnedMeshRenderer skined = GetComponentInChildren<SkinnedMeshRenderer>();
-        skined.sharedMesh = BaseMesh;
-        TransTimer = 0;
-    }
-    float TransTimer;
+    //        }
+    //    }
+    //}
+    //void CancelTransformation()
+    //{
+    //    Box = false;
+    //    isHide = false;
+    //    CrouchCancel();
+    //    lastTransTime = Time.time;
+    //    SkinnedMeshRenderer skined = GetComponentInChildren<SkinnedMeshRenderer>();
+    //    skined.sharedMesh = BaseMesh;
+    //    TransTimer = 0;
+    //}
+    //float TransTimer;
 
-    void DetectCloset()
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 4, closetLayer);
-        nearCloset = colliders.Length > 0 ? colliders[0] : null;
-    }
-
+    //void DetectCloset()
+    //{
+    //    Collider[] colliders = Physics.OverlapSphere(transform.position, 4, closetLayer);
+    //    nearCloset = colliders.Length > 0 ? colliders[0] : null;
+    //}
+    public LayerMask Layer;
     IController KeyboardControll;
+
     void Start()
     {
-
         KeyboardControll = new KeyboardController();
         KeyboardControll.OnPosessed(this);
         this.controller = KeyboardControll;
-        applyspeed = MoveSpeed;
+        interactController = new InteractController();
+        interactController.OnPosessed(this);
+
         applyNoise = WalkNoise;
 
         GenNoise = true;
+    }
+    public IController GetKey()
+    {
+        Debug.Log(KeyboardControll);
+        return KeyboardControll;
     }
 
 
     // Update is called once per frame
     void Update()
     {
+        if(interactController != null)
+        {
+            interactController.TIck(Time.deltaTime);
+        }
         if (controller != null)
         {
             controller.Tick(Time.deltaTime);
         }
-
-        if (!isHide)
+        if (Input.GetKeyDown(KeyCode.X))
         {
-            TryRun();
-            TryCrouch();
+            GetCoin();
         }
-        DetectCloset();
-        HideOnCloset();
-        TransBox();
+
+
+
         DetectEnemy();
         DetectCoin();
         HasCoin();
+    }
+    public bool isCoin()
+    {
+        return hasCoin;
     }
     bool hasCoin;
     public LineRenderer lineRenderer;
@@ -234,7 +240,7 @@ void DrawThrowPreview(Vector3 throwDirection, float throwForce)
 
     Vector3 startPos = transform.position;
     Vector3 velocity = throwDirection * throwForce;
-    velocity.y = throwForce * 0.2f; // 🎯 기존 방식과 일관되도록 Y축 이동량 조정
+    velocity.y = throwForce * 0.2f; //  기존 방식과 일관되도록 Y축 이동량 조정
 
     int numSteps = 8;
     float timeStep = 0.1f;
@@ -258,13 +264,15 @@ void DrawThrowPreview(Vector3 throwDirection, float throwForce)
 // 코인 던지는 함수
 void ThrowCoin(Vector3 throwDirection, float throwForce)
 {
-    GameObject coin = Instantiate(Prefab, transform.position + throwDirection, Quaternion.identity);
+        Vector3 transpo = transform.position;
+        transpo.y = transform.position.y + 1;
+    GameObject coin = Instantiate(Prefab, transpo + throwDirection, Quaternion.identity);
     Rigidbody rb = coin.GetComponent<Rigidbody>();
 
     if (rb != null)
     {
         Vector3 force = throwDirection * throwForce;
-        force.y = throwForce * 0.2f; // 🎯 Y축 이동 적용
+        force.y = throwForce * 0.2f; //  Y축 이동 적용
         rb.AddForce(force, ForceMode.Impulse);
     }
 
@@ -276,90 +284,6 @@ void ThrowCoin(Vector3 throwDirection, float throwForce)
 public void GetCoin()
 {
     hasCoin = true;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-public void TransSpeed(float speed)
-{
-    applyspeed = speed;
-}
-public override float ReturnSpeed()
-{
-    return applyspeed;
-}
-
-void TryRun()
-{
-    if (Input.GetKey(KeyCode.LeftShift))
-    {
-        Running();
-    }
-    if (Input.GetKeyUp(KeyCode.LeftShift))
-    {
-        RunningCancel();
-    }
-}
-
-void Running()
-{
-    if (isCrouch)
-        Crouch();
-
-    GenNoise = true;
-    applyspeed = RunSpeed;
-    applyNoise = RunNoise;
-
-
-}
-public override float ReturnNoise()
-{
-    return applyNoise;
-}
-void RunningCancel()
-{
-
-    applyspeed = MoveSpeed;
-    applyNoise = WalkNoise;
-    GenNoise = true;
-}
-void TryCrouch()
-{
-    if (Input.GetKeyDown(KeyCode.LeftControl))
-    {
-        Crouch();
-    }
-    if (Input.GetKeyUp(KeyCode.LeftControl))
-    {
-        CrouchCancel();
-    }
-}
-public override bool GetNoise()
-{
-    return GenNoise;
-}
-void CrouchCancel()
-{
-    isCrouch = false;
-    GenNoise = true;
-    applyspeed = MoveSpeed;
-    applyNoise = WalkNoise;
-}
-void Crouch()
-{
-    isCrouch = true;
-    GenNoise = false;
-    applyspeed = CrouchSpeed;
-    applyNoise = 0;
 }
 public List<Enemy> DetectEnemies = new List<Enemy>();
 public LayerMask detectionMask;  // LayerMask를 public으로 설정하여 인스펙터에서 수정 가능하게 함

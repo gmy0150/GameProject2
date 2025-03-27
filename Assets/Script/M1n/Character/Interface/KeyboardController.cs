@@ -9,22 +9,49 @@ public class KeyboardController : IController
     Character controllerableCharacter = null;
     Camera mainCam;
     Rigidbody rigid;
-    Vector3 prev = Vector3.zero;
-    private Vector3 previousDirection = Vector3.zero; // 이전 방향 저장
+    bool isCrouch;
     private float rotationVelocity = 10f; // 회전 속도 보관
     public float RotationSmoothTime = 0.1f; // 부드러운 회전 시간
     float rotation = 0;
-    public void OnPosessed(Character controllerableCharacter)
+    public bool isHide;
+    float runSpeed, walkSpeed, crouchSpeed, applySpeed;
+    float runNoise, walkNoise, applyNoise;
+    bool GenNoise;
+    public bool GetHide()//찾는거 있음
+    {
+        return isHide;
+    }
+    public void OnPosessed(Player controllerableCharacter)
     {
         this.controllerableCharacter = controllerableCharacter;
         mainCam = Camera.main;
         rigid = controllerableCharacter.GetComponent<Rigidbody>();
-        Debug.Log(rigid.name);
+
+        runSpeed = controllerableCharacter.RunSpeed;
+        walkSpeed = controllerableCharacter.MoveSpeed;
+        crouchSpeed = controllerableCharacter.CrouchSpeed;
+
+        walkNoise = controllerableCharacter.WalkNoise;
+        runNoise = controllerableCharacter.RunNoise;
+
+        applySpeed = walkSpeed;
+        applyNoise = walkNoise;
+
+        GenNoise = true;
+
+    }
+    public float GetSpeed()
+    {
+        return applySpeed;
     }
 
     public void Tick(float deltaTime)
     {
-
+        if (!isHide)
+        {
+            TryRun();
+            TryCrouch();
+        }
         Transform tr = controllerableCharacter.transform;
         Vector3 direction = Vector3.zero;
 
@@ -79,10 +106,8 @@ public class KeyboardController : IController
             direction.Normalize();
         if (bMoveKeyDown)
         {
-
-            Debug.Log(controllerableCharacter.ReturnSpeed());
-            rigid.velocity = new Vector3( direction.x * controllerableCharacter.ReturnSpeed(),rigid.velocity.y , direction.z * controllerableCharacter.ReturnSpeed());
-            //tr.localPosition += direction * deltaTime * controllerableCharacter.ReturnSpeed();
+            
+            rigid.velocity = new Vector3( direction.x * applySpeed,rigid.velocity.y , direction.z * applySpeed);
             float targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
             float currentRotation = tr.eulerAngles.y;
             float angleDiff = Mathf.DeltaAngle(currentRotation, targetRotation);
@@ -92,10 +117,9 @@ public class KeyboardController : IController
                 tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
             //tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            previousDirection = direction;
-            if (controllerableCharacter.GetNoise())
+            if (GetNoise())
             {
-                controllerableCharacter.MakeNoise(controllerableCharacter.gameObject, controllerableCharacter.ReturnNoise(), 10);
+                controllerableCharacter.MakeNoise(controllerableCharacter.gameObject, GetSpeed(), 10);
             }
         }
         else
@@ -103,5 +127,74 @@ public class KeyboardController : IController
             rigid.velocity = new Vector3(0,rigid.velocity.y,0);
         }
     }
+    void TryRun()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            Running();
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            RunningCancel();
+        }
+    }
+    void Running()
+    {
+        if (isCrouch)
+            Crouch();
 
+        applySpeed = runSpeed;
+        GenNoise = true;
+        applyNoise = runNoise;
+    }
+
+
+    void RunningCancel()
+    {
+        applySpeed = walkSpeed;
+        applyNoise = walkNoise;
+        GenNoise = true;
+    }
+    void TryCrouch()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Crouch();
+        }
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            CrouchCancel();
+        }
+    }
+    public void CrouchCancel()
+    {
+        isCrouch = false;
+        GenNoise = true;
+        applySpeed = walkSpeed;
+        applyNoise = walkNoise;
+    }
+    public void Crouch()
+    {
+        isCrouch = true;
+        applySpeed = crouchSpeed;
+        GenNoise = false;
+        applyNoise = 0;
+    }
+    public float ApplyNoise()
+    {
+        return applyNoise;
+    }
+    public bool GetNoise()
+    {
+        return GenNoise;
+    }
+    public void SetHide(bool x)
+    {
+        isHide = x;
+    }
+    public void SetNoise(bool x)
+    {
+        GenNoise = x;
+
+    }
 }

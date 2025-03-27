@@ -155,10 +155,7 @@ public class GuardAI : Enemy
 
     }
 
-    public override float ReturnSpeed()
-    {
-        return applyspeed;
-    }
+
 
     private void OnDrawGizmos()
     {
