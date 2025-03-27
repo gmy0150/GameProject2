@@ -287,6 +287,9 @@ MonoBehaviour:
   closetLayer:
     serializedVersion: 2
     m_Bits: 128
+  Coin:
+    serializedVersion: 2
+    m_Bits: 2048
   lineRenderer: {fileID: 606414174}
   DetectEnemies: []
   detectionMask:
