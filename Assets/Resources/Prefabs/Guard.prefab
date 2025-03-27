@@ -323,9 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segments: 16
-  visibleColor: {r: 0, g: 0, b: 0, a: 1}
-  blockedColor: {r: 1, g: 1, b: 1, a: 0.5}
-  InvMesh: {fileID: 2100000, guid: 09445e6409ab0bc41ba6e8e3065ae8c4, type: 2}
+  InvMeshes: {fileID: 2100000, guid: 09445e6409ab0bc41ba6e8e3065ae8c4, type: 2}
 --- !u!1 &6477018553164613853
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,21 +425,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a99db02e1051687469bf73515caeb9fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 4
+  MoveSpeed: 10
+  RunSpeed: 8
   invMesh: {fileID: 2100000, guid: 09445e6409ab0bc41ba6e8e3065ae8c4, type: 2}
-  BaseMesh: {fileID: 2100000, guid: 5265ca3a6a65a0c41829cb32c5422d1f, type: 2}
+  BaseMesh: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  RadiusAngle: 90
+  Distance: 6
+  node: {fileID: 11400000, guid: a75c4d3b84d5d9844a09266a28732553, type: 2}
   wayPoints:
   - {x: 8, y: 1.7, z: 8}
   - {x: -1.62, y: 1.7, z: 8}
   - {x: -1.85, y: 1.7, z: -8}
   - {x: 7.97, y: 1.7, z: -8}
   wayPointIndex: 0
-  RadiusAngle: 90
-  Distance: 6
   GuardColor: {r: 0, g: 0, b: 0, a: 1}
   Loop: 1
   Outlinable: {fileID: 7124516766148831754}
-  currentRepeat: 0
 --- !u!65 &9087342141486676687
 BoxCollider:
   m_ObjectHideFlags: 0
