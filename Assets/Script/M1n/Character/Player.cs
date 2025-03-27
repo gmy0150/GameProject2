@@ -24,47 +24,6 @@ public class Player : Character
 
     public override void Action()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        Vector3 targetPoint;
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
-        {
-            targetPoint = hit.point;
-        }
-        else
-        {
-            targetPoint = ray.origin + ray.direction * maxThrowDistance;
-        }
-
-        targetPoint.y = transform.position.y;
-
-        Vector3 throwDirection = (targetPoint - transform.position).normalized;
-        float distance = Vector3.Distance(transform.position, targetPoint);
-        if (distance > maxThrowDistance)
-        {
-            targetPoint = transform.position + throwDirection * maxThrowDistance;
-            distance = maxThrowDistance;
-        }
-        float throwForce = Mathf.Lerp(2f, maxThrowForce, distance / maxThrowDistance);
-
-        // 목표 지점으로 물체 생성
-        GameObject projectile = Instantiate(Prefab, transform.position + throwDirection, Quaternion.identity);
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-
-        if (rb != null)
-        {
-            Vector3 lookDir = hit.point - transform.position;
-            lookDir.y = 0;
-
-            if (lookDir.magnitude > 0.1f)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-                transform.rotation = targetRotation;
-            }
-            rb.AddForce(throwDirection * throwForce + Vector3.up * (throwForce * 0.2f), ForceMode.Impulse);
-
-        }
 
     }
     public bool isHide;
