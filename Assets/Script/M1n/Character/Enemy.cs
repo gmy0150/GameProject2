@@ -29,7 +29,6 @@ public class Enemy : Character
         if (node != null)
         {
             NewNode = node.Clone();
-            Debug.Log(NewNode.GetType());
 
 
             NewNode.SetRunner(this);
@@ -256,11 +255,16 @@ public class Enemy : Character
             RaycastHit hit;
             if (Physics.Raycast(enemyTransform.position, rayDirection, out hit, Distance))
             {
+                Debug.Log(hit.collider.name);
+                if(hit.collider.GetComponent<Player>())
+                Debug.Log("!");
+
                 // Player를 감지하면 visiblePoints에 추가
-                if (hit.collider.GetComponentInChildren<Player>())
+                if (hit.collider.GetComponentInParent<Player>())
                 {
+                    Debug.Log("?");
                     DetectPlayer = true;
-                    if (hit.collider.GetComponentInChildren<Player>().GetHide())
+                    if (hit.collider.GetComponentInParent<Player>().GetHide())
                     {
                         DetectPlayer = false;
                     }
@@ -303,10 +307,10 @@ public class Enemy : Character
             if (Physics.Raycast(rayStartPos, rayDirection, out hit, Distance))
             {
                 // Player를 감지하면 visiblePoints에 추가
-                if (hit.collider.GetComponentInChildren<Player>())
+                if (hit.collider.GetComponentInParent<Player>())
                 {
                     DetectPlayer = true;
-                    if (hit.collider.GetComponentInChildren<Player>().GetHide())
+                    if (hit.collider.GetComponentInParent<Player>().GetHide())
                     {
                         DetectPlayer = false;
                     }

@@ -10,7 +10,7 @@ using Vector3 = UnityEngine.Vector3;
 using BehaviorTree;
 public class GuardAI : Enemy
 {
-
+    
     [Header("경로")]
     public Vector3[] wayPoints;//경로
     public int wayPointIndex = 0;

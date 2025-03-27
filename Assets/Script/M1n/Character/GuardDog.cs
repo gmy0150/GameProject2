@@ -44,4 +44,29 @@ public class GuardDog : Enemy
             }
         }
     }
+    public float radius = 5;
+    protected override void MoveToTarget(Vector3 newTarget)
+    {
+            aIPath.enabled = true;
+        Vector3 targetPos = newTarget;
+        Vector3 aipos = transform.position;
+        float distance = Vector3.Distance(aipos, targetPos);
+        if(distance < radius)
+        {
+            Debug.Log("sss");
+            aIPath.isStopped = true;
+            return;
+        }
+        else
+        {
+            Vector3 direction = (targetPos - aipos).normalized;
+            targetPos = aipos + direction * radius;
+            aIPath.destination = targetPos;
+
+            aIPath.isStopped = false;
+
+        }
+        
+        //aIPath.SearchPath();
+    }
 }

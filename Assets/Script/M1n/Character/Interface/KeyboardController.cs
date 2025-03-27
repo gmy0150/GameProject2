@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -9,11 +9,17 @@ public class KeyboardController : IController
     Character controllerableCharacter = null;
     Camera mainCam;
     Rigidbody rigid;
+    Vector3 prev = Vector3.zero;
+    private Vector3 previousDirection = Vector3.zero; // 이전 방향 저장
+    private float rotationVelocity = 10f; // 회전 속도 보관
+    public float RotationSmoothTime = 0.1f; // 부드러운 회전 시간
+    float rotation = 0;
     public void OnPosessed(Character controllerableCharacter)
     {
         this.controllerableCharacter = controllerableCharacter;
         mainCam = Camera.main;
         rigid = controllerableCharacter.GetComponent<Rigidbody>();
+        Debug.Log(rigid.name);
     }
 
     public void Tick(float deltaTime)
@@ -29,7 +35,6 @@ public class KeyboardController : IController
 
         if (Input.GetMouseButton(1))
         {
-
             Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out RaycastHit hit))
             {
@@ -71,13 +76,23 @@ public class KeyboardController : IController
             direction += right;
             bMoveKeyDown = true;
         }
+            direction.Normalize();
         if (bMoveKeyDown)
         {
-            direction.Normalize();
-            Vector3 curVel = rigid.velocity;
+
+            Debug.Log(controllerableCharacter.ReturnSpeed());
             rigid.velocity = new Vector3( direction.x * controllerableCharacter.ReturnSpeed(),rigid.velocity.y , direction.z * controllerableCharacter.ReturnSpeed());
             //tr.localPosition += direction * deltaTime * controllerableCharacter.ReturnSpeed();
-
+            float targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            float currentRotation = tr.eulerAngles.y;
+            float angleDiff = Mathf.DeltaAngle(currentRotation, targetRotation);
+            rotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref rotationVelocity, RotationSmoothTime);
+            if (!Input.GetMouseButton(1) )
+            {
+                tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            }
+            //tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            previousDirection = direction;
             if (controllerableCharacter.GetNoise())
             {
                 controllerableCharacter.MakeNoise(controllerableCharacter.gameObject, controllerableCharacter.ReturnNoise(), 10);
@@ -88,5 +103,5 @@ public class KeyboardController : IController
             rigid.velocity = new Vector3(0,rigid.velocity.y,0);
         }
     }
-    
+
 }
