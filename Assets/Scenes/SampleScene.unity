@@ -255,7 +255,7 @@ GameObject:
   - component: {fileID: 130241796}
   - component: {fileID: 130241795}
   - component: {fileID: 130241800}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -1176,6 +1176,7 @@ MonoBehaviour:
   RadiusAngle: 50
   Distance: 5
   node: {fileID: 11400000, guid: e9cd0a3a883b2a84ab0c948c3044a9b5, type: 2}
+  radius: 5
 --- !u!65 &729525568
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3690,7 +3691,7 @@ GameObject:
   - component: {fileID: 2061906696}
   - component: {fileID: 2061906695}
   - component: {fileID: 2061906694}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4200,42 +4201,6 @@ PrefabInstance:
     - target: {fileID: 6195898697269387067, guid: 8c74793bb2ffe5047ac3e4d1780fe5b6,
         type: 3}
       propertyPath: alwaysDrawGizmos
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7520004518011134040, guid: 8c74793bb2ffe5047ac3e4d1780fe5b6,
-        type: 3}
-      propertyPath: node
-      value: 
-      objectReference: {fileID: 11400000, guid: a75c4d3b84d5d9844a09266a28732553,
-        type: 2}
-    - target: {fileID: 7520004518011134040, guid: 8c74793bb2ffe5047ac3e4d1780fe5b6,
-        type: 3}
-      propertyPath: BaseMesh
-      value: 
-      objectReference: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
-    - target: {fileID: 7520004518011134040, guid: 8c74793bb2ffe5047ac3e4d1780fe5b6,
-        type: 3}
-      propertyPath: RunSpeed
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7520004518011134040, guid: 8c74793bb2ffe5047ac3e4d1780fe5b6,
-        type: 3}
-      propertyPath: MoveSpeed
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 7520004518011134040, guid: 8c74793bb2ffe5047ac3e4d1780fe5b6,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8949941126932246434, guid: 8c74793bb2ffe5047ac3e4d1780fe5b6,
-        type: 3}
-      propertyPath: InvMeshes
-      value: 
-      objectReference: {fileID: 2100000, guid: 09445e6409ab0bc41ba6e8e3065ae8c4, type: 2}
-    - target: {fileID: 8949941126932246434, guid: 8c74793bb2ffe5047ac3e4d1780fe5b6,
-        type: 3}
-      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []

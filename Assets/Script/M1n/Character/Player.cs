@@ -72,6 +72,7 @@ public class Player : Character
         return isHide;
     }
     public LayerMask closetLayer;
+    public LayerMask Coin;
     Collider nearCloset = null;
     bool Closet;
     bool Box;
@@ -190,7 +191,7 @@ public class Player : Character
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            hasCoin = true;
+            GetCoin();
         }
         if (!isHide)
         {
@@ -201,11 +202,23 @@ public class Player : Character
         HideOnCloset();
         TransBox();
         DetectEnemy();
+        DetectCoin();
         HasCoin();
     }
     bool hasCoin;
     public LineRenderer lineRenderer;
     float gravity = -9.81f;
+    void DetectCoin()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 4, Coin);
+        GameObject CoinObj = colliders.Length > 0 ? colliders[0].gameObject : null;
+        Debug.Log(CoinObj);
+        if (CoinObj != null && Input.GetKeyDown(KeyCode.E))
+        {
+            CoinObj.SetActive(false);
+            GetCoin();
+        }
+    }
     public void HasCoin()
     {
         if (hasCoin) // 코인을 얻었을 때만 포물선 표시
@@ -254,271 +267,272 @@ public class Player : Character
         }
     }
 
-    // 포물선 경로를 그리는 함수
-    void DrawThrowPreview(Vector3 throwDirection, float throwForce)
+
+// 포물선 경로를 그리는 함수
+void DrawThrowPreview(Vector3 throwDirection, float throwForce)
+{
+    lineRenderer.positionCount = 0;
+
+    Vector3 startPos = transform.position;
+    Vector3 velocity = throwDirection * throwForce;
+    velocity.y = throwForce * 0.2f; // 🎯 기존 방식과 일관되도록 Y축 이동량 조정
+
+    int numSteps = 8;
+    float timeStep = 0.1f;
+    List<Vector3> positions = new List<Vector3>();
+
+    for (int i = 0; i < numSteps; i++)
     {
-        lineRenderer.positionCount = 0;
+        float time = i * timeStep;
+        Vector3 position = startPos + velocity * time;
+        position.y += gravity * time * time / 2f;
 
-        Vector3 startPos = transform.position;
-        Vector3 velocity = throwDirection * throwForce;
-        velocity.y = throwForce * 0.2f; // 🎯 기존 방식과 일관되도록 Y축 이동량 조정
+        if (position.y < 0) break;  // y 값이 0 이하이면 그리기 종료
 
-        int numSteps = 8;
-        float timeStep = 0.1f;
-        List<Vector3> positions = new List<Vector3>();
+        positions.Add(position);
+    }
 
-        for (int i = 0; i < numSteps; i++)
+    lineRenderer.positionCount = positions.Count;
+    lineRenderer.SetPositions(positions.ToArray());
+}
+
+// 코인 던지는 함수
+void ThrowCoin(Vector3 throwDirection, float throwForce)
+{
+    GameObject coin = Instantiate(Prefab, transform.position + throwDirection, Quaternion.identity);
+    Rigidbody rb = coin.GetComponent<Rigidbody>();
+
+    if (rb != null)
+    {
+        Vector3 force = throwDirection * throwForce;
+        force.y = throwForce * 0.2f; // 🎯 Y축 이동 적용
+        rb.AddForce(force, ForceMode.Impulse);
+    }
+
+    hasCoin = false; // 코인을 던졌으므로 상태 변경
+    lineRenderer.positionCount = 0; // 포물선 숨기기
+}
+
+// 코인을 얻었을 때 호출되는 함수
+public void GetCoin()
+{
+    hasCoin = true;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+public void TransSpeed(float speed)
+{
+    applyspeed = speed;
+}
+public override float ReturnSpeed()
+{
+    return applyspeed;
+}
+
+void TryRun()
+{
+    if (Input.GetKey(KeyCode.LeftShift))
+    {
+        Running();
+    }
+    if (Input.GetKeyUp(KeyCode.LeftShift))
+    {
+        RunningCancel();
+    }
+}
+
+void Running()
+{
+    if (isCrouch)
+        Crouch();
+
+    GenNoise = true;
+    applyspeed = RunSpeed;
+    applyNoise = RunNoise;
+
+
+}
+public override float ReturnNoise()
+{
+    return applyNoise;
+}
+void RunningCancel()
+{
+
+    applyspeed = MoveSpeed;
+    applyNoise = WalkNoise;
+    GenNoise = true;
+}
+void TryCrouch()
+{
+    if (Input.GetKeyDown(KeyCode.LeftControl))
+    {
+        Crouch();
+    }
+    if (Input.GetKeyUp(KeyCode.LeftControl))
+    {
+        CrouchCancel();
+    }
+}
+public override bool GetNoise()
+{
+    return GenNoise;
+}
+void CrouchCancel()
+{
+    isCrouch = false;
+    GenNoise = true;
+    applyspeed = MoveSpeed;
+    applyNoise = WalkNoise;
+}
+void Crouch()
+{
+    isCrouch = true;
+    GenNoise = false;
+    applyspeed = CrouchSpeed;
+    applyNoise = 0;
+}
+public List<Enemy> DetectEnemies = new List<Enemy>();
+public LayerMask detectionMask;  // LayerMask를 public으로 설정하여 인스펙터에서 수정 가능하게 함
+public LayerMask wallLayer;
+void DetectEnemy()
+{
+    // 이전에 감지된 적을 숨김
+    foreach (var enemy in DetectEnemies)
+    {
+        enemy.HideShape();
+    }
+    DetectEnemies.Clear();
+
+    // 플레이어 주위 5 유닛 거리 내에서 모든 콜라이더를 감지 (벽 제외)
+    Collider[] colliders = Physics.OverlapSphere(transform.position, 8f, detectionMask);
+
+    foreach (var collider in colliders)
+    {
+        // 콜라이더가 적의 부모 오브젝트인지 확인
+        Enemy enemy = collider.GetComponentInParent<Enemy>();
+        if (enemy != null)
         {
-            float time = i * timeStep;
-            Vector3 position = startPos + velocity * time;
-            position.y += gravity * time * time / 2f;
-
-            if (position.y < 0) break;  // y 값이 0 이하이면 그리기 종료
-
-            positions.Add(position);
+            enemy.ShowShape();
+            DetectEnemies.Add(enemy);
         }
-
-        lineRenderer.positionCount = positions.Count;
-        lineRenderer.SetPositions(positions.ToArray());
     }
 
-    // 코인 던지는 함수
-    void ThrowCoin(Vector3 throwDirection, float throwForce)
-    {
-        GameObject coin = Instantiate(Prefab, transform.position + throwDirection, Quaternion.identity);
-        Rigidbody rb = coin.GetComponent<Rigidbody>();
+    // 플레이어 앞 방향으로 90도 시야 내에서 8 유닛 거리로 적 감지
+    float angleLimit = 60f; // 90도 시야의 반으로 45도
+    float detectionRange = 20f;
 
-        if (rb != null)
+    // 시야 내 적 감지
+    Collider[] frontColliders = Physics.OverlapSphere(transform.position, detectionRange, detectionMask);
+
+    foreach (var collider in frontColliders)
+    {
+        // 콜라이더가 적의 부모 오브젝트인지 확인
+        Enemy enemy = collider.GetComponentInParent<Enemy>();
+        if (enemy != null)
         {
-            Vector3 force = throwDirection * throwForce;
-            force.y = throwForce * 0.2f; // 🎯 Y축 이동 적용
-            rb.AddForce(force, ForceMode.Impulse);
-        }
+            // 플레이어와 적의 방향 벡터를 계산
+            Vector3 directionToEnemy = enemy.transform.position - transform.position;
+            directionToEnemy.y = 1.2f; // y값 무시 (수평 방향만 고려)
 
-        hasCoin = false; // 코인을 던졌으므로 상태 변경
-        lineRenderer.positionCount = 0; // 포물선 숨기기
-    }
+            // 플레이어의 앞 방향 벡터
+            Vector3 forward = transform.forward;
 
-    // 코인을 얻었을 때 호출되는 함수
-    public void GetCoin()
-    {
-        hasCoin = true;
-    }
+            // 플레이어의 전방 90도 시야 내에 적이 있는지 확인
+            float angle = Vector3.Angle(forward, directionToEnemy);
 
-
-
-
-
-
-
-
-
-
-
-
-    public void TransSpeed(float speed)
-    {
-        applyspeed = speed;
-    }
-    public override float ReturnSpeed()
-    {
-        return applyspeed;
-    }
-
-    void TryRun()
-    {
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            Running();
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            RunningCancel();
-        }
-    }
-
-    void Running()
-    {
-        if (isCrouch)
-            Crouch();
-
-        GenNoise = true;
-        applyspeed = RunSpeed;
-        applyNoise = RunNoise;
-
-
-    }
-    public override float ReturnNoise()
-    {
-        return applyNoise;
-    }
-    void RunningCancel()
-    {
-
-        applyspeed = MoveSpeed;
-        applyNoise = WalkNoise;
-        GenNoise = true;
-    }
-    void TryCrouch()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            Crouch();
-        }
-        if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            CrouchCancel();
-        }
-    }
-    public override bool GetNoise()
-    {
-        return GenNoise;
-    }
-    void CrouchCancel()
-    {
-        isCrouch = false;
-        GenNoise = true;
-        applyspeed = MoveSpeed;
-        applyNoise = WalkNoise;
-    }
-    void Crouch()
-    {
-        isCrouch = true;
-        GenNoise = false;
-        applyspeed = CrouchSpeed;
-        applyNoise = 0;
-    }
-    public List<Enemy> DetectEnemies = new List<Enemy>();
-    public LayerMask detectionMask;  // LayerMask를 public으로 설정하여 인스펙터에서 수정 가능하게 함
-    public LayerMask wallLayer;
-    void DetectEnemy()
-    {
-        // 이전에 감지된 적을 숨김
-        foreach (var enemy in DetectEnemies)
-        {
-            enemy.HideShape();
-        }
-        DetectEnemies.Clear();
-
-        // 플레이어 주위 5 유닛 거리 내에서 모든 콜라이더를 감지 (벽 제외)
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 8f, detectionMask);
-
-        foreach (var collider in colliders)
-        {
-            // 콜라이더가 적의 부모 오브젝트인지 확인
-            Enemy enemy = collider.GetComponentInParent<Enemy>();
-            if (enemy != null)
+            if (angle <= angleLimit) // 45도 이하 각도에 있을 때만 감지
             {
-                enemy.ShowShape();
-                DetectEnemies.Add(enemy);
-            }
-        }
-
-        // 플레이어 앞 방향으로 90도 시야 내에서 8 유닛 거리로 적 감지
-        float angleLimit = 60f; // 90도 시야의 반으로 45도
-        float detectionRange = 20f;
-
-        // 시야 내 적 감지
-        Collider[] frontColliders = Physics.OverlapSphere(transform.position, detectionRange, detectionMask);
-
-        foreach (var collider in frontColliders)
-        {
-            // 콜라이더가 적의 부모 오브젝트인지 확인
-            Enemy enemy = collider.GetComponentInParent<Enemy>();
-            if (enemy != null)
-            {
-                // 플레이어와 적의 방향 벡터를 계산
-                Vector3 directionToEnemy = enemy.transform.position - transform.position;
-                directionToEnemy.y = 1.2f; // y값 무시 (수평 방향만 고려)
-
-                // 플레이어의 앞 방향 벡터
-                Vector3 forward = transform.forward;
-
-                // 플레이어의 전방 90도 시야 내에 적이 있는지 확인
-                float angle = Vector3.Angle(forward, directionToEnemy);
-
-                if (angle <= angleLimit) // 45도 이하 각도에 있을 때만 감지
+                // 벽을 뚫고 적을 감지하지 않도록 Raycast로 확인
+                RaycastHit hit;
+                if (Physics.Raycast(transform.position, directionToEnemy, out hit, detectionRange, ~wallLayer))
                 {
-                    // 벽을 뚫고 적을 감지하지 않도록 Raycast로 확인
-                    RaycastHit hit;
-                    if (Physics.Raycast(transform.position, directionToEnemy, out hit, detectionRange, ~wallLayer))
+                    if (hit.collider.GetComponentInParent<Enemy>() != null)
                     {
-                        if (hit.collider.GetComponentInParent<Enemy>() != null)
-                        {
-                            enemy.ShowShape();
-                            DetectEnemies.Add(enemy);
-                        }
+                        enemy.ShowShape();
+                        DetectEnemies.Add(enemy);
                     }
                 }
             }
         }
     }
+}
 
-    // Gizmos로 시각화 (옵션)
-    private void OnDrawGizmos()
+// Gizmos로 시각화 (옵션)
+private void OnDrawGizmos()
+{
+    // 시각화: 플레이어 주위 5 유닛 거리 내에서 감지 범위 시각화
+    Gizmos.color = Color.yellow;
+    Gizmos.DrawWireSphere(transform.position, 5f);
+    Gizmos.color = Color.red;
+    Gizmos.DrawWireSphere(transform.position, 8f);
+
+    // 시야 범위 및 각도 시각화
+    float angleLimit = 60f; // 45도
+    float detectionRange = 20f;
+
+    // 전방 시야 범위 그리기
+    Vector3 forward = transform.forward;
+    Gizmos.color = Color.green;
+    Gizmos.DrawLine(transform.position, transform.position + forward * detectionRange);
+
+    // 시야 각도 시각화
+    Vector3 leftBound = Quaternion.Euler(0, -angleLimit, 0) * forward * detectionRange;
+    Vector3 rightBound = Quaternion.Euler(0, angleLimit, 0) * forward * detectionRange;
+
+    Gizmos.color = Color.blue;
+    Gizmos.DrawLine(transform.position, transform.position + leftBound);
+    Gizmos.DrawLine(transform.position, transform.position + rightBound);
+
+    // 시야 각도 내 영역을 시각적으로 그리기
+    Gizmos.color = new Color(0, 1, 1, 0.1f); // 반투명 Cyan 색
+    Gizmos.DrawLine(transform.position, transform.position + leftBound);
+    Gizmos.DrawLine(transform.position, transform.position + rightBound);
+
+    Gizmos.color = Color.red;
+
+    // 최대 던짐 거리만큼의 원 그리기 (플레이어의 위치에서)
+    Gizmos.DrawWireSphere(transform.position, maxThrowDistance);
+}
+
+
+public void ListenSound(GuardAI enemy)
+{
+    enemy.ShowOutline();
+}
+
+public override void MakeNoise(GameObject obj, float radius, float stepsize)
+{
+    Vector3 origin = obj.transform.position;
+    origin.y = 1.5f;
+
+    for (float anglestep = 0; anglestep < 360f; anglestep += stepsize)
     {
-        // 시각화: 플레이어 주위 5 유닛 거리 내에서 감지 범위 시각화
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, 5f);
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, 8f);
+        float currentAngle = anglestep * Mathf.Deg2Rad;
 
-        // 시야 범위 및 각도 시각화
-        float angleLimit = 60f; // 45도
-        float detectionRange = 20f;
+        Vector3 direction = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle));
+        //Debug.DrawRay(origin, direction * radius, Color.red, 5f);
 
-        // 전방 시야 범위 그리기
-        Vector3 forward = transform.forward;
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position, transform.position + forward * detectionRange);
+        RaycastHit[] hits = Physics.RaycastAll(origin, direction, radius);
 
-        // 시야 각도 시각화
-        Vector3 leftBound = Quaternion.Euler(0, -angleLimit, 0) * forward * detectionRange;
-        Vector3 rightBound = Quaternion.Euler(0, angleLimit, 0) * forward * detectionRange;
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + leftBound);
-        Gizmos.DrawLine(transform.position, transform.position + rightBound);
-
-        // 시야 각도 내 영역을 시각적으로 그리기
-        Gizmos.color = new Color(0, 1, 1, 0.1f); // 반투명 Cyan 색
-        Gizmos.DrawLine(transform.position, transform.position + leftBound);
-        Gizmos.DrawLine(transform.position, transform.position + rightBound);
-
-        Gizmos.color = Color.red;
-
-        // 최대 던짐 거리만큼의 원 그리기 (플레이어의 위치에서)
-        Gizmos.DrawWireSphere(transform.position, maxThrowDistance);
-    }
-
-
-    public void ListenSound(GuardAI enemy)
-    {
-        enemy.ShowOutline();
-    }
-
-    public override void MakeNoise(GameObject obj, float radius, float stepsize)
-    {
-        Vector3 origin = obj.transform.position;
-        origin.y = 1.5f;
-
-        for (float anglestep = 0; anglestep < 360f; anglestep += stepsize)
+        foreach (RaycastHit hit in hits)
         {
-            float currentAngle = anglestep * Mathf.Deg2Rad;
-
-            Vector3 direction = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle));
-            //Debug.DrawRay(origin, direction * radius, Color.red, 5f);
-
-            RaycastHit[] hits = Physics.RaycastAll(origin, direction, radius);
-
-            foreach (RaycastHit hit in hits)
+            if (hit.collider.GetComponent<Enemy>())
             {
-                if (hit.collider.GetComponent<Enemy>())
-                {
-                    Enemy enemy = hit.collider.GetComponent<Enemy>();
-                    enemy.ProbArea(origin);
-                }
+                Enemy enemy = hit.collider.GetComponent<Enemy>();
+                enemy.ProbArea(origin);
             }
         }
     }
+}
 }
