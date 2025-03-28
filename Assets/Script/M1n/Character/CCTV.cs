@@ -24,7 +24,7 @@ public class CCTV : Enemy
     }
     public override void ShowShape()
     {
-        Debug.Log("?11>");
+
         MeshRenderer[] mesh = GetComponentsInParent<MeshRenderer>();
         for (int i = 0; i < mesh.Length; i++)
         {

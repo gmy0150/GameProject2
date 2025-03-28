@@ -70,10 +70,7 @@ public class Enemy : Character
         throw new System.NotImplementedException();
     }
 
-    public override float ReturnSpeed()
-    {
-        return applyspeed;
-    }
+
 
 
     public virtual void ShowOutline() { }
@@ -135,11 +132,7 @@ public class Enemy : Character
     {
         return noise;
     }
-    public override bool GetNoise()
-    {
-        if (noise == Vector3.zero) return false;
-        else return true;
-    }
+
     public virtual void InitNoise()
     {
         noise = Vector3.zero;
@@ -255,16 +248,11 @@ public class Enemy : Character
             RaycastHit hit;
             if (Physics.Raycast(enemyTransform.position, rayDirection, out hit, Distance))
             {
-                Debug.Log(hit.collider.name);
-                if(hit.collider.GetComponent<Player>())
-                Debug.Log("!");
-
                 // Player를 감지하면 visiblePoints에 추가
                 if (hit.collider.GetComponentInParent<Player>())
                 {
-                    Debug.Log("?");
                     DetectPlayer = true;
-                    if (hit.collider.GetComponentInParent<Player>().GetHide())
+                    if (hit.collider.GetComponentInParent<Player>().GetControll().GetHide())
                     {
                         DetectPlayer = false;
                     }
@@ -310,7 +298,7 @@ public class Enemy : Character
                 if (hit.collider.GetComponentInParent<Player>())
                 {
                     DetectPlayer = true;
-                    if (hit.collider.GetComponentInParent<Player>().GetHide())
+                    if (hit.collider.GetComponentInParent<Player>().GetControll().GetHide())
                     {
                         DetectPlayer = false;
                     }
@@ -334,10 +322,7 @@ public class Enemy : Character
         }
         return result;
     }
-    public override float ReturnNoise()
-    {
-        throw new System.NotImplementedException();
-    }
+
 
 
 
