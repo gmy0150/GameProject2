@@ -19,6 +19,10 @@ public class Player : Character
     public float maxThrowForce = 40;
 
     InteractController interactController;
+    public InteractController GetInterAct()
+    {
+        return interactController;
+    }
     public override void Action()
     {
 
@@ -349,11 +353,9 @@ void DetectEnemy()
 // Gizmos로 시각화 (옵션)
 private void OnDrawGizmos()
 {
-    // 시각화: 플레이어 주위 5 유닛 거리 내에서 감지 범위 시각화
+
     Gizmos.color = Color.yellow;
-    Gizmos.DrawWireSphere(transform.position, 5f);
-    Gizmos.color = Color.red;
-    Gizmos.DrawWireSphere(transform.position, 8f);
+    Gizmos.DrawWireSphere(transform.position, maxThrowDistance);
 
     // 시야 범위 및 각도 시각화
     float angleLimit = 60f; // 45도

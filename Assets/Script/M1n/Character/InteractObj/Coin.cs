@@ -29,10 +29,13 @@ public class Coin : UseageInteract
         {
             HasCoin();
         }
+        
     }
+
 
     public override void InteractAgain()
     {
+
         CoinDrop();
         lineRenderer.positionCount = 0;
     }
@@ -51,6 +54,9 @@ public class Coin : UseageInteract
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
             Vector3 targetPoint;
+            Vector3 ChTrans = character.transform.position;
+            float newY = 0.5f;
+            ChTrans.y = newY;
 
             // 마우스 위치가 땅과 충돌하는 지점을 목표 지점으로 설정
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
@@ -62,15 +68,15 @@ public class Coin : UseageInteract
                 targetPoint = ray.origin + ray.direction * maxThrowDistance;
             }
 
-            targetPoint.y = character.transform.position.y; // 수평면에서만 목표 설정
+            targetPoint.y = ChTrans.y; // 수평면에서만 목표 설정
 
             // 던지는 방향 계산
-            Vector3 throwDirection = (targetPoint - character.transform.position).normalized;
-            float distance = Vector3.Distance(character.transform.position, targetPoint);
+            Vector3 throwDirection = (targetPoint - ChTrans).normalized;
+            float distance = Vector3.Distance(ChTrans, targetPoint);
 
             if (distance > maxThrowDistance)
             {
-                targetPoint = character.transform.position + throwDirection * maxThrowDistance;
+                targetPoint = ChTrans + throwDirection * maxThrowDistance;
                 distance = maxThrowDistance; // 최대 거리로 제한
             }
 
@@ -97,24 +103,33 @@ public class Coin : UseageInteract
     void DrawThrowPreview(Vector3 throwDirection, float throwForce)
     {
         lineRenderer.positionCount = 0;
-
-        Vector3 startPos = character.transform.position;
+        Vector3 ChTrans = character.transform.position;
+        float newY = 1.5f;
+        ChTrans.y = newY;
+        Vector3 startPos = ChTrans;
         Vector3 velocity = throwDirection * throwForce;
         velocity.y = throwForce * 0.2f; //  기존 방식과 일관되도록 Y축 이동량 조정
 
-        int numSteps = 8;
-        float timeStep = 0.1f;
+        int numSteps = 20;
+        float timeStep = 0.05f;
         List<Vector3> positions = new List<Vector3>();
+
+        Vector3 lastPosition = startPos;
+
 
         for (int i = 0; i < numSteps; i++)
         {
             float time = i * timeStep;
             Vector3 position = startPos + velocity * time;
             position.y += gravity * time * time / 2f;
+            if (Physics.Raycast(lastPosition, position - lastPosition, out RaycastHit hit ,(position - lastPosition).magnitude, LayerMask.GetMask("Ground")))
+            {
+                positions.Add(position);
 
-            if (position.y < 0) break;  // y 값이 0 이하이면 그리기 종료
-
+                break;
+            }
             positions.Add(position);
+
         }
 
         lineRenderer.positionCount = positions.Count;
@@ -135,7 +150,7 @@ public class Coin : UseageInteract
             force.y = throwForce * 0.2f; //  Y축 이동 적용
             rb.AddForce(force, ForceMode.Impulse);
         }
-
+        
         InteractAgain();
     }
 }

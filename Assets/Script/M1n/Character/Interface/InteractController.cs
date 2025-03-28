@@ -16,8 +16,6 @@ public class InteractController
         Debug.Log(controllerableCharacter);
         keyboardController = character.GetKey();
         interactableLayer = character.Layer;
-        Debug.Log("aa");
-        Debug.Log(interactableLayer);
     }
 
     public void TIck(float deltaTime)
@@ -44,7 +42,6 @@ public class InteractController
             interactable = hit.collider.GetComponent<UseageInteract>();
             if (interactable != null  )
             {
-                Debug.Log("aaa");
                 interactable.Interact(character,keyboardController);  // 상호작용 실행
                 isInteracting = true;
             }
@@ -58,4 +55,5 @@ public class InteractController
             isInteracting = false;
         }
     }
+
 }
