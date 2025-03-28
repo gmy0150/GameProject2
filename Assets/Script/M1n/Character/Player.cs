@@ -10,11 +10,9 @@ public class Player : Character
 {
     IController controller;
     public float CrouchSpeed;
-    bool isCrouch;
-    bool GenNoise;
     public GameObject Prefab;
 
-
+    public LineRenderer lineRenderer;
     [Header("소리 거리")]
     public float RunNoise, WalkNoise, CoinNoise;
     public float maxThrowDistance = 40;
@@ -134,9 +132,6 @@ public class Player : Character
         interactController = new InteractController();
         interactController.OnPosessed(this);
 
-        applyNoise = WalkNoise;
-
-        GenNoise = true;
     }
     public IController GetKey()
     {
@@ -158,134 +153,134 @@ public class Player : Character
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
-            GetCoin();
+            //GetCoin();
         }
 
 
 
         DetectEnemy();
-        DetectCoin();
-        HasCoin();
+        //DetectCoin();
+        //HasCoin();
     }
-    public bool isCoin()
-    {
-        return hasCoin;
-    }
-    bool hasCoin;
-    public LineRenderer lineRenderer;
-    float gravity = -9.81f;
-    void DetectCoin()
-    {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 4, Coin);
-        GameObject CoinObj = colliders.Length > 0 ? colliders[0].gameObject : null;
-        if (CoinObj != null && Input.GetKeyDown(KeyCode.E))
-        {
-            CoinObj.SetActive(false);
-            GetCoin();
-        }
-    }
-    public void HasCoin()
-    {
-        if (hasCoin) // 코인을 얻었을 때만 포물선 표시
-        {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            Vector3 targetPoint;
+    //    public bool isCoin()
+    //    {
+    //        return hasCoin;
+    //    }
+    //    bool hasCoin;
 
-            // 마우스 위치가 땅과 충돌하는 지점을 목표 지점으로 설정
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
-            {
-                targetPoint = hit.point;
-            }
-            else
-            {
-                targetPoint = ray.origin + ray.direction * maxThrowDistance;
-            }
+    //    float gravity = -9.81f;
+    //    void DetectCoin()
+    //    {
+    //        Collider[] colliders = Physics.OverlapSphere(transform.position, 4, Coin);
+    //        GameObject CoinObj = colliders.Length > 0 ? colliders[0].gameObject : null;
+    //        if (CoinObj != null && Input.GetKeyDown(KeyCode.E))
+    //        {
+    //            CoinObj.SetActive(false);
+    //            GetCoin();
+    //        }
+    //    }
+    //    public void HasCoin()
+    //    {
+    //        if (hasCoin) // 코인을 얻었을 때만 포물선 표시
+    //        {
+    //            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //            RaycastHit hit;
+    //            Vector3 targetPoint;
 
-            targetPoint.y = transform.position.y; // 수평면에서만 목표 설정
+    //            // 마우스 위치가 땅과 충돌하는 지점을 목표 지점으로 설정
+    //            if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
+    //            {
+    //                targetPoint = hit.point;
+    //            }
+    //            else
+    //            {
+    //                targetPoint = ray.origin + ray.direction * maxThrowDistance;
+    //            }
 
-            // 던지는 방향 계산
-            Vector3 throwDirection = (targetPoint - transform.position).normalized;
-            float distance = Vector3.Distance(transform.position, targetPoint);
+    //            targetPoint.y = transform.position.y; // 수평면에서만 목표 설정
 
-            if (distance > maxThrowDistance)
-            {
-                targetPoint = transform.position + throwDirection * maxThrowDistance;
-                distance = maxThrowDistance; // 최대 거리로 제한
-            }
+    //            // 던지는 방향 계산
+    //            Vector3 throwDirection = (targetPoint - transform.position).normalized;
+    //            float distance = Vector3.Distance(transform.position, targetPoint);
 
-            // 목표 지점까지의 거리로 던지는 힘 계산
-            float throwForce = Mathf.Lerp(2f, maxThrowForce, distance / maxThrowDistance);
+    //            if (distance > maxThrowDistance)
+    //            {
+    //                targetPoint = transform.position + throwDirection * maxThrowDistance;
+    //                distance = maxThrowDistance; // 최대 거리로 제한
+    //            }
 
-            // 포물선 경로를 실시간으로 그리기
-            DrawThrowPreview(throwDirection, throwForce);
+    //            // 목표 지점까지의 거리로 던지는 힘 계산
+    //            float throwForce = Mathf.Lerp(2f, maxThrowForce, distance / maxThrowDistance);
 
-            // 좌클릭하면 코인 던지기
-            if (Input.GetMouseButtonDown(0))
-            {
-                ThrowCoin(throwDirection, throwForce);
-            }
-        }
-        else
-        {
-            lineRenderer.positionCount = 0; // 코인이 없으면 포물선 숨김
-        }
-    }
+    //            // 포물선 경로를 실시간으로 그리기
+    //            DrawThrowPreview(throwDirection, throwForce);
+
+    //            // 좌클릭하면 코인 던지기
+    //            if (Input.GetMouseButtonDown(0))
+    //            {
+    //                ThrowCoin(throwDirection, throwForce);
+    //            }
+    //        }
+    //        else
+    //        {
+    //            lineRenderer.positionCount = 0; // 코인이 없으면 포물선 숨김
+    //        }
+    //    }
 
 
-// 포물선 경로를 그리는 함수
-void DrawThrowPreview(Vector3 throwDirection, float throwForce)
-{
-    lineRenderer.positionCount = 0;
+    //// 포물선 경로를 그리는 함수
+    //void DrawThrowPreview(Vector3 throwDirection, float throwForce)
+    //{
+    //    lineRenderer.positionCount = 0;
 
-    Vector3 startPos = transform.position;
-    Vector3 velocity = throwDirection * throwForce;
-    velocity.y = throwForce * 0.2f; //  기존 방식과 일관되도록 Y축 이동량 조정
+    //    Vector3 startPos = transform.position;
+    //    Vector3 velocity = throwDirection * throwForce;
+    //    velocity.y = throwForce * 0.2f; //  기존 방식과 일관되도록 Y축 이동량 조정
 
-    int numSteps = 8;
-    float timeStep = 0.1f;
-    List<Vector3> positions = new List<Vector3>();
+    //    int numSteps = 8;
+    //    float timeStep = 0.1f;
+    //    List<Vector3> positions = new List<Vector3>();
 
-    for (int i = 0; i < numSteps; i++)
-    {
-        float time = i * timeStep;
-        Vector3 position = startPos + velocity * time;
-        position.y += gravity * time * time / 2f;
+    //    for (int i = 0; i < numSteps; i++)
+    //    {
+    //        float time = i * timeStep;
+    //        Vector3 position = startPos + velocity * time;
+    //        position.y += gravity * time * time / 2f;
 
-        if (position.y < 0) break;  // y 값이 0 이하이면 그리기 종료
+    //        if (position.y < 0) break;  // y 값이 0 이하이면 그리기 종료
 
-        positions.Add(position);
-    }
+    //        positions.Add(position);
+    //    }
 
-    lineRenderer.positionCount = positions.Count;
-    lineRenderer.SetPositions(positions.ToArray());
-}
+    //    lineRenderer.positionCount = positions.Count;
+    //    lineRenderer.SetPositions(positions.ToArray());
+    //}
 
-// 코인 던지는 함수
-void ThrowCoin(Vector3 throwDirection, float throwForce)
-{
-        Vector3 transpo = transform.position;
-        transpo.y = transform.position.y + 1;
-    GameObject coin = Instantiate(Prefab, transpo + throwDirection, Quaternion.identity);
-    Rigidbody rb = coin.GetComponent<Rigidbody>();
+    //// 코인 던지는 함수
+    //void ThrowCoin(Vector3 throwDirection, float throwForce)
+    //{
+    //        Vector3 transpo = transform.position;
+    //        transpo.y = transform.position.y + 1;
+    //    GameObject coin = Instantiate(Prefab, transpo + throwDirection, Quaternion.identity);
+    //    Rigidbody rb = coin.GetComponent<Rigidbody>();
 
-    if (rb != null)
-    {
-        Vector3 force = throwDirection * throwForce;
-        force.y = throwForce * 0.2f; //  Y축 이동 적용
-        rb.AddForce(force, ForceMode.Impulse);
-    }
+    //    if (rb != null)
+    //    {
+    //        Vector3 force = throwDirection * throwForce;
+    //        force.y = throwForce * 0.2f; //  Y축 이동 적용
+    //        rb.AddForce(force, ForceMode.Impulse);
+    //    }
 
-    hasCoin = false; // 코인을 던졌으므로 상태 변경
-    lineRenderer.positionCount = 0; // 포물선 숨기기
-}
+    //    hasCoin = false; // 코인을 던졌으므로 상태 변경
+    //    lineRenderer.positionCount = 0; // 포물선 숨기기
+    //}
 
-// 코인을 얻었을 때 호출되는 함수
-public void GetCoin()
-{
-    hasCoin = true;
-}
-public List<Enemy> DetectEnemies = new List<Enemy>();
+    //// 코인을 얻었을 때 호출되는 함수
+    //public void GetCoin()
+    //{
+    //    hasCoin = true;
+    //}
+    public List<Enemy> DetectEnemies = new List<Enemy>();
 public LayerMask detectionMask;  // LayerMask를 public으로 설정하여 인스펙터에서 수정 가능하게 함
 public LayerMask wallLayer;
 void DetectEnemy()

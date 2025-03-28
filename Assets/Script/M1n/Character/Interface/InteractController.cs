@@ -36,7 +36,10 @@ public class InteractController
     {
         RaycastHit hit;
         // 플레이어 앞에 레이캐스트를 쏴서 상호작용 가능한 오브젝트를 찾음
-        if (Physics.Raycast(character.transform.position, character.transform.forward, out hit, interactionDistance, interactableLayer))
+        Vector3 trans = character.transform.position;
+        float newy = 0.2f;
+        trans.y = newy;
+        if (Physics.Raycast(trans, character.transform.forward, out hit, interactionDistance, interactableLayer))
         {
             interactable = hit.collider.GetComponent<UseageInteract>();
             if (interactable != null  )
