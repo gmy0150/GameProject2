@@ -32,22 +32,37 @@ public class InteractController
     IInterActerable interactable;
     void TryInteract()
     {
-        RaycastHit hit;
-        // 플레이어 앞에 레이캐스트를 쏴서 상호작용 가능한 오브젝트를 찾음
-        Vector3 trans = character.transform.position;
-        float newy = 0.2f;
-        trans.y = newy;
-        if (Physics.Raycast(trans, character.transform.forward, out hit, interactionDistance, interactableLayer))
+        Collider[] colliders = Physics.OverlapSphere(character.transform.position, interactionDistance, interactableLayer);
+        interactable = null;
+
+        float mindistance = interactionDistance;
+        foreach (Collider col in colliders)
         {
-            interactable = hit.collider.GetComponent<UseageInteract>();
-            if (interactable != null  )
+            Vector3 dirToTarget = (col.transform.position - character.transform.position).normalized;
+            float angle = Vector3.Angle(character.transform.forward, dirToTarget);
+            float distance = Vector3.Distance(character.transform.position, col.transform.position);
+
+
+            if (angle < 60f && distance < mindistance)
             {
-                interactable.Interact(character,keyboardController);  // 상호작용 실행
-                isInteracting = true;
+                Debug.Log(col.name);
+                UseageInteract candiate = col.GetComponent<UseageInteract>();
+                if (candiate != null)
+                {
+                    interactable = candiate;
+                    mindistance = distance;
+                }
+                
             }
         }
+        if (interactable != null)
+        {
+            interactable.Interact(character, keyboardController);
+            isInteracting = true;
+        }
     }
-    void ResetInteraction()
+    
+    public void ResetInteraction()
     {
         if (interactable != null)
         {

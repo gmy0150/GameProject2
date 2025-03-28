@@ -35,18 +35,24 @@ public class Coin : UseageInteract
 
     public override void InteractAgain()
     {
+        if (!shoot)
+        {
+            GameObject throwobj = Instantiate(CoinPrefab, transform.position, Quaternion.identity);
 
-        CoinDrop();
-        lineRenderer.positionCount = 0;
+        }
+        UseCoin();
     }
-    public void CoinDrop()
+    public void UseCoin()
     {
+        lineRenderer.positionCount = 0;
         hasCoin = false;
+        shoot = false;
     }
     public void GetCoin()
     {
         hasCoin = true;
     }
+    bool shoot;
     public void HasCoin()
     {
         if (hasCoin) // 코인을 얻었을 때만 포물선 표시
@@ -95,6 +101,7 @@ public class Coin : UseageInteract
         else
         {
             lineRenderer.positionCount = 0; // 코인이 없으면 포물선 숨김
+
         }
     }
 
@@ -137,20 +144,34 @@ public class Coin : UseageInteract
     }
 
     // 코인 던지는 함수
+    GameObject throwobj;
     void ThrowCoin(Vector3 throwDirection, float throwForce)
     {
+        shoot = true;
         Vector3 transpo = character.transform.position;
         transpo.y = character.transform.position.y + 1;
-        GameObject coin = Instantiate(CoinPrefab, transpo + throwDirection, Quaternion.identity);
-        Rigidbody rb = coin.GetComponent<Rigidbody>();
+        throwobj = Instantiate(CoinPrefab, transpo + throwDirection, Quaternion.identity);
+        Rigidbody rb = throwobj.GetComponent<Rigidbody>();
 
         if (rb != null)
         {
             Vector3 force = throwDirection * throwForce;
             force.y = throwForce * 0.2f; //  Y축 이동 적용
             rb.AddForce(force, ForceMode.Impulse);
+            character.GetInterAct().ResetInteraction();
+            
         }
-        
-        InteractAgain();
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground" && collision.collider.gameObject == throwobj)
+        {
+            Rigidbody rigid = GetComponent<Rigidbody>();
+            rigid.velocity = Vector3.zero;
+
+            character.MakeNoise(gameObject, character.CoinNoise, 3);
+            //character.GetInterAct().ResetInteraction();
+
+        }
     }
 }
