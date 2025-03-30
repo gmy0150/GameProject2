@@ -7,6 +7,22 @@ public class UseageInteract : MonoBehaviour, IInterActerable
     protected bool isHide = false;
     protected Player character;
     protected IController controller;
+    public bool shoot = false;
+    public bool hasCoin = false;
+
+    public bool isShoot()
+    {
+        return shoot;
+    }
+
+    public bool isCoin()
+    {
+        return hasCoin;
+    }
+    public bool GetHide()
+    {
+        return this.isHide;
+    }
 
     public virtual void Interact(Player character, IController controller)
     {
@@ -18,9 +34,5 @@ public class UseageInteract : MonoBehaviour, IInterActerable
     {
         throw new System.NotImplementedException();
     }
-
-    
-
-
 
 }

@@ -5,16 +5,20 @@ using UnityEngine.UI;
 
 public class Coin : UseageInteract
 {
-    bool hasCoin = false;
+
     float maxThrowDistance;
     float maxThrowForce;
     LineRenderer lineRenderer;
     float gravity = -9.81f;
     GameObject CoinPrefab;
+    Mesh Base;
+    MeshFilter filter;
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
-        Debug.Log("주움");
+        filter = GetComponent<MeshFilter>();
+        Base = filter.mesh;
+        filter.mesh = null;
         GetCoin();
         maxThrowDistance = character.maxThrowDistance;
         maxThrowForce = character.maxThrowForce;
@@ -37,22 +41,36 @@ public class Coin : UseageInteract
     {
         if (!shoot)
         {
-            GameObject throwobj = Instantiate(CoinPrefab, transform.position, Quaternion.identity);
+            filter.mesh = Base;
+            //GameObject throwobj = Instantiate(CoinPrefab, transform.position, Quaternion.identity);
+
+            gameObject.SetActive(false);
+            UseCoin();
 
         }
-        UseCoin();
+        else
+        {
+            ShootCoin();
+        }
     }
     public void UseCoin()
     {
-        lineRenderer.positionCount = 0;
+        ShootCoin();
+            shoot = false;
+
+    }
+    public void ShootCoin()
+    {
+        if (lineRenderer != null)
+        {
+            lineRenderer.positionCount = 0;
+        }
         hasCoin = false;
-        shoot = false;
     }
     public void GetCoin()
     {
         hasCoin = true;
     }
-    bool shoot;
     public void HasCoin()
     {
         if (hasCoin) // 코인을 얻었을 때만 포물선 표시
@@ -143,15 +161,17 @@ public class Coin : UseageInteract
         lineRenderer.SetPositions(positions.ToArray());
     }
 
-    // 코인 던지는 함수
-    GameObject throwobj;
+
     void ThrowCoin(Vector3 throwDirection, float throwForce)
     {
         shoot = true;
         Vector3 transpo = character.transform.position;
         transpo.y = character.transform.position.y + 1;
-        throwobj = Instantiate(CoinPrefab, transpo + throwDirection, Quaternion.identity);
-        Rigidbody rb = throwobj.GetComponent<Rigidbody>();
+        transform.position = transpo + throwDirection;
+        //throwobj = Instantiate(CoinPrefab, transpo + throwDirection, Quaternion.identity);
+
+        Rigidbody rb = transform.GetComponent<Rigidbody>();
+            filter.mesh = Base;
 
         if (rb != null)
         {
@@ -159,19 +179,19 @@ public class Coin : UseageInteract
             force.y = throwForce * 0.2f; //  Y축 이동 적용
             rb.AddForce(force, ForceMode.Impulse);
             character.GetInterAct().ResetInteraction();
-            
         }
     }
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground" && collision.collider.gameObject == throwobj)
+        if (collision.gameObject.tag == "Ground" && shoot )
         {
             Rigidbody rigid = GetComponent<Rigidbody>();
             rigid.velocity = Vector3.zero;
-
-            character.MakeNoise(gameObject, character.CoinNoise, 3);
-            //character.GetInterAct().ResetInteraction();
-
+            UseCoin();
+            if (character != null)
+            {
+                character.MakeNoise(gameObject, Player.CoinNoise, 12);
+            }
         }
     }
 }

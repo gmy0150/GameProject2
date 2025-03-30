@@ -10,10 +10,10 @@ public class InteractController
     Player character;
     IController keyboardController;
     bool isInteracting = false;
+
     public void OnPosessed(Player controllerableCharacter)
     {
         character = controllerableCharacter;
-        Debug.Log(controllerableCharacter);
         keyboardController = character.GetKey();
         interactableLayer = character.Layer;
     }
@@ -45,7 +45,6 @@ public class InteractController
 
             if (angle < 60f && distance < mindistance)
             {
-                Debug.Log(col.name);
                 UseageInteract candiate = col.GetComponent<UseageInteract>();
                 if (candiate != null)
                 {
@@ -55,13 +54,34 @@ public class InteractController
                 
             }
         }
-        if (interactable != null)
+        if (interactable != null && !GetCoin())
         {
             interactable.Interact(character, keyboardController);
             isInteracting = true;
         }
     }
-    
+    public bool GetHide()
+    {
+        if(interactable != null)
+        {
+            return interactable.GetHide();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool GetCoin()
+    {
+        if (interactable != null)
+        {
+            return interactable.isCoin();
+        }
+        else
+        {
+            return false;
+        }
+    }
     public void ResetInteraction()
     {
         if (interactable != null)

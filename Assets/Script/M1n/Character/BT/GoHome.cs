@@ -31,6 +31,7 @@ public class GoHome : Node
         {
             if (!runner.IsHome())
             {
+                Debug.Log("Áý°£µí?");
                 runner.MoveHome();
 
             }

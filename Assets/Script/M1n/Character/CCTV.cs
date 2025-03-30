@@ -41,7 +41,6 @@ public class CCTV : Enemy
 
     public override void HideShape()
     {
-        Debug.Log("?>");
         MeshRenderer[] mesh = GetComponentsInParent<MeshRenderer>();
         for (int i = 0; i < mesh.Length; i++)
         {

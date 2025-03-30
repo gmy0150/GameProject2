@@ -14,7 +14,8 @@ public class Player : Character
 
     public LineRenderer lineRenderer;
     [Header("소리 거리")]
-    public float RunNoise, WalkNoise, CoinNoise;
+    public float RunSound, WalkSound, CoinSound;
+    public static float RunNoise, WalkNoise, CoinNoise;
     [Header("던지는 거리")]
     public float maxThrowDistance = 40;
     public float maxThrowForce = 40;
@@ -29,6 +30,9 @@ public class Player : Character
     IController KeyboardControll;
     void Start()
     {
+        RunNoise = RunSound;
+        WalkNoise = WalkSound;
+        CoinNoise = CoinSound;
         KeyboardControll = new KeyboardController();
         KeyboardControll.OnPosessed(this);
         this.controller = KeyboardControll;
@@ -114,7 +118,7 @@ public class Player : Character
             if (enemy != null)
             {
                 Vector3 directionToEnemy = enemy.transform.position - transform.position;
-                directionToEnemy.y = 1.2f;
+                directionToEnemy.y = 1f;
                 Vector3 forward = transform.forward;
                 float angle = Vector3.Angle(forward, directionToEnemy);
 
@@ -123,11 +127,12 @@ public class Player : Character
                     RaycastHit hit;
                     if (Physics.Raycast(transform.position, directionToEnemy, out hit, detectionRange, ~wallLayer))
                     {
-                        if (hit.collider.GetComponentInParent<Enemy>() != null)
-                        {
-                            enemy.ShowShape();
-                            DetectEnemies.Add(enemy);
-                        }
+                        Debug.DrawRay(transform.position, directionToEnemy.normalized * detectionRange, Color.red, 1f);
+
+                        Debug.Log(hit.collider.name);
+                        enemy.ShowShape();
+                        DetectEnemies.Add(enemy);
+                        
                     }
                 }
             }
@@ -200,7 +205,7 @@ public class Player : Character
     public override void MakeNoise(GameObject obj, float radius, float stepsize)
     {
         Vector3 origin = obj.transform.position;
-        origin.y = 1.5f;
+        origin.y = 1f;
 
         for (float anglestep = 0; anglestep < 360f; anglestep += stepsize)
         {
