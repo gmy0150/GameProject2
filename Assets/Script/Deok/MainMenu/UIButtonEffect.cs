@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.EventSystems; // Pointer 이벤트를 위해 추가
+using UnityEngine.EventSystems;
 using DG.Tweening;
 
 public class UIButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
@@ -8,10 +8,10 @@ public class UIButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     void Start()
     {
-        // 현재 오브젝트의 RectTransform을 자동으로 가져오기
+        // 현재 오브젝트의 RectTransform을 자동으로 가져옴.
         buttonTransform = GetComponent<RectTransform>();
 
-        // 디버깅 로그 추가
+        // 디버깅 로그 추가 ( 정확한 오류 어디서 발생했는지 가능함. )
         if (buttonTransform == null)
         {
             Debug.LogError($"UIButtonEffect: RectTransform을 찾을 수 없습니다! " +
@@ -25,24 +25,21 @@ public class UIButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitH
         }
     }
 
-    // 마우스를 올렸을 때
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log($"OnPointerEnter 실행됨! {gameObject.name}");
+        Debug.Log($"버튼 효과 실행됨! {gameObject.name}");
         buttonTransform.DOScale(1.1f, 0.2f).SetEase(Ease.OutQuad);
     }
 
-    // 마우스를 뗐을 때
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log($"OnPointerExit 실행됨! {gameObject.name}");
+        Debug.Log($"버튼 효과 실행됨! {gameObject.name}");
         buttonTransform.DOScale(1f, 0.2f).SetEase(Ease.OutQuad);
     }
 
-    // 버튼 클릭 효과
     public void OnClick()
     {
-        Debug.Log($"버튼 클릭! {gameObject.name}");
+        Debug.Log($"버튼 효과 실행됨! {gameObject.name}");
         buttonTransform
             .DOScale(0.9f, 0.1f)
             .SetEase(Ease.OutQuad)
