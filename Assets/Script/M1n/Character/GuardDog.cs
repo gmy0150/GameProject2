@@ -47,6 +47,7 @@ public class GuardDog : Enemy
     public float radius = 5;
     protected override void MoveToTarget(Vector3 newTarget)
     {
+        Debug.Log("?>>");
             aIPath.enabled = true;
         Vector3 targetPos = newTarget;
         Vector3 aipos = transform.position;

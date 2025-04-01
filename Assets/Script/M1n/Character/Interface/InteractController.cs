@@ -10,16 +10,13 @@ public class InteractController
     Player character;
     IController keyboardController;
     bool isInteracting = false;
+
     public void OnPosessed(Player controllerableCharacter)
     {
         character = controllerableCharacter;
-        Debug.Log(controllerableCharacter);
         keyboardController = character.GetKey();
         interactableLayer = character.Layer;
-        Debug.Log("aa");
-        Debug.Log(interactableLayer);
     }
-
     public void TIck(float deltaTime)
     {
         if (!isInteracting && Input.GetKeyDown(KeyCode.E))
@@ -32,22 +29,63 @@ public class InteractController
         }
     }
     IInterActerable interactable;
+    public bool GetInterAct()
+    {
+        return isInteracting;
+    }
     void TryInteract()
     {
-        RaycastHit hit;
-        // 플레이어 앞에 레이캐스트를 쏴서 상호작용 가능한 오브젝트를 찾음
-        if (Physics.Raycast(character.transform.position, character.transform.forward, out hit, interactionDistance, interactableLayer))
+        Collider[] colliders = Physics.OverlapSphere(character.transform.position, interactionDistance, interactableLayer);
+        interactable = null;
+
+        float mindistance = interactionDistance;
+        foreach (Collider col in colliders)
         {
-            interactable = hit.collider.GetComponent<UseageInteract>();
-            if (interactable != null  )
+            Vector3 dirToTarget = (col.transform.position - character.transform.position).normalized;
+            float angle = Vector3.Angle(character.transform.forward, dirToTarget);
+            float distance = Vector3.Distance(character.transform.position, col.transform.position);
+
+
+            if (angle < 60f && distance < mindistance)
             {
-                Debug.Log("aaa");
-                interactable.Interact(character,keyboardController);  // 상호작용 실행
-                isInteracting = true;
+                UseageInteract candiate = col.GetComponent<UseageInteract>();
+                if (candiate != null)
+                {
+                    interactable = candiate;
+                    mindistance = distance;
+                }
+                
             }
         }
+        if (interactable != null && !GetCoin())
+        {
+            interactable.Interact(character, keyboardController);
+            isInteracting = true;
+        }
     }
-    void ResetInteraction()
+    public bool GetHide()
+    {
+        if(interactable != null)
+        {
+            return interactable.GetHide();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public bool GetCoin()
+    {
+        if (interactable != null)
+        {
+            return interactable.isCoin();
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void ResetInteraction()
     {
         if (interactable != null)
         {
@@ -55,4 +93,5 @@ public class InteractController
             isInteracting = false;
         }
     }
+
 }

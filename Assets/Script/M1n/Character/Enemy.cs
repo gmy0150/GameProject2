@@ -17,6 +17,7 @@ public class Enemy : Character
 
     public Node node;
     Node NewNode;
+    float PlayerY;
 
     protected virtual void Start()
     {
@@ -34,6 +35,11 @@ public class Enemy : Character
             NewNode.SetRunner(this);
         }
         HideShape();
+        Player player = GameObject.FindAnyObjectByType<Player>();
+        if (player != null)
+        {
+            PlayerY = player.transform.position.y;
+        }
 
     }
     protected virtual void Update()
@@ -106,10 +112,18 @@ public class Enemy : Character
             TestOne t1 = GetComponentInChildren<TestOne>();
             t1.InvMeshRen();
             chase = true;   
-            Debug.Log("?");
         }
     }
+     void GoHome(Vector3 newTarget)
+    {
+        aIPath.enabled = true;
 
+        aIPath.destination = newTarget;
+
+        aIPath.isStopped = false;
+
+        //aIPath.SearchPath();
+    }
     protected virtual void MoveToTarget(Vector3 newTarget)
     {
         aIPath.enabled = true;
@@ -161,16 +175,19 @@ public class Enemy : Character
     Vector3 HomeSave;
     public  void MoveHome()
     {
-        MoveToTarget(HomeSave);
-        applyspeed = MoveSpeed;
         Vector3 curPos = transform.position;
         Vector3 targetPos = new Vector3(HomeSave.x, curPos.y, HomeSave.z);
-        float distanceToTarget = Vector3.Distance(transform.position, HomeSave);
+        GoHome(targetPos);
+        applyspeed = MoveSpeed;
+        float distanceToTarget = Vector3.Distance(transform.position, targetPos);
         TestOne t1;
+        Debug.Log(targetPos);
+        Debug.Log(transform.position);
+
         t1 = GetComponentInChildren<TestOne>();
         t1.InvMeshRen();
-
-        if (distanceToTarget < 0.5f)  // 원하는 도달 범위 설정
+        Debug.Log(distanceToTarget);
+        if (distanceToTarget < 1f)  // 원하는 도달 범위 설정
         {
             Debug.Log("도착!");
             HomeSuccess = true;
@@ -180,7 +197,9 @@ public class Enemy : Character
     public void SetHome(Vector3 vec)
     {
         HomeSave = vec;
-
+        Vector3 curPos = transform.position;
+        Vector3 targetPos = new Vector3(HomeSave.x, curPos.y, HomeSave.z);
+        HomeSave = targetPos;
     }
     public bool IsHome()
     {
@@ -201,7 +220,6 @@ public class Enemy : Character
         float distanceToTarget = Vector3.Distance(transform.position, vec);
         if (distanceToTarget < 0.5f)  // 원하는 도달 범위 설정
         {
-            Debug.Log("도착!");
             probSuccess = true;
         }
     }
@@ -225,12 +243,16 @@ public class Enemy : Character
         public List<Vector3> visiblePoints;
         public List<Vector3> blockedPoints;
     }
-
+    public GameObject RayShoot;
     public VisibilityResult CheckVisibility(int rayCount)
     {
         VisibilityResult result = new VisibilityResult();
         result.visiblePoints = new List<Vector3>();
         result.blockedPoints = new List<Vector3>();
+
+        Vector3 NewVector = transform.position;
+        NewVector.y = PlayerY;
+
 
         Transform enemyTransform = transform;
 
@@ -243,16 +265,15 @@ public class Enemy : Character
 
             // 2D 평면에서 y축을 무시하고 rayDirection의 y값을 0으로 설정
             rayDirection.y = 0;
-
             // Raycast 실행
             RaycastHit hit;
-            if (Physics.Raycast(enemyTransform.position, rayDirection, out hit, Distance))
+            if (Physics.Raycast(NewVector, rayDirection, out hit, Distance))
             {
                 // Player를 감지하면 visiblePoints에 추가
                 if (hit.collider.GetComponentInParent<Player>())
                 {
                     DetectPlayer = true;
-                    if (hit.collider.GetComponentInParent<Player>().GetControll().GetHide())
+                    if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
                     {
                         DetectPlayer = false;
                     }
@@ -298,7 +319,7 @@ public class Enemy : Character
                 if (hit.collider.GetComponentInParent<Player>())
                 {
                     DetectPlayer = true;
-                    if (hit.collider.GetComponentInParent<Player>().GetControll().GetHide())
+                    if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
                     {
                         DetectPlayer = false;
                     }

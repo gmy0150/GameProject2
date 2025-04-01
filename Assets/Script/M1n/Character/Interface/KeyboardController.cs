@@ -6,7 +6,7 @@ using UnityEngine;
 public class KeyboardController : IController
 {
     
-    Character controllerableCharacter = null;
+    Player controllerableCharacter = null;
     Camera mainCam;
     Rigidbody rigid;
     bool isCrouch;
@@ -17,6 +17,7 @@ public class KeyboardController : IController
     float runSpeed, walkSpeed, crouchSpeed, applySpeed;
     float runNoise, walkNoise, applyNoise;
     bool GenNoise;
+    LayerMask Picture;
     public bool GetHide()//찾는거 있음
     {
         return isHide;
@@ -31,13 +32,15 @@ public class KeyboardController : IController
         walkSpeed = controllerableCharacter.MoveSpeed;
         crouchSpeed = controllerableCharacter.CrouchSpeed;
 
-        walkNoise = controllerableCharacter.WalkNoise;
-        runNoise = controllerableCharacter.RunNoise;
+        walkNoise = Player.WalkNoise;
+        runNoise = Player.RunNoise;
 
         applySpeed = walkSpeed;
         applyNoise = walkNoise;
 
         GenNoise = true;
+
+        Picture = controllerableCharacter.Picture;
 
     }
     public float GetSpeed()
@@ -59,27 +62,30 @@ public class KeyboardController : IController
         Vector3 back = -forward;
         Vector3 right = new Vector3(1, 0, -1).normalized;
         Vector3 left = -right;
-
+        if (controllerableCharacter.GetInterActControll().GetCoin())
+        {
+            TransRotation();
+        }
         if (Input.GetMouseButton(1))
         {
-            Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                Vector3 lookDir = hit.point - tr.position;
-                lookDir.y = 0;
+            TransRotation();
+            //Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+            //if (Physics.Raycast(ray, out RaycastHit hit))
+            //{
+            //    Vector3 lookDir = hit.point - tr.position;
+            //    lookDir.y = 0;
 
-                if (lookDir.magnitude > 0.1f)
-                {
-                    Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-                    tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 10f);
-                }
-            }
+            //    if (lookDir.magnitude > 0.1f)
+            //    {
+            //        Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+            //        tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 10f);
+            //    }
+            //}
 
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !controllerableCharacter.GetInterActControll().GetInterAct())
         {
-
-            //controllerableCharacter.Action();
+            controllerableCharacter.Action();
 
         }
         bool bMoveKeyDown = false;
@@ -112,10 +118,11 @@ public class KeyboardController : IController
             float currentRotation = tr.eulerAngles.y;
             float angleDiff = Mathf.DeltaAngle(currentRotation, targetRotation);
             rotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref rotationVelocity, RotationSmoothTime);
-            if (!Input.GetMouseButton(1) )
+            if (!Input.GetMouseButton(1) && !controllerableCharacter.GetInterActControll().GetCoin())
             {
                 tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
+            
             //tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             if (GetNoise())
             {
@@ -126,6 +133,23 @@ public class KeyboardController : IController
         {
             rigid.velocity = new Vector3(0,rigid.velocity.y,0);
         }
+    }
+    void TransRotation()
+    {
+        Transform tr = controllerableCharacter.transform;
+        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Vector3 lookDir = hit.point - tr.position;
+            lookDir.y = 0;
+
+            if (lookDir.magnitude > 0.1f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+                tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 10f);
+            }
+        }
+
     }
     void TryRun()
     {
