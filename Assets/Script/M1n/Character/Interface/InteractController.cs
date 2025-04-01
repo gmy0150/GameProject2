@@ -17,7 +17,6 @@ public class InteractController
         keyboardController = character.GetKey();
         interactableLayer = character.Layer;
     }
-
     public void TIck(float deltaTime)
     {
         if (!isInteracting && Input.GetKeyDown(KeyCode.E))
@@ -30,6 +29,10 @@ public class InteractController
         }
     }
     IInterActerable interactable;
+    public bool GetInterAct()
+    {
+        return isInteracting;
+    }
     void TryInteract()
     {
         Collider[] colliders = Physics.OverlapSphere(character.transform.position, interactionDistance, interactableLayer);

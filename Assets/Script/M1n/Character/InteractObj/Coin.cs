@@ -178,7 +178,7 @@ public class Coin : UseageInteract
             Vector3 force = throwDirection * throwForce;
             force.y = throwForce * 0.2f; //  Y축 이동 적용
             rb.AddForce(force, ForceMode.Impulse);
-            character.GetInterAct().ResetInteraction();
+            character.GetInterActControll().ResetInteraction();
         }
     }
     private void OnCollisionEnter(Collision collision)

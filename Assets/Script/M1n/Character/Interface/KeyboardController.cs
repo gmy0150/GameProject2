@@ -17,6 +17,7 @@ public class KeyboardController : IController
     float runSpeed, walkSpeed, crouchSpeed, applySpeed;
     float runNoise, walkNoise, applyNoise;
     bool GenNoise;
+    LayerMask Picture;
     public bool GetHide()//찾는거 있음
     {
         return isHide;
@@ -39,6 +40,8 @@ public class KeyboardController : IController
 
         GenNoise = true;
 
+        Picture = controllerableCharacter.Picture;
+
     }
     public float GetSpeed()
     {
@@ -59,7 +62,7 @@ public class KeyboardController : IController
         Vector3 back = -forward;
         Vector3 right = new Vector3(1, 0, -1).normalized;
         Vector3 left = -right;
-        if (controllerableCharacter.GetInterAct().GetCoin())
+        if (controllerableCharacter.GetInterActControll().GetCoin())
         {
             TransRotation();
         }
@@ -80,10 +83,9 @@ public class KeyboardController : IController
             //}
 
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !controllerableCharacter.GetInterActControll().GetInterAct())
         {
-
-            //controllerableCharacter.Action();
+            controllerableCharacter.Action();
 
         }
         bool bMoveKeyDown = false;
@@ -116,7 +118,7 @@ public class KeyboardController : IController
             float currentRotation = tr.eulerAngles.y;
             float angleDiff = Mathf.DeltaAngle(currentRotation, targetRotation);
             rotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref rotationVelocity, RotationSmoothTime);
-            if (!Input.GetMouseButton(1) && !controllerableCharacter.GetInterAct().GetCoin())
+            if (!Input.GetMouseButton(1) && !controllerableCharacter.GetInterActControll().GetCoin())
             {
                 tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }

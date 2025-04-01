@@ -1,9 +1,11 @@
 ﻿
 using Cinemachine.Utility;
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class Player : Character
@@ -52,16 +54,41 @@ public class Player : Character
         }
         DetectEnemy();
     }
-
-    public InteractController GetInterAct()
+    public Image Lights;
+    public InteractController GetInterActControll()
     {
         return interactController;
     }
     public override void Action()
     {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, Picture))
+        {
+            Vector3 lookDir = hit.point - transform.position;
+            lookDir.y = 0;
 
+            if (lookDir.magnitude > 0.1f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+                transform.rotation = targetRotation;
+            }
+            Lights.color = Color.white;
+            Time.timeScale = 0;
+            Lights.gameObject.SetActive(true);
+            Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() => { StartCoroutine(TakePicture()); });
+
+
+            //StartCoroutine(TakePicture());
+            Debug.Log("사진");
+        }
     }
-
+    IEnumerator TakePicture()
+    {
+        yield return new WaitForSecondsRealtime(0.5f);
+        Time.timeScale = 1;
+            Lights.gameObject.SetActive(false);
+    }
+    public LayerMask Picture;
     public IController GetControll()
     {
         return KeyboardControll;

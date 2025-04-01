@@ -273,7 +273,7 @@ public class Enemy : Character
                 if (hit.collider.GetComponentInParent<Player>())
                 {
                     DetectPlayer = true;
-                    if (hit.collider.GetComponentInParent<Player>().GetInterAct().GetHide())
+                    if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
                     {
                         DetectPlayer = false;
                     }
@@ -319,7 +319,7 @@ public class Enemy : Character
                 if (hit.collider.GetComponentInParent<Player>())
                 {
                     DetectPlayer = true;
-                    if (hit.collider.GetComponentInParent<Player>().GetInterAct().GetHide())
+                    if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
                     {
                         DetectPlayer = false;
                     }
