@@ -1,6 +1,6 @@
-﻿
-using Cinemachine.Utility;
+﻿﻿using Cinemachine.Utility;
 using DG.Tweening;
+using System; // System 네임스페이스 추가
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -149,7 +149,7 @@ public class Player : Character
                 Vector3 forward = transform.forward;
                 float angle = Vector3.Angle(forward, directionToEnemy);
 
-                if (angle <= angleLimit) 
+                if (angle <= angleLimit)
                 {
                     RaycastHit hit;
                     if (Physics.Raycast(transform.position, directionToEnemy, out hit, detectionRange, ~wallLayer))
@@ -159,7 +159,6 @@ public class Player : Character
                         Debug.Log(hit.collider.name);
                         enemy.ShowShape();
                         DetectEnemies.Add(enemy);
-                        
                     }
                 }
             }
