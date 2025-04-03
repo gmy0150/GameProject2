@@ -83,8 +83,11 @@ public class KeyboardController : IController
             //}
 
         }
-        if (Input.GetMouseButtonDown(0) && !controllerableCharacter.GetInterActControll().GetInterAct())
+        Debug.Log(controllerableCharacter.GetInterActControll().GetInterAct());
+
+        if (Input.GetMouseButtonDown(0) && !controllerableCharacter.GetInterActControll().GetInterAct() && !controllerableCharacter.GetInterActControll().GetShoot())
         {
+            Debug.Log(controllerableCharacter.GetInterActControll().GetInterAct());
             controllerableCharacter.Action();
 
         }

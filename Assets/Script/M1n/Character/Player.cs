@@ -1,6 +1,6 @@
-﻿
-using Cinemachine.Utility;
+﻿﻿using Cinemachine.Utility;
 using DG.Tweening;
+using System; // System 네임스페이스 추가
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -73,8 +73,8 @@ public class Player : Character
                 transform.rotation = targetRotation;
             }
             Lights.color = Color.white;
+            Lights.transform.parent.gameObject.SetActive(true);
             Time.timeScale = 0;
-            Lights.gameObject.SetActive(true);
             Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() => { StartCoroutine(TakePicture()); });
 
 
@@ -86,7 +86,7 @@ public class Player : Character
     {
         yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 1;
-            Lights.gameObject.SetActive(false);
+            Lights.transform.parent.gameObject.SetActive(false);
     }
     public LayerMask Picture;
     public IController GetControll()
@@ -149,7 +149,7 @@ public class Player : Character
                 Vector3 forward = transform.forward;
                 float angle = Vector3.Angle(forward, directionToEnemy);
 
-                if (angle <= angleLimit) 
+                if (angle <= angleLimit)
                 {
                     RaycastHit hit;
                     if (Physics.Raycast(transform.position, directionToEnemy, out hit, detectionRange, ~wallLayer))
@@ -159,7 +159,6 @@ public class Player : Character
                         Debug.Log(hit.collider.name);
                         enemy.ShowShape();
                         DetectEnemies.Add(enemy);
-                        
                     }
                 }
             }

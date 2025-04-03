@@ -74,6 +74,17 @@ public class InteractController
             return false;
         }
     }
+    public bool GetShoot()
+    {
+        if (interactable != null)
+        {
+            return interactable.isShoot();
+        }
+        else
+        {
+            return false;
+        }
+    }
     public bool GetCoin()
     {
         if (interactable != null)
