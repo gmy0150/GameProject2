@@ -73,8 +73,8 @@ public class Player : Character
                 transform.rotation = targetRotation;
             }
             Lights.color = Color.white;
+            Lights.transform.parent.gameObject.SetActive(true);
             Time.timeScale = 0;
-            Lights.gameObject.SetActive(true);
             Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() => { StartCoroutine(TakePicture()); });
 
 
@@ -86,7 +86,7 @@ public class Player : Character
     {
         yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 1;
-            Lights.gameObject.SetActive(false);
+            Lights.transform.parent.gameObject.SetActive(false);
     }
     public LayerMask Picture;
     public IController GetControll()
