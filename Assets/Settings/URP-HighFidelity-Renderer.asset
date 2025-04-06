@@ -97,7 +97,8 @@ MonoBehaviour:
   - {fileID: -1878332245247344467}
   - {fileID: -742219675948255585}
   - {fileID: 688621698771304717}
-  m_RendererFeatureMap: adc0de57c6d2eee59f76cc1d231bb3f5
+  - {fileID: 1727145151656919817}
+  m_RendererFeatureMap: adc0de57c6d2eee59f76cc1d231bb3f509830c585d0df817
   m_UseNativeRenderPass: 0
   postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   xrSystemData: {fileID: 11400000, guid: 60e1133243b97e347b653163a8c01b64, type: 2}
@@ -153,3 +154,20 @@ MonoBehaviour:
   m_Name: EPO Feature
   m_EditorClassIdentifier: 
   m_Active: 1
+--- !u!114 &1727145151656919817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5544ed20e58c3684b9582c5f918703a8, type: 3}
+  m_Name: PostProcessFogFeature
+  m_EditorClassIdentifier: 
+  m_Active: 0
+  settings:
+    renderPassEvent: 550
+    fogMaterial: {fileID: 0}
+    initialFogColor: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 0}

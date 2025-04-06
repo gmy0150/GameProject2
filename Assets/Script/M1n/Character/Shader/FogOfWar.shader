@@ -7,20 +7,31 @@ Shader "Unlit/FogOfWarURP"
 
         _FogColor ("Fog Color", Color) = (0.5,0.5,0.5,1)
         _ViewPosition ("View Position", Vector) = (0,0,0,0)
-        _CircleRange ("Circle Range", Float) = 8.0 // Player.CircleRange
-        _DetectionRange ("Detection Range", Float) = 20.0 // Player.detectionRange
-        _AngleLimit ("Angle Limit", Float) = 60.0 // Player.angleLimit
+        _CircleRange ("Circle Range", Float) = 8.0
+        _ViewRadius ("View Radius", Float) = 20.0
+        _ViewAngle ("View Angle", Float) = 60.0
         _ViewDirection ("View Direction", Vector) = (0,0,1,0)
+
+        // 플레이어 기준 가시성 마스크 텍스처 추가
+        _VisibilityMask ("Visibility Mask", 2D) = "white" {}
+        // 가시성 텍스처 파라미터 (x=origin.x, y=origin.z, z=size, w=1/size)
+        _VisibilityParams ("Visibility Params", Vector) = (0,0,50,0.02)
     }
 
     SubShader
     {
-        Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" "IgnoreProjector"="True" }
+        // 투명 렌더링 설정 추가
+        Tags { "RenderType"="Transparent" "Queue"="Transparent" "RenderPipeline"="UniversalPipeline" "IgnoreProjector"="True" }
+        LOD 100
 
         Pass
         {
             Name "ForwardLit"
             Tags { "LightMode"="UniversalForward" }
+
+            // 블렌딩 및 ZWrite 설정 (Pass 블록 안에 직접 위치)
+            Blend SrcAlpha OneMinusSrcAlpha
+            ZWrite Off
 
             HLSLPROGRAM
             #pragma vertex vert
@@ -35,12 +46,16 @@ Shader "Unlit/FogOfWarURP"
                 half4 _FogColor;
                 float4 _ViewPosition;
                 float _CircleRange;
-                float _DetectionRange; // 이름 변경: _ViewRadius -> _DetectionRange
-                float _AngleLimit;     // 이름 변경: _ViewAngle -> _AngleLimit
+                float _ViewRadius;
+                float _ViewAngle;
                 float4 _ViewDirection;
+                // 가시성 관련 변수 추가
+                float4 _VisibilityParams;
             CBUFFER_END
 
             TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
+            // 가시성 마스크 텍스처 샘플러 추가
+            TEXTURE2D(_VisibilityMask); SAMPLER(sampler_VisibilityMask);
 
             struct Attributes
             {
@@ -67,43 +82,39 @@ Shader "Unlit/FogOfWarURP"
 
             half4 frag(Varyings IN) : SV_Target
             {
-                half4 baseMap = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv);
-                half4 baseColor = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, IN.uv) * _BaseColor;
+                // 1. 플레이어 기준 가시성 확인 복원
+                float2 visibilityUV = (IN.positionWS.xz - _VisibilityParams.xy) * _VisibilityParams.w;
+                half visibility = SAMPLE_TEXTURE2D(_VisibilityMask, sampler_VisibilityMask, visibilityUV).r;
 
-                // 깊이 비교 로직 추가
-                float sceneRawDepth = SampleSceneDepth(IN.positionHCS.xy / IN.positionHCS.w); // 화면 좌표로 깊이 텍스처 샘플링
-                float sceneLinearEyeDepth = LinearEyeDepth(sceneRawDepth, _ZBufferParams); // 선형 시점 공간 깊이로 변환
-                float pixelLinearEyeDepth = LinearEyeDepth(IN.positionHCS.z, _ZBufferParams); // 현재 픽셀의 선형 시점 공간 깊이
+                // smoothstep을 사용하여 가시성 경계를 부드럽게 처리
+                // visibility 값이 0.4 ~ 0.6 사이에서 부드럽게 전환되도록 설정 (값 조절 가능)
+                half smoothVisibility = smoothstep(0.4, 0.6, visibility);
 
-                // 픽셀이 씬 깊이보다 뒤에 있는지 확인 (약간의 오차 허용)
-                bool isOccluded = pixelLinearEyeDepth > sceneLinearEyeDepth + 0.01; // 0.01은 오차 보정값
+                // 최종 색상 계산: 안개 색상과 투명 색상 사이를 보간
+                // smoothVisibility가 0이면 안개색, 1이면 투명색
+                half4 transparentColor = half4(0,0,0,0);
+                half4 finalColor = lerp(_FogColor, transparentColor, smoothVisibility);
 
-                if (isOccluded)
-                {
-                    return _FogColor; // 가려졌으면 안개 색상 반환
-                }
+                return finalColor;
 
-                // 기존 시야 계산 로직 (가려지지 않았을 때만 실행)
+
+                /* // 시야 계산 로직은 아직 주석 처리 (나중에 smoothVisibility와 결합 필요)
                 float3 toPixel = IN.positionWS - _ViewPosition.xyz;
                 float distanceToView = length(toPixel);
-
-                // 1. 원형 시야 검사
                 bool inCircleRange = distanceToView < _CircleRange;
-
-                // 2. 전방 시야 검사
                 float3 viewDir = normalize(_ViewDirection.xyz);
                 float3 pixelDir = normalize(toPixel);
-                float angleBetween = acos(dot(viewDir, pixelDir)) * (180.0 / 3.14159265359); // 라디안을 도로 변환
-
-                bool inViewCone = (distanceToView < _DetectionRange) && (angleBetween < _AngleLimit); // 변수명 변경
-
-                // 3. 최종 시야 결정 (가려지지 않은 경우)
+                float angleBetween = acos(dot(viewDir, pixelDir)) * (180.0 / 3.14159265359);
+                bool inViewCone = (distanceToView < _ViewRadius) && (angleBetween < _ViewAngle);
                 if (inCircleRange || inViewCone)
                 {
-                    return baseColor; // 시야 내에 있으면 기본 색상 반환
+                    return half4(0,0,0,0);
                 }
-
-                return _FogColor; // 시야 밖에 있으면 안개 색상 반환
+                else
+                {
+                    return _FogColor;
+                }
+                */
             }
             ENDHLSL
         }

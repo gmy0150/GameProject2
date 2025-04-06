@@ -11,7 +11,6 @@ public class PictureInteract : MonoBehaviour, IShapeToggle
     {
 
         GetComponentInChildren<MeshRenderer>().material = BaseMesh;
-                Debug.Log("?111??");
 
     }
 
@@ -19,15 +18,14 @@ public class PictureInteract : MonoBehaviour, IShapeToggle
     {
 
         GetComponentInChildren<MeshRenderer>().material = invMesh;
-                Debug.Log("?222??");
 
     }
     void Awake()
     {
 
         BaseMesh = GetComponentInChildren<MeshRenderer>().material;
-
-                Debug.Log("?2222222222222??");
         invMesh = Resources.Load<Material>("Material/invisible");
+
+        HideShape();
     }
 }
