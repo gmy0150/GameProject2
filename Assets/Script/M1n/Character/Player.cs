@@ -86,7 +86,7 @@ public class Player : Character
     {
         yield return new WaitForSecondsRealtime(0.5f);
         Time.timeScale = 1;
-            Lights.transform.parent.gameObject.SetActive(false);
+        Lights.transform.parent.gameObject.SetActive(false);
     }
     public LayerMask Picture;
     public IController GetControll()
@@ -108,57 +108,59 @@ public class Player : Character
 
 
     // Update is called once per frame
-    public List<Enemy> DetectEnemies = new List<Enemy>();
+    public List<IShapeToggle> DetectObj = new List<IShapeToggle>();
     public LayerMask detectionMask;  // LayerMask를 public으로 설정하여 인스펙터에서 수정 가능하게 함
     public LayerMask wallLayer;
     void DetectEnemy()
     {
         // 이전에 감지된 적을 숨김
-        foreach (var enemy in DetectEnemies)
+        foreach (var ShowShape in DetectObj)
         {
-            enemy.HideShape();
+            ShowShape.HideShape();
         }
-        DetectEnemies.Clear();
+        DetectObj.Clear();
 
         // 플레이어 주위 5 유닛 거리 내에서 모든 콜라이더를 감지 (벽 제외)
         Collider[] colliders = Physics.OverlapSphere(transform.position, CircleRange, detectionMask);
 
+
+
         foreach (var collider in colliders)
         {
+
             // 콜라이더가 적의 부모 오브젝트인지 확인
-            Enemy enemy = collider.GetComponentInParent<Enemy>();
-            if (enemy != null)
+            IShapeToggle ShowToggle = collider.GetComponentInParent<IShapeToggle>();
+            if (ShowToggle != null)
             {
-                enemy.ShowShape();
-                DetectEnemies.Add(enemy);
+                ShowToggle.ShowShape();
+                DetectObj.Add(ShowToggle);
             }
         }
-
-
-
         // 시야 내 적 감지
         Collider[] frontColliders = Physics.OverlapSphere(transform.position, detectionRange, detectionMask);
 
         foreach (var collider in frontColliders)
         {
-            Enemy enemy = collider.GetComponentInParent<Enemy>();
-            if (enemy != null)
+
+            IShapeToggle toggle = collider.GetComponentInParent<IShapeToggle>();
+            if (toggle != null)
             {
-                Vector3 directionToEnemy = enemy.transform.position - transform.position;
-                directionToEnemy.y = 1f;
-                Vector3 forward = transform.forward;
-                float angle = Vector3.Angle(forward, directionToEnemy);
+                Vector3 directionToTarget = collider.transform.position - transform.position;
+                directionToTarget.y = 0f; // 수평만 고려
+                float angle = Vector3.Angle(transform.forward, directionToTarget);
 
                 if (angle <= angleLimit)
                 {
                     RaycastHit hit;
-                    if (Physics.Raycast(transform.position, directionToEnemy, out hit, detectionRange, ~wallLayer))
+                    if (Physics.Raycast(transform.position + Vector3.up * 1f, directionToTarget.normalized, out hit, detectionRange, ~LayerMask.GetMask("Wall")))
                     {
-                        Debug.DrawRay(transform.position, directionToEnemy.normalized * detectionRange, Color.red, 1f);
-
-                        Debug.Log(hit.collider.name);
-                        enemy.ShowShape();
-                        DetectEnemies.Add(enemy);
+                        if (hit.collider.gameObject == collider || hit.collider.GetComponentInParent<IShapeToggle>() == toggle)
+                        {
+                            Debug.DrawRay(transform.position + Vector3.up * 1f, directionToTarget.normalized * detectionRange, Color.red, 1f);
+                            toggle.ShowShape();
+                            if (!DetectObj.Contains(toggle))
+                                DetectObj.Add(toggle);
+                        }
                     }
                 }
             }
