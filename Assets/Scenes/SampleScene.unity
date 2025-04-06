@@ -3562,6 +3562,7 @@ GameObject:
   - component: {fileID: 2013181290}
   - component: {fileID: 2013181289}
   - component: {fileID: 2013181293}
+  - component: {fileID: 2013181294}
   m_Layer: 6
   m_Name: Plane
   m_TagString: Ground
@@ -3655,6 +3656,29 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 10, y: 2.220446e-16, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2013181294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2013181287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bd4ebfc7772b7648a1ab7fa4b593c87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 543450652887517455}
+  textureSize: 720
+  visibilityCheckRadius: 30
+  obstacleLayerMask:
+    serializedVersion: 2
+    m_Bits: 13568
+  raycastOriginHeight: 0.5
+  updateInterval: 0.1
+  circleSegments: 32
+  viewConeResolution: 0.5
+  gridSnapSize: 10
 --- !u!1 &2061572283
 GameObject:
   m_ObjectHideFlags: 0
@@ -3871,6 +3895,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7991128878855862652}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &543450652887517455 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1266864213000484009, guid: 68e2d1b668ae8624bae309f82491e60e,
+    type: 3}
+  m_PrefabInstance: {fileID: 7991128878855862652}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cced381096185f945bf2ec120303f9ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!33 &575444309409219818
 MeshFilter:
   m_ObjectHideFlags: 0
