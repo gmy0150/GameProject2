@@ -5,13 +5,13 @@ using UnityEngine;
 public class FogOfWarEffect : MonoBehaviour
 {
         public Material FogMaterial;
-        public Player player; // Player¸¦ ÂüÁ¶
+        public Player player; // Player 
 
         void Start()
         {
             if (player == null)
             {
-                Debug.LogError("FogOfWarEffect: Player°¡ ÇÒ´çµÇÁö ¾Ê¾Ò½À´Ï´Ù!");
+                Debug.LogError("FogOfWarEffect: Player Ò´ Ê¾Ò½Ï´!");
             }
         }
 
@@ -19,17 +19,17 @@ public class FogOfWarEffect : MonoBehaviour
         {
             if (FogMaterial == null || player == null) return;
 
-            // ÇÃ·¹ÀÌ¾î À§Ä¡ ¾÷µ¥ÀÌÆ®
+            //
             FogMaterial.SetVector("_ViewPosition", player.transform.position);
 
-            // ÇÃ·¹ÀÌ¾î ÁÖº¯ ¿øÇü ½Ã¾ß ¹İ°æ
+            // 
             FogMaterial.SetFloat("_CircleRange", player.CircleRange);
 
-            // Àü¹æ ½Ã¾ß ¹İ°æ ¹× °¢µµ
-            FogMaterial.SetFloat("_ViewRadius", player.detectionRange);
-            FogMaterial.SetFloat("_ViewAngle", player.angleLimit);
+            // (ë³€ê²½ëœ í”„ë¡œí¼í‹° ì´ë¦„ ì‚¬ìš©)
+            FogMaterial.SetFloat("_DetectionRange", player.detectionRange); // _ViewRadius -> _DetectionRange
+            FogMaterial.SetFloat("_AngleLimit", player.angleLimit);         // _ViewAngle -> _AngleLimit
 
-            // ÇÃ·¹ÀÌ¾îÀÇ Àü¹æ ¹æÇâÀ» Àü´Ş
+            // 
             FogMaterial.SetVector("_ViewDirection", player.transform.forward);
         }
     }
