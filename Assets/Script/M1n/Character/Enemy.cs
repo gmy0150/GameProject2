@@ -4,16 +4,16 @@ using UnityEngine;
 using Pathfinding;
 using BehaviorTree;
 
-public class Enemy : Character
+public class Enemy : Character,IShapeToggle
 {
     public Material invMesh;
     public Material BaseMesh;
     protected bool DetectPlayer;
     protected AIPath aIPath;
-    [Header("½Ã¾ß¹üÀ§, °Å¸®")]
+    [Header("ï¿½Ã¾ß¹ï¿½ï¿½ï¿½, ï¿½Å¸ï¿½")]
     [Range(0, 360)]
-    public float RadiusAngle = 90f;  // ºÎÃ¤²Ã °¢µµ
-    public float Distance = 5f;   // ºÎÃ¤²Ã ¹ÝÁö¸§
+    public float RadiusAngle = 90f;  // ï¿½ï¿½Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
+    public float Distance = 5f;   // ï¿½ï¿½Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     public Node node;
     Node NewNode;
@@ -187,9 +187,9 @@ public class Enemy : Character
         t1 = GetComponentInChildren<TestOne>();
         t1.InvMeshRen();
         Debug.Log(distanceToTarget);
-        if (distanceToTarget < 1f)  // ¿øÇÏ´Â µµ´Þ ¹üÀ§ ¼³Á¤
+        if (distanceToTarget < 1f)  // ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
-            Debug.Log("µµÂø!");
+            Debug.Log("ï¿½ï¿½ï¿½ï¿½!");
             HomeSuccess = true;
             t1.ShowMesh();
         }
@@ -218,7 +218,7 @@ public class Enemy : Character
         Vector3 curPos = transform.position;
         Vector3 targetPos = new Vector3(vec.x, curPos.y, vec.z);
         float distanceToTarget = Vector3.Distance(transform.position, vec);
-        if (distanceToTarget < 0.5f)  // ¿øÇÏ´Â µµ´Þ ¹üÀ§ ¼³Á¤
+        if (distanceToTarget < 0.5f)  // ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         {
             probSuccess = true;
         }
@@ -256,20 +256,20 @@ public class Enemy : Character
 
         Transform enemyTransform = transform;
 
-        // ºÎÃ¤²Ã ³»¿¡¼­ Raycast
+        // ï¿½ï¿½Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Raycast
         for (int i = 0; i <= rayCount; i++)
         {
             float currentAngle = -RadiusAngle / 2 + RadiusAngle * (i / (float)rayCount);
             Quaternion rotation = Quaternion.Euler(0, currentAngle, 0);
-            Vector3 rayDirection = rotation * enemyTransform.forward; // ¹æÇâ
+            Vector3 rayDirection = rotation * enemyTransform.forward; // ï¿½ï¿½ï¿½ï¿½
 
-            // 2D Æò¸é¿¡¼­ yÃàÀ» ¹«½ÃÇÏ°í rayDirectionÀÇ y°ªÀ» 0À¸·Î ¼³Á¤
+            // 2D ï¿½ï¿½é¿¡ï¿½ï¿½ yï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ rayDirectionï¿½ï¿½ yï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             rayDirection.y = 0;
-            // Raycast ½ÇÇà
+            // Raycast ï¿½ï¿½ï¿½ï¿½
             RaycastHit hit;
             if (Physics.Raycast(NewVector, rayDirection, out hit, Distance))
             {
-                // Player¸¦ °¨ÁöÇÏ¸é visiblePoints¿¡ Ãß°¡
+                // Playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ visiblePointsï¿½ï¿½ ï¿½ß°ï¿½
                 if (hit.collider.GetComponentInParent<Player>())
                 {
                     DetectPlayer = true;
@@ -286,7 +286,7 @@ public class Enemy : Character
                 result.visiblePoints.Add(hit.point);
 
             }
-            else // Raycast°¡ ¾Æ¹«°Í¿¡µµ ¸ÂÁö ¾ÊÀº °æ¿ì (ºÎÃ¤²Ã ³¡Á¡)
+            else // Raycastï¿½ï¿½ ï¿½Æ¹ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (ï¿½ï¿½Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
             {
                 result.visiblePoints.Add(enemyTransform.position + rayDirection * Distance);
             }
@@ -303,19 +303,19 @@ public class Enemy : Character
 
         Vector3 rayStartPos = enemyTransform.position;
         rayStartPos.y = newy;
-        // ºÎÃ¤²Ã ³»¿¡¼­ Raycast
+        // ï¿½ï¿½Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Raycast
         for (int i = 0; i <= rayCount; i++)
         {
             float currentAngle = -RadiusAngle / 2 + RadiusAngle * (i / (float)rayCount);
             Quaternion rotation = Quaternion.Euler(0, currentAngle, 0);
-            Vector3 rayDirection = rotation * enemyTransform.forward; // ¹æÇâ
-            // 2D Æò¸é¿¡¼­ yÃàÀ» ¹«½ÃÇÏ°í rayDirectionÀÇ y°ªÀ» 0À¸·Î ¼³Á¤
+            Vector3 rayDirection = rotation * enemyTransform.forward; // ï¿½ï¿½ï¿½ï¿½
+            // 2D ï¿½ï¿½é¿¡ï¿½ï¿½ yï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï°ï¿½ rayDirectionï¿½ï¿½ yï¿½ï¿½ï¿½ï¿½ 0ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             rayDirection.y = 0;
-            // Raycast ½ÇÇà
+            // Raycast ï¿½ï¿½ï¿½ï¿½
             RaycastHit hit;
             if (Physics.Raycast(rayStartPos, rayDirection, out hit, Distance))
             {
-                // Player¸¦ °¨ÁöÇÏ¸é visiblePoints¿¡ Ãß°¡
+                // Playerï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï¸ï¿½ visiblePointsï¿½ï¿½ ï¿½ß°ï¿½
                 if (hit.collider.GetComponentInParent<Player>())
                 {
                     DetectPlayer = true;
@@ -333,7 +333,7 @@ public class Enemy : Character
                 Debug.DrawRay(rayStartPos, rayDirection * hit.distance, Color.red, 0.1f);
 
             }
-            else // Raycast°¡ ¾Æ¹«°Í¿¡µµ ¸ÂÁö ¾ÊÀº °æ¿ì (ºÎÃ¤²Ã ³¡Á¡)
+            else // Raycastï¿½ï¿½ ï¿½Æ¹ï¿½ï¿½Í¿ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ (ï¿½ï¿½Ã¤ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½)
             {
                 Vector3 endPoint = rayStartPos + rayDirection * Distance;
                 result.visiblePoints.Add(rayStartPos + rayDirection * Distance);
