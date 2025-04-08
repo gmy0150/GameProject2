@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 4322882567731474779}
   - component: {fileID: 2649181355992987979}
   - component: {fileID: 7013513953808856494}
-  - component: {fileID: 6245633704404679608}
-  m_Layer: 0
+  - component: {fileID: 2118061394134179709}
+  m_Layer: 12
   m_Name: Coin1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 5265ca3a6a65a0c41829cb32c5422d1f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -99,13 +99,13 @@ BoxCollider:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
+  m_Size: {x: 1.0000001, y: 2.88, z: 1.0000002}
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!54 &7013513953808856494
 Rigidbody:
@@ -133,8 +133,8 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &6245633704404679608
+  m_CollisionDetection: 1
+--- !u!114 &2118061394134179709
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -143,6 +143,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2774047279429761632}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a18952b7cd76ce4f92bca302cdf388a, type: 3}
+  m_Script: {fileID: 11500000, guid: 3515350d11cd86d4cad892a3d706af9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

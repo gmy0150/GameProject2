@@ -10,15 +10,7 @@ public class PlayerDropCoin : MonoBehaviour
     {
         player = GameObject.FindAnyObjectByType<Player>();
     }
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.tag == "Ground")
-        {
-        Debug.Log(collision.gameObject.tag);
-            player.MakeNoise(gameObject, player.CoinNoise, 3);
-            Debug.Log("¿€µø«ÿ?");
-        }
-    }
+    
     // Update is called once per frame
     void Update()
     {

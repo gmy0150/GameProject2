@@ -1,58 +1,68 @@
-
+ï»¿ï»¿using Cinemachine.Utility;
+using DG.Tweening;
+using System; // System ë„¤ì„ìŠ¤í˜ì´ìŠ¤ ì¶”ê°€
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+using UnityEngine.UI;
 
 public class Player : Character
 {
     IController controller;
-    public float RunSpeed;
     public float CrouchSpeed;
-    bool isCrouch;
-    bool GenNoise;
     public GameObject Prefab;
 
+    public LineRenderer lineRenderer;
+    [Header("ì†Œë¦¬ ê±°ë¦¬")]
+    public float RunSound, WalkSound, CoinSound;
+    public static float RunNoise, WalkNoise, CoinNoise;
+    [Header("ë˜ì§€ëŠ” ê±°ë¦¬")]
+    public float maxThrowDistance = 40;
+    public float maxThrowForce = 40;
+    InteractController interactController;
+    public float interactionDistance = 5.0f;
+    public bool ViewPoint;
+    public bool InteractPoint;
+    public Mesh BaseMesh;
+    public Mesh BoxMesh;
 
-    [Header("¼Ò¸® °Å¸®")]
-    public float RunNoise, WalkNoise, CoinNoise;
-    float throwForce = 10f;
-    float maxThrowDistance = 10;
-    public bool isHide;
-    public bool GetHide()
+    public LayerMask Layer;
+    IController KeyboardControll;
+    void Start()
     {
-        return isHide;
-    }
+        RunNoise = RunSound;
+        WalkNoise = WalkSound;
+        CoinNoise = CoinSound;
+        KeyboardControll = new KeyboardController();
+        KeyboardControll.OnPosessed(this);
+        this.controller = KeyboardControll;
+        interactController = new InteractController();
+        interactController.OnPosessed(this);
 
+    }
+    void Update()
+    {
+        if (interactController != null)
+        {
+            interactController.TIck(Time.deltaTime);
+        }
+        if (controller != null)
+        {
+            controller.Tick(Time.deltaTime);
+        }
+        DetectEnemy();
+    }
+    public Image Lights;
+    public InteractController GetInterActControll()
+    {
+        return interactController;
+    }
     public override void Action()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        Vector3 targetPoint;
-
-        if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
-        {
-            targetPoint = hit.point;
-        }
-        else
-        {
-            targetPoint = ray.origin + ray.direction * maxThrowDistance;
-        }
-
-        targetPoint.y = transform.position.y;
-
-        Vector3 throwDirection = (targetPoint - transform.position).normalized;
-
-        if (Vector3.Distance(transform.position, targetPoint) > maxThrowDistance)
-        {
-            targetPoint = transform.position + throwDirection * maxThrowDistance;
-        }
-
-        // ¸ñÇ¥ ÁöÁ¡À¸·Î ¹°Ã¼ »ı¼º
-        GameObject projectile = Instantiate(Prefab, transform.position + throwDirection, Quaternion.identity);
-        Rigidbody rb = projectile.GetComponent<Rigidbody>();
-
-        if (rb != null)
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, Picture))
         {
             Vector3 lookDir = hit.point - transform.position;
             lookDir.y = 0;
@@ -62,308 +72,156 @@ public class Player : Character
                 Quaternion targetRotation = Quaternion.LookRotation(lookDir);
                 transform.rotation = targetRotation;
             }
-            rb.AddForce(throwDirection * throwForce + Vector3.up * 2.0f, ForceMode.Impulse);
+            Lights.color = Color.white;
+            Lights.transform.parent.gameObject.SetActive(true);
+            Time.timeScale = 0;
+            Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() => { StartCoroutine(TakePicture()); });
 
+
+            //StartCoroutine(TakePicture());
+            Debug.Log("ì‚¬ì§„");
         }
-
     }
-    public LayerMask closetLayer;
-    Collider nearCloset = null;
-    bool Closet;
-    bool Box;
-    public void HideOnCloset()
+    IEnumerator TakePicture()
     {
-        if (nearCloset != null && Input.GetKeyDown(KeyCode.E)&&!Box)
-        {
-            {
-                Hide();
-            }
-        }
+        yield return new WaitForSecondsRealtime(0.5f);
+        Time.timeScale = 1;
+        Lights.transform.parent.gameObject.SetActive(false);
     }
-
-    void Hide()
+    public LayerMask Picture;
+    public IController GetControll()
     {
-
-        isHide = !isHide;
-        Closet = !Closet;
-        if (isHide)
-        {
-            Rigidbody rigidbody = GetComponent<Rigidbody>();
-            rigidbody.velocity = Vector3.zero;
-            GetComponentInChildren<Renderer>().enabled = false;
-            Crouch();
-            GenNoise = false;
-            GetComponentInChildren<Collider>().enabled = false ;
-            GetComponent<Rigidbody>().useGravity = false;
-            controller = null;
-            Debug.Log("¿ÊÀå¿¡ ¼û");
-        }
-        else
-        {
-            CrouchCancel();
-            GetComponentInChildren<Renderer>().enabled = true;
-            GetComponentInChildren<Collider>().enabled = true;
-            GetComponent<Rigidbody>().useGravity = true;
-            controller = KeyboardControll;
-            GenNoise = true;
-            Debug.Log("¿ÊÀå¿¡ ³ª¿È");
-        }
+        return KeyboardControll;
     }
-    float cooldownTime = 5;
-    float lastTransTime = 0;
-
-    bool firstTime = false;
-    void TransBox()
+    public void ControllerDisable()
     {
-        if (Input.GetKeyDown(KeyCode.R) && !Closet && Box)
-        {
-            CancelTransformation();
-        }
-        else if(Input.GetKeyDown(KeyCode.R) && !Closet && Time.time - lastTransTime >= cooldownTime || Input.GetKeyDown(KeyCode.R) && !firstTime)
-        {
-            firstTime = true;
-            Box = true;
-            isHide=true;
-            Crouch();
-            Debug.Log("º¯½Å");
-            applyspeed = MoveSpeed;
-            GetComponent<MeshRenderer>().material.color = Color.green;
-
-        }
-        else if (Input.GetKeyDown(KeyCode.R)&& Time.time - lastTransTime < cooldownTime)
-        {
-            // ÄğÅ¸ÀÓ ÁßÀÏ ¶§ º¯½ÅÀ» ½ÃµµÇÒ °æ¿ì
-            //Debug.Log("ÄğÅ¸ÀÓ ÁßÀÔ´Ï´Ù. " + (cooldownTime - (Time.time - lastTransTime)) + "ÃÊ ³²¾Ò½À´Ï´Ù.");
-        }
-        if (Box)
-        {
-            TransTimer += Time.deltaTime;
-            if(TransTimer > 10)
-            {
-                CancelTransformation();
-
-            }
-        }
+        controller = null;
     }
-    void CancelTransformation()
+    public void ControllerEnable()
     {
-        Box = false;
-        isHide = false;
-        CrouchCancel();
-        Debug.Log("½Ã°£ÃÊÇ®¸²");
-        lastTransTime = Time.time;
-        GetComponent<MeshRenderer>().material.color = Color.red;
-        TransTimer = 0;
+        controller = KeyboardControll;
     }
-    float TransTimer;
-    
-    void DetectCloset()
+    public IController GetKey()
     {
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 4, closetLayer);
-        nearCloset = colliders.Length > 0 ? colliders[0] : null;
+        return KeyboardControll;
     }
 
-    IController KeyboardControll;
-    void Start()
-    {
-
-        KeyboardControll = new KeyboardController();
-        KeyboardControll.OnPosessed(this);
-        this.controller = KeyboardControll;
-        applyspeed = MoveSpeed;
-        applyNoise = WalkNoise;
-
-        GenNoise = true;
-    }
-    
 
     // Update is called once per frame
-    void Update()
-    {
-        if (controller != null)
-        {
-            controller.Tick(Time.deltaTime);
-        }
-        if (!isHide)
-        {
-            TryRun();
-            TryCrouch();
-        }
-        DetectCloset();
-        HideOnCloset();
-        TransBox();
-        DetectEnemy();
-    }
-
-    public void TransSpeed(float speed)
-    {
-        applyspeed = speed;
-    }
-    public override float ReturnSpeed()
-    {
-        return applyspeed;
-    }
-
-    void TryRun()
-    {
-        if (Input.GetKey(KeyCode.LeftShift))
-        {
-            Running();
-        }
-        if (Input.GetKeyUp(KeyCode.LeftShift))
-        {
-            RunningCancel();
-        }
-    }
-
-    void Running()
-    {
-        if (isCrouch)
-            Crouch();
-
-        GenNoise = true;
-        applyspeed = RunSpeed;
-        applyNoise = RunNoise;
-
-
-    }
-    public override float ReturnNoise()
-    {
-        return applyNoise;
-    }
-    void RunningCancel()
-    {
-
-        applyspeed = MoveSpeed;
-        applyNoise = WalkNoise;
-        GenNoise = true;
-    }
-    void TryCrouch()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftControl))
-        {
-            Crouch();
-        }
-        if (Input.GetKeyUp(KeyCode.LeftControl))
-        {
-            CrouchCancel();
-        }
-    }
-    public override bool GetNoise()
-    {
-        return GenNoise;
-    }
-    void CrouchCancel()
-    {
-        isCrouch = false;
-        GenNoise = true;
-        applyspeed = MoveSpeed;
-        applyNoise = WalkNoise;
-    }
-    void Crouch()
-    {
-        isCrouch = true;
-        GenNoise = false;
-        applyspeed = CrouchSpeed;
-        applyNoise = 0;
-    }
-    public List<Enemy> DetectEnemies = new List<Enemy>();
-    public LayerMask detectionMask;  // LayerMask¸¦ publicÀ¸·Î ¼³Á¤ÇÏ¿© ÀÎ½ºÆåÅÍ¿¡¼­ ¼öÁ¤ °¡´ÉÇÏ°Ô ÇÔ
+    public List<IShapeToggle> DetectObj = new List<IShapeToggle>();
+    public LayerMask detectionMask;  // LayerMaskë¥¼ publicìœ¼ë¡œ ì„¤ì •í•˜ì—¬ ì¸ìŠ¤í™í„°ì—ì„œ ìˆ˜ì • ê°€ëŠ¥í•˜ê²Œ í•¨
     public LayerMask wallLayer;
     void DetectEnemy()
     {
-        // ÀÌÀü¿¡ °¨ÁöµÈ ÀûÀ» ¼û±è
-        foreach (var enemy in DetectEnemies)
+        // ì´ì „ì— ê°ì§€ëœ ì ì„ ìˆ¨ê¹€
+        foreach (var ShowShape in DetectObj)
         {
-            enemy.HideShape();
+            ShowShape.HideShape();
         }
-        DetectEnemies.Clear();
+        DetectObj.Clear();
 
-        // ÇÃ·¹ÀÌ¾î ÁÖÀ§ 5 À¯´Ö °Å¸® ³»¿¡¼­ ¸ğµç Äİ¶óÀÌ´õ¸¦ °¨Áö (º® Á¦¿Ü)
-        Collider[] colliders = Physics.OverlapSphere(transform.position, 5f, detectionMask);
+        // í”Œë ˆì´ì–´ ì£¼ìœ„ 5 ìœ ë‹› ê±°ë¦¬ ë‚´ì—ì„œ ëª¨ë“  ì½œë¼ì´ë”ë¥¼ ê°ì§€ (ë²½ ì œì™¸)
+        Collider[] colliders = Physics.OverlapSphere(transform.position, CircleRange, detectionMask);
+
+
 
         foreach (var collider in colliders)
         {
-            // Äİ¶óÀÌ´õ°¡ ÀûÀÇ ºÎ¸ğ ¿ÀºêÁ§Æ®ÀÎÁö È®ÀÎ
-            Enemy enemy = collider.GetComponentInParent<Enemy>();
-            if (enemy != null)
+
+            // ì½œë¼ì´ë”ê°€ ì ì˜ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ì¸ì§€ í™•ì¸
+            IShapeToggle ShowToggle = collider.GetComponentInParent<IShapeToggle>();
+            if (ShowToggle != null)
             {
-                // ÀûÀ» º¸ÀÌ°Ô ÇÏ°í DetectEnemies¿¡ Ãß°¡
-                Debug.Log("5m ¹üÀ§ ³» Àû ¹ß°ß: " + enemy.name);
-                enemy.ShowShape();
-                DetectEnemies.Add(enemy);
+                ShowToggle.ShowShape();
+                DetectObj.Add(ShowToggle);
             }
         }
-
-        // ÇÃ·¹ÀÌ¾î ¾Õ ¹æÇâÀ¸·Î 90µµ ½Ã¾ß ³»¿¡¼­ 8 À¯´Ö °Å¸®·Î Àû °¨Áö
-        float angleLimit = 60f; // 90µµ ½Ã¾ßÀÇ ¹İÀ¸·Î 45µµ
-        float detectionRange = 20f;
-
-        // ½Ã¾ß ³» Àû °¨Áö
+        // ì‹œì•¼ ë‚´ ì  ê°ì§€
         Collider[] frontColliders = Physics.OverlapSphere(transform.position, detectionRange, detectionMask);
 
         foreach (var collider in frontColliders)
         {
-            // Äİ¶óÀÌ´õ°¡ ÀûÀÇ ºÎ¸ğ ¿ÀºêÁ§Æ®ÀÎÁö È®ÀÎ
-            Enemy enemy = collider.GetComponentInParent<Enemy>();
-            if (enemy != null)
+
+            IShapeToggle toggle = collider.GetComponentInParent<IShapeToggle>();
+            if (toggle != null)
             {
-                // ÇÃ·¹ÀÌ¾î¿Í ÀûÀÇ ¹æÇâ º¤ÅÍ¸¦ °è»ê
-                Vector3 directionToEnemy = enemy.transform.position - transform.position;
-                directionToEnemy.y = 1.2f; // y°ª ¹«½Ã (¼öÆò ¹æÇâ¸¸ °í·Á)
+                Vector3 directionToTarget = collider.transform.position - transform.position;
+                directionToTarget.y = 0f; // ìˆ˜í‰ë§Œ ê³ ë ¤
+                float angle = Vector3.Angle(transform.forward, directionToTarget);
 
-                // ÇÃ·¹ÀÌ¾îÀÇ ¾Õ ¹æÇâ º¤ÅÍ
-                Vector3 forward = transform.forward;
-
-                // ÇÃ·¹ÀÌ¾îÀÇ Àü¹æ 90µµ ½Ã¾ß ³»¿¡ ÀûÀÌ ÀÖ´ÂÁö È®ÀÎ
-                float angle = Vector3.Angle(forward, directionToEnemy);
-
-                if (angle <= angleLimit) // 45µµ ÀÌÇÏ °¢µµ¿¡ ÀÖÀ» ¶§¸¸ °¨Áö
+                if (angle <= angleLimit)
                 {
-                    // º®À» ¶Õ°í ÀûÀ» °¨ÁöÇÏÁö ¾Êµµ·Ï Raycast·Î È®ÀÎ
                     RaycastHit hit;
-                    if (Physics.Raycast(transform.position, directionToEnemy, out hit, detectionRange, ~wallLayer))
+                    if (Physics.Raycast(transform.position + Vector3.up * 1f, directionToTarget.normalized, out hit, detectionRange, ~LayerMask.GetMask("Wall")))
                     {
-                        if (hit.collider.GetComponentInParent<Enemy>() != null)
+                        if (hit.collider.gameObject == collider || hit.collider.GetComponentInParent<IShapeToggle>() == toggle)
                         {
-                            Debug.Log("½Ã¾ß ³» Àû ¹ß°ß: " + enemy.name);
-                            enemy.ShowShape();
-                            DetectEnemies.Add(enemy);
+                            Debug.DrawRay(transform.position + Vector3.up * 1f, directionToTarget.normalized * detectionRange, Color.red, 1f);
+                            toggle.ShowShape();
+                            if (!DetectObj.Contains(toggle))
+                                DetectObj.Add(toggle);
                         }
                     }
                 }
             }
         }
     }
-
-    // Gizmos·Î ½Ã°¢È­ (¿É¼Ç)
+    // í”Œë ˆì´ì–´ ì• ë°©í–¥ìœ¼ë¡œ 90ë„ ì‹œì•¼ ë‚´ì—ì„œ 8 ìœ ë‹› ê±°ë¦¬ë¡œ ì  ê°ì§€
+    [Header("ì‹œì•¼")]
+    public float angleLimit = 60;
+    public float detectionRange = 20;
+    public float CircleRange = 8;
+    // Gizmosë¡œ ì‹œê°í™” (ì˜µì…˜)
     private void OnDrawGizmos()
     {
-        // ½Ã°¢È­: ÇÃ·¹ÀÌ¾î ÁÖÀ§ 5 À¯´Ö °Å¸® ³»¿¡¼­ °¨Áö ¹üÀ§ ½Ã°¢È­
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(transform.position, 5f);
+        if (ViewPoint)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(transform.position, maxThrowDistance);
 
-        // ½Ã¾ß ¹üÀ§ ¹× °¢µµ ½Ã°¢È­
-        float angleLimit = 60f; // 45µµ
-        float detectionRange = 20f;
 
-        // Àü¹æ ½Ã¾ß ¹üÀ§ ±×¸®±â
-        Vector3 forward = transform.forward;
-        Gizmos.color = Color.green;
-        Gizmos.DrawLine(transform.position, transform.position + forward * detectionRange);
+            // ì „ë°© ì‹œì•¼ ë²”ìœ„ ê·¸ë¦¬ê¸°
+            Vector3 forward = transform.forward;
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(transform.position, transform.position + forward * detectionRange);
 
-        // ½Ã¾ß °¢µµ ½Ã°¢È­
-        Vector3 leftBound = Quaternion.Euler(0, -angleLimit, 0) * forward * detectionRange;
-        Vector3 rightBound = Quaternion.Euler(0, angleLimit, 0) * forward * detectionRange;
+            // ì‹œì•¼ ê°ë„ ì‹œê°í™”
+            Vector3 leftBound = Quaternion.Euler(0, -angleLimit, 0) * forward * detectionRange;
+            Vector3 rightBound = Quaternion.Euler(0, angleLimit, 0) * forward * detectionRange;
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawLine(transform.position, transform.position + leftBound);
-        Gizmos.DrawLine(transform.position, transform.position + rightBound);
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, transform.position + leftBound);
+            Gizmos.DrawLine(transform.position, transform.position + rightBound);
 
-        // ½Ã¾ß °¢µµ ³» ¿µ¿ªÀ» ½Ã°¢ÀûÀ¸·Î ±×¸®±â
-        Gizmos.color = new Color(0, 1, 1, 0.1f); // ¹İÅõ¸í Cyan »ö
-        Gizmos.DrawLine(transform.position, transform.position + leftBound);
-        Gizmos.DrawLine(transform.position, transform.position + rightBound);
+            // ì‹œì•¼ ê°ë„ ë‚´ ì˜ì—­ì„ ì‹œê°ì ìœ¼ë¡œ ê·¸ë¦¬ê¸°
+            Gizmos.color = new Color(0, 1, 1, 0.1f); // ë°˜íˆ¬ëª… Cyan ìƒ‰
+            Gizmos.DrawLine(transform.position, transform.position + leftBound);
+            Gizmos.DrawLine(transform.position, transform.position + rightBound);
+        }
+        if (InteractPoint)
+        {
+
+            Gizmos.color = Color.red;
+
+            Vector3 position = transform.position;
+            Vector3 forward2 = transform.forward;
+            float angle = 30f; // 60ë„ ë¶€ì±„ê¼´ (30ë„ + 30ë„)
+
+            Quaternion leftRotation = Quaternion.Euler(0, -angle, 0);
+            Quaternion rightRotation = Quaternion.Euler(0, angle, 0);
+            Vector3 leftDirection = leftRotation * forward2 * interactionDistance;
+            Vector3 rightDirection = rightRotation * forward2 * interactionDistance;
+
+            // ì›í˜• ê°ì§€ ë²”ìœ„ (íŒŒë€ìƒ‰)
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(position, interactionDistance);
+
+            // ë¶€ì±„ê¼´ ê°ì§€ ë²”ìœ„ (ì´ˆë¡ìƒ‰)
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(position, position + forward2 * interactionDistance);
+            Gizmos.DrawLine(position, position + leftDirection);
+            Gizmos.DrawLine(position, position + rightDirection);
+        }
     }
 
 
@@ -374,19 +232,15 @@ public class Player : Character
 
     public override void MakeNoise(GameObject obj, float radius, float stepsize)
     {
-        Debug.Log("È®ÀÎ");
         Vector3 origin = obj.transform.position;
-        origin.y = 1.5f;
+        origin.y = 1f;
 
         for (float anglestep = 0; anglestep < 360f; anglestep += stepsize)
         {
             float currentAngle = anglestep * Mathf.Deg2Rad;
-
             Vector3 direction = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle));
-            Debug.DrawRay(origin, direction * radius, Color.red, 5f);
-
+            //Debug.DrawRay(origin, direction * radius, Color.red, 5f);
             RaycastHit[] hits = Physics.RaycastAll(origin, direction, radius);
-
             foreach (RaycastHit hit in hits)
             {
                 if (hit.collider.GetComponent<Enemy>())

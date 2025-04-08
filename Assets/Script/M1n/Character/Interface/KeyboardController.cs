@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -6,19 +6,55 @@ using UnityEngine;
 public class KeyboardController : IController
 {
     
-    Character controllerableCharacter = null;
+    Player controllerableCharacter = null;
     Camera mainCam;
     Rigidbody rigid;
-    public void OnPosessed(Character controllerableCharacter)
+    bool isCrouch;
+    private float rotationVelocity = 10f; // 회전 속도 보관
+    public float RotationSmoothTime = 0.1f; // 부드러운 회전 시간
+    float rotation = 0;
+    public bool isHide;
+    float runSpeed, walkSpeed, crouchSpeed, applySpeed;
+    float runNoise, walkNoise, applyNoise;
+    bool GenNoise;
+    LayerMask Picture;
+    public bool GetHide()//찾는거 있음
+    {
+        return isHide;
+    }
+    public void OnPosessed(Player controllerableCharacter)
     {
         this.controllerableCharacter = controllerableCharacter;
         mainCam = Camera.main;
         rigid = controllerableCharacter.GetComponent<Rigidbody>();
+
+        runSpeed = controllerableCharacter.RunSpeed;
+        walkSpeed = controllerableCharacter.MoveSpeed;
+        crouchSpeed = controllerableCharacter.CrouchSpeed;
+
+        walkNoise = Player.WalkNoise;
+        runNoise = Player.RunNoise;
+
+        applySpeed = walkSpeed;
+        applyNoise = walkNoise;
+
+        GenNoise = true;
+
+        Picture = controllerableCharacter.Picture;
+
+    }
+    public float GetSpeed()
+    {
+        return applySpeed;
     }
 
     public void Tick(float deltaTime)
     {
-
+        if (!isHide)
+        {
+            TryRun();
+            TryCrouch();
+        }
         Transform tr = controllerableCharacter.transform;
         Vector3 direction = Vector3.zero;
 
@@ -26,27 +62,31 @@ public class KeyboardController : IController
         Vector3 back = -forward;
         Vector3 right = new Vector3(1, 0, -1).normalized;
         Vector3 left = -right;
-
+        if (controllerableCharacter.GetInterActControll().GetCoin())
+        {
+            TransRotation();
+        }
         if (Input.GetMouseButton(1))
         {
+            TransRotation();
+            //Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+            //if (Physics.Raycast(ray, out RaycastHit hit))
+            //{
+            //    Vector3 lookDir = hit.point - tr.position;
+            //    lookDir.y = 0;
 
-            Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
-            {
-                Vector3 lookDir = hit.point - tr.position;
-                lookDir.y = 0;
-
-                if (lookDir.magnitude > 0.1f)
-                {
-                    Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-                    tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 10f);
-                }
-            }
+            //    if (lookDir.magnitude > 0.1f)
+            //    {
+            //        Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+            //        tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 10f);
+            //    }
+            //}
 
         }
-        if (Input.GetMouseButtonDown(0))
-        {
 
+        if (Input.GetMouseButtonDown(0) && !controllerableCharacter.GetInterActControll().GetInterAct() && !controllerableCharacter.GetInterActControll().GetShoot())
+        {
+            Debug.Log(controllerableCharacter.GetInterActControll().GetInterAct());
             controllerableCharacter.Action();
 
         }
@@ -71,17 +111,24 @@ public class KeyboardController : IController
             direction += right;
             bMoveKeyDown = true;
         }
+            direction.Normalize();
         if (bMoveKeyDown)
         {
-            direction.Normalize();
-            Vector3 curVel = rigid.velocity;
-            rigid.velocity = new Vector3( direction.x * controllerableCharacter.ReturnSpeed(),rigid.velocity.y , direction.z * controllerableCharacter.ReturnSpeed());
-            //tr.localPosition += direction * deltaTime * controllerableCharacter.ReturnSpeed();
-            Debug.Log(controllerableCharacter.GetNoise());
-            if (controllerableCharacter.GetNoise())
+            
+            rigid.velocity = new Vector3( direction.x * applySpeed,rigid.velocity.y , direction.z * applySpeed);
+            float targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            float currentRotation = tr.eulerAngles.y;
+            float angleDiff = Mathf.DeltaAngle(currentRotation, targetRotation);
+            rotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref rotationVelocity, RotationSmoothTime);
+            if (!Input.GetMouseButton(1) && !controllerableCharacter.GetInterActControll().GetCoin())
             {
-                Debug.Log(controllerableCharacter.gameObject);
-                controllerableCharacter.MakeNoise(controllerableCharacter.gameObject, controllerableCharacter.ReturnNoise(), 10);
+                tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            }
+            
+            //tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            if (GetNoise())
+            {
+                controllerableCharacter.MakeNoise(controllerableCharacter.gameObject, GetSpeed(), 10);
             }
         }
         else
@@ -89,5 +136,91 @@ public class KeyboardController : IController
             rigid.velocity = new Vector3(0,rigid.velocity.y,0);
         }
     }
-    
+    void TransRotation()
+    {
+        Transform tr = controllerableCharacter.transform;
+        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit))
+        {
+            Vector3 lookDir = hit.point - tr.position;
+            lookDir.y = 0;
+
+            if (lookDir.magnitude > 0.1f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+                tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 10f);
+            }
+        }
+
+    }
+    void TryRun()
+    {
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            Running();
+        }
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            RunningCancel();
+        }
+    }
+    void Running()
+    {
+        if (isCrouch)
+            Crouch();
+
+        applySpeed = runSpeed;
+        GenNoise = true;
+        applyNoise = runNoise;
+    }
+
+
+    void RunningCancel()
+    {
+        applySpeed = walkSpeed;
+        applyNoise = walkNoise;
+        GenNoise = true;
+    }
+    void TryCrouch()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            Crouch();
+        }
+        if (Input.GetKeyUp(KeyCode.LeftControl))
+        {
+            CrouchCancel();
+        }
+    }
+    public void CrouchCancel()
+    {
+        isCrouch = false;
+        GenNoise = true;
+        applySpeed = walkSpeed;
+        applyNoise = walkNoise;
+    }
+    public void Crouch()
+    {
+        isCrouch = true;
+        applySpeed = crouchSpeed;
+        GenNoise = false;
+        applyNoise = 0;
+    }
+    public float ApplyNoise()
+    {
+        return applyNoise;
+    }
+    public bool GetNoise()
+    {
+        return GenNoise;
+    }
+    public void SetHide(bool x)
+    {
+        isHide = x;
+    }
+    public void SetNoise(bool x)
+    {
+        GenNoise = x;
+
+    }
 }
