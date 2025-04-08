@@ -8,6 +8,9 @@ public class ScreenSettingsManager : MonoBehaviour
     public TMP_Text resolutionText;
     public TMP_Text fullscreenText;
 
+    [Header("옵션창 참조")]
+    public UIOptionMenu uiOptionMenu;
+
     private Resolution[] resolutions = new Resolution[]
     {
         new Resolution { width = 1280, height = 720 },
@@ -19,26 +22,30 @@ public class ScreenSettingsManager : MonoBehaviour
     private int currentResolutionIndex;
     private bool isFullscreen = false;
 
+    // ✅ 되돌리기용 저장된 값
+    private int savedResolutionIndex;
+    private bool savedFullscreen;
+
     void Start()
     {
-        // ✅ 저장 여부 확인
         if (PlayerPrefs.HasKey("ScreenResIndex") && PlayerPrefs.HasKey("Fullscreen"))
         {
-            currentResolutionIndex = PlayerPrefs.GetInt("ScreenResIndex");
-            isFullscreen = PlayerPrefs.GetInt("Fullscreen") == 1;
+            savedResolutionIndex = PlayerPrefs.GetInt("ScreenResIndex");
+            savedFullscreen = PlayerPrefs.GetInt("Fullscreen") == 1;
         }
         else
         {
-            // ✅ 저장된 값이 없다면, 현재 시스템 해상도에 가장 가까운 해상도 선택
+            // 현재 해상도 기준으로 가장 가까운 해상도 선택
             Resolution current = Screen.currentResolution;
-            currentResolutionIndex = GetClosestResolutionIndex(current.width, current.height);
-            isFullscreen = true; // 기본값 전체화면
+            savedResolutionIndex = GetClosestResolutionIndex(current.width, current.height);
+            savedFullscreen = true;
         }
 
-        // ✅ 실제 적용
-        ApplyResolution();
+        // 초기 설정 적용
+        currentResolutionIndex = savedResolutionIndex;
+        isFullscreen = savedFullscreen;
 
-        // ✅ UI 업데이트
+        ApplyResolution();
         UpdateResolutionText();
         fullscreenText.text = isFullscreen ? "On" : "Off";
     }
@@ -61,18 +68,45 @@ public class ScreenSettingsManager : MonoBehaviour
         fullscreenText.text = isFullscreen ? "On" : "Off";
     }
 
-    public UIOptionMenu uiOptionMenu;
-    public void ApplyAndSaveSettings()
+    // ✅ OK 버튼: 저장 + 적용 + 닫기
+    public void ApplyAll()
     {
         ApplyResolution();
 
+        // 저장
         PlayerPrefs.SetInt("ScreenResIndex", currentResolutionIndex);
         PlayerPrefs.SetInt("Fullscreen", isFullscreen ? 1 : 0);
         PlayerPrefs.Save();
 
+        // 되돌릴 기준값도 갱신
+        savedResolutionIndex = currentResolutionIndex;
+        savedFullscreen = isFullscreen;
+
         Debug.Log($"💾 설정 저장: {resolutions[currentResolutionIndex].width}x{resolutions[currentResolutionIndex].height}, 전체화면: {isFullscreen}");
-        
+
         uiOptionMenu.CloseScreenPanelToOption();
+    }
+
+    // ✅ 뒤로가기 버튼: 저장하지 않고 이전 설정으로 되돌리기
+    public void RevertAll()
+    {
+        currentResolutionIndex = savedResolutionIndex;
+        isFullscreen = savedFullscreen;
+
+        ApplyResolution();
+        UpdateResolutionText();
+        fullscreenText.text = isFullscreen ? "On" : "Off";
+
+        Debug.Log("↩️ 설정 되돌림 (저장 안됨)");
+
+        uiOptionMenu.CloseScreenPanelToOption();
+    }
+
+    // 외부 저장 전용 (사운드에서 전체 저장 시 호출)
+    public void SaveOnly()
+    {
+        PlayerPrefs.SetInt("ScreenResIndex", currentResolutionIndex);
+        PlayerPrefs.SetInt("Fullscreen", isFullscreen ? 1 : 0);
     }
 
     private void ApplyResolution()
@@ -88,7 +122,6 @@ public class ScreenSettingsManager : MonoBehaviour
         resolutionText.text = $"{res.width} × {res.height}";
     }
 
-    // ✅ 현재 해상도에 가장 가까운 인덱스를 계산하는 함수
     private int GetClosestResolutionIndex(int width, int height)
     {
         int closestIndex = 0;
@@ -105,11 +138,5 @@ public class ScreenSettingsManager : MonoBehaviour
         }
 
         return closestIndex;
-    }
-
-    public void SaveOnly()
-    {
-    PlayerPrefs.SetInt("ScreenResIndex", currentResolutionIndex);
-    PlayerPrefs.SetInt("Fullscreen", isFullscreen ? 1 : 0);
     }
 }
