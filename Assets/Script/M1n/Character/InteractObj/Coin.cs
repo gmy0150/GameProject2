@@ -16,14 +16,14 @@ public class Coin : StorageItem
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
-        filter = GetComponent<MeshFilter>();
-        Base = filter.mesh;
-        filter.mesh = null;
-        GetCoin();
-        maxThrowDistance = character.maxThrowDistance;
-        maxThrowForce = character.maxThrowForce;
-        lineRenderer = character.lineRenderer;
-        CoinPrefab = character.Prefab;
+        // filter = GetComponent<MeshFilter>();
+        // Base = filter.mesh;
+        // filter.mesh = null;
+        // GetCoin();
+        // maxThrowDistance = character.maxThrowDistance;
+        // maxThrowForce = character.maxThrowForce;
+        // lineRenderer = character.lineRenderer;
+        // CoinPrefab = character.Prefab;
 
 
     }
