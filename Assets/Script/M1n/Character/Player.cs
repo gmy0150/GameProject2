@@ -52,7 +52,6 @@ public class Player : Character
         {
             controller.Tick(Time.deltaTime);
         }
-        DetectEnemy();
     }
     public Image Lights;
     public InteractController GetInterActControll()
@@ -105,67 +104,9 @@ public class Player : Character
     {
         return KeyboardControll;
     }
-
-
-    // Update is called once per frame
-    public List<IShapeToggle> DetectObj = new List<IShapeToggle>();
     public LayerMask detectionMask;  // LayerMask를 public으로 설정하여 인스펙터에서 수정 가능하게 함
     public LayerMask wallLayer;
-    void DetectEnemy()
-    {
-        // 이전에 감지된 적을 숨김
-        foreach (var ShowShape in DetectObj)
-        {
-            ShowShape.HideShape();
-        }
-        DetectObj.Clear();
-
-        // 플레이어 주위 5 유닛 거리 내에서 모든 콜라이더를 감지 (벽 제외)
-        Collider[] colliders = Physics.OverlapSphere(transform.position, CircleRange, detectionMask);
-
-
-
-        foreach (var collider in colliders)
-        {
-
-            // 콜라이더가 적의 부모 오브젝트인지 확인
-            IShapeToggle ShowToggle = collider.GetComponentInParent<IShapeToggle>();
-            if (ShowToggle != null)
-            {
-                ShowToggle.ShowShape();
-                DetectObj.Add(ShowToggle);
-            }
-        }
-        // 시야 내 적 감지
-        Collider[] frontColliders = Physics.OverlapSphere(transform.position, detectionRange, detectionMask);
-
-        foreach (var collider in frontColliders)
-        {
-
-            IShapeToggle toggle = collider.GetComponentInParent<IShapeToggle>();
-            if (toggle != null)
-            {
-                Vector3 directionToTarget = collider.transform.position - transform.position;
-                directionToTarget.y = 0f; // 수평만 고려
-                float angle = Vector3.Angle(transform.forward, directionToTarget);
-
-                if (angle <= angleLimit)
-                {
-                    RaycastHit hit;
-                    if (Physics.Raycast(transform.position + Vector3.up * 1f, directionToTarget.normalized, out hit, detectionRange, ~LayerMask.GetMask("Wall")))
-                    {
-                        if (hit.collider.gameObject == collider || hit.collider.GetComponentInParent<IShapeToggle>() == toggle)
-                        {
-                            Debug.DrawRay(transform.position + Vector3.up * 1f, directionToTarget.normalized * detectionRange, Color.red, 1f);
-                            toggle.ShowShape();
-                            if (!DetectObj.Contains(toggle))
-                                DetectObj.Add(toggle);
-                        }
-                    }
-                }
-            }
-        }
-    }
+    
     // 플레이어 앞 방향으로 90도 시야 내에서 8 유닛 거리로 적 감지
     [Header("시야")]
     public float angleLimit = 60;

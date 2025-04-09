@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Coin : UseageInteract
+public class Coin : StorageItem
 {
 
     float maxThrowDistance;
@@ -73,7 +73,7 @@ public class Coin : UseageInteract
     }
     public void HasCoin()
     {
-        if (hasCoin) // ÄÚÀÎÀ» ¾ò¾úÀ» ¶§¸¸ Æ÷¹°¼± Ç¥½Ã
+        if (hasCoin) // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Ç¥ï¿½ï¿½
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -82,7 +82,7 @@ public class Coin : UseageInteract
             float newY = 0.5f;
             ChTrans.y = newY;
 
-            // ¸¶¿ì½º À§Ä¡°¡ ¶¥°ú Ãæµ¹ÇÏ´Â ÁöÁ¡À» ¸ñÇ¥ ÁöÁ¡À¸·Î ¼³Á¤
+            // ï¿½ï¿½ï¿½ì½º ï¿½ï¿½Ä¡ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½æµ¹ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
                 targetPoint = hit.point;
@@ -92,25 +92,25 @@ public class Coin : UseageInteract
                 targetPoint = ray.origin + ray.direction * maxThrowDistance;
             }
 
-            targetPoint.y = ChTrans.y; // ¼öÆò¸é¿¡¼­¸¸ ¸ñÇ¥ ¼³Á¤
+            targetPoint.y = ChTrans.y; // ï¿½ï¿½ï¿½ï¿½é¿¡ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½
 
-            // ´øÁö´Â ¹æÇâ °è»ê
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½
             Vector3 throwDirection = (targetPoint - ChTrans).normalized;
             float distance = Vector3.Distance(ChTrans, targetPoint);
 
             if (distance > maxThrowDistance)
             {
                 targetPoint = ChTrans + throwDirection * maxThrowDistance;
-                distance = maxThrowDistance; // ÃÖ´ë °Å¸®·Î Á¦ÇÑ
+                distance = maxThrowDistance; // ï¿½Ö´ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             }
 
-            // ¸ñÇ¥ ÁöÁ¡±îÁöÀÇ °Å¸®·Î ´øÁö´Â Èû °è»ê
+            // ï¿½ï¿½Ç¥ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Å¸ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½
             float throwForce = Mathf.Lerp(2f, maxThrowForce, distance / maxThrowDistance);
 
-            // Æ÷¹°¼± °æ·Î¸¦ ½Ç½Ã°£À¸·Î ±×¸®±â
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½Ç½Ã°ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ï¿½
             DrawThrowPreview(throwDirection, throwForce);
 
-            // ÁÂÅ¬¸¯ÇÏ¸é ÄÚÀÎ ´øÁö±â
+            // ï¿½ï¿½Å¬ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             if (Input.GetMouseButtonDown(0))
             {
                 ThrowCoin(throwDirection, throwForce);
@@ -118,13 +118,13 @@ public class Coin : UseageInteract
         }
         else
         {
-            lineRenderer.positionCount = 0; // ÄÚÀÎÀÌ ¾øÀ¸¸é Æ÷¹°¼± ¼û±è
+            lineRenderer.positionCount = 0; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         }
     }
 
 
-    // Æ÷¹°¼± °æ·Î¸¦ ±×¸®´Â ÇÔ¼ö
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Î¸ï¿½ ï¿½×¸ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     void DrawThrowPreview(Vector3 throwDirection, float throwForce)
     {
         lineRenderer.positionCount = 0;
@@ -133,7 +133,7 @@ public class Coin : UseageInteract
         ChTrans.y = newY;
         Vector3 startPos = ChTrans;
         Vector3 velocity = throwDirection * throwForce;
-        velocity.y = throwForce * 0.2f; //  ±âÁ¸ ¹æ½Ä°ú ÀÏ°üµÇµµ·Ï YÃà ÀÌµ¿·® Á¶Á¤
+        velocity.y = throwForce * 0.2f; //  ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ä°ï¿½ ï¿½Ï°ï¿½ï¿½Çµï¿½ï¿½ï¿½ Yï¿½ï¿½ ï¿½Ìµï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         int numSteps = 20;
         float timeStep = 0.05f;
@@ -176,7 +176,7 @@ public class Coin : UseageInteract
         if (rb != null)
         {
             Vector3 force = throwDirection * throwForce;
-            force.y = throwForce * 0.2f; //  YÃà ÀÌµ¿ Àû¿ë
+            force.y = throwForce * 0.2f; //  Yï¿½ï¿½ ï¿½Ìµï¿½ ï¿½ï¿½ï¿½ï¿½
             rb.AddForce(force, ForceMode.Impulse);
             character.GetInterActControll().ResetInteraction();
         }

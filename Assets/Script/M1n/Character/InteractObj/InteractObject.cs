@@ -1,0 +1,35 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public abstract class InteractObject :  MonoBehaviour, IInterActerable
+{
+    protected bool isHide = false;
+    protected Player character;
+    protected IController controller;
+    public bool shoot = false;
+    public bool hasCoin = false;
+    public Material BaseMesh;
+    public Material invMesh;
+
+
+    public bool GetHide()
+    {
+        return this.isHide;
+    }
+
+    public virtual void Interact(Player character, IController controller)
+    {
+        this.character = character;
+        this.controller = controller;
+    }
+
+    public virtual void InteractAgain()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public abstract bool CanInteract();
+
+    public abstract bool RotateInteract();
+}

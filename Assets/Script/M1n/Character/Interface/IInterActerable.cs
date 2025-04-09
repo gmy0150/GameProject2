@@ -6,8 +6,8 @@ public interface IInterActerable
 {
     void Interact(Player character,IController controller);
     void InteractAgain();
-    public bool isShoot();
-    public bool isCoin();
+    public bool CanInteract();
+    public bool RotateInteract();
     public bool GetHide();
 
 }
