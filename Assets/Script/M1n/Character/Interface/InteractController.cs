@@ -84,7 +84,7 @@ public class InteractController
         }
     }
     public bool RotateInteract(){
-        return interactable.RotateInteract();
+        return false;
     }
 
 }

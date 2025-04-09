@@ -62,7 +62,7 @@ public class KeyboardController : IController
         Vector3 back = -forward;
         Vector3 right = new Vector3(1, 0, -1).normalized;
         Vector3 left = -right;
-        if (controllerableCharacter.GetInterActControll().RotateInteract())
+        if (!controllerableCharacter.GetInterActControll().RotateInteract())
         {
             TransRotation();
         }
@@ -102,8 +102,9 @@ public class KeyboardController : IController
             float currentRotation = tr.eulerAngles.y;
             float angleDiff = Mathf.DeltaAngle(currentRotation, targetRotation);
             rotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref rotationVelocity, RotationSmoothTime);
-            if (!Input.GetMouseButton(1) && !controllerableCharacter.GetInterActControll().RotateInteract())
+            if (!Input.GetMouseButton(1) )
             {
+                // && !controllerableCharacter.GetInterActControll().RotateInteract()
                 tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
             
