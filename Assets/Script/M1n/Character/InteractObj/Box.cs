@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Box : UseageInteract
+public class Box : StorageItem
 {
     float TransTimer;
 
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
-        TransBox();
+        character.GetInterActControll().ResetInteraction();
     }
+    
     public override void InteractAgain()
     {
         CancelTransformation();
@@ -23,8 +24,6 @@ public class Box : UseageInteract
             TransTimer += Time.deltaTime;
             if (TransTimer > 10)
             {
-                CancelTransformation();
-
             }
         }
     }

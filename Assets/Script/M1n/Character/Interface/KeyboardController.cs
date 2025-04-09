@@ -62,34 +62,16 @@ public class KeyboardController : IController
         Vector3 back = -forward;
         Vector3 right = new Vector3(1, 0, -1).normalized;
         Vector3 left = -right;
-        if (controllerableCharacter.GetInterActControll().GetCoin())
+        if (controllerableCharacter.GetInterActControll().RotateInteract())
         {
             TransRotation();
         }
         if (Input.GetMouseButton(1))
         {
             TransRotation();
-            //Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-            //if (Physics.Raycast(ray, out RaycastHit hit))
-            //{
-            //    Vector3 lookDir = hit.point - tr.position;
-            //    lookDir.y = 0;
-
-            //    if (lookDir.magnitude > 0.1f)
-            //    {
-            //        Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-            //        tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 10f);
-            //    }
-            //}
-
         }
 
-        if (Input.GetMouseButtonDown(0) && !controllerableCharacter.GetInterActControll().GetInterAct() && !controllerableCharacter.GetInterActControll().GetShoot())
-        {
-            Debug.Log(controllerableCharacter.GetInterActControll().GetInterAct());
-            controllerableCharacter.Action();
 
-        }
         bool bMoveKeyDown = false;
         if (Input.GetKey(KeyCode.W))
         {
@@ -120,7 +102,7 @@ public class KeyboardController : IController
             float currentRotation = tr.eulerAngles.y;
             float angleDiff = Mathf.DeltaAngle(currentRotation, targetRotation);
             rotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref rotationVelocity, RotationSmoothTime);
-            if (!Input.GetMouseButton(1) && !controllerableCharacter.GetInterActControll().GetCoin())
+            if (!Input.GetMouseButton(1) && !controllerableCharacter.GetInterActControll().RotateInteract())
             {
                 tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
