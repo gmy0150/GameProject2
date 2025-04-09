@@ -23,7 +23,8 @@ public class UseageInteract : InteractObject
     protected virtual void Hide(){}
     public override bool CanInteract()
     {
-        throw new System.NotImplementedException();
+        return true;
+        //throw new System.NotImplementedException(); 위 코드때문에 잠깐 주석처리 
     }
 
     public override bool RotateInteract()

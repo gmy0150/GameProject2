@@ -10,6 +10,12 @@ public class InterItem : MonoBehaviour
 
     protected int inventorySlotIndex = -1;
 
+    // ✅ 추가된 부분
+    public virtual void Interact()
+    {
+        // 기본 상호작용 (필요시 덮어쓰기)
+    }
+
     public virtual void PickUpItem()
     {
         bool added = InventoryManager.Instance.AddItemToInventory(itemIcon, this);

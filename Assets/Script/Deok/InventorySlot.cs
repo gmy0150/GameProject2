@@ -12,6 +12,12 @@ public class InventorySlot : MonoBehaviour
 
     public void SetItem(Sprite itemIcon, InterItem item)
     {
+        if (icon == null)
+        {
+            Debug.LogError("InventorySlot: icon 연결안됨.");
+            return;
+        }
+
         icon.sprite = itemIcon;
         icon.enabled = true;
         storedItem = item;
@@ -19,8 +25,12 @@ public class InventorySlot : MonoBehaviour
 
     public void ClearItem()
     {
-        icon.sprite = null;
-        icon.enabled = false;
+        if (icon != null)
+        {
+            icon.sprite = null;
+            icon.enabled = false;
+        }
+
         storedItem = null;
         SetSelected(false);
     }
