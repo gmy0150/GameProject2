@@ -1,5 +1,4 @@
 ﻿﻿using Cinemachine.Utility;
-using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +10,6 @@ using UnityEngine.UI;
 public class Player : Character
 {
     IController controller;
-    public float CrouchSpeed;
     public GameObject Prefab;
 
     public LineRenderer lineRenderer;
@@ -58,30 +56,22 @@ public class Player : Character
         {
             controller.Tick(Time.deltaTime);
         }
-
-        // ✅ E 키로 아이템 줍기
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            TryPickupNearbyItem();
-        }
     }
 
-    // ✅ 아이템 줍는 함수
-    private void TryPickupNearbyItem()
-    {
-        float pickupRange = 3f;
 
-        Collider[] hits = Physics.OverlapSphere(transform.position, pickupRange);
-        foreach (var hit in hits)
-        {
-            if (hit.TryGetComponent(out InterItem item))
-            {
-                item.Interact(); // 인벤토리 등록
-                Debug.Log($"[E] {item.itemName} 아이템 주움");
-                break;
-            }
-        }
-    }
+
+
+
+    // protected int GetMyInventoryIndex()
+    // {
+    //     var slots = InventoryManager.Instance.slots;
+    //     for (int i = 0; i < slots.Length; i++)
+    //     {
+    //         if (slots[i].HasItem() && slots[i].icon.sprite == itemIcon)
+    //             return i;
+    //     }
+    //     return -1;
+    // }
 
     public Image Lights;
     public InteractController GetInterActControll()
@@ -89,45 +79,36 @@ public class Player : Character
         return interactController;
     }
 
-    public override void Action()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, Picture))
-        {
-            Vector3 lookDir = hit.point - transform.position;
-            lookDir.y = 0;
+    // public override void Action()
+    // {
+    //     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    //     if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, Picture))
+    //     {
+    //         Vector3 lookDir = hit.point - transform.position;
+    //         lookDir.y = 0;
 
-            if (lookDir.magnitude > 0.1f)
-            {
-                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-                transform.rotation = targetRotation;
-            }
+    //         if (lookDir.magnitude > 0.1f)
+    //         {
+    //             Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+    //             transform.rotation = targetRotation;
+    //         }
 
-            Lights.color = Color.white;
-            Lights.transform.parent.gameObject.SetActive(true);
-            Time.timeScale = 0;
+    //         Lights.color = Color.white;
+    //         Lights.transform.parent.gameObject.SetActive(true);
+    //         Time.timeScale = 0;
 
-            Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
-            {
-                StartCoroutine(TakePicture());
-            });
+    //         Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
+    //         {
+    //             StartCoroutine(TakePicture());
+    //         });
 
-            Debug.Log("사진 찍기!");
-        }
-    }
+    //         Debug.Log("사진 찍기!");
+    //     }
+    // }
 
-    IEnumerator TakePicture()
-    {
-        yield return new WaitForSecondsRealtime(0.5f);
-        Time.timeScale = 1;
-        Lights.transform.parent.gameObject.SetActive(false);
-    }
 
     public LayerMask Picture;
-    public IController GetControll()
-    {
-        return KeyboardControll;
-    }
+
 
     public void ControllerDisable()
     {
@@ -144,36 +125,36 @@ public class Player : Character
         return KeyboardControll;
     }
 
-    public LayerMask detectionMask;
-    public LayerMask wallLayer;
+    // public LayerMask detectionMask;
+    // public LayerMask wallLayer;
 
-    [Header("시야")]
-    public float angleLimit = 60;
-    public float detectionRange = 20;
-    public float CircleRange = 8;
+    // [Header("시야")]
+    // public float angleLimit = 60;
+    // public float detectionRange = 20;
+    // public float CircleRange = 8;
 
     private void OnDrawGizmos()
     {
-        if (ViewPoint)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(transform.position, maxThrowDistance);
+        // if (ViewPoint)
+        // {
+        //     Gizmos.color = Color.yellow;
+        //     Gizmos.DrawWireSphere(transform.position, maxThrowDistance);
 
-            Vector3 forward = transform.forward;
-            Gizmos.color = Color.green;
-            Gizmos.DrawLine(transform.position, transform.position + forward * detectionRange);
+        //     Vector3 forward = transform.forward;
+        //     Gizmos.color = Color.green;
+        //     Gizmos.DrawLine(transform.position, transform.position + forward * detectionRange);
 
-            Vector3 leftBound = Quaternion.Euler(0, -angleLimit, 0) * forward * detectionRange;
-            Vector3 rightBound = Quaternion.Euler(0, angleLimit, 0) * forward * detectionRange;
+        //     Vector3 leftBound = Quaternion.Euler(0, -angleLimit, 0) * forward * detectionRange;
+        //     Vector3 rightBound = Quaternion.Euler(0, angleLimit, 0) * forward * detectionRange;
 
-            Gizmos.color = Color.blue;
-            Gizmos.DrawLine(transform.position, transform.position + leftBound);
-            Gizmos.DrawLine(transform.position, transform.position + rightBound);
+        //     Gizmos.color = Color.blue;
+        //     Gizmos.DrawLine(transform.position, transform.position + leftBound);
+        //     Gizmos.DrawLine(transform.position, transform.position + rightBound);
 
-            Gizmos.color = new Color(0, 1, 1, 0.1f);
-            Gizmos.DrawLine(transform.position, transform.position + leftBound);
-            Gizmos.DrawLine(transform.position, transform.position + rightBound);
-        }
+        //     Gizmos.color = new Color(0, 1, 1, 0.1f);
+        //     Gizmos.DrawLine(transform.position, transform.position + leftBound);
+        //     Gizmos.DrawLine(transform.position, transform.position + rightBound);
+        // }
 
         if (InteractPoint)
         {

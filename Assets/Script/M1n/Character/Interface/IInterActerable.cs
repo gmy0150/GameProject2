@@ -9,5 +9,7 @@ public interface IInterActerable
     public bool CanInteract();
     public bool RotateInteract();
     public bool GetHide();
+    public void UpdateTime(float time);
+    bool IsOneTimeInteraction();
 
 }

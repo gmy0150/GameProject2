@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UseageInteract : InteractObject
+public abstract class UseageInteract : InteractObject
 {
     public override void Interact(Player character, IController controller)
     {
@@ -27,8 +27,12 @@ public class UseageInteract : InteractObject
         //throw new System.NotImplementedException(); 위 코드때문에 잠깐 주석처리 
     }
 
-    public override bool RotateInteract()
+
+
+    public override bool IsOneTimeInteraction()
     {
-        throw new System.NotImplementedException();
+        return false;
     }
+
+    public override abstract void UpdateTime(float time);
 }

@@ -7,6 +7,7 @@ public class Closet : UseageInteract
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
+        InventoryManager.Instance.ExitSlot();
         if (!isHide)
         {
             Hide();
@@ -18,8 +19,13 @@ public class Closet : UseageInteract
         {
             Hide();
         }
-
     }
+
+    public override void UpdateTime(float time)
+    {
+        return;
+    }
+
     protected override void Hide()
     {
         isHide = !isHide;
@@ -27,13 +33,13 @@ public class Closet : UseageInteract
         {
             Rigidbody rigidbody = character.GetComponent<Rigidbody>();
             rigidbody.velocity = Vector3.zero;
-            controller.Crouch();
+            controller.RunningCancel();
+            // controller.Crouch();
             Render(false);
             character.ControllerDisable();
         }
         else
         {
-            controller.CrouchCancel();
             Render(true);
             character.ControllerEnable();
 

@@ -5,13 +5,11 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
-    [Header("±âº»¼Óµµ")]
+    [Header("ï¿½âº»ï¿½Óµï¿½")]
     public float MoveSpeed;
     public float RunSpeed;
     protected float applyspeed;
     protected float applyNoise;
-
-    public abstract void Action();
 
     public abstract void MakeNoise(GameObject obj, float radius, float stepsize);
 

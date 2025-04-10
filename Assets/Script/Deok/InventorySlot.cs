@@ -8,21 +8,25 @@ public class InventorySlot : MonoBehaviour
     public RectTransform slotTransform;
 
     private Tween currentTween;
-    private InterItem storedItem;
-
-    public void SetItem(Sprite itemIcon, InterItem item)
+    private StorageItem storedItem;
+    void Start()
     {
-        if (icon == null)
-        {
-            Debug.LogError("InventorySlot: icon 연결안됨.");
-            return;
-        }
-
-        icon.sprite = itemIcon;
+        icon = GetComponent<Image>();
+        slotTransform = GetComponent<RectTransform>();
+    }
+    public void SetItem(StorageItem item)
+    {
+        Debug.Log("?>");
+        icon.sprite = item.icon;
         icon.enabled = true;
         storedItem = item;
     }
-
+    void Update()
+    {
+        if(isActive && storedItem!=null){
+            storedItem.UpdateTime(Time.deltaTime);
+        }
+    }
     public void ClearItem()
     {
         if (icon != null)
@@ -48,12 +52,25 @@ public class InventorySlot : MonoBehaviour
             ClearItem();
         }
     }
-
+    public void UseFilm()
+    {
+        if (storedItem != null)
+        {
+            storedItem.UseItem();
+        }
+    }
+    public StorageItem GetItem(){
+        return storedItem;
+    }
+    bool isActive;
     public void SetSelected(bool selected)
     {
         if (slotTransform == null)
             slotTransform = GetComponent<RectTransform>();
-
+        if(selected)
+            isActive = true;
+            else
+            isActive = false;
         currentTween?.Kill();
 
         float targetScale = selected ? 1.15f : 1f;

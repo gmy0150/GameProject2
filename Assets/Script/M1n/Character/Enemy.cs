@@ -71,10 +71,7 @@ public class Enemy : Character
             chase = false;
         //aIPath.isStopped = true;
     }
-    public override void Action()
-    {
-        throw new System.NotImplementedException();
-    }
+
 
 
 
