@@ -11,52 +11,52 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: -4.73
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: -4.73
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: -4.73
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.9561288
+      value: 43.43
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.2466998
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10.81
+      value: -35.27
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.00000001545429
+      value: -0.000000015454338
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.7071068
+      value: 0.7071088
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.000000015454289
+      value: 0.000000015454251
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.7071067
+      value: 0.70710486
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
@@ -66,12 +66,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -270
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -180
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
@@ -86,5 +86,36 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c4c7ea7e92235a54f8e4631724a32e8f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5186628156172592363}
   m_SourcePrefab: {fileID: 100100000, guid: c4c7ea7e92235a54f8e4631724a32e8f, type: 3}
+--- !u!1 &2541506122984447678 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c4c7ea7e92235a54f8e4631724a32e8f,
+    type: 3}
+  m_PrefabInstance: {fileID: 3423957873686406127}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &5186628156172592363
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2541506122984447678}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.77, y: 0.9614873, z: 1.26}
+  m_Center: {x: -0.00000005960466, y: 0.005753893, z: 1.772272e-14}
