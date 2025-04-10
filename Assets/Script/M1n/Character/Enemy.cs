@@ -4,7 +4,7 @@ using UnityEngine;
 using Pathfinding;
 using BehaviorTree;
 
-public class Enemy : Character,IShapeToggle
+public class Enemy : Character
 {
     public Material invMesh;
     public Material BaseMesh;

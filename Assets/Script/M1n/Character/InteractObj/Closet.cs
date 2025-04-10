@@ -20,7 +20,7 @@ public class Closet : UseageInteract
         }
 
     }
-    protected void Hide()
+    protected override void Hide()
     {
         isHide = !isHide;
         if (isHide)
@@ -30,7 +30,6 @@ public class Closet : UseageInteract
             controller.Crouch();
             Render(false);
             character.ControllerDisable();
-            Debug.Log("¿ÊÀå¿¡ ¼û");
         }
         else
         {
@@ -38,7 +37,6 @@ public class Closet : UseageInteract
             Render(true);
             character.ControllerEnable();
 
-            Debug.Log("¿ÊÀå¿¡ ³ª¿È");
         }
     }
     protected void Render(bool x)

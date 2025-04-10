@@ -2,71 +2,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UseageInteract : MonoBehaviour, IInterActerable,IShapeToggle
+public class UseageInteract : InteractObject
 {
-    protected bool isHide = false;
-    protected Player character;
-    protected IController controller;
-    public bool shoot = false;
-    public bool hasCoin = false;
-    public Material BaseMesh;
-    public Material invMesh;
-    void Awake()
+    public override void Interact(Player character, IController controller)
     {
-        if(GetComponent<MeshRenderer>()){
-        BaseMesh = GetComponent<MeshRenderer>().material;
-
-        }else{
-            BaseMesh = GetComponentInChildren<MeshRenderer>().material;
+        base.Interact(character, controller);
+        if (!isHide)
+        {
+            Hide();
         }
-        invMesh = Resources.Load<Material>("Material/invisible");
     }
-    void Start()
+    public override void InteractAgain()
     {
-        
+        if (isHide)
+        {
+            Hide();
+        }
+
     }
-    public bool isShoot()
+    protected virtual void Hide(){}
+    public override bool CanInteract()
     {
-        return shoot;
+        return true;
+        //throw new System.NotImplementedException(); 위 코드때문에 잠깐 주석처리 
     }
 
-    public bool isCoin()
-    {
-        return hasCoin;
-    }
-    public bool GetHide()
-    {
-        return this.isHide;
-    }
-
-    public virtual void Interact(Player character, IController controller)
-    {
-        this.character = character;
-        this.controller = controller;
-    }
-
-    public virtual void InteractAgain()
+    public override bool RotateInteract()
     {
         throw new System.NotImplementedException();
-    }
-
-    public void ShowShape()
-    {
-        if(GetComponent<MeshRenderer>()){
-        GetComponent<MeshRenderer>().material = BaseMesh;
-
-        }else{
-        GetComponentInChildren<MeshRenderer>().material = BaseMesh;
-        }
-    }
-
-    public void HideShape()
-    {
-        if(GetComponent<MeshRenderer>()){
-        GetComponent<MeshRenderer>().material = invMesh;
-
-        }else{
-        GetComponentInChildren<MeshRenderer>().material = invMesh;
-        }
     }
 }

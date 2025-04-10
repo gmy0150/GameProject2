@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PictureInteract : MonoBehaviour, IShapeToggle
+public class PictureInteract : MonoBehaviour
 {
 
     public Material BaseMesh;

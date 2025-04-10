@@ -57,7 +57,7 @@ public class InteractController
                 
             }
         }
-        if (interactable != null && !GetCoin())
+        if (interactable != null && !interactable.CanInteract())
         {
             interactable.Interact(character, keyboardController);
             isInteracting = true;
@@ -74,35 +74,17 @@ public class InteractController
             return false;
         }
     }
-    public bool GetShoot()
-    {
-        if (interactable != null)
-        {
-            return interactable.isShoot();
-        }
-        else
-        {
-            return false;
-        }
-    }
-    public bool GetCoin()
-    {
-        if (interactable != null)
-        {
-            return interactable.isCoin();
-        }
-        else
-        {
-            return false;
-        }
-    }
+
     public void ResetInteraction()
     {
         if (interactable != null)
         {
-            interactable.InteractAgain();//╢ы╫ц ют╥б
+            interactable.InteractAgain();//О©╫ы╫О©╫ О©╫т╥О©╫
             isInteracting = false;
         }
+    }
+    public bool RotateInteract(){
+        return false;
     }
 
 }
