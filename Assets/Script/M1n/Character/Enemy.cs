@@ -6,8 +6,6 @@ using BehaviorTree;
 
 public class Enemy : Character
 {
-    public Material invMesh;
-    public Material BaseMesh;
     protected bool DetectPlayer;
     protected AIPath aIPath;
     [Header("�þ߹���, �Ÿ�")]
@@ -80,7 +78,6 @@ public class Enemy : Character
     public virtual void HideOutline() { }
     public virtual void ShowShape()
     {
-        GetComponent<MeshRenderer>().material = BaseMesh;
         if (GetComponentInChildren<TestOne>())
         {
             TestOne t1 = GetComponentInChildren<TestOne>();
@@ -92,7 +89,6 @@ public class Enemy : Character
     public virtual void HideShape()
     {
 
-        GetComponent<MeshRenderer>().material = invMesh;
         if (GetComponentInChildren<TestOne>())
         {
             TestOne t1 = GetComponentInChildren<TestOne>();

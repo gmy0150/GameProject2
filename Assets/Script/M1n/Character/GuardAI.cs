@@ -116,15 +116,7 @@ public class GuardAI : Enemy
     }
 
 
-    public override void ShowShape()
-    {
-        base.ShowShape();
-        HideOutline();
-    }
-    public override void HideShape()
-    {
-        base.HideShape();
-    }
+
     public override void MakeNoise(GameObject obj, float radius, float stepsize)
     {
         Vector3 origin = obj.transform.position;
