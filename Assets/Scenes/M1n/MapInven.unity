@@ -862,6 +862,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: gunbox_0324
       objectReference: {fileID: 0}
+    - target: {fileID: 6348629056716793639, guid: dea9542a87a1ac243ba105b9d9217a71,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19276,6 +19281,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: box_cabinet_0324 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 2880744646819403174, guid: a241815031cefe143bfb12a9816f6467,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 3220536983524151068, guid: a241815031cefe143bfb12a9816f6467,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -21539,6 +21549,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: box_cabinet_0324 (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880744646819403174, guid: a241815031cefe143bfb12a9816f6467,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3220536983524151068, guid: a241815031cefe143bfb12a9816f6467,
         type: 3}
@@ -37995,6 +38010,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: box_cabinet_0324 (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 2880744646819403174, guid: a241815031cefe143bfb12a9816f6467,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 3220536983524151068, guid: a241815031cefe143bfb12a9816f6467,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -41494,6 +41514,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: box_cabinet_0324 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880744646819403174, guid: a241815031cefe143bfb12a9816f6467,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3220536983524151068, guid: a241815031cefe143bfb12a9816f6467,
         type: 3}
@@ -45807,6 +45832,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: box_cabinet_0324 (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 2880744646819403174, guid: a241815031cefe143bfb12a9816f6467,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 3220536983524151068, guid: a241815031cefe143bfb12a9816f6467,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -47068,6 +47098,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 668539845}
     m_Modifications:
+    - target: {fileID: 5647179218937136036, guid: f54d713a1198f9a4d97982437751cc3d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5664356701189829880, guid: f54d713a1198f9a4d97982437751cc3d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 8402308575115343688, guid: f54d713a1198f9a4d97982437751cc3d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 8415779701333102477, guid: f54d713a1198f9a4d97982437751cc3d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -47122,6 +47167,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: cabinet_02_0324
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187637497429447991, guid: f54d713a1198f9a4d97982437751cc3d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -54044,6 +54094,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: box_cabinet_0324 (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880744646819403174, guid: a241815031cefe143bfb12a9816f6467,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3220536983524151068, guid: a241815031cefe143bfb12a9816f6467,
         type: 3}
@@ -65452,20 +65507,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3231163926868542186, guid: 68e2d1b668ae8624bae309f82491e60e,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.72
+      objectReference: {fileID: 0}
     - target: {fileID: 8106636452579087314, guid: 68e2d1b668ae8624bae309f82491e60e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.68930286
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8106636452579087314, guid: 68e2d1b668ae8624bae309f82491e60e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.2
+      value: 0.18
       objectReference: {fileID: 0}
     - target: {fileID: 8106636452579087314, guid: 68e2d1b668ae8624bae309f82491e60e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -39.44
+      value: -39.14
       objectReference: {fileID: 0}
     - target: {fileID: 8106636452579087314, guid: 68e2d1b668ae8624bae309f82491e60e,
         type: 3}
@@ -65500,6 +65560,11 @@ PrefabInstance:
     - target: {fileID: 8106636452579087314, guid: 68e2d1b668ae8624bae309f82491e60e,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8696965993616332712, guid: 68e2d1b668ae8624bae309f82491e60e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -67831,6 +67896,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: gunbox_0324 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6348629056716793639, guid: dea9542a87a1ac243ba105b9d9217a71,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -70294,6 +70364,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: box_cabinet_0324 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880744646819403174, guid: a241815031cefe143bfb12a9816f6467,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3220536983524151068, guid: a241815031cefe143bfb12a9816f6467,
         type: 3}
@@ -73680,6 +73755,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: box_cabinet_0324 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2880744646819403174, guid: a241815031cefe143bfb12a9816f6467,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 3220536983524151068, guid: a241815031cefe143bfb12a9816f6467,
         type: 3}
@@ -82574,6 +82654,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: gunbox_0324 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6348629056716793639, guid: dea9542a87a1ac243ba105b9d9217a71,
+        type: 3}
+      propertyPath: m_Layer
+      value: 14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -100227,7 +100312,7 @@ Transform:
   m_GameObject: {fileID: 1521689911525942248}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -34.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -100305,7 +100390,7 @@ Transform:
   m_GameObject: {fileID: 6477018553091260433}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.78, y: 1.7, z: -1.9}
+  m_LocalPosition: {x: 0, y: 1.7, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -100356,7 +100441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   version: 1073741824
   data:
-    dataString: UEsDBBQAAAgIAABIIeyJZIoirAIAAO0FAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGFVE1v2kAQ/Stoz6XClCSitxYI6SEJCqlyKDks3jFesexa+xEgEf+9M+sFG6KqEpLNmzczb778waR2FeTe2KmV4t4IYN87jN7Zl05jvIMdXxk9l+9w5LxI4Usi8ch54l4axDNyc2YD3sr8h14pIvcQDFoWxm4mYgUj47xDuODKAZqs8eStEfrosF1y2KfnOz07B3zLQXuw/2MFnSu+qUCQ2oacDbNEzwZZJGqsJHHIlBulpEsymN9XscwnvqciheRYUkxO3BLkqvT4p992fCwKBz4Jsnw/lhY7U0dkP03drg1361rVG1chJs+u+lFQHfX+E6Fb6y2s2dwdE2c9SuJLma9RYs6dbzW0DY/PlQe95WrNlwpeStAPZmpN0AKN3gZyDQ7641aoU3GjEvJ1w6u1HsEjO1Sfp5M10znE+ndzD9WpkN7XQYP+duDmysTWp0RkSciQQoLFsf3CguLKuJQIURKJ/s981d6tZLiV1nk0JT0JJe4MZwQCdA6p8V0iaJK3NMFSLDaJWqkbwY+M1WDbKSrQXPn9DEP6yy24sP3b65bTnSV5yXY8nwuXCDf8Xu/CNDPb07htUODiQh/f/rzSFFxptvfgysfgldStdpPhATs8MlrXy+vOjeQ1D7bgecvLw84HC2PueUyGanDDREu7w15GDx2UomWO+qMg1E+/V+pvyTGtijB7MCgMwbNnVL8KUpyfCLvOAb4NYCBE0c9uloPucgA3veHN9RCFXl1nnMUbkhq7zdWsblcaEm6XbmrReC/Hj2BnankVz1ZYvp3K941ptUPqwsxzC6Af6winYsFiEvy0iImQWOYcvJc67iX7WDBl8jWIxSnQIjZ2svOWL5ooC1bJN+MJWbBR/PQtGMGnk8TVfZOwpeRnfg4Ujg7Es1Sw4RXZegd2+AtQSwMEFAAACAgAAEgh7CPByANsAAAAdwAAAAkAJABtZXRhLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQGrVipLLSrOzM9TslIw1TPSM9VRUEovSizIKAYKGII4pZkpIHa0kllyaqqxSapJSkqakaF5kolukkmquYGluZllYnKqqZlholIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAASCHsiWSKIqwCAADtBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAASCHsI8HIA2wAAAB3AAAACQAkAAAAAAAAAAAAAAD5AgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAALADAAAAAA==
+    dataString: UEsDBBQAAAgIAABIIewNnbJvyAIAAAkGAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VE1v4kAM/StozluU8FE2e9sFSvfQFpWuelh6GDIOGTHMRDOTAq3472tPAglUK0VKZD/bz892PpnUroDUGzuzUjwYAexHh9E3+9ZpnPew52ujF/IDTphXKXxOIB4wz9xLg/aYwpzZgrcy/anXisARGkstM2O3U7GGsXHeoTnjygG6rPEUrdH02WH7OuBQvz/o3TniVwrag21Qvbg7GiRJMuhfwXu97gjtSX8Y4kqdKr4tQBD/JjweJnVcPOwHoMbeagz1kRqlpKuJMX8oQuNjXrgS20KAkBwbDZSibsiWg1zn/jr+Kcsc+ArVo4b5YSItqlblZr9MJeWWu03F752rkqr1o+h71XyV+eEL4iYO7sya7f25eERK+Fymm2d+SLnzLbXb5knTQByE2nG14SsFrznoRzOzptQCnd6WFFo66E1aqc4NjnNINw2u4noyntBl8XXAcTPgYxBgv/BQnBuJuoPG+seBWygTplAXIk9tSSglWJzgb2wo7JOrC6GVSGL8C1+3F6923EnrPLpqPrWVsHMcEgjQKdTC3xBAE72VKS3lYtPAldQo/dhYDbZdogDNlT/MMaW/2ISvvv9H3XE6wppe7Tvd1lVIMDf4KLpyzc3uPG6La+zCbp++/r7RFFxudg/g8qfSK6lbcpPjERUeG62r7XWXTopalDbjaSvKw96XFibc81AM2eCGiRZ3h1qGCF0qRcsc+AdCyJ+eN9I351hWBTN7NDqc4MU7sF+XUlyeCLtNAfoDGAiR9eLRanCzGsAoSka3CRId3sachRuSGtXmal7JVQ8Jt0s3vWi8l9MfsjOzvAh3KyzfzeTH1rTkkDozi9QC6Kcqw7lZsFgE/zJiKiS2uQDvpQ57yT6XTJl0A2J5TrQMwk733vJlk2XJCvluPFmWbBz+i0tG5vNJ4uq+S9hR8YtkoHByIF6kgi0vyBUd2fEfUEsDBBQAAAgIAABIIewjwcgDbAAAAHcAAAAJACQAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0Bq1YqSy0qzszPU7JSMNUz0jPVUVBKL0osyCgGChiCOKWZKSB2tJJZcmqqsUmqSUpKmpGheZKJbpJJqrmBpbmZZWJyqqmZYaJSLFB9SWVBql9ibipET0BiSUZaZl5KZl66nntRZoo7yGil2FoAUEsBAi0AFAAACAgAAEgh7A2dsm/IAgAACQYAAAsAJAAAAAAAAAAAAAAAAAAAAGdyYXBoMC5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsBAi0AFAAACAgAAEgh7CPByANsAAAAdwAAAAkAJAAAAAAAAAAAAAAAFQMAAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAVBLBQYAAAAAAgACALgAAADMAwAAAAA=
     file_cachedStartup: {fileID: 0}
     cacheStartup: 0
   showNavGraphs: 1
@@ -100797,7 +100882,7 @@ Transform:
   m_GameObject: {fileID: 1539808458647326076}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.78, y: 1.7, z: -1.9}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -101239,10 +101324,7 @@ MonoBehaviour:
   node: {fileID: 11400000, guid: a75c4d3b84d5d9844a09266a28732553, type: 2}
   RayShoot: {fileID: 0}
   wayPoints:
-  - {x: 8, y: 1.7, z: 8}
-  - {x: -1.62, y: 1.7, z: 8}
-  - {x: -1.85, y: 1.7, z: -8}
-  - {x: 7.97, y: 1.7, z: -8}
+  - {x: 1.98, y: 1.7, z: -34.2}
   wayPointIndex: 0
   GuardColor: {r: 0, g: 0, b: 0, a: 1}
   Loop: 1
@@ -101461,6 +101543,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segments: 16
+  BaseMesh: {fileID: 0}
   InvMeshes: {fileID: 2100000, guid: 09445e6409ab0bc41ba6e8e3065ae8c4, type: 2}
 --- !u!222 &8998111255360692534
 CanvasRenderer:

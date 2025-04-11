@@ -13,20 +13,20 @@ public class TestOne : MonoBehaviour
 
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
-    private Material BaseMesh;
+    public Material BaseMesh;
     public Material InvMeshes;
 
 
     void Start()
     {
-        meshFilter = GetComponent<MeshFilter>();
-        BaseMesh = CreateFanMaterial();
+       
     }
     private void Awake()
     {
         meshRenderer = GetComponent<MeshRenderer>();
 
-
+        meshFilter = GetComponent<MeshFilter>();
+        BaseMesh = CreateFanMaterial();
     }
 
     void Update()
@@ -80,7 +80,7 @@ public class TestOne : MonoBehaviour
         if (show)
         {
             meshRenderer.material = BaseMesh;
-
+            Debug.Log("????");
         }
         else
         {
