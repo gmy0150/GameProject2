@@ -11,15 +11,15 @@ using BehaviorTree;
 public class GuardAI : Enemy
 {
     
-    [Header("°æ·Î")]
-    public Vector3[] wayPoints;//°æ·Î
+    [Header("ï¿½ï¿½ï¿½")]
+    public Vector3[] wayPoints;//ï¿½ï¿½ï¿½
     public int wayPointIndex = 0;
 
     
-    [Header("ÀÌ°Å ¹Ù²Ù¸é ±× ÄÃ·¯ »öÀ¸·Î º¸ÀÓ")]
+    [Header("ï¿½Ì°ï¿½ ï¿½Ù²Ù¸ï¿½ ï¿½ï¿½ ï¿½Ã·ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½")]
     public Color GuardColor = Color.green;
 
-    [Header("ÀÌ°Å ³ÖÀ¸¸é ³×¸ð·Î Ç¥½Ã")]
+    [Header("ï¿½Ì°ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×¸ï¿½ï¿½ Ç¥ï¿½ï¿½")]
     public bool Loop = false;
     
 
@@ -62,7 +62,7 @@ public class GuardAI : Enemy
             targetRotationSet = true;
         }
 
-        // Slerp¸¦ ÅëÇØ ÇöÀç È¸Àü°ú °íÁ¤µÈ ¸ñÇ¥ È¸Àü »çÀÌ¸¦ ºÎµå·´°Ô º¸°£ÇÕ´Ï´Ù.
+        // Slerpï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ È¸ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ È¸ï¿½ï¿½ ï¿½ï¿½ï¿½Ì¸ï¿½ ï¿½Îµå·´ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
     }
@@ -116,15 +116,7 @@ public class GuardAI : Enemy
     }
 
 
-    public override void ShowShape()
-    {
-        base.ShowShape();
-        HideOutline();
-    }
-    public override void HideShape()
-    {
-        base.HideShape();
-    }
+
     public override void MakeNoise(GameObject obj, float radius, float stepsize)
     {
         Vector3 origin = obj.transform.position;
@@ -150,10 +142,7 @@ public class GuardAI : Enemy
         }
     }
 
-    public override void Action()
-    {
 
-    }
 
 
 

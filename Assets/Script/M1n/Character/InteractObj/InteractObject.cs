@@ -9,9 +9,7 @@ public abstract class InteractObject :  MonoBehaviour, IInterActerable
     protected IController controller;
     public bool shoot = false;
     public bool hasCoin = false;
-    public Material BaseMesh;
-    public Material invMesh;
-
+    // bool CanInteract = false;
 
     public bool GetHide()
     {
@@ -24,12 +22,15 @@ public abstract class InteractObject :  MonoBehaviour, IInterActerable
         this.controller = controller;
     }
 
-    public virtual void InteractAgain()
-    {
-        throw new System.NotImplementedException();
-    }
+    public abstract void InteractAgain();
 
     public abstract bool CanInteract();
+    public abstract bool IsOneTimeInteraction();
 
-    public abstract bool RotateInteract();
+    public abstract void UpdateTime(float time);
+
+    public virtual bool RotateInteract()
+    {
+        return true;
+    }
 }

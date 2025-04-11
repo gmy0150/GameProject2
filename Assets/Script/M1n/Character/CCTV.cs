@@ -22,34 +22,5 @@ public class CCTV : Enemy
 
         node.Evaluate();
     }
-    public override void ShowShape()
-    {
 
-        MeshRenderer[] mesh = GetComponentsInParent<MeshRenderer>();
-        for (int i = 0; i < mesh.Length; i++)
-        {
-            mesh[1].material = BaseOneMesh;
-            mesh[0].material =BaseMesh;
-
-}
-        if (GetComponentInChildren<TestOne>())
-        {
-            TestOne t1 = GetComponentInChildren<TestOne>();
-            t1.ShowMesh();
-        }
-    }
-
-    public override void HideShape()
-    {
-        MeshRenderer[] mesh = GetComponentsInParent<MeshRenderer>();
-        for (int i = 0; i < mesh.Length; i++)
-        {
-            mesh[i].material = invMesh;
-        }
-        if (GetComponentInChildren<TestOne>())
-        {
-            TestOne t1 = GetComponentInChildren<TestOne>();
-            t1.InvMeshRen();
-        }
-    }
 }

@@ -70,7 +70,7 @@ public class TestOne : MonoBehaviour
         Shader shader = Shader.Find("Custom/UnlitVertexColor");
         if (shader == null)
         {
-            Debug.Log("¸øÃ£?");
+            Debug.Log("ï¿½ï¿½Ã£?");
             return null; 
         }
         return new Material(shader);
@@ -93,22 +93,22 @@ public class TestOne : MonoBehaviour
         List<Vector3> visiblePoints = visibility.visiblePoints;
         List<Vector3> blockedPoints = visibility.blockedPoints;
 
-        // Á¤Á¡ °³¼ö: Áß½ÉÁ¡(0) + visiblePoints + blockedPoints
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ï¿½ß½ï¿½ï¿½ï¿½(0) + visiblePoints + blockedPoints
         Vector3[] vertices = new Vector3[1 + visiblePoints.Count + blockedPoints.Count];
-        Color[] colors = new Color[vertices.Length];  // »ö»ó ¹è¿­ Ãß°¡
+        Color[] colors = new Color[vertices.Length];  // ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ ï¿½ß°ï¿½
 
-        vertices[0] = Vector3.zero; // Áß½ÉÁ¡Àº Ç×»ó ·ÎÄÃ ÁÂÇ¥ (0, 0, 0)
-        colors[0] = Color.red;    // Áß½ÉÁ¡ »ö»ó (±âº»°ª)
+        vertices[0] = Vector3.zero; // ï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ (0, 0, 0)
+        colors[0] = Color.red;    // ï¿½ß½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½âº»ï¿½ï¿½)
 
-        // Visible Points (·ÎÄÃ ÁÂÇ¥·Î º¯È¯)
+        // Visible Points (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½È¯)
         for (int i = 0; i < visiblePoints.Count; i++)
         {
             vertices[i + 1] = transform.InverseTransformPoint(visiblePoints[i]);
-            colors[i + 1] = Color.red; // Visible ºÎºÐ »ö»ó ¼³Á¤
+            colors[i + 1] = Color.red; // Visible ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             
         }
 
-        // Blocked Points (·ÎÄÃ ÁÂÇ¥·Î º¯È¯)
+        // Blocked Points (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½È¯)
         int blockedStartIndex = 1 + visiblePoints.Count;
         for (int i = 0; i < blockedPoints.Count; i++)
         {
@@ -125,7 +125,7 @@ public class TestOne : MonoBehaviour
             triangles.Add(i + 2);
         }
 
-        // Blocked ºÎºÐ »ï°¢Çü
+        // Blocked ï¿½Îºï¿½ ï¿½ï°¢ï¿½ï¿½
         for (int i = 0; i < blockedPoints.Count - 1; i++)
         {
             triangles.Add(0);
@@ -133,10 +133,10 @@ public class TestOne : MonoBehaviour
             triangles.Add(blockedStartIndex + i + 1);
         }
 
-        // ¸Þ½Ã ¼³Á¤
+        // ï¿½Þ½ï¿½ ï¿½ï¿½ï¿½ï¿½
         mesh.vertices = vertices;
         mesh.triangles = triangles.ToArray();
-        mesh.colors = colors; // »ö»ó Àû¿ë
+        mesh.colors = colors; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         mesh.RecalculateNormals();
 
         return mesh;
@@ -148,25 +148,25 @@ public class TestOne : MonoBehaviour
         List<Vector3> visiblePoints = visibility.visiblePoints;
         List<Vector3> blockedPoints = visibility.blockedPoints;
 
-        // Á¤Á¡ °³¼ö: Áß½ÉÁ¡(0) + visiblePoints + blockedPoints
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½: ï¿½ß½ï¿½ï¿½ï¿½(0) + visiblePoints + blockedPoints
         Vector3[] vertices = new Vector3[1 + visiblePoints.Count + blockedPoints.Count];
-        Color[] colors = new Color[vertices.Length];  // »ö»ó ¹è¿­ Ãß°¡
+        Color[] colors = new Color[vertices.Length];  // ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ ï¿½ß°ï¿½
 
-        vertices[0] = new Vector3(0, any, 0); // Áß½ÉÁ¡Àº Ç×»ó ·ÎÄÃ ÁÂÇ¥ (0, 0, 0)
-        colors[0] = Color.red;    // Áß½ÉÁ¡ »ö»ó (±âº»°ª)
+        vertices[0] = new Vector3(0, any, 0); // ï¿½ß½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×»ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ (0, 0, 0)
+        colors[0] = Color.red;    // ï¿½ß½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ (ï¿½âº»ï¿½ï¿½)
 
-        // Visible Points (·ÎÄÃ ÁÂÇ¥·Î º¯È¯)
+        // Visible Points (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½È¯)
         for (int i = 0; i < visiblePoints.Count; i++)
         {
             Vector3 adjustPoint = visiblePoints[i];
             adjustPoint.y = any;
 
             vertices[i + 1] = transform.InverseTransformPoint(visiblePoints[i]);
-            colors[i + 1] = Color.red; // Visible ºÎºÐ »ö»ó ¼³Á¤
+            colors[i + 1] = Color.red; // Visible ï¿½Îºï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
         }
 
-        // Blocked Points (·ÎÄÃ ÁÂÇ¥·Î º¯È¯)
+        // Blocked Points (ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½Ç¥ï¿½ï¿½ ï¿½ï¿½È¯)
         int blockedStartIndex = 1 + visiblePoints.Count;
         for (int i = 0; i < blockedPoints.Count; i++)
         {
@@ -185,7 +185,7 @@ public class TestOne : MonoBehaviour
             triangles.Add(i + 2);
         }
 
-        // Blocked ºÎºÐ »ï°¢Çü
+        // Blocked ï¿½Îºï¿½ ï¿½ï°¢ï¿½ï¿½
         for (int i = 0; i < blockedPoints.Count - 1; i++)
         {
             triangles.Add(0);
@@ -193,10 +193,10 @@ public class TestOne : MonoBehaviour
             triangles.Add(blockedStartIndex + i + 1);
         }
 
-        // ¸Þ½Ã ¼³Á¤
+        // ï¿½Þ½ï¿½ ï¿½ï¿½ï¿½ï¿½
         mesh.vertices = vertices;
         mesh.triangles = triangles.ToArray();
-        mesh.colors = colors; // »ö»ó Àû¿ë
+        mesh.colors = colors; // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
         mesh.RecalculateNormals();
 
         return mesh;

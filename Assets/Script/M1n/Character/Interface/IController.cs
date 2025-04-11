@@ -8,6 +8,5 @@ public interface IController
     public void Tick(float deltaTime);
     public void SetHide(bool x);
     public void SetNoise(bool x);
-    void Crouch();
-    void CrouchCancel();
+    void RunningCancel();
 }

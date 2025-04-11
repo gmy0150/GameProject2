@@ -1,6 +1,7 @@
 using Pathfinding.Examples;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class InteractController 
@@ -10,6 +11,7 @@ public class InteractController
     Player character;
     IController keyboardController;
     bool isInteracting = false;
+    private IInterActerable currentInteractable;
 
     public void OnPosessed(Player controllerableCharacter)
     {
@@ -19,13 +21,17 @@ public class InteractController
     }
     public void TIck(float deltaTime)
     {
-        if (!isInteracting && Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            TryInteract();
-        }
-        else if (isInteracting && Input.GetKeyDown(KeyCode.E))
-        {
-            ResetInteraction();
+            if (currentInteractable != null && !currentInteractable.IsOneTimeInteraction())
+            {
+                currentInteractable.InteractAgain();
+                currentInteractable = null;
+            }
+            else
+            {
+                TryInteract();
+            }
         }
     }
     IInterActerable interactable;
@@ -36,32 +42,44 @@ public class InteractController
     void TryInteract()
     {
         Collider[] colliders = Physics.OverlapSphere(character.transform.position, interactionDistance, interactableLayer);
-        interactable = null;
+        IInterActerable bestInteractable = null;
 
-        float mindistance = interactionDistance;
+        float minDistance = interactionDistance;
         foreach (Collider col in colliders)
         {
             Vector3 dirToTarget = (col.transform.position - character.transform.position).normalized;
             float angle = Vector3.Angle(character.transform.forward, dirToTarget);
             float distance = Vector3.Distance(character.transform.position, col.transform.position);
+                    Debug.Log(1);
 
-
-            if (angle < 60f && distance < mindistance)
+            if (angle < 60f && distance < minDistance)
             {
-                UseageInteract candiate = col.GetComponent<UseageInteract>();
-                if (candiate != null)
+                    Debug.Log(2);
+                IInterActerable candidate = col.GetComponent<IInterActerable>();
+                if (candidate != null && candidate.CanInteract())
                 {
-                    interactable = candiate;
-                    mindistance = distance;
+                    InventoryManager.Instance.InitSlot();
+
+                    bestInteractable = candidate;
+                    minDistance = distance;
                 }
-                
             }
         }
-        if (interactable != null && !interactable.CanInteract())
+
+        if (bestInteractable != null)
         {
-            interactable.Interact(character, keyboardController);
-            isInteracting = true;
+            bestInteractable.Interact(character, keyboardController);
+            
+            // 일회성이 아닌 상호작용이면 현재 상호작용 중인 오브젝트로 저장
+            if (!bestInteractable.IsOneTimeInteraction())
+            {
+                currentInteractable = bestInteractable;
+            }
         }
+    }
+    public bool IsInteracting()
+    {
+        return currentInteractable != null && !currentInteractable.IsOneTimeInteraction();
     }
     public bool GetHide()
     {
@@ -84,7 +102,11 @@ public class InteractController
         }
     }
     public bool RotateInteract(){
-        return false;
+        var slot = InventoryManager.Instance.GetActiveItem();
+        if(slot != null){
+            return slot.RotateInteract();
+        }
+        return true;
     }
-
+    
 }

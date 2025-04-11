@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.ShaderKeywordFilter;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,18 +10,15 @@ public class InventoryManager : MonoBehaviour
 
     public InventorySlot[] slots = new InventorySlot[5];
     private int selectedIndex = -1;
-
+    public StorageItem Cam;
     private void Awake()
     {
         Instance = this;
+        slots[0].SetItem(Cam);
     }
 
-    private void Update()
-    {
-        HandleSlotSelection();
-    }
 
-    void HandleSlotSelection()
+    public void HandleSlotSelection()
     {
         for (int i = 0; i < slots.Length; i++)
         {
@@ -30,7 +28,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetMouseButtonDown(0))
         {
             UseSelectedItem();
         }
@@ -38,42 +36,97 @@ public class InventoryManager : MonoBehaviour
 
     void SelectSlot(int index)
     {
-        selectedIndex = index;
+        if (selectedIndex == index)
+        {
+            ExitSlot();
+            return;
+        }
+        else
+        {
+            InitSlot();
+            selectedIndex = index;
 
+                for (int i = 0; i < slots.Length; i++)
+                {
+                    slots[i].SetSelected(i == selectedIndex);
+                }
+
+
+            Debug.Log($"슬롯 {selectedIndex + 1} 선택됨");
+
+        }
+    }
+
+    public void ExitSlot()
+    {
+        InitSlot();
+
+        selectedIndex = -1;
         for (int i = 0; i < slots.Length; i++)
         {
-            slots[i].SetSelected(i == index);
+            slots[i].SetSelected(false);
         }
+        return;
+    }
 
-        Debug.Log($"슬롯 {index + 1} 선택됨");
+    public StorageItem GetActiveItem()
+    {
+        if (selectedIndex != -1)
+        {
+            var ReturnValue = slots[selectedIndex];
+            return ReturnValue.GetItem();
+        }
+        return null;
+    }
+    public int GetSlot()
+    {
+        if (selectedIndex > 0)
+        {
+            return selectedIndex;
+        }
+        return 0;
+    }
+    public void InitSlot()
+    {
+        if (GetActiveItem() != null)
+        {
+            GetActiveItem().inititem();
+
+        }
     }
 
     void UseSelectedItem()
     {
         if (selectedIndex >= 0 && selectedIndex < slots.Length)
         {
-            slots[selectedIndex].UseItem();
+            if(selectedIndex == 0){
+
+                slots[selectedIndex].UseFilm();
+                
+            }else{
+                slots[selectedIndex].UseItem();
+                selectedIndex = -1;
+            }
         }
     }
 
-    public bool AddItemToInventory(Sprite icon, InterItem item)
+    public bool AddItemToInventory(StorageItem item)
     {
         for (int i = 0; i < slots.Length; i++)
         {
             if (!slots[i].HasItem())
             {
-                slots[i].SetItem(icon, item);
+                slots[i].SetItem(item);
                 return true;
             }
         }
         return false;
     }
 
-    public void RemoveItem(int index)
+    public void RemoveItem()
     {
-        if (index >= 0 && index < slots.Length)
-        {
-            slots[index].ClearItem();
-        }
+        if (selectedIndex != -1)
+            slots[selectedIndex].ClearItem();
+
     }
 }

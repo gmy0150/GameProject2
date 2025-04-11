@@ -16,37 +16,31 @@ public class Coin : StorageItem
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
-        // filter = GetComponent<MeshFilter>();
-        // Base = filter.mesh;
-        // filter.mesh = null;
-        // GetCoin();
-        // maxThrowDistance = character.maxThrowDistance;
-        // maxThrowForce = character.maxThrowForce;
-        // lineRenderer = character.lineRenderer;
-        // CoinPrefab = character.Prefab;
-
-
-    }
-    private void Update()
-    {
-        if (lineRenderer != null)
-        {
-            HasCoin();
-        }
         
-    }
+        filter = GetComponent<MeshFilter>();
+        Base = filter.mesh;
+        filter.mesh = null;
+        GetCoin();
+        maxThrowDistance = character.maxThrowDistance;
+        maxThrowForce = character.maxThrowForce;
+        lineRenderer = character.lineRenderer;
+        CoinPrefab = character.Prefab;
 
+
+    }
+    public override bool CanInteract()
+    {
+        return !shoot && !hasCoin;
+    }
 
     public override void InteractAgain()
     {
+        base.InteractAgain();
         if (!shoot)
         {
             filter.mesh = Base;
-            //GameObject throwobj = Instantiate(CoinPrefab, transform.position, Quaternion.identity);
-
             gameObject.SetActive(false);
             UseCoin();
-
         }
         else
         {
@@ -71,6 +65,8 @@ public class Coin : StorageItem
     {
         hasCoin = true;
     }
+    Vector3 dir;
+    float throwF;
     public void HasCoin()
     {
         if (hasCoin) // ������ ����� ���� ������ ǥ��
@@ -82,7 +78,6 @@ public class Coin : StorageItem
             float newY = 0.5f;
             ChTrans.y = newY;
 
-            // ���콺 ��ġ�� ���� �浹�ϴ� ������ ��ǥ �������� ����
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask("Ground")))
             {
                 targetPoint = hit.point;
@@ -92,39 +87,26 @@ public class Coin : StorageItem
                 targetPoint = ray.origin + ray.direction * maxThrowDistance;
             }
 
-            targetPoint.y = ChTrans.y; // ����鿡���� ��ǥ ����
+            targetPoint.y = ChTrans.y; 
 
-            // ������ ���� ���
             Vector3 throwDirection = (targetPoint - ChTrans).normalized;
             float distance = Vector3.Distance(ChTrans, targetPoint);
 
             if (distance > maxThrowDistance)
             {
                 targetPoint = ChTrans + throwDirection * maxThrowDistance;
-                distance = maxThrowDistance; // �ִ� �Ÿ��� ����
+                distance = maxThrowDistance; 
             }
 
-            // ��ǥ ���������� �Ÿ��� ������ �� ���
             float throwForce = Mathf.Lerp(2f, maxThrowForce, distance / maxThrowDistance);
 
-            // ������ ��θ� �ǽð����� �׸���
             DrawThrowPreview(throwDirection, throwForce);
 
-            // ��Ŭ���ϸ� ���� ������
-            if (Input.GetMouseButtonDown(0))
-            {
-                ThrowCoin(throwDirection, throwForce);
-            }
-        }
-        else
-        {
-            lineRenderer.positionCount = 0; // ������ ������ ������ ����
-
+            throwF = throwForce;
+            dir = throwDirection;
         }
     }
 
-
-    // ������ ��θ� �׸��� �Լ�
     void DrawThrowPreview(Vector3 throwDirection, float throwForce)
     {
         lineRenderer.positionCount = 0;
@@ -133,14 +115,14 @@ public class Coin : StorageItem
         ChTrans.y = newY;
         Vector3 startPos = ChTrans;
         Vector3 velocity = throwDirection * throwForce;
-        velocity.y = throwForce * 0.2f; //  ���� ��İ� �ϰ��ǵ��� Y�� �̵��� ����
-
+        velocity.y = throwForce * 0.2f; 
+        
         int numSteps = 20;
         float timeStep = 0.05f;
         List<Vector3> positions = new List<Vector3>();
 
         Vector3 lastPosition = startPos;
-
+        Debug.Log("?");
 
         for (int i = 0; i < numSteps; i++)
         {
@@ -179,6 +161,7 @@ public class Coin : StorageItem
             force.y = throwForce * 0.2f; //  Y�� �̵� ����
             rb.AddForce(force, ForceMode.Impulse);
             character.GetInterActControll().ResetInteraction();
+            ShootCoin();
         }
     }
     private void OnCollisionEnter(Collision collision)
@@ -193,5 +176,24 @@ public class Coin : StorageItem
                 character.MakeNoise(gameObject, Player.CoinNoise, 12);
             }
         }
+    }
+    
+    public override void UseItem()
+    {
+        ThrowCoin(dir, throwF);
+    }
+
+    public override void UpdateTime(float time)
+    {
+        base.UpdateTime(time);
+        if (lineRenderer != null)
+        {
+            HasCoin();
+        }
+    }
+
+    public override void inititem()
+    {
+        lineRenderer.positionCount = 0; 
     }
 }
