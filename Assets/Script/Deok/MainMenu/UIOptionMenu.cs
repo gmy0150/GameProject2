@@ -24,12 +24,13 @@ public class UIOptionMenu : MonoBehaviour
     public RectTransform screenPanelRect;
     public CanvasGroup screenCanvasGroup;
 
-    [Header("사운드 설정")]
-    public Slider bgmSlider;
-    public Slider sfxSlider;
+    [Header("볼륨 매니저 연결")]
+    public VolumeManager volumeManager;
 
     [Header("해상도 설정 스크립트")]
     public ScreenSettingsManager screenSettingsManager;
+
+    public GameObject mainMenuPanel;
 
     private bool isAnimating = false;
     private Vector2 hiddenPosition;
@@ -37,26 +38,18 @@ public class UIOptionMenu : MonoBehaviour
 
     void Start()
     {
-        // 옵션 메뉴 초기 위치
         hiddenPosition = new Vector2(optionPanel.rect.width, 0);
         optionPanel.anchoredPosition = hiddenPosition;
         canvasGroup.alpha = 0f;
 
-        // 패널 비활성화
         soundPanel.SetActive(false);
         screenPanel.SetActive(false);
 
-        // 사운드 패널 초기 위치 & 투명도
         soundPanelRect.anchoredPosition = new Vector2(soundPanelRect.rect.width, 0);
         soundCanvasGroup.alpha = 0f;
 
-        // 화면 패널 초기 위치 & 투명도
         screenPanelRect.anchoredPosition = new Vector2(screenPanelRect.rect.width, 0);
         screenCanvasGroup.alpha = 0f;
-
-        // 🎵 저장된 사운드 값 불러오기
-        bgmSlider.value = PlayerPrefs.GetFloat("BGMVolume", 1f);
-        sfxSlider.value = PlayerPrefs.GetFloat("SFXVolume", 1f);
     }
 
     public void OpenOptionMenu()
@@ -103,7 +96,6 @@ public class UIOptionMenu : MonoBehaviour
 
     public void OpenSoundPanel()
     {
-        Debug.Log("✅ OpenSoundPanel 함수 실행됨");
         soundPanel.SetActive(true);
         screenPanel.SetActive(false);
 
@@ -119,10 +111,7 @@ public class UIOptionMenu : MonoBehaviour
         if (isAnimating) return;
         isAnimating = true;
 
-        PlayerPrefs.SetFloat("BGMVolume", bgmSlider.value);
-        PlayerPrefs.SetFloat("SFXVolume", sfxSlider.value);
-        PlayerPrefs.Save();
-        Debug.Log($"🎵 사운드 저장됨: BGM={bgmSlider.value}, SFX={sfxSlider.value}");
+        volumeManager.ApplyAll(); // 🎵 사운드 적용
 
         soundPanelRect.DOAnchorPos(new Vector2(soundPanelRect.rect.width, 0), 0.4f).SetEase(Ease.InExpo);
         soundCanvasGroup.DOFade(0f, 0.4f).OnComplete(() =>
@@ -134,6 +123,8 @@ public class UIOptionMenu : MonoBehaviour
 
     public void CloseSoundPanelToOption()
     {
+        volumeManager.RevertAll(); // 🎵 변경사항 되돌리기
+
         soundPanelRect.DOAnchorPos(new Vector2(soundPanelRect.rect.width, 0), 0.4f).SetEase(Ease.InExpo);
         soundCanvasGroup.DOFade(0f, 0.4f).OnComplete(() =>
         {
@@ -162,41 +153,31 @@ public class UIOptionMenu : MonoBehaviour
         });
     }
 
-    public GameObject mainMenuPanel; // ✅ 메인 메뉴 오브젝트 연결용 변수 추가
-
-public void ConfirmAllSettings()
-{
-    if (isAnimating) return;
-    isAnimating = true;
-
-    // 🎵 사운드 저장 ( 추후에 BGM / SFX추가해서 넣으면 됨 )
-    //PlayerPrefs.SetFloat("BGMVolume", bgmSlider.value);
-    //PlayerPrefs.SetFloat("SFXVolume", sfxSlider.value);
-
-    // 🖥️ 해상도 저장
-    if (screenSettingsManager != null)
+    public void ConfirmAllSettings()
     {
-        screenSettingsManager.SaveOnly();
-    }
+        if (isAnimating) return;
+        isAnimating = true;
 
-    PlayerPrefs.Save();
-    Debug.Log("✅ 전체 설정 저장 완료");
-
-    // 옵션 메뉴 닫기 + 메인 메뉴 UI 다시 보여주기
-    optionPanel.DOAnchorPos(hiddenPosition, 0.2f).SetEase(Ease.InExpo);
-    canvasGroup.DOFade(0f, 0.2f).OnComplete(() =>
-    {
-        optionPanel.gameObject.SetActive(false);
-        if (mainMenuPanel != null)
+        volumeManager.ApplyAll(); // 🎵 전체 사운드 저장
+        if (screenSettingsManager != null)
         {
-            mainMenuPanel.SetActive(true); // ✅ 메인 메뉴 다시 보이기
+            screenSettingsManager.SaveOnly(); // 🖥️ 해상도 저장
         }
-        isAnimating = false;
-    });
 
-    // 하위 패널 닫기
-    soundPanel.SetActive(false);
-    screenPanel.SetActive(false);
-}
+        PlayerPrefs.Save();
 
+        optionPanel.DOAnchorPos(hiddenPosition, 0.2f).SetEase(Ease.InExpo);
+        canvasGroup.DOFade(0f, 0.2f).OnComplete(() =>
+        {
+            optionPanel.gameObject.SetActive(false);
+            if (mainMenuPanel != null)
+            {
+                mainMenuPanel.SetActive(true);
+            }
+            isAnimating = false;
+        });
+
+        soundPanel.SetActive(false);
+        screenPanel.SetActive(false);
+    }
 }
