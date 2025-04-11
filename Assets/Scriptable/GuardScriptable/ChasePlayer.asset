@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee0ea8dc2975f7e468beba9c268a4e1b, type: 3}
   m_Name: ChasePlayer
   m_EditorClassIdentifier: 
+  Timer: 0
+  BarkTimer: 0
