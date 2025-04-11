@@ -296,30 +296,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 8
   RunSpeed: 15
-  CrouchSpeed: 5
   Prefab: {fileID: 2774047279429761632, guid: 53a89c5e63442374ead625f508807bb9, type: 3}
   lineRenderer: {fileID: 5547722622821605544}
-  RunNoise: 8
-  WalkNoise: 5
-  CoinNoise: 12
+  RunSound: 10
+  WalkSound: 8
+  CoinSound: 10
   maxThrowDistance: 10
   maxThrowForce: 12
+  interactionDistance: 5
+  ViewPoint: 1
+  InteractPoint: 0
   BaseMesh: {fileID: 5060444177187149915, guid: 560274f17e7b6a74b8dc638c37b1f8ff,
     type: 3}
   BoxMesh: {fileID: 5060444177187149915, guid: 6b88be8d77ba77442a8146bd0b9d8469, type: 3}
   Layer:
     serializedVersion: 2
     m_Bits: 4096
-  DetectEnemies: []
-  detectionMask:
+  Lights: {fileID: 0}
+  Picture:
     serializedVersion: 2
-    m_Bits: 256
-  wallLayer:
-    serializedVersion: 2
-    m_Bits: 1024
-  interactionDistance: 5
-  ViewPoint: 0
-  InteractPoint: 0
+    m_Bits: 8192
 --- !u!120 &5547722622821605544
 LineRenderer:
   serializedVersion: 2
@@ -372,8 +368,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.43457794
-        value: 1
+        time: 0.47935486
+        value: 0.98749924
         inSlope: 0
         outSlope: 0
         tangentMode: 0
