@@ -32,7 +32,7 @@ public class Enemy : Character
 
             NewNode.SetRunner(this);
         }
-        HideShape();
+        ShowShape();
         Player player = GameObject.FindAnyObjectByType<Player>();
         if (player != null)
         {
@@ -56,6 +56,7 @@ public class Enemy : Character
     public virtual void missPlayer()
     {
         DetectPlayer = false;
+        ShowShape();
         Debug.Log(DetectPlayer);
 
     }
@@ -222,15 +223,6 @@ public class Enemy : Character
     public virtual void StopPatrol(){}
     public virtual void RestartPatrol(){ }
     public virtual bool GetPatrol(){ return false;}
-
-
-
-
-
-
-
-
-
     public struct VisibilityResult
     {
         public List<Vector3> visiblePoints;
@@ -244,7 +236,7 @@ public class Enemy : Character
         result.blockedPoints = new List<Vector3>();
 
         Vector3 NewVector = transform.position;
-        NewVector.y = PlayerY;
+        // NewVector.y = PlayerY;
 
 
         Transform enemyTransform = transform;
@@ -259,15 +251,20 @@ public class Enemy : Character
             // 2D ��鿡�� y���� �����ϰ� rayDirection�� y���� 0���� ����
             rayDirection.y = 0;
             // Raycast ����
+            Debug.Log(NewVector);
             RaycastHit hit;
             if (Physics.Raycast(NewVector, rayDirection, out hit, Distance))
             {
                 // Player�� �����ϸ� visiblePoints�� �߰�
+                    Debug.Log("...?");
+                    Debug.Log(hit.collider.name);
                 if (hit.collider.GetComponentInParent<Player>())
                 {
+                    Debug.Log("?");
                     DetectPlayer = true;
                     if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
                     {
+                    Debug.Log("1111?");
                         DetectPlayer = false;
                     }
                 }
