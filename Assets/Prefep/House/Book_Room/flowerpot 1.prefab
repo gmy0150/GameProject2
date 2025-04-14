@@ -11,32 +11,32 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 933737ee9150e554ab0a8426e7a63bcf,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 30
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 933737ee9150e554ab0a8426e7a63bcf,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 30
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 933737ee9150e554ab0a8426e7a63bcf,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 94.43258
+      value: 125.91011
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 933737ee9150e554ab0a8426e7a63bcf,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.448295
+      value: 23.06
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 933737ee9150e554ab0a8426e7a63bcf,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.3005667
+      value: 1.7233784
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 933737ee9150e554ab0a8426e7a63bcf,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.3507782
+      value: 16.28
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 933737ee9150e554ab0a8426e7a63bcf,
         type: 3}
@@ -81,7 +81,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 933737ee9150e554ab0a8426e7a63bcf,
         type: 3}
       propertyPath: m_Name
-      value: flowerpot
+      value: flowerpot 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
