@@ -83,9 +83,9 @@ public class InteractController
     }
     public bool GetHide()
     {
-        if(interactable != null)
+        if(currentInteractable != null)
         {
-            return interactable.GetHide();
+            return currentInteractable.GetHide();
         }
         else
         {
