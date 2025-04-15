@@ -83,9 +83,9 @@ public class InteractController
     }
     public bool GetHide()
     {
-        if(interactable != null)
+        if(currentInteractable != null)
         {
-            return interactable.GetHide();
+            return currentInteractable.GetHide();
         }
         else
         {
@@ -95,9 +95,9 @@ public class InteractController
 
     public void ResetInteraction()
     {
-        if (interactable != null)
+        if (currentInteractable != null)
         {
-            interactable.InteractAgain();//�ٽ� �Է�
+            currentInteractable.InteractAgain();//�ٽ� �Է�
             isInteracting = false;
         }
     }

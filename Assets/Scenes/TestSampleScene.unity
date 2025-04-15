@@ -1114,8 +1114,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shoot: 0
   hasCoin: 0
-  BaseMesh: {fileID: 0}
-  invMesh: {fileID: 0}
+  icon: {fileID: 0}
+  itemname: 
+  isInteract: 1
 --- !u!65 &479824590
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1178,8 +1179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shoot: 0
   hasCoin: 0
-  BaseMesh: {fileID: 0}
-  invMesh: {fileID: 0}
 --- !u!4 &628133899 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: c740725c59478174a9709a392e909102,
@@ -1275,8 +1274,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 8
   RunSpeed: 10
-  invMesh: {fileID: 2100000, guid: 09445e6409ab0bc41ba6e8e3065ae8c4, type: 2}
-  BaseMesh: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   RadiusAngle: 50
   Distance: 5
   node: {fileID: 11400000, guid: e9cd0a3a883b2a84ab0c948c3044a9b5, type: 2}
@@ -3059,6 +3056,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segments: 16
+  BaseMesh: {fileID: 0}
   InvMeshes: {fileID: 2100000, guid: 09445e6409ab0bc41ba6e8e3065ae8c4, type: 2}
 --- !u!65 &1418737985
 BoxCollider:
@@ -3726,6 +3724,7 @@ MonoBehaviour:
   - {fileID: 95090555}
   - {fileID: 1174590692}
   - {fileID: 1221259906}
+  Cam: {fileID: 0}
 --- !u!114 &1620591792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4092,8 +4091,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 191dd17152157d348b7148b7a3f5cbac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseMesh: {fileID: 0}
-  invMesh: {fileID: 0}
 --- !u!4 &1791956360
 Transform:
   m_ObjectHideFlags: 0
@@ -4400,17 +4397,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd4ebfc7772b7648a1ab7fa4b593c87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 543450652887517455}
-  textureSize: 720
-  visibilityCheckRadius: 30
-  obstacleLayerMask:
-    serializedVersion: 2
-    m_Bits: 13568
-  raycastOriginHeight: 0.5
-  updateInterval: 0.1
-  circleSegments: 32
-  viewConeResolution: 0.5
-  gridSnapSize: 10
 --- !u!1 &2061572283
 GameObject:
   m_ObjectHideFlags: 0
@@ -4722,18 +4708,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 7991128878855862652}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &543450652887517455 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1266864213000484009, guid: 68e2d1b668ae8624bae309f82491e60e,
-    type: 3}
-  m_PrefabInstance: {fileID: 7991128878855862652}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cced381096185f945bf2ec120303f9ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!33 &575444309409219818
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -5178,8 +5152,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 10
   RunSpeed: 4
-  invMesh: {fileID: 2100000, guid: 09445e6409ab0bc41ba6e8e3065ae8c4, type: 2}
-  BaseMesh: {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   RadiusAngle: 67
   Distance: 10
   node: {fileID: 11400000, guid: a75c4d3b84d5d9844a09266a28732553, type: 2}
@@ -5432,6 +5404,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   segments: 16
+  BaseMesh: {fileID: 0}
   InvMeshes: {fileID: 2100000, guid: 09445e6409ab0bc41ba6e8e3065ae8c4, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
