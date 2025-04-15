@@ -41,6 +41,7 @@ public class ChasePlayer : Node
             if (MoveTime > Timer)
             {
                 runner.missPlayer();
+                
                 runner.StopMove();
                 Debug.Log("³¡");
                 MoveTime = 0;
