@@ -245,6 +245,7 @@ public class Enemy : Character
         {
             if (DetectPlayer == true)
                 return result;
+                
             float currentAngle = -RadiusAngle / 2 + RadiusAngle * (i / (float)rayCount);
             Quaternion rotation = Quaternion.Euler(0, currentAngle, 0);
             Vector3 rayDirection = rotation * enemyTransform.forward; // ����

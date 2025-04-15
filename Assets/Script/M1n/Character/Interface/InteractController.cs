@@ -95,9 +95,9 @@ public class InteractController
 
     public void ResetInteraction()
     {
-        if (interactable != null)
+        if (currentInteractable != null)
         {
-            interactable.InteractAgain();//�ٽ� �Է�
+            currentInteractable.InteractAgain();//�ٽ� �Է�
             isInteracting = false;
         }
     }
