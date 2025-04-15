@@ -11,7 +11,10 @@ public abstract class InteractObject :  MonoBehaviour, IInterActerable
     public bool hasCoin = false;
     // bool CanInteract = false;
 
-    public abstract bool GetHide();
+    public bool GetHide()
+    {
+        return this.isHide;
+    }
 
     public virtual void Interact(Player character, IController controller)
     {

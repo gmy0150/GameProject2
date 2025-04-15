@@ -15,4 +15,3 @@ MonoBehaviour:
   nodes:
   - {fileID: 11400000, guid: e980dc601bff32c44bd1017d0079b967, type: 2}
   - {fileID: 11400000, guid: 42950fb0c27ee714caa67852f0c22577, type: 2}
-  - {fileID: 11400000, guid: 42950fb0c27ee714caa67852f0c22577, type: 2}

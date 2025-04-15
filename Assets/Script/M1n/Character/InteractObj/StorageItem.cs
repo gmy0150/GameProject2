@@ -42,8 +42,4 @@ public abstract class StorageItem : InteractObject
     {
         return true;
     }
-    public override bool GetHide()
-    {
-        return false;
-    }
 }

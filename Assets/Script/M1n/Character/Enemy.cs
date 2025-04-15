@@ -52,7 +52,7 @@ public class Enemy : Character
         }
     }
     public virtual bool GetPlayer() => DetectPlayer;
-
+    
     public virtual void missPlayer()
     {
         DetectPlayer = false;
@@ -66,7 +66,7 @@ public class Enemy : Character
         {
             aIPath.enabled = false;
         }
-        if (chase)
+        if(chase)
             chase = false;
         //aIPath.isStopped = true;
     }
@@ -82,7 +82,8 @@ public class Enemy : Character
         if (GetComponentInChildren<TestOne>())
         {
             TestOne t1 = GetComponentInChildren<TestOne>();
-            t1.ShowMesh();
+            if(chase == false)
+                t1.ShowMesh();
         }
     }
 
@@ -104,10 +105,10 @@ public class Enemy : Character
         {
             TestOne t1 = GetComponentInChildren<TestOne>();
             t1.InvMeshRen();
-            chase = true;
+            chase = true;   
         }
     }
-    void GoHome(Vector3 newTarget)
+     void GoHome(Vector3 newTarget)
     {
         aIPath.enabled = true;
 
@@ -120,7 +121,7 @@ public class Enemy : Character
     protected virtual void MoveToTarget(Vector3 newTarget)
     {
         aIPath.enabled = true;
-
+        
         aIPath.destination = newTarget;
 
         aIPath.isStopped = false;
@@ -166,7 +167,7 @@ public class Enemy : Character
     protected bool probSuccess = false;
     protected bool HomeSuccess = false;
     Vector3 HomeSave;
-    public void MoveHome()
+    public  void MoveHome()
     {
         Vector3 curPos = transform.position;
         Vector3 targetPos = new Vector3(HomeSave.x, curPos.y, HomeSave.z);
@@ -202,7 +203,7 @@ public class Enemy : Character
     public void HomeArrive() { HomeSuccess = false; }
 
     public bool GetHome() { return HomeSuccess; }
-
+    
     public void MoveProb(Vector3 vec)
     {
         MoveToTarget(vec);
@@ -217,11 +218,11 @@ public class Enemy : Character
         }
     }
 
-    public bool GetProb() { return probSuccess; }
-    public virtual void Patrols() { }
-    public virtual void StopPatrol() { }
-    public virtual void RestartPatrol() { }
-    public virtual bool GetPatrol() { return false; }
+    public bool GetProb(){ return probSuccess;}
+    public virtual void Patrols(){ }
+    public virtual void StopPatrol(){}
+    public virtual void RestartPatrol(){ }
+    public virtual bool GetPatrol(){ return false;}
     public struct VisibilityResult
     {
         public List<Vector3> visiblePoints;
@@ -243,8 +244,6 @@ public class Enemy : Character
         // ��ä�� ������ Raycast
         for (int i = 0; i <= rayCount; i++)
         {
-            if (DetectPlayer == true)
-                return result;
             float currentAngle = -RadiusAngle / 2 + RadiusAngle * (i / (float)rayCount);
             Quaternion rotation = Quaternion.Euler(0, currentAngle, 0);
             Vector3 rayDirection = rotation * enemyTransform.forward; // ����
@@ -252,19 +251,20 @@ public class Enemy : Character
             // 2D ��鿡�� y���� �����ϰ� rayDirection�� y���� 0���� ����
             rayDirection.y = 0;
             // Raycast ����
+            Debug.Log(NewVector);
             RaycastHit hit;
             if (Physics.Raycast(NewVector, rayDirection, out hit, Distance))
             {
                 // Player�� �����ϸ� visiblePoints�� �߰�
+                    Debug.Log("...?");
+                    Debug.Log(hit.collider.name);
                 if (hit.collider.GetComponentInParent<Player>())
                 {
                     Debug.Log("?");
                     DetectPlayer = true;
-                    // Debug.Log(hit.collider.GetComponent<Player>().GetInterActControll().GetHide());
                     if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
                     {
-
-                        Debug.Log("1111?");
+                    Debug.Log("1111?");
                         DetectPlayer = false;
                     }
                 }
@@ -283,7 +283,7 @@ public class Enemy : Character
         }
         return result;
     }
-    public VisibilityResult CheckVisibility(int rayCount, float newy)
+    public VisibilityResult CheckVisibility(int rayCount,float newy)
     {
         VisibilityResult result = new VisibilityResult();
         result.visiblePoints = new List<Vector3>();
@@ -318,7 +318,7 @@ public class Enemy : Character
                 {
                     DetectPlayer = false;
                 }
-
+                
                 result.visiblePoints.Add(hit.point);
                 Debug.DrawRay(rayStartPos, rayDirection * hit.distance, Color.red, 0.1f);
 
