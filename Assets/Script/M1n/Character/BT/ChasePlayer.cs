@@ -29,11 +29,12 @@ public class ChasePlayer : Node
             if (BarkTime > BarkTimer)
             {
                 runner.MakeNoise(runner.gameObject,10,10);
-                Debug.Log("Â¢¾î");
+                Debug.Log("Â¢ï¿½ï¿½");
                 BarkTime = 0;
             }
             if (player.GetInterActControll().GetHide())
             {
+                Debug.Log(player.GetInterActControll().GetHide());
                 runner.missPlayer();
                 runner.StopMove();
                 return NodeState.FAILURE;
@@ -42,7 +43,7 @@ public class ChasePlayer : Node
             {
                 runner.missPlayer();
                 runner.StopMove();
-                Debug.Log("³¡");
+                Debug.Log("ï¿½ï¿½");
                 MoveTime = 0;
                 return NodeState.FAILURE;
             }
@@ -50,6 +51,7 @@ public class ChasePlayer : Node
         }
         else
         {
+                Debug.Log(player.GetInterActControll().GetHide());
             if(player.GetInterActControll().GetHide())
             {
                 runner.missPlayer();

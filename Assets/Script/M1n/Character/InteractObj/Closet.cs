@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Closet : UseageInteract
 {
+    public override bool GetHide()
+    {
+        return isHide;
+    }
+
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);

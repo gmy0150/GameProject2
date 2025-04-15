@@ -50,11 +50,10 @@ public class InteractController
             Vector3 dirToTarget = (col.transform.position - character.transform.position).normalized;
             float angle = Vector3.Angle(character.transform.forward, dirToTarget);
             float distance = Vector3.Distance(character.transform.position, col.transform.position);
-                    Debug.Log(1);
+ 
 
             if (angle < 60f && distance < minDistance)
             {
-                    Debug.Log(2);
                 IInterActerable candidate = col.GetComponent<IInterActerable>();
                 if (candidate != null && candidate.CanInteract())
                 {
@@ -83,9 +82,10 @@ public class InteractController
     }
     public bool GetHide()
     {
-        if(interactable != null)
+        if(currentInteractable != null)
         {
-            return interactable.GetHide();
+            Debug.Log(currentInteractable.GetHide());
+            return currentInteractable.GetHide();
         }
         else
         {
