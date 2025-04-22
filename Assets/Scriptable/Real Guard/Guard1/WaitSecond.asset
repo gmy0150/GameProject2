@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b16c86f6c446824f948e9f1c8b6de67, type: 3}
   m_Name: WaitSecond
   m_EditorClassIdentifier: 
-  Timer: 5
+  Timer: 3
   lookAngle: 45
-  switchTime: 3
+  switchTime: 2

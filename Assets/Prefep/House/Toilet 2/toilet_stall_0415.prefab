@@ -11,52 +11,52 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.7
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.7
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.7
+      value: 1.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.7206593
+      value: 53.949974
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000047683716
+      value: 0.19999436
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 26.536762
+      value: 51.569405
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.7071079
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.70710576
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
@@ -66,7 +66,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
@@ -78,11 +78,36 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3852341972610935857, guid: b5a2a62a40aaaf94c998b850163d1f1a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -2450849009015537254, guid: b5a2a62a40aaaf94c998b850163d1f1a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 15cbe8693ad492e45933b7cfa7c47cf5, type: 2}
     - target: {fileID: 919132149155446097, guid: b5a2a62a40aaaf94c998b850163d1f1a,
         type: 3}
       propertyPath: m_Name
       value: toilet_stall_0415
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b5a2a62a40aaaf94c998b850163d1f1a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4423045620967985251, guid: b5a2a62a40aaaf94c998b850163d1f1a,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 9077926073120308842, guid: b5a2a62a40aaaf94c998b850163d1f1a,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 865c8767aca0c0346881793b7c189516, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

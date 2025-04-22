@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 43.43
+      value: 57.77
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
@@ -36,7 +36,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -35.27
+      value: 4.989998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c4c7ea7e92235a54f8e4631724a32e8f,
         type: 3}
@@ -82,6 +82,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: open_car
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c4c7ea7e92235a54f8e4631724a32e8f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
