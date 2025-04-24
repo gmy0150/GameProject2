@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f75d1b51b3bee7f4096d367359c846f9,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.21
+      value: 1.2099998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f75d1b51b3bee7f4096d367359c846f9,
         type: 3}
@@ -21,22 +21,22 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: f75d1b51b3bee7f4096d367359c846f9,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 1.6330262
+      value: 1.6330265
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f75d1b51b3bee7f4096d367359c846f9,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 30.13
+      value: 32.32
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f75d1b51b3bee7f4096d367359c846f9,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.20489073
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f75d1b51b3bee7f4096d367359c846f9,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -21.5
+      value: 20.66
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f75d1b51b3bee7f4096d367359c846f9,
         type: 3}
@@ -82,6 +82,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: exercise_bike
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f75d1b51b3bee7f4096d367359c846f9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
