@@ -19,6 +19,8 @@ public class WaitSecond : Node
     public float switchTime = 3;
     public override NodeState Evaluate()
     {
+        
+        runner.UseAnim("Idle");
         runner.StopMove();
         ArroundTimer += Time.deltaTime;
         SwitchTimer += Time.deltaTime;

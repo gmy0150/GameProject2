@@ -12,6 +12,7 @@ public class Patrol : Node
     public override NodeState Evaluate()
     {
 
+        runner.UseAnim("Move");
         if (!runner.GetPatrol())
         {
             runner.Patrols();

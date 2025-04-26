@@ -31,7 +31,13 @@ public class Player : Character
 
     public LayerMask Layer;
     IController KeyboardControll;
-
+    void LateUpdate()
+    {
+        if (controller != null)
+        {
+            controller.LateTick(Time.deltaTime);
+        }
+    }
     void Start()
     {
         RunNoise = RunSound;
@@ -45,6 +51,10 @@ public class Player : Character
         interactController = new InteractController();
         interactController.OnPosessed(this);
     }
+    void OnAnimatorIK(int layerIndex)
+    {
+        
+    }
 
     void Update()
     {
@@ -57,54 +67,12 @@ public class Player : Character
             controller.Tick(Time.deltaTime);
         }
     }
-
-
-
-
-
-    // protected int GetMyInventoryIndex()
-    // {
-    //     var slots = InventoryManager.Instance.slots;
-    //     for (int i = 0; i < slots.Length; i++)
-    //     {
-    //         if (slots[i].HasItem() && slots[i].icon.sprite == itemIcon)
-    //             return i;
-    //     }
-    //     return -1;
-    // }
-
     public Image Lights;
     public InteractController GetInterActControll()
     {
         return interactController;
     }
 
-    // public override void Action()
-    // {
-    //     Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-    //     if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, Picture))
-    //     {
-    //         Vector3 lookDir = hit.point - transform.position;
-    //         lookDir.y = 0;
-
-    //         if (lookDir.magnitude > 0.1f)
-    //         {
-    //             Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-    //             transform.rotation = targetRotation;
-    //         }
-
-    //         Lights.color = Color.white;
-    //         Lights.transform.parent.gameObject.SetActive(true);
-    //         Time.timeScale = 0;
-
-    //         Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
-    //         {
-    //             StartCoroutine(TakePicture());
-    //         });
-
-    //         Debug.Log("사진 찍기!");
-    //     }
-    // }
 
 
     public LayerMask Picture;
@@ -132,6 +100,7 @@ public class Player : Character
     // public float angleLimit = 60;
     // public float detectionRange = 20;
     // public float CircleRange = 8;
+    public GameObject go;
 
     private void OnDrawGizmos()
     {
