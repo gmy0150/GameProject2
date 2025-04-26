@@ -5,7 +5,6 @@ using BehaviorTree;
 [CreateAssetMenu(fileName = "ChasePlayer", menuName = "BehaviorTree/ActionNode/ChasePlayer")]
 public class ChasePlayer : Node
 {
-
     Player player;
     float MoveTime;
     float BarkTime;
@@ -21,6 +20,7 @@ public class ChasePlayer : Node
 
     public override NodeState Evaluate()
     {
+        runner.UseAnim("ChasePlayer");
         if (runner.GetType() == typeof(GuardDog))
         {
             MoveTime += Time.deltaTime;
@@ -29,7 +29,7 @@ public class ChasePlayer : Node
             if (BarkTime > BarkTimer)
             {
                 runner.MakeNoise(runner.gameObject,10,10);
-                Debug.Log("Â¢¾î");
+                Debug.Log("Â¢ï¿½ï¿½");
                 BarkTime = 0;
             }
             if (player.GetInterActControll().GetHide())
@@ -43,7 +43,7 @@ public class ChasePlayer : Node
                 runner.missPlayer();
                 
                 runner.StopMove();
-                Debug.Log("³¡");
+                Debug.Log("ï¿½ï¿½");
                 MoveTime = 0;
                 return NodeState.FAILURE;
             }

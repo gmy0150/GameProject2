@@ -17,6 +17,7 @@ public class MoveProbArea : Node
     {
         if (runner.isEndProb())
         {
+        runner.UseAnim("Move");
             runner.MoveProb(runner.GetNoiseVec());
             if (runner.GetProb())
             {
