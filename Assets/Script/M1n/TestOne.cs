@@ -70,7 +70,6 @@ public class TestOne : MonoBehaviour
         Shader shader = Shader.Find("Custom/UnlitVertexColor");
         if (shader == null)
         {
-            Debug.Log("��ã?");
             return null; 
         }
         return new Material(shader);
@@ -80,7 +79,6 @@ public class TestOne : MonoBehaviour
         if (show)
         {
             meshRenderer.material = BaseMesh;
-            Debug.Log("????");
         }
         else
         {

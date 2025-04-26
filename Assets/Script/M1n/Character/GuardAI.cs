@@ -76,10 +76,7 @@ public class GuardAI : Enemy
 
             SetNoise();
         }
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            StartMove();
-        }
+
     }
 
     public void SetNoise()
@@ -215,12 +212,7 @@ public class GuardAI : Enemy
     }
 
 
-    public void StartMove()
-    {
 
-        aIPath.isStopped = false;
-        Debug.Log(aIPath.isStopped);
-    }
     bool patrolSuccess = false;
     public override void Patrols()
     {

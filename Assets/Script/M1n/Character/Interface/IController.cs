@@ -8,5 +8,6 @@ public interface IController
     public void Tick(float deltaTime);
     public void SetHide(bool x);
     public void SetNoise(bool x);
+    public void LateTick(float deltaTime);
     void RunningCancel();
 }

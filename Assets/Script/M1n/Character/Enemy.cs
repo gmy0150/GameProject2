@@ -16,9 +16,11 @@ public class Enemy : Character
     public Node node;
     Node NewNode;
     float PlayerY;
+    public Animator anim;
 
     protected virtual void Start()
     {
+        anim = GetComponent<Animator>();
         if (GetComponent<AIPath>() != null)
         {
             aIPath = GetComponent<AIPath>();
@@ -64,14 +66,27 @@ public class Enemy : Character
     {
         if (aIPath != null)
         {
+            UseAnim("Idle");
             aIPath.enabled = false;
         }
         if (chase)
             chase = false;
         //aIPath.isStopped = true;
     }
-
-
+    string Idle = "Idle";
+    string Move = "Move";
+    string ChasePlayer = "ChasePlayer";
+    string CheckNoise = "CheckNoise";
+    public void UseAnim(string exclude){
+        string[] triggers = {Idle,Move,ChasePlayer,CheckNoise};
+        foreach(string trigger in triggers){
+            if(trigger != exclude){
+                anim.SetBool(trigger,false);
+            }else{
+                anim.SetBool(trigger,true);
+            }
+        }
+    }
 
 
 
@@ -99,7 +114,10 @@ public class Enemy : Character
     public virtual void StartChase(Player player)
     {
         applyspeed = RunSpeed;
-        MoveToTarget(player.transform.position);
+        aIPath.SearchPath();
+        aIPath.enabled = true;
+        aIPath.destination = player.transform.position;
+        aIPath.isStopped = false;
         if (GetComponentInChildren<TestOne>())
         {
             TestOne t1 = GetComponentInChildren<TestOne>();
@@ -110,22 +128,20 @@ public class Enemy : Character
     void GoHome(Vector3 newTarget)
     {
         aIPath.enabled = true;
-
         aIPath.destination = newTarget;
 
         aIPath.isStopped = false;
 
         //aIPath.SearchPath();
     }
+
+
     protected virtual void MoveToTarget(Vector3 newTarget)
     {
         aIPath.enabled = true;
-
+        
         aIPath.destination = newTarget;
-
         aIPath.isStopped = false;
-
-        //aIPath.SearchPath();
     }
 
     protected Vector3 noise;
@@ -174,8 +190,6 @@ public class Enemy : Character
         applyspeed = MoveSpeed;
         float distanceToTarget = Vector3.Distance(transform.position, targetPos);
         TestOne t1;
-        Debug.Log(targetPos);
-        Debug.Log(transform.position);
 
         t1 = GetComponentInChildren<TestOne>();
         t1.InvMeshRen();
@@ -336,10 +350,29 @@ public class Enemy : Character
     }
 
 
-
+    void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy")){
+            StartCoroutine(TempBlockENemy(collision.transform.position));
+        }
+    }
 
     public override void MakeNoise(GameObject obj, float radius, float stepsize)
     {
         throw new System.NotImplementedException();
+    }
+    IEnumerator TempBlockENemy(Vector3 enemyPos){
+        Bounds bounds = new Bounds(enemyPos, Vector3.one * 0.5f);
+        GraphUpdateObject guo = new GraphUpdateObject(bounds){
+            modifyWalkability = true,setWalkability = false
+        };
+        AstarPath.active.UpdateGraphs(guo);
+        aIPath.SearchPath();
+        yield return new WaitForSeconds(0.3f);
+        GraphUpdateObject guorestore = new GraphUpdateObject(bounds){
+            modifyWalkability = true,setWalkability = true
+        };
+        AstarPath.active.UpdateGraphs(guorestore);
+        aIPath.SearchPath();
     }
 }
