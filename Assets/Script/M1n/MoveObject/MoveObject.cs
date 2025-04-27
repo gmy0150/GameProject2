@@ -16,6 +16,7 @@ public class MoveObject : MonoBehaviour
     {
         // 게임 시작 시 오브젝트의 원래 위치 저장
         originalPosition = transform.position;
+        objectCollider = GetComponent<Collider>();
     }
 
     private void Update()
@@ -76,21 +77,46 @@ public class MoveObject : MonoBehaviour
             while (elapsedTime < pushDuration)
             {
                 // 원위치에 플레이어가 없을 경우에만 돌아옴
-                if (!CheckPlayer())
+                if (!CheckPlayer() || MoveBack)
                 {
                     transform.position = Vector3.Lerp(transform.position, originalPosition, elapsedTime / pushDuration);
                     elapsedTime += Time.deltaTime;
+                    if (Vector3.Distance(transform.position, originalPosition) < 0.05f)
+                    {
+                        break; // 목표 위치에 가까워지면 while문 탈출
+                    }
+
+                    MoveBack = true;
                 }
                 yield return null;
             }
-
+            Debug.Log("도착");
             transform.position = originalPosition;
             isPushedBack = true;
+            MoveBack = false;
         }
     }
-
+    Collider objectCollider;
+    bool MoveBack;
     bool CheckPlayer()
     {
-        return Physics.CheckSphere(originalPosition, checkRadius, LayerMask.GetMask("Player"));
+        // 네모(박스) 형태의 영역으로 플레이어가 있는지 체크
+        Vector3 boxCenter = originalPosition; // 박스의 중심은 원래 위치
+        Vector3 boxSize = objectCollider.bounds.size / 2; // Collider의 크기를 가져옴
+
+        return Physics.CheckBox(boxCenter, boxSize, Quaternion.identity, LayerMask.GetMask("Player"));
+    }
+    // bool CheckPlayer()
+    // {
+    //     return Physics.CheckSphere(originalPosition, checkRadius, LayerMask.GetMask("Player"));
+    // }
+    private void OnDrawGizmos()
+    {
+        if (objectCollider != null)
+        {
+            // Collider의 크기 정보로 박스를 그림
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireCube(originalPosition, objectCollider.bounds.size);
+        }
     }
 }
