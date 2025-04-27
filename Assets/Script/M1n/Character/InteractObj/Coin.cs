@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Coin : StorageItem
 {
-
     float maxThrowDistance;
     float maxThrowForce;
     LineRenderer lineRenderer;
@@ -13,21 +12,25 @@ public class Coin : StorageItem
     GameObject CoinPrefab;
     Mesh Base;
     MeshFilter filter;
+
+    public string itemName = "Coin"; // 🪙 아이템 확인 코드 - 메시지 JSON에서 찾을 이름
+
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
-        
+
         filter = GetComponent<MeshFilter>();
         Base = filter.mesh;
         filter.mesh = null;
-        GetCoin();
+
+        GetCoin(); // 🪙 아이템 확인 코드 - 아이템 획득 처리
+
         maxThrowDistance = character.maxThrowDistance;
         maxThrowForce = character.maxThrowForce;
         lineRenderer = character.lineRenderer;
         CoinPrefab = character.Prefab;
-
-
     }
+
     public override bool CanInteract()
     {
         return !shoot && !hasCoin;
@@ -47,12 +50,13 @@ public class Coin : StorageItem
             ShootCoin();
         }
     }
+
     public void UseCoin()
     {
         ShootCoin();
-            shoot = false;
-
+        shoot = false;
     }
+
     public void ShootCoin()
     {
         if (lineRenderer != null)
@@ -61,15 +65,25 @@ public class Coin : StorageItem
         }
         hasCoin = false;
     }
+
     public void GetCoin()
     {
         hasCoin = true;
+
+        // ✅🪙 아이템 확인 코드 - JSON 메시지 가져와서 출력
+        string msg = MessageManager.Instance.GetMessage(itemName);
+        if (!string.IsNullOrEmpty(msg))
+        {
+            ItemAlertUI.Instance.ShowUIText(msg); // 메시지 UI에 출력
+        }
     }
+
     Vector3 dir;
     float throwF;
+
     public void HasCoin()
     {
-        if (hasCoin) // ������ ����� ���� ������ ǥ��
+        if (hasCoin)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -87,7 +101,7 @@ public class Coin : StorageItem
                 targetPoint = ray.origin + ray.direction * maxThrowDistance;
             }
 
-            targetPoint.y = ChTrans.y; 
+            targetPoint.y = ChTrans.y;
 
             Vector3 throwDirection = (targetPoint - ChTrans).normalized;
             float distance = Vector3.Distance(ChTrans, targetPoint);
@@ -95,7 +109,7 @@ public class Coin : StorageItem
             if (distance > maxThrowDistance)
             {
                 targetPoint = ChTrans + throwDirection * maxThrowDistance;
-                distance = maxThrowDistance; 
+                distance = maxThrowDistance;
             }
 
             float throwForce = Mathf.Lerp(2f, maxThrowForce, distance / maxThrowDistance);
@@ -115,34 +129,32 @@ public class Coin : StorageItem
         ChTrans.y = newY;
         Vector3 startPos = ChTrans;
         Vector3 velocity = throwDirection * throwForce;
-        velocity.y = throwForce * 0.2f; 
-        
+        velocity.y = throwForce * 0.2f;
+
         int numSteps = 20;
         float timeStep = 0.05f;
         List<Vector3> positions = new List<Vector3>();
 
         Vector3 lastPosition = startPos;
-        Debug.Log("?");
 
         for (int i = 0; i < numSteps; i++)
         {
             float time = i * timeStep;
             Vector3 position = startPos + velocity * time;
             position.y += gravity * time * time / 2f;
-            if (Physics.Raycast(lastPosition, position - lastPosition, out RaycastHit hit ,(position - lastPosition).magnitude, LayerMask.GetMask("Ground")))
+
+            if (Physics.Raycast(lastPosition, position - lastPosition, out RaycastHit hit, (position - lastPosition).magnitude, LayerMask.GetMask("Ground")))
             {
                 positions.Add(position);
-
                 break;
             }
-            positions.Add(position);
 
+            positions.Add(position);
         }
 
         lineRenderer.positionCount = positions.Count;
         lineRenderer.SetPositions(positions.ToArray());
     }
-
 
     void ThrowCoin(Vector3 throwDirection, float throwForce)
     {
@@ -150,34 +162,35 @@ public class Coin : StorageItem
         Vector3 transpo = character.transform.position;
         transpo.y = character.transform.position.y + 1;
         transform.position = transpo + throwDirection;
-        //throwobj = Instantiate(CoinPrefab, transpo + throwDirection, Quaternion.identity);
 
         Rigidbody rb = transform.GetComponent<Rigidbody>();
-            filter.mesh = Base;
+        filter.mesh = Base;
 
         if (rb != null)
         {
             Vector3 force = throwDirection * throwForce;
-            force.y = throwForce * 0.2f; //  Y�� �̵� ����
+            force.y = throwForce * 0.2f;
             rb.AddForce(force, ForceMode.Impulse);
             character.GetInterActControll().ResetInteraction();
             ShootCoin();
         }
     }
+
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground" && shoot )
+        if (collision.gameObject.tag == "Ground" && shoot)
         {
             Rigidbody rigid = GetComponent<Rigidbody>();
             rigid.velocity = Vector3.zero;
             UseCoin();
+
             if (character != null)
             {
                 character.MakeNoise(gameObject, Player.CoinNoise, 12);
             }
         }
     }
-    
+
     public override void UseItem()
     {
         ThrowCoin(dir, throwF);
@@ -194,6 +207,6 @@ public class Coin : StorageItem
 
     public override void inititem()
     {
-        lineRenderer.positionCount = 0; 
+        lineRenderer.positionCount = 0;
     }
 }
