@@ -111,7 +111,7 @@ public class KeyboardController : IController
                 tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             if (!Input.GetMouseButton(1)&& controllerableCharacter.GetInterActControll().RotateInteract() )
             {
-                Debug.Log(">");
+                
             }
             
             if (GetNoise())
@@ -131,7 +131,7 @@ public class KeyboardController : IController
         if(bClickMouse){
             // UpdateRotation();
         }else{
-            anim.SetLayerWeight(1,0);
+            // anim.SetLayerWeight(1,0);
         }
     }
     //testRotate
