@@ -69,7 +69,8 @@ public class KeyboardController : IController
         }
         if (Input.GetMouseButton(1))
         {
-        bClickMouse = true;
+            // UpdateRotation();
+        // bClickMouse = true;
             // TransRotation();
         }
         if(Input.GetKeyDown(KeyCode.F)){
@@ -127,36 +128,79 @@ public class KeyboardController : IController
             bClickMouse = false;
     }
     public void LateTick(float deltaTime){
-        // if(bClickMouse){
-        //     anim.SetLayerWeight(1,0.5f);
-        //     TransRotation();
-        // }else{
-        //     anim.SetLayerWeight(1,0);
-        // }
-    }
-    void TransRotation()
-    {
-        Transform tr = controllerableCharacter.go.transform;
-        
-        Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit))
-        {
-            Debug.Log(1);
-            Vector3 lookDir = hit.point - tr.position;
-            lookDir.y = 0;
-
-            if (lookDir.magnitude > 0.1f)
-            {
-                // anim.SetIKRotationWeight(1);
-                Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-                
-                // tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 10f);
-                tr.rotation = targetRotation;
-
-            }
+        if(bClickMouse){
+            // UpdateRotation();
+        }else{
+            anim.SetLayerWeight(1,0);
         }
-
     }
+    //testRotate
+// void UpdateRotation()
+// {
+//     Transform tr = controllerableCharacter.transform;
+
+//     Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+//     if (Physics.Raycast(ray, out RaycastHit hit))
+//     {
+//         Vector3 lookDir = hit.point - tr.position;
+//         lookDir.y = 0;
+
+//         if (lookDir.magnitude > 0.1f)
+//         {
+//             // 현재 바라보는 방향과 목표 방향의 차이를 구한다
+//             float angle = Vector3.SignedAngle(tr.forward, lookDir, Vector3.up);
+
+//             // Angle을 정규화해서 (-1 ~ 1) 사이 값으로 만들기
+//             float normalizedTurn = Mathf.Clamp(angle / 90f, -1f, 1f);
+
+//             // 애니메이션 Turn 값 설정
+//             anim.SetFloat("Turn", normalizedTurn);
+
+//             // 회전값을 부드럽게 전환
+//             Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+
+//             // 회전 속도를 조정: 5f로 회전 속도를 낮춰 부드럽게 회전
+//             tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 5f);  // 5f를 적당히 조정해보세요.
+//         }
+//         else
+//         {
+//             // 마우스가 일정 범위 안에 있을 때 Turn 값을 부드럽게 0으로 보냄
+//             float currentTurn = anim.GetFloat("Turn");
+//             float targetTurn = 0f;
+            
+//             // Mathf.Lerp로 현재 Turn 값을 0으로 부드럽게 변화시킴
+//             float smoothedTurn = Mathf.Lerp(currentTurn, targetTurn, Time.deltaTime * 5f);  // 5f로 부드러운 전환
+
+//             anim.SetFloat("Turn", smoothedTurn);
+
+//             // 회전값을 부드럽게 0으로 전환
+//             tr.rotation = Quaternion.Lerp(tr.rotation, Quaternion.identity, Time.deltaTime * 5f);
+//         }
+//     }
+// }
+    // void TransRotation()
+    // {
+    //     Transform tr = controllerableCharacter.transform;
+        
+    //     Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+    //     if (Physics.Raycast(ray, out RaycastHit hit))
+    //     {
+    //         Debug.Log(1);
+    //         Vector3 lookDir = hit.point - tr.position;
+    //         lookDir.y = 0;
+
+    //         if (lookDir.magnitude > 0.1f)
+    //         {
+    //             // anim.SetIKRotationWeight(1);
+    //             Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+                
+    //             // tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 10f);
+    //             tr.rotation = targetRotation;
+
+    //         }
+    //     }
+
+    // }
     void TryRun()
     {
         if (Input.GetKey(KeyCode.LeftShift))
