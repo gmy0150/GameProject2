@@ -35,7 +35,6 @@ public class WaitSecond : Node
         }
         if (ArroundTimer > Timer)
         {
-            Debug.Log("success");
             runner.RestartPatrol();
             ArroundTimer = 0;
             return NodeState.SUCCESS;
