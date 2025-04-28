@@ -101,5 +101,61 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 953c0e21092a15e4cadf2e0bff1f88d9,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 453984288493808479}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 953c0e21092a15e4cadf2e0bff1f88d9,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5035321303696867654}
   m_SourcePrefab: {fileID: 100100000, guid: 953c0e21092a15e4cadf2e0bff1f88d9, type: 3}
+--- !u!1 &3271136838723253466 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 953c0e21092a15e4cadf2e0bff1f88d9,
+    type: 3}
+  m_PrefabInstance: {fileID: 2424062835643779467}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &453984288493808479
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3271136838723253466}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 3.6398518, y: 1.979102, z: 1.4}
+  m_Center: {x: 0, y: 0.00000002980232, z: -0.87}
+--- !u!65 &5035321303696867654
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3271136838723253466}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.16, y: 1.979102, z: 2.8891628}
+  m_Center: {x: -1.32, y: 0.00000002980232, z: 0}
