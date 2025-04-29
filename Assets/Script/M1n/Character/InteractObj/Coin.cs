@@ -71,10 +71,11 @@ public class Coin : StorageItem
         hasCoin = true;
 
         // ✅🪙 아이템 확인 코드 - JSON 메시지 가져와서 출력
-        string msg = MessageManager.Instance.GetMessage(itemName);
-        if (!string.IsNullOrEmpty(msg))
+        var data = MessageManager.Instance.GetMessageData(itemName);
+        if (data != null)
         {
-            ItemAlertUI.Instance.ShowUIText(msg); // 메시지 UI에 출력
+            Sprite icon = Resources.Load<Sprite>("Icons/" + data.iconName); // 예: happy_face
+            ItemAlertUI.Instance.ShowUIText(data.message, icon);
         }
     }
 
