@@ -1,48 +1,93 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
 using UnityEngine.UI;
+using TMPro;
 
 public class ItemAlertUI : MonoBehaviour
 {
     public static ItemAlertUI Instance;
 
-    public GameObject messagePanel;               // 🔸 전체 패널 오브젝트
-    public TextMeshProUGUI messageText;           // 🔸 텍스트 메시지
-    public Image iconImage;                       // 🔸 아이템/표정 이미지
+    public GameObject messagePanel;
+    public TextMeshProUGUI messageText;
+    public Image iconImage;
+
+    private Queue<DialogueLine> dialogueQueue = new Queue<DialogueLine>();
+    private Coroutine typingCoroutine;
+    private bool isTyping = false;
 
     private void Awake()
     {
         Instance = this;
-
-        if (messagePanel != null)
-            messagePanel.SetActive(false); // 시작 시 꺼두기
+        messagePanel?.SetActive(false);
     }
 
-    public void ShowUIText(string msg, Sprite icon = null)
+    public void ShowDialogue(List<DialogueLine> lines)
     {
-        if (messageText == null || messagePanel == null)
+        dialogueQueue.Clear();
+        foreach (var line in lines)
+            dialogueQueue.Enqueue(line);
+
+        ShowNextLine();
+    }
+
+    void Update()
+    {
+        if (messagePanel.activeSelf && Input.GetKeyDown(KeyCode.Space))
         {
-            Debug.LogWarning("❗ messageText 또는 messagePanel이 연결되지 않았습니다!");
-            return;
+            if (isTyping)
+            {
+                // Skip typing and show full line
+                StopCoroutine(typingCoroutine);
+                messageText.text = fullCurrentText;
+                isTyping = false;
+            }
+            else
+            {
+                ShowNextLine();
+            }
+        }
+    }
+
+    string fullCurrentText = "";
+
+    void ShowNextLine()
+    {
+        if (dialogueQueue.Count > 0)
+        {
+            var line = dialogueQueue.Dequeue();
+            fullCurrentText = line.message;
+            iconImage.sprite = !string.IsNullOrEmpty(line.iconName)
+                ? Resources.Load<Sprite>("Icons/" + line.iconName)
+                : null;
+
+            iconImage.enabled = (iconImage.sprite != null);
+
+            messagePanel.SetActive(true);
+            typingCoroutine = StartCoroutine(TypeText(line.message));
+        }
+        else
+        {
+            HideMessage();
+        }
+    }
+
+    IEnumerator TypeText(string text)
+    {
+        isTyping = true;
+        messageText.text = "";
+
+        foreach (char c in text)
+        {
+            messageText.text += c;
+            yield return new WaitForSeconds(0.08f);
         }
 
-        messageText.text = msg;
-
-        if (iconImage != null && icon != null)
-        {
-            iconImage.sprite = icon;
-            iconImage.enabled = true;
-        }
-
-        messagePanel.SetActive(true);
-
-        CancelInvoke(nameof(HideMessage));
-        Invoke(nameof(HideMessage), 1.5f);
+        isTyping = false;
     }
 
     void HideMessage()
     {
-        if (messagePanel != null)
-            messagePanel.SetActive(false);
+        messagePanel?.SetActive(false);
     }
 }

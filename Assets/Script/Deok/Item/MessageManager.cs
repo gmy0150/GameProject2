@@ -2,11 +2,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public class DialogueLine
+{
+    public string message;     // 한 줄 대사
+    public string iconName;    // 이 대사에 대응되는 아이콘 이름
+}
+
+[System.Serializable]
 public class ItemMessage
 {
-    public string itemName;
-    public string message;
-    public string iconName; // 아이콘 파일명 (Resources/Icon/ 에 있어야 함)
+    public string itemName;        // 아이템 이름 (Key)
+    public List<DialogueLine> lines; // 대사 목록
 }
 
 [System.Serializable]
@@ -46,28 +52,9 @@ public class MessageManager : MonoBehaviour
         }
     }
 
-    public string GetMessage(string itemName)
-    {
-        if (messageDict != null && messageDict.TryGetValue(itemName, out ItemMessage messageData))
-        {
-            return messageData.message;
-        }
-        return null;
-    }
-
-    public Sprite GetMessageIcon(string itemName)
-    {
-        if (messageDict != null && messageDict.TryGetValue(itemName, out ItemMessage messageData))
-        {
-            if (!string.IsNullOrEmpty(messageData.iconName))
-            {
-                return Resources.Load<Sprite>("Icon/" + messageData.iconName);
-            }
-        }
-        return null;
-    }
-
-    // ✅ 아이콘과 메시지를 한번에 가져오고 싶을 때
+    /// <summary>
+    /// 특정 아이템 이름으로 메시지 전체 (대사 목록) 가져오기
+    /// </summary>
     public ItemMessage GetMessageData(string itemName)
     {
         if (messageDict != null && messageDict.TryGetValue(itemName, out ItemMessage messageData))
