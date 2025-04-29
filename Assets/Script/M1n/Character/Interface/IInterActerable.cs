@@ -11,5 +11,5 @@ public interface IInterActerable
     public bool GetHide();
     public void UpdateTime(float time);
     bool IsOneTimeInteraction();
-
+    void Init();
 }

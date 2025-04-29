@@ -10,14 +10,11 @@ public class FilmCam : StorageItem
     Image Lights;
     public Player Player;
 
-    public void Start()
+    public override void Init()
     {
-        Player = GameObject.FindAnyObjectByType<Player>();
-        picture = Player.Picture;
-        Lights =Player.Lights;
-        Debug.Log(picture);
-    }
 
+    }
+    
     public override void UseItem()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -47,13 +44,17 @@ public class FilmCam : StorageItem
     
     IEnumerator TakePicture()
     {
-        yield return new WaitForSecondsRealtime(0.5f);
+        yield return new WaitForSecondsRealtime(1f);
         Time.timeScale = 1;
         Lights.transform.parent.gameObject.SetActive(false);
     }
 
     public override void inititem()
     {
+        Player = GameObject.FindAnyObjectByType<Player>();
+        picture = Player.Picture;
+        Lights =Player.Lights;
+        Debug.Log(picture);
     }
 
 }
