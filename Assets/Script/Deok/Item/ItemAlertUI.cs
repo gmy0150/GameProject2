@@ -17,6 +17,11 @@ public class ItemAlertUI : MonoBehaviour
     private bool isTyping = false;
     private string fullCurrentText = "";
 
+    // ✅ 직접 Inspector에서 연결할 Player와 Animator
+    [Header("Player Control References")]
+    public Player playerScript;
+    public Animator playerAnimator;
+
     private void Awake()
     {
         Instance = this;
@@ -25,7 +30,16 @@ public class ItemAlertUI : MonoBehaviour
 
     public void ShowDialogue(List<DialogueLine> lines)
     {
-        Time.timeScale = 0f; // pause
+        Time.timeScale = 0f;
+
+        if (playerScript != null)
+            playerScript.enabled = false;
+
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetFloat("Speed", 0f);
+            playerAnimator.SetBool("IsRunning", false);
+        }
 
         dialogueQueue.Clear();
         foreach (var line in lines)
@@ -90,6 +104,9 @@ public class ItemAlertUI : MonoBehaviour
     void HideMessage()
     {
         messagePanel?.SetActive(false);
+
+        if (playerScript != null)
+            playerScript.enabled = true;
 
         Time.timeScale = 1f;
     }
