@@ -24,16 +24,17 @@ public class TutorialUI : MonoBehaviour
     }
 
     // ✅ 내부 타입에 맞춘 함수
-    public void ShowTutorialDialogue(List<TutorialManager.DialogueLine> lines)
+        public void ShowTutorialDialogue(List<TutorialManager.DialogueLine> lines)
     {
-        Time.timeScale = 0f; // 게임 정지
-        dialogueQueue.Clear();
+        Time.timeScale = 0f;
 
+        dialogueQueue.Clear();
         foreach (var line in lines)
             dialogueQueue.Enqueue(line);
 
         ShowNextLine();
     }
+
 
     void Update()
     {
