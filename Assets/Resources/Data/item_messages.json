@@ -1,5 +1,18 @@
 [
     {
+        "itemName": "Green",
+        "lines": [
+            {
+                "message": "으엑! 이게 뭐야!! 뭐 이런 징그러운게 다 있어!!",
+                "iconName": "nothing"
+            },
+            {
+                "message": "주인공: 이건 어디에 쓰는 물건이지?",
+                "iconName": "sad"
+            }
+        ]
+    },
+    {
         "itemName": "Coin",
         "lines": [
             {
