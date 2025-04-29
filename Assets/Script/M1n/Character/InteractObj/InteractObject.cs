@@ -33,4 +33,8 @@ public abstract class InteractObject :  MonoBehaviour, IInterActerable
     {
         return true;
     }
+
+    public virtual void Init()
+    {
+    }
 }

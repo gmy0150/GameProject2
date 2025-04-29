@@ -34,7 +34,6 @@ public abstract class StorageItem : InteractObject
     public override void UpdateTime(float time)
     {
         isActive = false;
-        Debug.Log("1");
     }
     public override bool RotateInteract() => isActive;
 

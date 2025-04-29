@@ -294,8 +294,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cced381096185f945bf2ec120303f9ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MoveSpeed: 8
-  RunSpeed: 15
+  MoveSpeed: 9
+  RunSpeed: 13
   Prefab: {fileID: 2774047279429761632, guid: 53a89c5e63442374ead625f508807bb9, type: 3}
   lineRenderer: {fileID: 5547722622821605544}
   RunSound: 10
@@ -316,7 +316,7 @@ MonoBehaviour:
   Picture:
     serializedVersion: 2
     m_Bits: 8192
-  go: {fileID: 0}
+  go: {fileID: 6396406183653715704}
 --- !u!120 &5547722622821605544
 LineRenderer:
   serializedVersion: 2
