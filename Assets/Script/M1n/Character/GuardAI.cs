@@ -73,9 +73,10 @@ public class GuardAI : Enemy
         MakeNoise(gameObject, 15, 10);
         if (Input.GetKeyDown(KeyCode.V))
         {
-
-            SetNoise();
+ShowOutline();
+            // SetNoise();
         }
+        
 
     }
 
@@ -89,6 +90,7 @@ public class GuardAI : Enemy
     public override void ShowOutline()
     {
         Outlinable.OutlineParameters.Enabled = true;
+        Debug.Log(Outlinable.OutlineParameters.Enabled);
         if (timer != null)
         {
             StopCoroutine(timer);

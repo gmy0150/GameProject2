@@ -78,6 +78,8 @@ public class Enemy : Character
     string ChasePlayer = "ChasePlayer";
     string CheckNoise = "CheckNoise";
     public void UseAnim(string exclude){
+        if(anim == null)return;
+        
         string[] triggers = {Idle,Move,ChasePlayer,CheckNoise};
         foreach(string trigger in triggers){
             if(trigger != exclude){
