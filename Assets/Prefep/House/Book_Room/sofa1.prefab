@@ -26,17 +26,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a5f01b3a650794a43b5d62dcfcc91f53,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.14
+      value: 10.67
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5f01b3a650794a43b5d62dcfcc91f53,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.3
+      value: 0.29999933
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5f01b3a650794a43b5d62dcfcc91f53,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 44.35
+      value: 62.22
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a5f01b3a650794a43b5d62dcfcc91f53,
         type: 3}
@@ -87,7 +87,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4c4fb367356823344901b28c520451a6, type: 2}
+      objectReference: {fileID: 2100000, guid: cbdf639a1deb3db49822276592efe384, type: 2}
     - target: {fileID: -7511558181221131132, guid: a5f01b3a650794a43b5d62dcfcc91f53,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -98,8 +98,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: sofa1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a5f01b3a650794a43b5d62dcfcc91f53,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a5f01b3a650794a43b5d62dcfcc91f53,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3749461288554474603}
   m_SourcePrefab: {fileID: 100100000, guid: a5f01b3a650794a43b5d62dcfcc91f53, type: 3}
+--- !u!1 &3263997206258533084 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a5f01b3a650794a43b5d62dcfcc91f53,
+    type: 3}
+  m_PrefabInstance: {fileID: 2417700706076426125}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &3749461288554474603
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3263997206258533084}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.038511623, y: 0.03662673, z: 0.017962681}
+  m_Center: {x: 4.3901346e-10, y: 4.3279713e-10, z: 0.008981339}

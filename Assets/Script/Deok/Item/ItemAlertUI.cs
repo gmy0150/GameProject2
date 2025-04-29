@@ -1,12 +1,14 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class ItemAlertUI : MonoBehaviour
 {
     public static ItemAlertUI Instance;
 
-    public GameObject messagePanel;               // 🔸 Message UI 오브젝트
-    public TextMeshProUGUI messageText;           // 🔸 안쪽 텍스트
+    public GameObject messagePanel;               // 🔸 전체 패널 오브젝트
+    public TextMeshProUGUI messageText;           // 🔸 텍스트 메시지
+    public Image iconImage;                       // 🔸 아이템/표정 이미지
 
     private void Awake()
     {
@@ -16,7 +18,7 @@ public class ItemAlertUI : MonoBehaviour
             messagePanel.SetActive(false); // 시작 시 꺼두기
     }
 
-    public void ShowUIText(string msg)
+    public void ShowUIText(string msg, Sprite icon = null)
     {
         if (messageText == null || messagePanel == null)
         {
@@ -25,15 +27,22 @@ public class ItemAlertUI : MonoBehaviour
         }
 
         messageText.text = msg;
-        messagePanel.SetActive(true); // 전체 UI 켜기
+
+        if (iconImage != null && icon != null)
+        {
+            iconImage.sprite = icon;
+            iconImage.enabled = true;
+        }
+
+        messagePanel.SetActive(true);
 
         CancelInvoke(nameof(HideMessage));
-        Invoke(nameof(HideMessage), 1.5f); // 1.5초 후 자동 숨김
+        Invoke(nameof(HideMessage), 1.5f);
     }
 
     void HideMessage()
     {
         if (messagePanel != null)
-            messagePanel.SetActive(false); // 전체 UI 끄기
+            messagePanel.SetActive(false);
     }
 }

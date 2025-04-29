@@ -26,37 +26,37 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 8a1da7c88b720614a9c75b759af40dcb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 22.65
+      value: 10.55
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8a1da7c88b720614a9c75b759af40dcb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.30000004
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8a1da7c88b720614a9c75b759af40dcb,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 50.53
+      value: 58.43
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8a1da7c88b720614a9c75b759af40dcb,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.09229707
+      value: -0.61237174
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8a1da7c88b720614a9c75b759af40dcb,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.09229707
+      value: 0.61237186
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8a1da7c88b720614a9c75b759af40dcb,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.70105726
+      value: -0.35355455
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8a1da7c88b720614a9c75b759af40dcb,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.70105726
+      value: -0.35355458
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8a1da7c88b720614a9c75b759af40dcb,
         type: 3}
@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 8a1da7c88b720614a9c75b759af40dcb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: -165
+      value: -300
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8a1da7c88b720614a9c75b759af40dcb,
         type: 3}
@@ -87,7 +87,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 6e537fee1dfbdde4095d6abaecbcd4e2, type: 2}
+      objectReference: {fileID: 2100000, guid: cbdf639a1deb3db49822276592efe384, type: 2}
     - target: {fileID: -7511558181221131132, guid: 8a1da7c88b720614a9c75b759af40dcb,
         type: 3}
       propertyPath: m_Materials.Array.data[1]
@@ -98,8 +98,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: sofa
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 8a1da7c88b720614a9c75b759af40dcb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a1da7c88b720614a9c75b759af40dcb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2042091758573123286}
   m_SourcePrefab: {fileID: 100100000, guid: 8a1da7c88b720614a9c75b759af40dcb, type: 3}
+--- !u!1 &5160438075015005509 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8a1da7c88b720614a9c75b759af40dcb,
+    type: 3}
+  m_PrefabInstance: {fileID: 5430468994931275796}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &2042091758573123286
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5160438075015005509}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.0650398, y: 0.06865682, z: 0.056424867}
+  m_Center: {x: -5.3552074e-10, y: 0.0031865826, z: 0.02821243}

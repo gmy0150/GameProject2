@@ -1,14 +1,17 @@
 [
-  {
-    "itemName": "Coin",
-    "message": "🪙 첫 번째 아이템 코인을 획득했습니다!"
-  },
-  {
-    "itemName": "ToyHammer",
-    "message": "🔨 장난감 망치를 얻었습니다!"
-  },
-  {
-    "itemName": "HP",
-    "message": "❤️ 체력 포션을 획득했습니다."
-  }
+    {
+        "itemName": "Coin",
+        "message": "🪙 첫 번째 아이템 코인을 획득했습니다!",
+        "iconName": "nothing"
+    },
+    {
+        "itemName": "ToyHammer",
+        "message": "🔨 장난감 망치를 얻었습니다!",
+        "iconName": "sad"
+    },
+    {
+        "itemName": "HP",
+        "message": "💊 체력 포션을 획득했습니다!",
+        "iconName": "relief_face"
+    }
 ]
