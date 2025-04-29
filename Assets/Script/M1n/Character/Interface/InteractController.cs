@@ -47,56 +47,42 @@ public class InteractController
 void UpdateOutline()
 {
     Collider[] colliders = Physics.OverlapSphere(character.transform.position, interactionDistance, interactableLayer);
-    Outlinable newOutlinable = null; // 이번 프레임에 새로 아웃라인을 추가할 오브젝트
-    Debug.Log(1);
+    Outlinable closestOutlinable = null;
+    float closestDistance = Mathf.Infinity;
+
     foreach (Collider col in colliders)
     {
-    Debug.Log(2);
         IInterActerable candidate = col.GetComponent<IInterActerable>();
         if (candidate == null)
             continue;
 
-        // 플레이어와의 거리 계산
-    Debug.Log(3);
         float distance = Vector3.Distance(character.transform.position, col.transform.position);
-        
-        if (distance < interactionDistance)
-        {
-    Debug.Log(4);
-            // Outlinable 컴포넌트가 없으면 추가
-            newOutlinable = col.GetComponent<Outlinable>();
-            if (newOutlinable == null)
-            {
-                newOutlinable = col.gameObject.AddComponent<Outlinable>();
-                var meshRenderer = col.GetComponent<MeshRenderer>();
-                if (meshRenderer)
-                {
-                    newOutlinable.AddRenderer(meshRenderer);
-                }
-                else
-                {
-                    // MeshRenderer가 없으면 처리하지 않음
-                    continue;
-                }
-            }
 
-            // Outlinable의 Enabled가 false일 때만 true로 설정
-            if (!newOutlinable.OutlineParameters.Enabled)
+        if (distance < interactionDistance && distance < closestDistance)
+        {
+            Outlinable outlinable = col.GetComponent<Outlinable>();
+            if (outlinable != null)
             {
-                newOutlinable.OutlineParameters.Enabled = true;
+                closestOutlinable = outlinable;
+                closestDistance = distance;
             }
         }
     }
 
-    // 이전에 아웃라인이 있던 오브젝트가 존재하고, 새로 아웃라인을 적용할 오브젝트가 다르면
-    // 기존 오브젝트에서 아웃라인을 꺼야 한다.
-    if (currentOutlinable != null && newOutlinable != currentOutlinable)
+    // 기존 오브젝트와 다르거나, 새로 선택된 게 없거나, 거리 초과 시 이전 오브젝트의 아웃라인을 끈다
+    if (currentOutlinable != null && 
+        (currentOutlinable != closestOutlinable || closestOutlinable == null || closestDistance > interactionDistance))
     {
-        currentOutlinable.OutlineParameters.Enabled = false; // 이전 아웃라인 꺼주기
+        currentOutlinable.OutlineParameters.Enabled = false;
+        currentOutlinable = null;
     }
 
-    // 새로 아웃라인을 적용할 오브젝트를 현재 아웃라인으로 설정
-    currentOutlinable = newOutlinable; // 새로운 Outlinable을 현재 오브젝트로 업데이트
+    // 새로 선택된 오브젝트의 아웃라인을 켠다
+    if (closestOutlinable != null && !closestOutlinable.OutlineParameters.Enabled)
+    {
+        closestOutlinable.OutlineParameters.Enabled = true;
+        currentOutlinable = closestOutlinable;
+    }
 }
     void TryInteract()
     {
