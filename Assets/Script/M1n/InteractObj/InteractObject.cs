@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using EPOOutline;
 using UnityEngine;
 
+[RequireComponent(typeof(Outlinable))]
 public abstract class InteractObject :  MonoBehaviour, IInterActerable
 {
     protected bool isHide = false;
@@ -11,6 +13,11 @@ public abstract class InteractObject :  MonoBehaviour, IInterActerable
     public bool hasCoin = false;
     // bool CanInteract = false;
 
+    void Start()
+    {
+        Outlinable outlinable = GetComponent<Outlinable>();
+        outlinable.OutlineParameters.Enabled = false;
+    }
     public bool GetHide()
     {
         return this.isHide;
