@@ -15,6 +15,7 @@ public class ItemAlertUI : MonoBehaviour
     private Queue<DialogueLine> dialogueQueue = new Queue<DialogueLine>();
     private Coroutine typingCoroutine;
     private bool isTyping = false;
+    private string fullCurrentText = "";
 
     private void Awake()
     {
@@ -24,6 +25,8 @@ public class ItemAlertUI : MonoBehaviour
 
     public void ShowDialogue(List<DialogueLine> lines)
     {
+        Time.timeScale = 0f; // pause
+
         dialogueQueue.Clear();
         foreach (var line in lines)
             dialogueQueue.Enqueue(line);
@@ -37,7 +40,6 @@ public class ItemAlertUI : MonoBehaviour
         {
             if (isTyping)
             {
-                // Skip typing and show full line
                 StopCoroutine(typingCoroutine);
                 messageText.text = fullCurrentText;
                 isTyping = false;
@@ -49,14 +51,13 @@ public class ItemAlertUI : MonoBehaviour
         }
     }
 
-    string fullCurrentText = "";
-
     void ShowNextLine()
     {
         if (dialogueQueue.Count > 0)
         {
             var line = dialogueQueue.Dequeue();
             fullCurrentText = line.message;
+
             iconImage.sprite = !string.IsNullOrEmpty(line.iconName)
                 ? Resources.Load<Sprite>("Icons/" + line.iconName)
                 : null;
@@ -80,7 +81,7 @@ public class ItemAlertUI : MonoBehaviour
         foreach (char c in text)
         {
             messageText.text += c;
-            yield return new WaitForSeconds(0.08f);
+            yield return new WaitForSecondsRealtime(0.07f);
         }
 
         isTyping = false;
@@ -89,5 +90,7 @@ public class ItemAlertUI : MonoBehaviour
     void HideMessage()
     {
         messagePanel?.SetActive(false);
+
+        Time.timeScale = 1f;
     }
 }
