@@ -15,6 +15,7 @@ public class InventoryManager : MonoBehaviour
     {
         Instance = this;
         slots[0].SetItem(Cam);
+        Cam.inititem();
     }
 
 
