@@ -66,18 +66,18 @@ public class Coin : StorageItem
         hasCoin = false;
     }
 
-    public void GetCoin()
+        public void GetCoin()
     {
         hasCoin = true;
 
-        // ✅🪙 아이템 확인 코드 - JSON 메시지 가져와서 출력
+        // ✅🪙 아이템 확인 코드 - JSON에서 여러 대사와 표정 정보 가져오기
         var data = MessageManager.Instance.GetMessageData(itemName);
-        if (data != null)
+        if (data != null && data.lines != null && data.lines.Count > 0)
         {
-            Sprite icon = Resources.Load<Sprite>("Icons/" + data.iconName); // 예: happy_face
-            ItemAlertUI.Instance.ShowUIText(data.message, icon);
+            ItemAlertUI.Instance.ShowDialogue(data.lines); // 여러 줄 출력
         }
     }
+
 
     Vector3 dir;
     float throwF;
