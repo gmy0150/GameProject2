@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using EPOOutline;
 
 public class FilmCam : StorageItem
 {
     LayerMask picture;
     Image Lights;
-    public Player Player;
-
+    private Player Player;
+    public int cnt = 0;
+    List<GameObject> TakenPc = new List<GameObject>();
     public override void Init()
     {
 
@@ -20,6 +22,9 @@ public class FilmCam : StorageItem
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, picture))
         {
+            GameObject hitobj = hit.collider.gameObject;
+            if(TakenPc.Contains(hitobj))
+            return;
             Vector3 lookDir = hit.point - transform.position;
             lookDir.y = 0;
 
@@ -37,7 +42,13 @@ public class FilmCam : StorageItem
             {
                 StartCoroutine(TakePicture());
             });
+            TakenPc.Add(hitobj);
+            if(!hitobj.GetComponent<Outlinable>())
+                hitobj.AddComponent<Outlinable>();
 
+            Outlinable outlinable = hitobj.GetComponent<Outlinable>();
+            outlinable.OutlineParameters.Enabled = true;
+            cnt++;
             Debug.Log("사진 찍기!");
         }
     }
