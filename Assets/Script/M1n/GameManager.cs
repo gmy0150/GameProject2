@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject computer;
-     Outlinable outlinable;
+    public GameObject computer,Btn;
      
     public List<GameObject> AllPC = new List<GameObject>();
+    bool OnComputer,DoorBtn = false;
 
     private static GameManager _instance;
     public static GameManager Instance
@@ -37,18 +37,25 @@ public class GameManager : MonoBehaviour
         }
         DontDestroyOnLoad(gameObject);
     }
-    void Start()
-    {
-        outlinable = computer.GetComponent<Outlinable>();
-    }
-    bool OnComputer = true;
     public bool AbleComputer(){
         return OnComputer;
     }
-    public void OnActive(){
+    public void OnComputerActive(){
+        Debug.Log("컴퓨터 켜짐");
         OnComputer = true;
-        outlinable.OutlineParameters.Enabled = true;
         computer.layer = 12;
+        if(!computer.GetComponent<ComputerBtn>())
         computer.AddComponent<ComputerBtn>();
+    }
+    public bool AbleButton(){
+        return DoorBtn;
+    }
+    public void OnDoorActive(){
+        DoorBtn = true;
+        Debug.Log("작3동함?");
+        Btn.layer = 12;
+        if(!Btn.GetComponent<DoorBtn>())
+        Btn.AddComponent<DoorBtn>();
+        
     }
 }

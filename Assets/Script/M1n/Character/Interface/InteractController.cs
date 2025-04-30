@@ -95,11 +95,10 @@ void UpdateOutline()
             Vector3 dirToTarget = (col.transform.position - character.transform.position).normalized;
             float angle = Vector3.Angle(character.transform.forward, dirToTarget);
             float distance = Vector3.Distance(character.transform.position, col.transform.position);
-            Debug.Log(1);
 
-            if (angle < 60f && distance < minDistance)
+
+            if ( distance < minDistance)
             {
-                Debug.Log(2);
                 IInterActerable candidate = col.GetComponent<IInterActerable>();
                 if (candidate != null && candidate.CanInteract())
                 {
@@ -114,7 +113,6 @@ void UpdateOutline()
         if (bestInteractable != null)
         {
             bestInteractable.Interact(character, keyboardController);
-
             // 일회성이 아닌 상호작용이면 현재 상호작용 중인 오브젝트로 저장
             if (!bestInteractable.IsOneTimeInteraction())
             {

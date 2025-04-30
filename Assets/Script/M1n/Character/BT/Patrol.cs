@@ -12,11 +12,12 @@ public class Patrol : Node
     public override NodeState Evaluate()
     {
 
+            Debug.Log("작동중");
         runner.UseAnim("Move");
         if (!runner.GetPatrol())
         {
             runner.Patrols();
-
+            Debug.Log("작동중");
         }
         else
         {

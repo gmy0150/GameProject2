@@ -17,6 +17,7 @@ public class Enemy : Character
     Node NewNode;
     float PlayerY;
     public Animator anim;
+    Collider collider;
 
     protected virtual void Start()
     {
@@ -40,6 +41,7 @@ public class Enemy : Character
         {
             PlayerY = player.transform.position.y;
         }
+        collider = GetComponentInChildren<Collider>();
 
     }
     protected virtual void Update()
@@ -116,9 +118,10 @@ public class Enemy : Character
     public virtual void StartChase(Player player)
     {
         applyspeed = RunSpeed;
-        aIPath.SearchPath();
         aIPath.enabled = true;
-        aIPath.destination = player.transform.position;
+        Vector3 newvec = player.transform.position;
+        newvec.y = transform.position.y;
+        aIPath.destination = newvec;
         aIPath.isStopped = false;
         if (GetComponentInChildren<TestOne>())
         {
@@ -141,7 +144,7 @@ public class Enemy : Character
     protected virtual void MoveToTarget(Vector3 newTarget)
     {
         aIPath.enabled = true;
-        
+        newTarget.y = transform.position.y;
         aIPath.destination = newTarget;
         aIPath.isStopped = false;
     }
@@ -162,6 +165,7 @@ public class Enemy : Character
     {
         noise = Vector3.zero;
     }
+    
     public virtual void InitProb()
     {
     }
@@ -224,15 +228,17 @@ public class Enemy : Character
         MoveToTarget(vec);
 
         applyspeed = MoveSpeed;
-        Vector3 curPos = transform.position;
-        Vector3 targetPos = new Vector3(vec.x, curPos.y, vec.z);
-        float distanceToTarget = Vector3.Distance(transform.position, vec);
+        Vector3 newVec = vec;
+        newVec.y = transform.position.y;
+        float distanceToTarget = Vector3.Distance(transform.position, newVec);
         if (distanceToTarget < 0.5f)  // ���ϴ� ���� ���� ����
         {
             probSuccess = true;
         }
     }
-
+    public virtual void ProbEnd(){}
+    public virtual void StartProb(){}
+    public virtual bool isProb(){return false;}
     public bool GetProb() { return probSuccess; }
     public virtual void Patrols() { }
     public virtual void StopPatrol() { }
@@ -251,7 +257,7 @@ public class Enemy : Character
         result.blockedPoints = new List<Vector3>();
 
         Vector3 NewVector = transform.position;
-        // NewVector.y = PlayerY;
+        NewVector.y = collider.bounds.center.y;
 
 
         Transform enemyTransform = transform;
@@ -275,13 +281,11 @@ public class Enemy : Character
                 // Player�� �����ϸ� visiblePoints�� �߰�
                 if (hit.collider.GetComponentInParent<Player>())
                 {
-                    Debug.Log("?");
                     DetectPlayer = true;
                     // Debug.Log(hit.collider.GetComponent<Player>().GetInterActControll().GetHide());
                     if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
                     {
 
-                        Debug.Log("1111?");
                         DetectPlayer = false;
                     }
                 }
@@ -369,12 +373,10 @@ public class Enemy : Character
             modifyWalkability = true,setWalkability = false
         };
         AstarPath.active.UpdateGraphs(guo);
-        aIPath.SearchPath();
         yield return new WaitForSeconds(0.3f);
         GraphUpdateObject guorestore = new GraphUpdateObject(bounds){
             modifyWalkability = true,setWalkability = true
         };
         AstarPath.active.UpdateGraphs(guorestore);
-        aIPath.SearchPath();
     }
 }

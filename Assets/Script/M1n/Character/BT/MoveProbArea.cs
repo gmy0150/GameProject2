@@ -15,25 +15,27 @@ public class MoveProbArea : Node
 
     public override NodeState Evaluate()
     {
+            Debug.Log(runner.isEndProb());
         if (runner.isEndProb())
         {
-        runner.UseAnim("Move");
+            Debug.Log(111);
+            runner.UseAnim("Move");
             runner.MoveProb(runner.GetNoiseVec());
             if (runner.GetProb())
             {
-                ProbTime += Time.deltaTime;
+                ProbTime += Time.time;
+                Debug.Log(ProbTime);
                 if (ProbTime > 3)
                 {
-                    ProbTime = 0;
+                    runner.ProbEnd();
                     runner.InitNoise();
                     runner.InitProb();
                     runner.StopMove();
+
+                    Debug.Log("작");
+                    ProbTime = 0;
                     return NodeState.SUCCESS;
                 }
-            }
-            else
-            {
-                ProbTime = 0;
             }
         }
 

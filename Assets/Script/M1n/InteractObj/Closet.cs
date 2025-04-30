@@ -10,6 +10,7 @@ public class Closet : UseageInteract
         InventoryManager.Instance.ExitSlot();
         if (!isHide)
         {
+            Debug.Log("작동하자");
             Hide();
         }
     }
