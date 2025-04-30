@@ -1,10 +1,27 @@
 [
     {
-        "message": "1번째 문구.", 
+        "message": "1번째 문구.",
         "iconName": "Happy"
     },
     {
-        "message": "2번째 문구 ", 
+        "message": "2번째 문구 ",
+        "iconName": "Happy"
+    },
+    {
+        "message": "3번째 문구.",
+        "iconName": "Happy"
+    },
+    {
+        "message": "4번째 문구 ",
+        "iconName": "Happy"
+    },
+    {
+        "message": "5번째 문구 ",
+        "iconName": "Happy"
+    },
+    {
+        "message": "6번째 문구 ",
         "iconName": "Happy"
     }
+
 ]
