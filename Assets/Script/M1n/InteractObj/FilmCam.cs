@@ -70,6 +70,9 @@ public class FilmCam : StorageItem
         {
             Ailion.gameObject.SetActive(true);
             Ailion.ChaseStart(Player);
+            GameManager.Instance.OnAilion();
+        }else{
+            Debug.Log("");
         }
 
         StartCoroutine(ShowDialogueDelayed(go.name));

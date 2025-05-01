@@ -58,4 +58,13 @@ public class GameManager : MonoBehaviour
         Btn.AddComponent<DoorBtn>();
         
     }
+    bool AIlionON = false;
+    [SerializeField] GameObject wallexit;
+    public void OnAilion(){
+wallexit.SetActive(false);
+AIlionON = true;
+    }
+    public bool AbleExit(){
+        return AIlionON;
+    }
 }
