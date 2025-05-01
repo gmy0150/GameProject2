@@ -64,6 +64,7 @@ public class FilmCam : StorageItem
             Debug.Log("??");
             Ailion.gameObject.SetActive(true);
             Ailion.ChaseStart(Player);
+            GameManager.Instance.OnAilion();
         }else{
             Debug.Log("");
         }
