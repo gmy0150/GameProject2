@@ -15,8 +15,8 @@ public class Player : Character
     public LineRenderer lineRenderer;
     
     [Header("소리 거리")]
-    public float RunSound, WalkSound, CoinSound;
-    public static float RunNoise, WalkNoise, CoinNoise;
+    public float RunSound , CoinSound;
+    public static float RunNoise , CoinNoise;
     
     [Header("던지는 거리")]
     public float maxThrowDistance = 40;
@@ -41,7 +41,6 @@ public class Player : Character
     void Start()
     {
         RunNoise = RunSound;
-        WalkNoise = WalkSound;
         CoinNoise = CoinSound;
 
         KeyboardControll = new KeyboardController();

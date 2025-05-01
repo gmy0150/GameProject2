@@ -11,19 +11,17 @@ public class FilmCam : StorageItem
     Image Lights;
     private Player Player;
     List<GameObject> TakenPc = new List<GameObject>();
-    public override void Init()
-    {
 
-    }
-    
+    public override void Init() {}
+
     public override void UseItem()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, picture))
         {
             GameObject hitobj = hit.collider.gameObject;
-            if(TakenPc.Contains(hitobj))
-            return;
+            if (TakenPc.Contains(hitobj)) return;
+
             Vector3 lookDir = hit.point - transform.position;
             lookDir.y = 0;
 
@@ -41,41 +39,53 @@ public class FilmCam : StorageItem
             {
                 StartCoroutine(TakePicture(hitobj));
             });
+
             TakenPc.Add(hitobj);
-            if(!hitobj.GetComponent<Outlinable>())
+
+            if (!hitobj.GetComponent<Outlinable>())
                 hitobj.AddComponent<Outlinable>();
+
             Outlinable outlinable = hitobj.GetComponent<Outlinable>();
             outlinable.AddRenderer(hitobj.GetComponent<MeshRenderer>());
             outlinable.OutlineParameters.Enabled = true;
-            Debug.Log("사진 찍기!");
         }
     }
+
     public AilionAI Ailion;
     public GameObject AilionPc;
+
     IEnumerator TakePicture(GameObject go)
     {
         yield return new WaitForSecondsRealtime(1f);
+
         Time.timeScale = 1;
         Lights.transform.parent.gameObject.SetActive(false);
-        if(GameManager.Instance.PcCount() == TakenPc.Count){
+
+        if (GameManager.Instance.PcCount() == TakenPc.Count)
+        {
             GameManager.Instance.OnComputerActive();
         }
-        if(go == AilionPc){
-            Debug.Log("??");
+
+        if (go == AilionPc)
+        {
             Ailion.gameObject.SetActive(true);
             Ailion.ChaseStart(Player);
-        }else{
-            Debug.Log("");
         }
-        Debug.Log(go);
+
+        StartCoroutine(ShowDialogueDelayed(go.name));
+    }
+
+    IEnumerator ShowDialogueDelayed(string objName)
+    {
+        yield return new WaitForSecondsRealtime(0.2f);
+        Debug.Log("📸 [FilmCam] 호출된 오브젝트 이름: " + objName);  // ✅ 로그 ①
+        PhotoTriggerManager.Instance.ShowDialogueFromObjectName(objName);
     }
 
     public override void inititem()
     {
         Player = GameObject.FindAnyObjectByType<Player>();
         picture = Player.Picture;
-        Lights =Player.Lights;
-        Debug.Log(picture);
+        Lights = Player.Lights;
     }
-
 }

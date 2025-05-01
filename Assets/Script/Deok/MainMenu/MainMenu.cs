@@ -6,7 +6,7 @@ public class MainMenu : MonoBehaviour
 
     public void Play()
     {
-        fadeScript.FadeToScene("H_Tutorial 1"); // 씬 이름 전달
+        fadeScript.FadeToScene("M_tuto"); // 씬 이름 전달
     }
 
     public void Quit()
