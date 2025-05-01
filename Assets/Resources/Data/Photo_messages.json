@@ -24,5 +24,18 @@
                 "iconName": "surprised"
             }
         ]
+    },
+    {
+        "itemName": "UFO 3",
+        "lines": [
+            {
+                "message": "으엑! 이게 뭐야!! 뭐 이런 징그러운 게 다 있어!! 3번째다 임마 ㅋㅋ",
+                "iconName": "nothing"
+            },
+            {
+                "message": "주인공: 이건 어디에 쓰는 물건이지?",
+                "iconName": "sad"
+            }
+        ]
     }
 ]

@@ -51,7 +51,7 @@ public class FilmCam : StorageItem
         }
     }
 
-    public AilionAI Ailion;
+    //public AilionAI Ailion;
     public GameObject AilionPc;
 
     IEnumerator TakePicture(GameObject go)
@@ -66,14 +66,11 @@ public class FilmCam : StorageItem
             GameManager.Instance.OnComputerActive();
         }
 
-        if (go == AilionPc)
-        {
-            Ailion.gameObject.SetActive(true);
-            Ailion.ChaseStart(Player);
-            GameManager.Instance.OnAilion();
-        }else{
-            Debug.Log("");
-        }
+        //if (go == AilionPc)
+        //{
+         //   Ailion.gameObject.SetActive(true);
+         //   Ailion.ChaseStart(Player);
+        //}
 
         StartCoroutine(ShowDialogueDelayed(go.name));
     }
@@ -81,7 +78,6 @@ public class FilmCam : StorageItem
     IEnumerator ShowDialogueDelayed(string objName)
     {
         yield return new WaitForSecondsRealtime(0.2f);
-        Debug.Log("📸 [FilmCam] 호출된 오브젝트 이름: " + objName);  // ✅ 로그 ①
         PhotoTriggerManager.Instance.ShowDialogueFromObjectName(objName);
     }
 
