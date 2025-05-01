@@ -8,9 +8,14 @@ public class TutorialUI : MonoBehaviour
 {
     public static TutorialUI Instance;
 
+    [Header("UI 연결")]
     public GameObject panel;
     public TextMeshProUGUI messageText;
     public Image iconImage;
+
+    [Header("플레이어 제어")]
+    public Player playerScript;
+    public Animator playerAnimator;
 
     private Queue<TutorialManager.DialogueLine> dialogueQueue = new Queue<TutorialManager.DialogueLine>();
     private Coroutine typingCoroutine;
@@ -23,10 +28,18 @@ public class TutorialUI : MonoBehaviour
         panel?.SetActive(false);
     }
 
-    // ✅ 내부 타입에 맞춘 함수
-        public void ShowTutorialDialogue(List<TutorialManager.DialogueLine> lines)
+    public void ShowTutorialDialogue(List<TutorialManager.DialogueLine> lines)
     {
         Time.timeScale = 0f;
+
+        if (playerScript != null)
+            playerScript.enabled = false;
+
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetFloat("Speed", 0f);
+            playerAnimator.SetBool("IsRunning", false);
+        }
 
         dialogueQueue.Clear();
         foreach (var line in lines)
@@ -35,8 +48,7 @@ public class TutorialUI : MonoBehaviour
         ShowNextLine();
     }
 
-
-    void Update()
+    private void Update()
     {
         if (panel.activeSelf && Input.GetKeyDown(KeyCode.Space))
         {
@@ -72,7 +84,11 @@ public class TutorialUI : MonoBehaviour
         else
         {
             panel.SetActive(false);
-            Time.timeScale = 1f; // 대사 끝 → 게임 재개
+
+            if (playerScript != null)
+                playerScript.enabled = true;
+
+            Time.timeScale = 1f;
         }
     }
 
