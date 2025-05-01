@@ -58,6 +58,8 @@ public class FilmCam : StorageItem
         Lights.transform.parent.gameObject.SetActive(false);
         if(GameManager.Instance.PcCount() == TakenPc.Count){
             GameManager.Instance.OnComputerActive();
+        }else{
+            Debug.Log("");
         }
     }
 
