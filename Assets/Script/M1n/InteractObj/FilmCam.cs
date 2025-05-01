@@ -39,7 +39,7 @@ public class FilmCam : StorageItem
 
             Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
             {
-                StartCoroutine(TakePicture());
+                StartCoroutine(TakePicture(hitobj));
             });
             TakenPc.Add(hitobj);
             if(!hitobj.GetComponent<Outlinable>())
@@ -50,17 +50,24 @@ public class FilmCam : StorageItem
             Debug.Log("사진 찍기!");
         }
     }
-    
-    IEnumerator TakePicture()
+    public AilionAI Ailion;
+    public GameObject AilionPc;
+    IEnumerator TakePicture(GameObject go)
     {
         yield return new WaitForSecondsRealtime(1f);
         Time.timeScale = 1;
         Lights.transform.parent.gameObject.SetActive(false);
         if(GameManager.Instance.PcCount() == TakenPc.Count){
             GameManager.Instance.OnComputerActive();
+        }
+        if(go == AilionPc){
+            Debug.Log("??");
+            Ailion.gameObject.SetActive(true);
+            Ailion.ChaseStart(Player);
         }else{
             Debug.Log("");
         }
+        Debug.Log(go);
     }
 
     public override void inititem()
