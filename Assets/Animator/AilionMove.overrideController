@@ -7,11 +7,5 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: AilionMove
-  m_Controller: {fileID: 9100000, guid: dcee9ebf1b93d67498ade95a2288a647, type: 2}
-  m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: f0496cd7dd82f804ba21f23c0f9185c7, type: 2}
-    m_OverrideClip: {fileID: -203655887218126122, guid: 2500a68637b0aff4cbba3ffe8c2107a6,
-      type: 3}
-  - m_OriginalClip: {fileID: 7400000, guid: ecad231a14fa9ac43bdcd91a76212f76, type: 2}
-    m_OverrideClip: {fileID: -203655887218126122, guid: 8ed1e8e8bfb8f59498bf3423c2e7c5fc,
-      type: 3}
+  m_Controller: {fileID: 0}
+  m_Clips: []
