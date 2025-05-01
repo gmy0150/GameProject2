@@ -1,14 +1,27 @@
 [
     {
-        "targetName": "UFO",
+        "itemName": "UFO 1",
         "lines": [
             {
-                "message": "이건... 외계인의 흔적?",
-                "iconName": "Sad"
+                "message": "으엑! 이게 뭐야!! 뭐 이런 징그러운 게 다 있어!!",
+                "iconName": "nothing"
             },
             {
-                "message": "정부는 뭔가를 숨기고 있다.",
-                "iconName": "Happy"
+                "message": "주인공: 이건 어디에 쓰는 물건이지?",
+                "iconName": "sad"
+            }
+        ]
+    },
+    {
+        "itemName": "UFO 2",
+        "lines": [
+            {
+                "message": "이번에도 똑같이 생긴 물건이군…",
+                "iconName": "neutral"
+            },
+            {
+                "message": "하지만 무언가 다르다. 이번엔 움직였어.",
+                "iconName": "surprised"
             }
         ]
     }
