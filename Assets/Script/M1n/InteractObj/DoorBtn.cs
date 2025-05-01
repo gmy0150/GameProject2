@@ -12,7 +12,6 @@ public class DoorBtn : UseageInteract
         return;
             base.Interact(character, controller);
             AilenRoom.SetActive(true);
-            InteractAgain();
             Debug.Log("버튼눌림");
         
     }

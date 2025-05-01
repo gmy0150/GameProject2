@@ -118,6 +118,7 @@ public class Enemy : Character
     public virtual void StartChase(Player player)
     {
         applyspeed = RunSpeed;
+        UseAnim(ChasePlayer);
         aIPath.enabled = true;
         Vector3 newvec = player.transform.position;
         newvec.y = transform.position.y;

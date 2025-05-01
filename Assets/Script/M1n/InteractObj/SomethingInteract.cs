@@ -13,9 +13,15 @@ public class SomethingInteract : UseageInteract
     {
         return true;
     }
+    void Update()
+    {
+        ailion.StartChase(character);
+        
+    }
+    bool isAction;
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
-        ailion.StartChase(character);
+        isAction = true;
     }
 }
