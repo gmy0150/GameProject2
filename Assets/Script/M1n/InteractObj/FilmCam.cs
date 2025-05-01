@@ -11,19 +11,17 @@ public class FilmCam : StorageItem
     Image Lights;
     private Player Player;
     List<GameObject> TakenPc = new List<GameObject>();
-    public override void Init()
-    {
 
-    }
-    
+    public override void Init() {}
+
     public override void UseItem()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, picture))
         {
             GameObject hitobj = hit.collider.gameObject;
-            if(TakenPc.Contains(hitobj))
-            return;
+            if (TakenPc.Contains(hitobj)) return;
+
             Vector3 lookDir = hit.point - transform.position;
             lookDir.y = 0;
 
@@ -39,36 +37,54 @@ public class FilmCam : StorageItem
 
             Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
             {
-                StartCoroutine(TakePicture());
+                StartCoroutine(TakePicture(hitobj));
             });
+
             TakenPc.Add(hitobj);
-            if(!hitobj.GetComponent<Outlinable>())
+
+            if (!hitobj.GetComponent<Outlinable>())
                 hitobj.AddComponent<Outlinable>();
+
             Outlinable outlinable = hitobj.GetComponent<Outlinable>();
             outlinable.AddRenderer(hitobj.GetComponent<MeshRenderer>());
             outlinable.OutlineParameters.Enabled = true;
-            Debug.Log("사진 찍기!");
         }
     }
-    
-    IEnumerator TakePicture()
+
+    //public AilionAI Ailion;
+    public GameObject AilionPc;
+
+    IEnumerator TakePicture(GameObject go)
     {
         yield return new WaitForSecondsRealtime(1f);
+
         Time.timeScale = 1;
         Lights.transform.parent.gameObject.SetActive(false);
-        if(GameManager.Instance.PcCount() == TakenPc.Count){
+
+        if (GameManager.Instance.PcCount() == TakenPc.Count)
+        {
             GameManager.Instance.OnComputerActive();
-        }else{
-            Debug.Log("");
         }
+
+        //if (go == AilionPc)
+        //{
+         //   Ailion.gameObject.SetActive(true);
+         //   Ailion.ChaseStart(Player);
+        //}
+
+        StartCoroutine(ShowDialogueDelayed(go.name));
+    }
+
+    IEnumerator ShowDialogueDelayed(string objName)
+    {
+        yield return new WaitForSecondsRealtime(0.2f);
+        PhotoTriggerManager.Instance.ShowDialogueFromObjectName(objName);
     }
 
     public override void inititem()
     {
         Player = GameObject.FindAnyObjectByType<Player>();
         picture = Player.Picture;
-        Lights =Player.Lights;
-        Debug.Log(picture);
+        Lights = Player.Lights;
     }
-
 }
