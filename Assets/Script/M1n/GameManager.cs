@@ -59,7 +59,9 @@ public class GameManager : MonoBehaviour
         
     }
     bool AIlionON = false;
+    [SerializeField] GameObject wallexit;
     public void OnAilion(){
+wallexit.SetActive(false);
 AIlionON = true;
     }
     public bool AbleExit(){
