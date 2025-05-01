@@ -48,11 +48,11 @@ public class TestOne : MonoBehaviour
             else
             {
 
-                if (enemyAI.IsHome() && enemyAI.GetType().ToString() == "GuardDog")
-                {
-                    Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
-                    meshFilter.mesh = CreateFanMesh(visibility);
-                }
+                // if (enemyAI.IsHome() && enemyAI.GetType().ToString() == "GuardDog")
+                // {
+                //     Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
+                //     meshFilter.mesh = CreateFanMesh(visibility);
+                // }
                 
                 if(enemyAI.GetType().ToString() == "GuardAI")
                 {

@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class ComputerBtn : UseageInteract
 {
-    public GameObject go;
     public override void Interact(Player character, IController controller)
     {
         if(GameManager.Instance.AbleComputer()){
             base.Interact(character, controller);
-            go.gameObject.SetActive(false);
+            GameManager.Instance.OnDoorActive();
             InteractAgain();
+            Debug.Log("컴퓨터 작동");
         }
     }
     public override void InteractAgain()

@@ -35,11 +35,19 @@ public class GuardAI : Enemy
     {
         base.Start();
         RestartPatrol();
+        LayerMask ground = LayerMask.GetMask("Ground");
+        RaycastHit hit;
+        float groundy = 0;
+        if(Physics.Raycast(transform.position,Vector3.down,out hit,Mathf.Infinity,ground)){
+            
+            groundy = hit.point.y;
+        }
 
+        
 
-        for (int i = 1; i < wayPoints.Length; i++)
+        for (int i = 0; i < wayPoints.Length; i++)
         {
-            wayPoints[i] = new Vector3(wayPoints[i].x, transform.position.y, wayPoints[i].z);
+            wayPoints[i] = new Vector3(wayPoints[i].x, groundy, wayPoints[i].z);
         }
 
 
@@ -62,7 +70,6 @@ public class GuardAI : Enemy
             targetRotationSet = true;
         }
 
-        // Slerp�� ���� ���� ȸ���� ������ ��ǥ ȸ�� ���̸� �ε巴�� �����մϴ�.
         transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
     }
@@ -71,13 +78,6 @@ public class GuardAI : Enemy
         base.Update();
 
         MakeNoise(gameObject, 15, 10);
-        if (Input.GetKeyDown(KeyCode.V))
-        {
-ShowOutline();
-            // SetNoise();
-        }
-        
-
     }
 
     public void SetNoise()
@@ -89,8 +89,6 @@ ShowOutline();
     float timeDuration = 5f;
     public override void ShowOutline()
     {
-        Outlinable.OutlineParameters.Enabled = true;
-        Debug.Log(Outlinable.OutlineParameters.Enabled);
         if (timer != null)
         {
             StopCoroutine(timer);
@@ -108,13 +106,6 @@ ShowOutline();
         }
         HideOutline();
     }
-
-    public override void HideOutline()
-    {
-        Outlinable.OutlineParameters.Enabled = false;
-    }
-
-
 
     public override void MakeNoise(GameObject obj, float radius, float stepsize)
     {
@@ -140,10 +131,6 @@ ShowOutline();
             }
         }
     }
-
-
-
-
 
     private void OnDrawGizmos()
     {
@@ -171,9 +158,6 @@ ShowOutline();
             Gizmos.DrawLine(wayPoints[wayPoints.Length - 1], wayPoints[0]);
         }
     }
-
-    
-
 
     public override void EndProbarea()
     {
@@ -204,7 +188,16 @@ ShowOutline();
         RestartPatrol();
         UnEndProbArea();
     }
-
+    bool ProbMove =false;
+    public override void StartProb(){
+        ProbMove = true;
+    }
+    public override void ProbEnd(){
+        ProbMove = false;
+    }
+    public override bool isProb(){
+        return ProbMove;
+    }
 
 
     bool isPatrolling = false;
@@ -219,7 +212,6 @@ ShowOutline();
     public override void Patrols()
     {
         MoveToTarget(wayPoints[wayPointIndex]);
-
         isPatrolling = true;
         if (aIPath.reachedDestination)
         {
