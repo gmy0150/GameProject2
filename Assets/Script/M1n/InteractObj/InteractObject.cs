@@ -16,9 +16,11 @@ public abstract class InteractObject :  MonoBehaviour, IInterActerable
     void Start()
     {
         Outlinable outlinable = GetComponent<Outlinable>();
+        // outlinable.RenderStyle = RenderStyle.FrontBack;
         outlinable.OutlineParameters.Enabled = false;
+        // outlinable.BackParameters.Enabled = false;
     }
-    public bool GetHide()
+    public virtual bool GetHide()
     {
         return this.isHide;
     }

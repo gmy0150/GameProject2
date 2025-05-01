@@ -57,7 +57,9 @@ public class FilmCam : StorageItem
         Time.timeScale = 1;
         Lights.transform.parent.gameObject.SetActive(false);
         if(GameManager.Instance.PcCount() == TakenPc.Count){
-            GameManager.Instance.OnActive();
+            GameManager.Instance.OnComputerActive();
+        }else{
+            Debug.Log("");
         }
     }
 

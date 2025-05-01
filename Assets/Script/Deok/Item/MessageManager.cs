@@ -4,15 +4,15 @@ using UnityEngine;
 [System.Serializable]
 public class DialogueLine
 {
-    public string message;     // 한 줄 대사
-    public string iconName;    // 이 대사에 대응되는 아이콘 이름
+    public string message;
+    public string iconName;
 }
 
 [System.Serializable]
 public class ItemMessage
 {
-    public string itemName;        // 아이템 이름 (Key)
-    public List<DialogueLine> lines; // 대사 목록
+    public string itemName;
+    public List<DialogueLine> lines;
 }
 
 [System.Serializable]
@@ -25,15 +25,17 @@ public class MessageManager : MonoBehaviour
 {
     public static MessageManager Instance;
 
-    private Dictionary<string, ItemMessage> messageDict;
+    private Dictionary<string, ItemMessage> itemMessageDict;
+    private Dictionary<string, ItemMessage> photoMessageDict;
 
     void Awake()
     {
         Instance = this;
-        LoadMessages();
+        LoadItemMessages();
+        LoadPhotoMessages();
     }
 
-    void LoadMessages()
+    void LoadItemMessages()
     {
         TextAsset jsonFile = Resources.Load<TextAsset>("Data/item_messages");
         if (jsonFile == null)
@@ -45,21 +47,46 @@ public class MessageManager : MonoBehaviour
         string wrappedJson = "{\"messages\":" + jsonFile.text + "}";
         ItemMessageList list = JsonUtility.FromJson<ItemMessageList>(wrappedJson);
 
-        messageDict = new Dictionary<string, ItemMessage>();
+        itemMessageDict = new Dictionary<string, ItemMessage>();
         foreach (var msg in list.messages)
         {
-            messageDict[msg.itemName] = msg;
+            itemMessageDict[msg.itemName] = msg;
         }
     }
 
-    /// <summary>
-    /// 특정 아이템 이름으로 메시지 전체 (대사 목록) 가져오기
-    /// </summary>
-    public ItemMessage GetMessageData(string itemName)
+    void LoadPhotoMessages()
     {
-        if (messageDict != null && messageDict.TryGetValue(itemName, out ItemMessage messageData))
+        TextAsset jsonFile = Resources.Load<TextAsset>("Data/photo_messages");
+        if (jsonFile == null)
         {
-            return messageData;
+            Debug.LogWarning("📷 photo_messages.json 파일이 없어 사진 메시지는 비활성화됩니다.");
+            return;
+        }
+
+        string wrappedJson = "{\"messages\":" + jsonFile.text + "}";
+        ItemMessageList list = JsonUtility.FromJson<ItemMessageList>(wrappedJson);
+
+        photoMessageDict = new Dictionary<string, ItemMessage>();
+        foreach (var msg in list.messages)
+        {
+            photoMessageDict[msg.itemName] = msg;
+        }
+    }
+
+    public ItemMessage GetItemMessage(string itemName)
+    {
+        if (itemMessageDict != null && itemMessageDict.TryGetValue(itemName, out var data))
+        {
+            return data;
+        }
+        return null;
+    }
+
+    public ItemMessage GetPhotoMessage(string targetName)
+    {
+        if (photoMessageDict != null && photoMessageDict.TryGetValue(targetName, out var data))
+        {
+            return data;
         }
         return null;
     }

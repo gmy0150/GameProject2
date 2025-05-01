@@ -1,0 +1,15 @@
+[
+    {
+        "targetName": "UFO",
+        "lines": [
+            {
+                "message": "이건... 외계인의 흔적?",
+                "iconName": "Sad"
+            },
+            {
+                "message": "정부는 뭔가를 숨기고 있다.",
+                "iconName": "Happy"
+            }
+        ]
+    }
+]

@@ -11,48 +11,59 @@ public class CheckNoise : Node
     private float ArroundTimer = 0f;
     private float Timer = 1f;
     private Vector3 TempVec = Vector3.zero;
-
+    
     public override Node Clone()
     {
         return new CheckNoise();
     }
-
+bool hasReachedAngle = false;
+bool isFirst = false;
     public override NodeState Evaluate()
     {
         Vector3 noiseVec = runner.GetNoiseVec();
-
-        if (noiseVec != Vector3.zero && TempVec != noiseVec)
+        if(runner.isEndProb()){
+            Debug.Log(runner.isEndProb());
+            return NodeState.SUCCESS;
+        }
+        
+        if (noiseVec != Vector3.zero&& !isFirst && !runner.isEndProb() )
         {
+            isFirst = true;
             ArroundTimer = 0;
-            TempVec = noiseVec;
+            runner.StartProb();
             runner.InitProb();
             runner.StopMove();
         }
 
-        if (noiseVec != Vector3.zero)
+        if ( noiseVec != Vector3.zero && !runner.isEndProb() && runner.isProb())
         {
             float rotationSpeed = 2;
             Quaternion currentRotation = runner.transform.rotation;
+            noiseVec.y = runner.transform.position.y;
             Quaternion targetRotation = Quaternion.LookRotation(noiseVec - runner.transform.position);
 
 
             runner.transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-            if (Quaternion.Angle(currentRotation, targetRotation) < 1f)
+            
+             if (!hasReachedAngle && Quaternion.Angle(currentRotation, targetRotation) < 1f)
             {
-                ArroundTimer += Time.deltaTime;
+                    hasReachedAngle = true;
             }
-
+            if(hasReachedAngle){
+                ArroundTimer +=Time.deltaTime;
+            }
             if (ArroundTimer >= Timer)
             {
+                hasReachedAngle = false;
+                isFirst = false;
                 runner.EndProbarea();
                 return NodeState.SUCCESS;
             }
+        Debug.Log("?");
          return NodeState.RUNNING;
-        }
-        else
-        {
+        }else{
             return NodeState.FAILURE;
         }
+        
     }
 }

@@ -71,7 +71,7 @@ public class Coin : StorageItem
         hasCoin = true;
 
         // ✅🪙 아이템 확인 코드 - JSON에서 여러 대사와 표정 정보 가져오기
-        var data = MessageManager.Instance.GetMessageData(itemName);
+        var data = MessageManager.Instance.GetItemMessage(itemName);
         if (data != null && data.lines != null && data.lines.Count > 0)
         {
             ItemAlertUI.Instance.ShowDialogue(data.lines); // 여러 줄 출력
