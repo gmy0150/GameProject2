@@ -11,12 +11,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game_Scene/H_Tutorial 1.unity
     guid: 61ad2dd416dbc44429db6f5806b9da8b
-  - enabled: 0
-    path: Assets/Scenes/Jongdeok/MainMap_1.unity
-    guid: 3371f4b60c26b3b48b9a8fde9bac2a42
-  - enabled: 0
-    path: Assets/Scenes/M1n/Map-2.unity
-    guid: 4463821179715ae449bcf48206817baf
   - enabled: 1
     path: Assets/Scenes/Game_Scene/Game.unity
     guid: d90cf6fcb541406438f1195cbdecbfee
