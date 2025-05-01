@@ -10,6 +10,7 @@ public class FadeScript : MonoBehaviour
 
     public void FadeToScene(string sceneName)
     {
+
         panelImage.gameObject.SetActive(true);
         panelImage.color = new Color(0, 0, 0, 0); // 시작은 투명
 
