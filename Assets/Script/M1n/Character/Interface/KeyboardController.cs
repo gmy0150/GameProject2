@@ -32,11 +32,10 @@ public class KeyboardController : IController
         runSpeed = controllerableCharacter.RunSpeed;
         walkSpeed = controllerableCharacter.MoveSpeed;
 
-        walkNoise = Player.WalkNoise;
         runNoise = Player.RunNoise;
 
         applySpeed = walkSpeed;
-        applyNoise = walkNoise;
+        applyNoise = 0;
 
         GenNoise = false;
         anim = controllerableCharacter.GetComponent<Animator>();
@@ -116,7 +115,7 @@ public class KeyboardController : IController
             
             if (GetNoise())
             {
-                controllerableCharacter.MakeNoise(controllerableCharacter.gameObject, GetSpeed(), 10);
+                controllerableCharacter.MakeNoise(controllerableCharacter.gameObject, applyNoise, 10);
             }
         }
         else
