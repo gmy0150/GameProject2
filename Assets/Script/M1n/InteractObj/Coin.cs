@@ -179,8 +179,9 @@ public class Coin : StorageItem
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground" && shoot)
+        if (collision.gameObject.layer == 6 && shoot)
         {
+            Debug.Log("?");
             Rigidbody rigid = GetComponent<Rigidbody>();
             rigid.velocity = Vector3.zero;
             UseCoin();
