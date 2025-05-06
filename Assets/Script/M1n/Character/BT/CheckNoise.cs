@@ -59,7 +59,6 @@ bool isFirst = false;
                 runner.EndProbarea();
                 return NodeState.SUCCESS;
             }
-        Debug.Log("?");
          return NodeState.RUNNING;
         }else{
             return NodeState.FAILURE;
