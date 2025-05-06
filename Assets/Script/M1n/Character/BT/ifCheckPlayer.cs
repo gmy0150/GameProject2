@@ -11,7 +11,7 @@ public class ifCheckPlayer : Node
 
     private void OnEnable()
     {
-        // ¿©±â¼­ FindAnyObjectByTypeÀ» È£ÃâÇÏ¸é Á¤»ó ÀÛµ¿ÇÔ
+        // ï¿½ï¿½ï¿½â¼­ FindAnyObjectByTypeï¿½ï¿½ È£ï¿½ï¿½ï¿½Ï¸ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ûµï¿½ï¿½ï¿½
         //alertSystem = FindAnyObjectByType<AlertSystem>();
     }
     public override NodeState Evaluate()
@@ -23,5 +23,10 @@ public class ifCheckPlayer : Node
     public override Node Clone()
     {
         return new ifCheckPlayer();
+    }
+
+    public override void initNode()
+    {
+        throw new System.NotImplementedException();
     }
 }

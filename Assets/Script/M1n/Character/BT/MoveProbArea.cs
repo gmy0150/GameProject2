@@ -38,4 +38,14 @@ public class MoveProbArea : Node
 
         return NodeState.RUNNING;
     }
+
+    public override void initNode()
+    {
+        runner.ProbEnd();
+        runner.InitNoise();
+        runner.InitProb();
+        runner.StopMove();
+
+        ProbTime = 0;
+    }
 }

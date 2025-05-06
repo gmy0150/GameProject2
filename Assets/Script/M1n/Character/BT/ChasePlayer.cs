@@ -71,4 +71,12 @@ public class ChasePlayer : Node
 
         return clone;
     }
+
+    public override void initNode()
+    {
+        MoveTime = 0;
+        BarkTime = 0;
+        runner.missPlayer();
+        runner.StopMove();
+    }
 }

@@ -65,4 +65,11 @@ public class CCTVMove : Node
 
         return clone;
     }
+
+    public override void initNode()
+    {
+        ArroundTimer = 0;
+        SwitchTimer = 0;
+        lookingRight = false;
+    }
 }

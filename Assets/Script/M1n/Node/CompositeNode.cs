@@ -14,7 +14,7 @@ public class CompositeNode : Node
 
         for (int i = 0; i < nodes.Length; i++)
         {
-            newSequence.nodes[i] = nodes[i].Clone(); 
+            newSequence.nodes[i] = nodes[i].Clone();
         }
 
         return newSequence;
@@ -25,4 +25,11 @@ public class CompositeNode : Node
         throw new System.NotImplementedException();
     }
 
+    public override void initNode()
+    {
+        foreach (var node in nodes)
+        {
+            node.initNode(); // 혹시 InitTree 안 쓸 경우 대비
+        }
+    }
 }

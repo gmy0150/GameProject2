@@ -25,4 +25,9 @@ public class Patrol : Node
 
 
     }
+
+    public override void initNode()
+    {
+        throw new System.NotImplementedException();
+    }
 }
