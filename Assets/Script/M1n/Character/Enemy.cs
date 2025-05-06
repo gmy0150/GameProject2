@@ -61,8 +61,21 @@ public class Enemy : Character
     {
         DetectPlayer = false;
         ShowShape();
-        Debug.Log(DetectPlayer);
-
+    }
+    bool stun;
+    public void HitEnemy(){
+        StopMove();
+        missPlayer();
+        stun = true;
+        Time.timeScale = 0;
+        //ui창 띄우기 애니매이션 재생
+        Time.timeScale = 1;
+    }
+    public void releaseStun(){
+        stun = false;
+    }
+    public bool GetStun(){
+        return stun;
     }
     public virtual void StopMove()
     {
@@ -117,6 +130,7 @@ public class Enemy : Character
     bool chase;
     public virtual void StartChase(Player player)
     {
+        if(stun)return;
         applyspeed = RunSpeed;
         UseAnim(ChasePlayer);
         aIPath.enabled = true;
@@ -144,6 +158,8 @@ public class Enemy : Character
 
     protected virtual void MoveToTarget(Vector3 newTarget)
     {
+        if(stun)return;
+
         aIPath.enabled = true;
         newTarget.y = transform.position.y;
         aIPath.destination = newTarget;
@@ -226,6 +242,8 @@ public class Enemy : Character
 
     public void MoveProb(Vector3 vec)
     {
+        if(stun)return;
+
         MoveToTarget(vec);
 
         applyspeed = MoveSpeed;
@@ -256,6 +274,7 @@ public class Enemy : Character
         VisibilityResult result = new VisibilityResult();
         result.visiblePoints = new List<Vector3>();
         result.blockedPoints = new List<Vector3>();
+        if(stun) return result;
 
         Vector3 NewVector = transform.position;
         NewVector.y = collider.bounds.center.y;
@@ -310,6 +329,7 @@ public class Enemy : Character
         VisibilityResult result = new VisibilityResult();
         result.visiblePoints = new List<Vector3>();
         result.blockedPoints = new List<Vector3>();
+        if(stun) return result;
 
         Transform enemyTransform = transform;
 

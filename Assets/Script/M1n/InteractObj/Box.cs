@@ -55,6 +55,7 @@ public class Box : StorageItem
     public override void UseItem()
     {
         TransBox();
+            InventoryManager.Instance.GetSlot().ClearItem();
     }
 
     public override void inititem()

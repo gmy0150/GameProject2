@@ -5,11 +5,16 @@ using UnityEngine;
 
 public abstract class StorageItem : InteractObject
 {
+    public LayerMask interact;
+
     public Sprite icon;
     public string itemname;
     [SerializeField]
     protected bool isInteract = true;
     protected bool isActive;
+
+    [SerializeField] protected float interactDis;
+
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);

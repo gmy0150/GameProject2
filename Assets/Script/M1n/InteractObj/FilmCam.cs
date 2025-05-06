@@ -4,21 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using EPOOutline;
+using Unity.VisualScripting;
 
 public class FilmCam : StorageItem
 {
-    LayerMask picture;
     Image Lights;
     private Player Player;
     List<GameObject> TakenPc = new List<GameObject>();
-
     public override void Init() {}
 
     public override void UseItem()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, picture))
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, interact))
         {
+            Vector3 hitPos = hit.point;
+            hitPos.y = Player.transform.position.y;
+            float distance = Vector3.Distance(Player.transform.position,hitPos);
+            if(distance > interactDis){//interact보다 distance가 크면 return
+                return;
+            }
+            
+
             GameObject hitobj = hit.collider.gameObject;
             if (TakenPc.Contains(hitobj)) return;
 
@@ -88,7 +95,7 @@ public class FilmCam : StorageItem
     public override void inititem()
     {
         Player = GameObject.FindAnyObjectByType<Player>();
-        picture = Player.Picture;
+        interact = Player.Picture;
         Lights = Player.Lights;
     }
 }

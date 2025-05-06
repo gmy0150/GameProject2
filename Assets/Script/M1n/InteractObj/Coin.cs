@@ -196,6 +196,8 @@ public class Coin : StorageItem
     public override void UseItem()
     {
         ThrowCoin(dir, throwF);
+            InventoryManager.Instance.GetSlot().ClearItem();
+
     }
 
     public override void UpdateTime(float time)

@@ -30,6 +30,7 @@ public class Player : Character
     public Mesh BoxMesh;
 
     public LayerMask Layer;
+    public LayerMask Enemy;
     IController KeyboardControll;
     void LateUpdate()
     {
