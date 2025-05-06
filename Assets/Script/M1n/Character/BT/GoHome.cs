@@ -31,7 +31,7 @@ public class GoHome : Node
         {
             if (!runner.IsHome())
             {
-                Debug.Log("Áý°£µí?");
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½?");
                 runner.MoveHome();
 
             }
@@ -40,5 +40,10 @@ public class GoHome : Node
 
 
 
+    }
+
+    public override void initNode()
+    {
+        throw new System.NotImplementedException();
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Stun", menuName = "BehaviorTree/ActionNode/Stun")]
 public class Stun : Node
 {
+    public Node root;
     public override Node Clone()
     {
         var clone = CreateInstance<Stun>();
@@ -23,11 +24,8 @@ public class Stun : Node
             Timer += Time.deltaTime;
             if(Timer > StunTimer){
                 runner.releaseStun();
+                initNode();
             }
-            runner.missPlayer();
-            runner.InitNoise();
-            runner.InitProb();
-            runner.ProbEnd();
         }
         else
         {
@@ -38,5 +36,8 @@ public class Stun : Node
 
     }
 
-
+    public override void initNode()
+    {
+        InitTree(root);
+    }
 }

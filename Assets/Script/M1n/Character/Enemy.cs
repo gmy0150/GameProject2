@@ -181,6 +181,7 @@ public class Enemy : Character
     public virtual void InitNoise()
     {
         noise = Vector3.zero;
+        Debug.Log("왜 ");
     }
     
     public virtual void InitProb()
