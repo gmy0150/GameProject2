@@ -17,7 +17,7 @@ public class Enemy : Character
     Node NewNode;
     float PlayerY;
     public Animator anim;
-    Collider collider;
+    Collider scollider;
 
     protected virtual void Start()
     {
@@ -41,7 +41,7 @@ public class Enemy : Character
         {
             PlayerY = player.transform.position.y;
         }
-        collider = GetComponentInChildren<Collider>();
+        scollider = GetComponentInChildren<Collider>();
 
     }
     protected virtual void Update()
@@ -251,7 +251,7 @@ public class Enemy : Character
         Vector3 newVec = vec;
         newVec.y = transform.position.y;
         float distanceToTarget = Vector3.Distance(transform.position, newVec);
-        if (distanceToTarget < 0.5f)  // ���ϴ� ���� ���� ����
+        if (distanceToTarget < 1f)  // ���ϴ� ���� ���� ����
         {
             probSuccess = true;
         }
@@ -278,7 +278,7 @@ public class Enemy : Character
         if(stun) return result;
 
         Vector3 NewVector = transform.position;
-        NewVector.y = collider.bounds.center.y;
+        NewVector.y = scollider.bounds.center.y;
 
 
         Transform enemyTransform = transform;

@@ -78,6 +78,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: cupboard door1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 281818830ab8ff74da5de78584b07911,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -166,6 +171,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: cupboard door2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7d5ce59f95a60bf4397aac2b7d7a65c4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -260,6 +270,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: cupboard door1
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 281818830ab8ff74da5de78584b07911,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -364,6 +379,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: cupboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2ac71021fb7cc544bb0ce6e2f0d18f82,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

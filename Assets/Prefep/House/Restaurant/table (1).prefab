@@ -26,12 +26,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: acf2ef47aca695e438ceaef37c552c5e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -50.59
+      value: -60.318005
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: acf2ef47aca695e438ceaef37c552c5e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.5097136
+      value: 1.5097692
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: acf2ef47aca695e438ceaef37c552c5e,
         type: 3}
@@ -103,6 +103,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: acf2ef47aca695e438ceaef37c552c5e,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -110,7 +115,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: acf2ef47aca695e438ceaef37c552c5e,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1699212762388932400}
+      addedObject: {fileID: 8138468446502806646}
   m_SourcePrefab: {fileID: 100100000, guid: acf2ef47aca695e438ceaef37c552c5e, type: 3}
 --- !u!1 &7299215929987876116 stripped
 GameObject:
@@ -118,8 +123,8 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7605858382582511685}
   m_PrefabAsset: {fileID: 0}
---- !u!65 &1699212762388932400
-BoxCollider:
+--- !u!64 &8138468446502806646
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -136,6 +141,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 505.22388, y: 161.58122, z: 130.12575}
-  m_Center: {x: 0.000007629398, y: 0.00005722046, z: -0.0000038146973}
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6317805809608689028, guid: acf2ef47aca695e438ceaef37c552c5e, type: 3}
