@@ -10,7 +10,8 @@ public class Coin : StorageItem
     LineRenderer lineRenderer;
     float gravity = -9.81f;
     GameObject CoinPrefab;
-
+     bool shoot = false;
+     bool hasCoin = false;
 
     public string itemName = "Coin"; // 🪙 아이템 확인 코드 - 메시지 JSON에서 찾을 이름
 
