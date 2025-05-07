@@ -71,9 +71,15 @@ public class CameraAlertUI : MonoBehaviour
 
     void ShowNextLine()
     {
+        Debug.Log("ShowNextLine 호출됨. 남은 메시지 수: " + dialogueQueue.Count);
+
         if (dialogueQueue.Count > 0)
         {
+            
             var line = dialogueQueue.Dequeue();
+            fullCurrentText = line.message;
+            Debug.Log("다음 메시지: " + line.message);
+
             fullCurrentText = line.message;
 
             iconImage.sprite = !string.IsNullOrEmpty(line.iconName)

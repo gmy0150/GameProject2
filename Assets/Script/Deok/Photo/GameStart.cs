@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class GameStart : MonoBehaviour 
+public class GameStart : MonoBehaviour
 {
     [System.Serializable]
     public class DialogueLine
@@ -19,21 +19,43 @@ public class GameStart : MonoBehaviour
         public DialogueLine[] array;
     }
 
-    public string jsonFileName = "Tutorial_Start";
+    public string jsonFileName = "Game_Start";
 
-    public GameObject dialoguePanel;
+    void Start()
+    {
+        TextAsset jsonText = Resources.Load<TextAsset>("Data/" + jsonFileName);
+        if (jsonText != null)
+        {
+            DialogueWrapper wrapper = JsonUtility.FromJson<DialogueWrapper>("{\"array\":" + jsonText.text + "}");
+            List<DialogueLine> lines = new List<DialogueLine>(wrapper.array);
+
+            // ✅ 내부 타입 그대로 넘기는 전용 함수 사용
+            GameTutorialUI.Instance.ShowGameDialogue(lines);
+        }
+        else
+        {
+            Debug.LogError("❌ JSON 파일을 찾을 수 없습니다: " + jsonFileName);
+        }
+    }
+
+    // 다른 스크립트에서도 쓰고 싶으면 여기에 공유해도 됨
+    public static class DialogueDataBridge
+    {
+        public static List<DialogueLine> CurrentLines;
+    }
+}
+
+    /*public GameObject dialoguePanel;
     public TextMeshProUGUI dialogueText;
     public Image dialogueIcon;
-
-    public float typingSpeed = 0.05f; // 글자 타이핑 속도 조절 (값이 작을수록 빠름)
 
     private List<DialogueLine> lines;
     private int currentLineIndex = 0;
     private bool isDialogueActive = false;
-    private bool isTyping = false;
 
     void Start()
     {
+        // JSON 파일 로드
         TextAsset jsonText = Resources.Load<TextAsset>("Data/" + jsonFileName);
         if (jsonText != null)
         {
@@ -47,6 +69,7 @@ public class GameStart : MonoBehaviour
 
         dialoguePanel.SetActive(false);
 
+        // 씬이 로드되자마자 자동으로 대화 시작
         if (lines != null && lines.Count > 0)
         {
             StartCoroutine(StartDialogue());
@@ -55,19 +78,10 @@ public class GameStart : MonoBehaviour
 
     void Update()
     {
-        if (isDialogueActive && Input.GetKeyDown(KeyCode.Space))
+        // 대화 진행중일 때 클릭하면 다음 메시지 표시
+        if (isDialogueActive && Input.GetMouseButtonDown(0))
         {
-            if (isTyping)
-            {
-                // 타이핑 중이면 전체 텍스트를 즉시 표시
-                StopAllCoroutines();
-                dialogueText.text = lines[currentLineIndex].message;
-                isTyping = false;
-            }
-            else
-            {
-                ShowNextLine();
-            }
+            ShowNextLine();
         }
     }
 
@@ -78,7 +92,7 @@ public class GameStart : MonoBehaviour
         dialoguePanel.SetActive(true);
 
         yield return new WaitForEndOfFrame();
-        StartCoroutine(TypeLine(lines[currentLineIndex]));
+        ShowDialogueLine(lines[currentLineIndex]);
     }
 
     void ShowNextLine()
@@ -87,7 +101,7 @@ public class GameStart : MonoBehaviour
 
         if (currentLineIndex < lines.Count)
         {
-            StartCoroutine(TypeLine(lines[currentLineIndex]));
+            ShowDialogueLine(lines[currentLineIndex]);
         }
         else
         {
@@ -95,19 +109,10 @@ public class GameStart : MonoBehaviour
         }
     }
 
-    IEnumerator TypeLine(DialogueLine line)
+    void ShowDialogueLine(DialogueLine line)
     {
-        isTyping = true;
-        dialogueText.text = "";
+        dialogueText.text = line.message;
         dialogueIcon.sprite = Resources.Load<Sprite>("Icons/" + line.iconName);
-
-        foreach (char letter in line.message.ToCharArray())
-        {
-            dialogueText.text += letter;
-            yield return new WaitForSeconds(typingSpeed);
-        }
-
-        isTyping = false;
     }
 
     void EndDialogue()
@@ -116,3 +121,4 @@ public class GameStart : MonoBehaviour
         dialoguePanel.SetActive(false);
     }
 }
+    */
