@@ -251,7 +251,8 @@ public class Enemy : Character
         Vector3 newVec = vec;
         newVec.y = transform.position.y;
         float distanceToTarget = Vector3.Distance(transform.position, newVec);
-        if (distanceToTarget < 1f)  // ���ϴ� ���� ���� ����
+        Debug.Log(distanceToTarget);
+        if (distanceToTarget < 1.5f)  
         {
             probSuccess = true;
         }

@@ -52,8 +52,7 @@ public class Radio : UseageInteract
                 if (hit.collider.GetComponent<Enemy>())
                 {
                     Enemy enemy = hit.collider.GetComponent<Enemy>();
-                    Vector3 hittrans = origin- enemy.transform.position;
-                    hittrans.Normalize();
+                    Vector3 hittrans = (enemy.transform.position - origin).normalized;
                     Vector3 hitpos = origin + hittrans;
                     Debug.Log(hitpos);
                     enemy.ProbArea(hitpos);
