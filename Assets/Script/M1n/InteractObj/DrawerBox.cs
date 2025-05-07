@@ -18,6 +18,10 @@ public class DrawerBox : UseageInteract
         if (isopen) CloseBox();
         else OpenBox();
     }
+    public override bool IsOneTimeInteraction()
+    {
+        return true;
+    } 
     void OpenBox(){
         
         GBox.transform.DOLocalMoveY(openPos,0.5f);
