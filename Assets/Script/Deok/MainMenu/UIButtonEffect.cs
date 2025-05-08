@@ -2,47 +2,56 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using DG.Tweening;
 
-public class UIButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+[RequireComponent(typeof(RectTransform))]
+public class UIButtonEffect : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
 {
     private RectTransform buttonTransform;
 
-    void Start()
+    private void Awake()
     {
-        // 현재 오브젝트의 RectTransform을 자동으로 가져옴.
         buttonTransform = GetComponent<RectTransform>();
+    }
 
-        // 디버깅 로그 추가 ( 정확한 오류 어디서 발생했는지 가능함. )
+    private void OnEnable()
+    {
         if (buttonTransform == null)
-        {
-            Debug.LogError($"UIButtonEffect: RectTransform을 찾을 수 없습니다! " +
-                           $"오브젝트 이름: {gameObject.name}, " +
-                           $"부모 오브젝트: {(transform.parent != null ? transform.parent.name : "없음")} " +
-                           $"해당 스크립트가 UI 버튼에 붙어 있는지 확인하세요.");
-        }
-        else
-        {
-            Debug.Log($"UIButtonEffect: {gameObject.name}의 RectTransform을 정상적으로 가져옴.");
-        }
+            buttonTransform = GetComponent<RectTransform>();
+
+        buttonTransform.DOKill(); // 이전 트윈 정리
+        buttonTransform.localScale = Vector3.one; // 스케일 초기화
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log($"버튼 효과 실행됨! {gameObject.name}");
+        if (!gameObject.activeInHierarchy || buttonTransform == null) return;
+
+        Debug.Log($"[Enter] {gameObject.name}");
+        buttonTransform.DOKill();
         buttonTransform.DOScale(1.1f, 0.2f).SetEase(Ease.OutQuad);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log($"버튼 효과 실행됨! {gameObject.name}");
+        if (!gameObject.activeInHierarchy || buttonTransform == null) return;
+
+        Debug.Log($"[Exit] {gameObject.name}");
+        buttonTransform.DOKill();
         buttonTransform.DOScale(1f, 0.2f).SetEase(Ease.OutQuad);
     }
 
-    public void OnClick()
+    public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log($"버튼 효과 실행됨! {gameObject.name}");
+        if (!gameObject.activeInHierarchy || buttonTransform == null) return;
+
+        Debug.Log($"[Click] {gameObject.name}");
+
+        buttonTransform.DOKill();
         buttonTransform
             .DOScale(0.9f, 0.1f)
             .SetEase(Ease.OutQuad)
-            .OnComplete(() => buttonTransform.DOScale(1f, 0.1f));
+            .OnComplete(() =>
+            {
+                buttonTransform.DOScale(1f, 0.1f).SetEase(Ease.OutQuad);
+            });
     }
 }

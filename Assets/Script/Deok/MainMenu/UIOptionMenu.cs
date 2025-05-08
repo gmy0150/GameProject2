@@ -39,8 +39,16 @@ public class UIOptionMenu : MonoBehaviour
     void Start()
     {
         hiddenPosition = new Vector2(optionPanel.rect.width, 0);
+        ResetOptionMenu(); // 시작 시 초기화
+    }
+
+    public void ResetOptionMenu()
+    {
+        isAnimating = false;
+
         optionPanel.anchoredPosition = hiddenPosition;
         canvasGroup.alpha = 0f;
+        optionPanel.gameObject.SetActive(false);
 
         soundPanel.SetActive(false);
         screenPanel.SetActive(false);
@@ -57,19 +65,19 @@ public class UIOptionMenu : MonoBehaviour
         if (isAnimating) return;
         isAnimating = true;
 
+        optionPanel.gameObject.SetActive(true);
+        optionPanel.anchoredPosition = hiddenPosition; // 위치 초기화
+        canvasGroup.alpha = 0f;
+
         optionButton.interactable = false;
         backButton.interactable = false;
 
-        optionPanel.gameObject.SetActive(true);
         optionPanel.DOAnchorPos(visiblePosition, 1f).SetEase(Ease.OutExpo);
         canvasGroup.DOFade(1f, 1f).OnComplete(() =>
         {
             isAnimating = false;
-            DOVirtual.DelayedCall(0.01f, () =>
-            {
-                optionButton.interactable = true;
-                backButton.interactable = true;
-            });
+            optionButton.interactable = true;
+            backButton.interactable = true;
         });
     }
 
@@ -111,7 +119,7 @@ public class UIOptionMenu : MonoBehaviour
         if (isAnimating) return;
         isAnimating = true;
 
-        volumeManager.ApplyAll(); // 🎵 사운드 적용
+        volumeManager.ApplyAll();
 
         soundPanelRect.DOAnchorPos(new Vector2(soundPanelRect.rect.width, 0), 0.4f).SetEase(Ease.InExpo);
         soundCanvasGroup.DOFade(0f, 0.4f).OnComplete(() =>
@@ -123,7 +131,7 @@ public class UIOptionMenu : MonoBehaviour
 
     public void CloseSoundPanelToOption()
     {
-        volumeManager.RevertAll(); // 🎵 변경사항 되돌리기
+        volumeManager.RevertAll();
 
         soundPanelRect.DOAnchorPos(new Vector2(soundPanelRect.rect.width, 0), 0.4f).SetEase(Ease.InExpo);
         soundCanvasGroup.DOFade(0f, 0.4f).OnComplete(() =>
@@ -158,10 +166,10 @@ public class UIOptionMenu : MonoBehaviour
         if (isAnimating) return;
         isAnimating = true;
 
-        volumeManager.ApplyAll(); // 🎵 전체 사운드 저장
+        volumeManager.ApplyAll();
         if (screenSettingsManager != null)
         {
-            screenSettingsManager.SaveOnly(); // 🖥️ 해상도 저장
+            screenSettingsManager.SaveOnly();
         }
 
         PlayerPrefs.Save();
