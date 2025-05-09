@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2649181355992987979}
   - component: {fileID: 7013513953808856494}
   - component: {fileID: 2118061394134179709}
+  - component: {fileID: 2065781494454934072}
   m_Layer: 12
   m_Name: Coin1
   m_TagString: Untagged
@@ -146,3 +147,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3515350d11cd86d4cad892a3d706af9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interact:
+    serializedVersion: 2
+    m_Bits: 2048
+  icon: {fileID: 0}
+  itemname: 
+  isInteract: 1
+  interactDis: 0
+  itemName: Coin
+--- !u!114 &2065781494454934072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2774047279429761632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fe91dc294731a9428c0941ea7579110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  complexMaskingMode: 0
+  drawingMode: 1
+  outlineLayer: 0
+  outlineTargets:
+  - CutoutMask: 8
+    renderer: {fileID: 4322882567731474779}
+    SubmeshIndex: 0
+    BoundsMode: 0
+    Bounds:
+      m_Center: {x: 0, y: 0, z: 0}
+      m_Extent: {x: 0.5, y: 0.5, z: 0.5}
+    CutoutThreshold: 0.5
+    CullMode: 2
+    cutoutTextureName: 
+    cutoutTextureIndex: 0
+  renderStyle: 1
+  outlineParameters:
+    enabled: 1
+    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    dilateShift: 1
+    blurShift: 1
+    fillPass:
+      shader: {fileID: 0}
+      serializedProperties: []
+  backParameters:
+    enabled: 1
+    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    dilateShift: 1
+    blurShift: 1
+    fillPass:
+      shader: {fileID: 0}
+      serializedProperties: []
+  frontParameters:
+    enabled: 1
+    color: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+    dilateShift: 1
+    blurShift: 1
+    fillPass:
+      shader: {fileID: 0}
+      serializedProperties: []
