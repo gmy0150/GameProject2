@@ -284,7 +284,6 @@ public class Enemy : Character
         {
 
             NewVector.y = scollider.bounds.center.y;
-            Debug.Log("콜라이더");
 
 
             Transform enemyTransform = transform;
