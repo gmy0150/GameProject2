@@ -62,7 +62,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 173915619832445447}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -9.497973, y: 57.826584, z: -45.776344}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
@@ -88,7 +88,7 @@ MonoBehaviour:
   RunSpeed: 10
   RadiusAngle: 90
   Distance: 7
-  node: {fileID: 11400000, guid: 5444fc6408d127646bcb4b83d0684ee1, type: 2}
+  node: {fileID: 11400000, guid: bee581c592907a643b6160a35955815d, type: 2}
   anim: {fileID: 0}
   RayShoot: {fileID: 0}
   wayPoints:
