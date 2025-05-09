@@ -43,6 +43,7 @@ public class Enemy : Character
         }
         scollider = GetComponentInChildren<Collider>();
 
+
     }
     protected virtual void Update()
     {
@@ -279,51 +280,58 @@ public class Enemy : Character
         if(stun) return result;
 
         Vector3 NewVector = transform.position;
-        NewVector.y = scollider.bounds.center.y;
-
-
-        Transform enemyTransform = transform;
-
-        // ��ä�� ������ Raycast
-        for (int i = 0; i <= rayCount; i++)
+        if (scollider != null)
         {
-            if (DetectPlayer == true)
-                return result;
-                
-            float currentAngle = -RadiusAngle / 2 + RadiusAngle * (i / (float)rayCount);
-            Quaternion rotation = Quaternion.Euler(0, currentAngle, 0);
-            Vector3 rayDirection = rotation * enemyTransform.forward; // ����
 
-            // 2D ��鿡�� y���� �����ϰ� rayDirection�� y���� 0���� ����
-            rayDirection.y = 0;
-            // Raycast ����
-            RaycastHit hit;
-            if (Physics.Raycast(NewVector, rayDirection, out hit, Distance))
+            NewVector.y = scollider.bounds.center.y;
+            Debug.Log("콜라이더");
+
+
+            Transform enemyTransform = transform;
+
+            // ��ä�� ������ Raycast
+            for (int i = 0; i <= rayCount; i++)
             {
-                // Player�� �����ϸ� visiblePoints�� �߰�
-                if (hit.collider.GetComponentInParent<Player>())
-                {
-                    DetectPlayer = true;
-                    // Debug.Log(hit.collider.GetComponent<Player>().GetInterActControll().GetHide());
-                    if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
-                    {
+                if (DetectPlayer == true)
+                    return result;
 
+                float currentAngle = -RadiusAngle / 2 + RadiusAngle * (i / (float)rayCount);
+                Quaternion rotation = Quaternion.Euler(0, currentAngle, 0);
+                Vector3 rayDirection = rotation * enemyTransform.forward; // ����
+
+                // 2D ��鿡�� y���� �����ϰ� rayDirection�� y���� 0���� ����
+                rayDirection.y = 0;
+                // Raycast ����
+                RaycastHit hit;
+                if (Physics.Raycast(NewVector, rayDirection, out hit, Distance))
+                {
+                    // Player�� �����ϸ� visiblePoints�� �߰�
+                    if (hit.collider.GetComponentInParent<Player>())
+                    {
+                        DetectPlayer = true;
+                        // Debug.Log(hit.collider.GetComponent<Player>().GetInterActControll().GetHide());
+                        if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
+                        {
+
+                            DetectPlayer = false;
+                        }
+                    }
+                    else
+                    {
                         DetectPlayer = false;
                     }
+
+                    result.visiblePoints.Add(hit.point);
+
                 }
-                else
+                else // Raycast�� �ƹ��Ϳ��� ���� ���� ��� (��ä�� ����)
                 {
-                    DetectPlayer = false;
+                    result.visiblePoints.Add(enemyTransform.position + rayDirection * Distance);
                 }
-
-                result.visiblePoints.Add(hit.point);
-
             }
-            else // Raycast�� �ƹ��Ϳ��� ���� ���� ��� (��ä�� ����)
-            {
-                result.visiblePoints.Add(enemyTransform.position + rayDirection * Distance);
-            }
+            return result;
         }
+        else Debug.Log("xx");
         return result;
     }
     public VisibilityResult CheckVisibility(int rayCount, float newy)

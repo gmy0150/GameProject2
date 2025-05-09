@@ -12,6 +12,7 @@ public class Patrol : Node
     public override NodeState Evaluate()
     {
 
+        Debug.Log("patrol");
         runner.UseAnim("Move");
         if (!runner.GetPatrol())
         {
@@ -22,7 +23,6 @@ public class Patrol : Node
             return NodeState.SUCCESS;
         }
         return NodeState.RUNNING;
-
 
     }
 
