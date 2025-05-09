@@ -12,4 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 045c35b038d1e924a804a222e87a1513, type: 3}
   m_Name: Four
   m_EditorClassIdentifier: 
-  nodes: []
+  nodes:
+  - {fileID: 11400000, guid: f03ec68944eee4241aafa842567b95f7, type: 2}
+  - {fileID: 11400000, guid: f3443329b377c624d8a2df52bdd59659, type: 2}

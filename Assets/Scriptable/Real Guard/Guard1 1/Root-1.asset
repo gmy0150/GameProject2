@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6943a9c416c75de43879c377d56ba910, type: 3}
   m_Name: Root-1
   m_EditorClassIdentifier: 
-  nodes: []
+  nodes:
+  - {fileID: 11400000, guid: 199c5931ebfdbd641a0de145a2e22304, type: 2}
+  - {fileID: 11400000, guid: 0ceecf6f8f96486468b21ebe649d9f39, type: 2}
+  - {fileID: 11400000, guid: e16a1ad8bf736f74aad66006f949efdf, type: 2}
+  - {fileID: 11400000, guid: ff4111d26163c0a479d95ef39c4d8707, type: 2}
