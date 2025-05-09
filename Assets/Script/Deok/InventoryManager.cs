@@ -31,7 +31,7 @@ public class InventoryManager : MonoBehaviour
             UseSelectedItem();
         }
     }
-
+    
     void SelectSlot(int index)
     {
         if (selectedIndex == index)
@@ -76,7 +76,10 @@ public class InventoryManager : MonoBehaviour
         }
         return null;
     }
-    public int GetSlot()
+    public InventorySlot GetSlot(){
+        return slots[selectedIndex];
+    }
+    public int GetSlotIndex()
     {
         if (selectedIndex > 0)
         {
@@ -97,14 +100,8 @@ public class InventoryManager : MonoBehaviour
     {
         if (selectedIndex >= 0 && selectedIndex < slots.Length)
         {
-            if(selectedIndex == 0){
-
-                slots[selectedIndex].UseFilm();
-                
-            }else{
-                slots[selectedIndex].UseItem();
-                selectedIndex = -1;
-            }
+            slots[selectedIndex].UseItem();
+            
         }
     }
 

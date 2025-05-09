@@ -52,4 +52,11 @@ public class WaitSecond : Node
         clone.switchTime = this.switchTime;
         return clone;
     }
+
+    public override void initNode()
+    {
+        runner.RestartPatrol();
+        ArroundTimer = 0;
+        SwitchTimer = 0;
+    }
 }

@@ -17,7 +17,7 @@ public class Enemy : Character
     Node NewNode;
     float PlayerY;
     public Animator anim;
-    Collider collider;
+    Collider scollider;
 
     protected virtual void Start()
     {
@@ -41,7 +41,8 @@ public class Enemy : Character
         {
             PlayerY = player.transform.position.y;
         }
-        collider = GetComponentInChildren<Collider>();
+        scollider = GetComponentInChildren<Collider>();
+
 
     }
     protected virtual void Update()
@@ -61,8 +62,21 @@ public class Enemy : Character
     {
         DetectPlayer = false;
         ShowShape();
-        Debug.Log(DetectPlayer);
-
+    }
+    bool stun;
+    public void HitEnemy(){
+        StopMove();
+        missPlayer();
+        stun = true;
+        Time.timeScale = 0;
+        //ui창 띄우기 애니매이션 재생
+        Time.timeScale = 1;
+    }
+    public void releaseStun(){
+        stun = false;
+    }
+    public bool GetStun(){
+        return stun;
     }
     public virtual void StopMove()
     {
@@ -117,6 +131,7 @@ public class Enemy : Character
     bool chase;
     public virtual void StartChase(Player player)
     {
+        if(stun)return;
         applyspeed = RunSpeed;
         UseAnim(ChasePlayer);
         aIPath.enabled = true;
@@ -144,6 +159,8 @@ public class Enemy : Character
 
     protected virtual void MoveToTarget(Vector3 newTarget)
     {
+        if(stun)return;
+
         aIPath.enabled = true;
         newTarget.y = transform.position.y;
         aIPath.destination = newTarget;
@@ -165,6 +182,7 @@ public class Enemy : Character
     public virtual void InitNoise()
     {
         noise = Vector3.zero;
+        Debug.Log("왜 ");
     }
     
     public virtual void InitProb()
@@ -226,13 +244,16 @@ public class Enemy : Character
 
     public void MoveProb(Vector3 vec)
     {
+        if(stun)return;
+
         MoveToTarget(vec);
 
         applyspeed = MoveSpeed;
         Vector3 newVec = vec;
         newVec.y = transform.position.y;
         float distanceToTarget = Vector3.Distance(transform.position, newVec);
-        if (distanceToTarget < 0.5f)  // ���ϴ� ���� ���� ����
+        Debug.Log(distanceToTarget);
+        if (distanceToTarget < 1.5f)  
         {
             probSuccess = true;
         }
@@ -256,53 +277,61 @@ public class Enemy : Character
         VisibilityResult result = new VisibilityResult();
         result.visiblePoints = new List<Vector3>();
         result.blockedPoints = new List<Vector3>();
+        if(stun) return result;
 
         Vector3 NewVector = transform.position;
-        NewVector.y = collider.bounds.center.y;
-
-
-        Transform enemyTransform = transform;
-
-        // ��ä�� ������ Raycast
-        for (int i = 0; i <= rayCount; i++)
+        if (scollider != null)
         {
-            if (DetectPlayer == true)
-                return result;
-                
-            float currentAngle = -RadiusAngle / 2 + RadiusAngle * (i / (float)rayCount);
-            Quaternion rotation = Quaternion.Euler(0, currentAngle, 0);
-            Vector3 rayDirection = rotation * enemyTransform.forward; // ����
 
-            // 2D ��鿡�� y���� �����ϰ� rayDirection�� y���� 0���� ����
-            rayDirection.y = 0;
-            // Raycast ����
-            RaycastHit hit;
-            if (Physics.Raycast(NewVector, rayDirection, out hit, Distance))
+            NewVector.y = scollider.bounds.center.y;
+            Debug.Log("콜라이더");
+
+
+            Transform enemyTransform = transform;
+
+            // ��ä�� ������ Raycast
+            for (int i = 0; i <= rayCount; i++)
             {
-                // Player�� �����ϸ� visiblePoints�� �߰�
-                if (hit.collider.GetComponentInParent<Player>())
-                {
-                    DetectPlayer = true;
-                    // Debug.Log(hit.collider.GetComponent<Player>().GetInterActControll().GetHide());
-                    if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
-                    {
+                if (DetectPlayer == true)
+                    return result;
 
+                float currentAngle = -RadiusAngle / 2 + RadiusAngle * (i / (float)rayCount);
+                Quaternion rotation = Quaternion.Euler(0, currentAngle, 0);
+                Vector3 rayDirection = rotation * enemyTransform.forward; // ����
+
+                // 2D ��鿡�� y���� �����ϰ� rayDirection�� y���� 0���� ����
+                rayDirection.y = 0;
+                // Raycast ����
+                RaycastHit hit;
+                if (Physics.Raycast(NewVector, rayDirection, out hit, Distance))
+                {
+                    // Player�� �����ϸ� visiblePoints�� �߰�
+                    if (hit.collider.GetComponentInParent<Player>())
+                    {
+                        DetectPlayer = true;
+                        // Debug.Log(hit.collider.GetComponent<Player>().GetInterActControll().GetHide());
+                        if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
+                        {
+
+                            DetectPlayer = false;
+                        }
+                    }
+                    else
+                    {
                         DetectPlayer = false;
                     }
+
+                    result.visiblePoints.Add(hit.point);
+
                 }
-                else
+                else // Raycast�� �ƹ��Ϳ��� ���� ���� ��� (��ä�� ����)
                 {
-                    DetectPlayer = false;
+                    result.visiblePoints.Add(enemyTransform.position + rayDirection * Distance);
                 }
-
-                result.visiblePoints.Add(hit.point);
-
             }
-            else // Raycast�� �ƹ��Ϳ��� ���� ���� ��� (��ä�� ����)
-            {
-                result.visiblePoints.Add(enemyTransform.position + rayDirection * Distance);
-            }
+            return result;
         }
+        else Debug.Log("xx");
         return result;
     }
     public VisibilityResult CheckVisibility(int rayCount, float newy)
@@ -310,6 +339,7 @@ public class Enemy : Character
         VisibilityResult result = new VisibilityResult();
         result.visiblePoints = new List<Vector3>();
         result.blockedPoints = new List<Vector3>();
+        if(stun) return result;
 
         Transform enemyTransform = transform;
 

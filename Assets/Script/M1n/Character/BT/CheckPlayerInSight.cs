@@ -17,7 +17,12 @@ public class CheckPlayerInSight : Node
         {
             return runner.GetPlayer() ? NodeState.SUCCESS : NodeState.FAILURE;
         }
-        Debug.Log("¾ø´Ù");
+        Debug.Log("ï¿½ï¿½ï¿½ï¿½");
         return NodeState.FAILURE;
+    }
+
+    public override void initNode()
+    {
+        throw new System.NotImplementedException();
     }
 }

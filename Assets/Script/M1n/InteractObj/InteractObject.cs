@@ -9,8 +9,7 @@ public abstract class InteractObject :  MonoBehaviour, IInterActerable
     protected bool isHide = false;
     protected Player character;
     protected IController controller;
-    public bool shoot = false;
-    public bool hasCoin = false;
+
     // bool CanInteract = false;
 
     void Start()

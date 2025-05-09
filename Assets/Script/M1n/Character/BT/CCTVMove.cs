@@ -27,7 +27,7 @@ public class CCTVMove : Node
     }
     public override NodeState Evaluate()
     {
-        if (runner == null) return NodeState.FAILURE;  // runner°¡ nullÀÎ °æ¿ì FAILURE ¹ÝÈ¯
+        if (runner == null) return NodeState.FAILURE;  // runnerï¿½ï¿½ nullï¿½ï¿½ ï¿½ï¿½ï¿½ FAILURE ï¿½ï¿½È¯
 
         ArroundTimer += Time.deltaTime;
         SwitchTimer += Time.deltaTime;
@@ -64,5 +64,12 @@ public class CCTVMove : Node
         clone.switchTime = this.switchTime;
 
         return clone;
+    }
+
+    public override void initNode()
+    {
+        ArroundTimer = 0;
+        SwitchTimer = 0;
+        lookingRight = false;
     }
 }
