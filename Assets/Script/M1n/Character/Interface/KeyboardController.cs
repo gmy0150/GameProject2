@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class KeyboardController : IController
 {
-    
+
     Player controllerableCharacter = null;
     Camera mainCam;
     Rigidbody rigid;
@@ -16,6 +16,7 @@ public class KeyboardController : IController
     float runNoise, walkNoise, applyNoise;
     bool GenNoise;
     Animator anim;
+    private Vector3? targetPosition = null;
     public bool GetHide()//찾는거 있음
     {
         return isHide;
@@ -45,6 +46,7 @@ public class KeyboardController : IController
     bool bClickMouse;
     public void Tick(float deltaTime)
     {
+
         if (!isHide)
         {
             TryRun();
@@ -60,16 +62,17 @@ public class KeyboardController : IController
 
         if (!controllerableCharacter.GetInterActControll().RotateInteract())
         {
-        // bClickMouse = true;
+            // bClickMouse = true;
             // TransRotation();
         }
         if (Input.GetMouseButton(1))
         {
             // UpdateRotation();
-        // bClickMouse = true;
+            // bClickMouse = true;
             // TransRotation();
         }
-        if(Input.GetKeyDown(KeyCode.F)){
+        if (Input.GetKeyDown(KeyCode.F))
+        {
             InventoryManager.Instance.RemoveItem();
         }
         InventoryManager.Instance.HandleSlotSelection();
@@ -95,21 +98,22 @@ public class KeyboardController : IController
             direction += right;
             bMoveKeyDown = true;
         }
-            direction.Normalize();
+        direction.Normalize();
+            if (!GameManager.Instance.CanPlayerMove()) return;
         if (bMoveKeyDown)
         {
-            anim.SetBool(walk,true);
-            
-            rigid.velocity = new Vector3( direction.x * applySpeed,rigid.velocity.y , direction.z * applySpeed);
+            anim.SetBool(walk, true);
+
+            rigid.velocity = new Vector3(direction.x * applySpeed, rigid.velocity.y, direction.z * applySpeed);
             float targetRotation = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
             float currentRotation = tr.eulerAngles.y;
             rotation = Mathf.SmoothDampAngle(currentRotation, targetRotation, ref rotationVelocity, RotationSmoothTime);
-                tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-            if (!Input.GetMouseButton(1)&& controllerableCharacter.GetInterActControll().RotateInteract() )
+            tr.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
+            if (!Input.GetMouseButton(1) && controllerableCharacter.GetInterActControll().RotateInteract())
             {
-                
+
             }
-            
+
             if (GetNoise())
             {
                 controllerableCharacter.MakeNoise(controllerableCharacter.gameObject, applyNoise, 10);
@@ -117,67 +121,73 @@ public class KeyboardController : IController
         }
         else
         {
-            rigid.velocity = new Vector3(0,rigid.velocity.y,0);
-            anim.SetBool(walk,false);
+            rigid.velocity = new Vector3(0, rigid.velocity.y, 0);
+            anim.SetBool(walk, false);
         }
-        if(bClickMouse && Input.GetMouseButtonUp(1))
+        if (bClickMouse && Input.GetMouseButtonUp(1))
             bClickMouse = false;
+
+
     }
-    public void LateTick(float deltaTime){
-        if(bClickMouse){
+    public void LateTick(float deltaTime)
+    {
+        if (bClickMouse)
+        {
             // UpdateRotation();
-        }else{
+        }
+        else
+        {
             // anim.SetLayerWeight(1,0);
         }
     }
     //testRotate
-// void UpdateRotation()
-// {
-//     Transform tr = controllerableCharacter.transform;
+    // void UpdateRotation()
+    // {
+    //     Transform tr = controllerableCharacter.transform;
 
-//     Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
-//     if (Physics.Raycast(ray, out RaycastHit hit))
-//     {
-//         Vector3 lookDir = hit.point - tr.position;
-//         lookDir.y = 0;
+    //     Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
+    //     if (Physics.Raycast(ray, out RaycastHit hit))
+    //     {
+    //         Vector3 lookDir = hit.point - tr.position;
+    //         lookDir.y = 0;
 
-//         if (lookDir.magnitude > 0.1f)
-//         {
-//             // 현재 바라보는 방향과 목표 방향의 차이를 구한다
-//             float angle = Vector3.SignedAngle(tr.forward, lookDir, Vector3.up);
+    //         if (lookDir.magnitude > 0.1f)
+    //         {
+    //             // 현재 바라보는 방향과 목표 방향의 차이를 구한다
+    //             float angle = Vector3.SignedAngle(tr.forward, lookDir, Vector3.up);
 
-//             // Angle을 정규화해서 (-1 ~ 1) 사이 값으로 만들기
-//             float normalizedTurn = Mathf.Clamp(angle / 90f, -1f, 1f);
+    //             // Angle을 정규화해서 (-1 ~ 1) 사이 값으로 만들기
+    //             float normalizedTurn = Mathf.Clamp(angle / 90f, -1f, 1f);
 
-//             // 애니메이션 Turn 값 설정
-//             anim.SetFloat("Turn", normalizedTurn);
+    //             // 애니메이션 Turn 값 설정
+    //             anim.SetFloat("Turn", normalizedTurn);
 
-//             // 회전값을 부드럽게 전환
-//             Quaternion targetRotation = Quaternion.LookRotation(lookDir);
+    //             // 회전값을 부드럽게 전환
+    //             Quaternion targetRotation = Quaternion.LookRotation(lookDir);
 
-//             // 회전 속도를 조정: 5f로 회전 속도를 낮춰 부드럽게 회전
-//             tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 5f);  // 5f를 적당히 조정해보세요.
-//         }
-//         else
-//         {
-//             // 마우스가 일정 범위 안에 있을 때 Turn 값을 부드럽게 0으로 보냄
-//             float currentTurn = anim.GetFloat("Turn");
-//             float targetTurn = 0f;
-            
-//             // Mathf.Lerp로 현재 Turn 값을 0으로 부드럽게 변화시킴
-//             float smoothedTurn = Mathf.Lerp(currentTurn, targetTurn, Time.deltaTime * 5f);  // 5f로 부드러운 전환
+    //             // 회전 속도를 조정: 5f로 회전 속도를 낮춰 부드럽게 회전
+    //             tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 5f);  // 5f를 적당히 조정해보세요.
+    //         }
+    //         else
+    //         {
+    //             // 마우스가 일정 범위 안에 있을 때 Turn 값을 부드럽게 0으로 보냄
+    //             float currentTurn = anim.GetFloat("Turn");
+    //             float targetTurn = 0f;
 
-//             anim.SetFloat("Turn", smoothedTurn);
+    //             // Mathf.Lerp로 현재 Turn 값을 0으로 부드럽게 변화시킴
+    //             float smoothedTurn = Mathf.Lerp(currentTurn, targetTurn, Time.deltaTime * 5f);  // 5f로 부드러운 전환
 
-//             // 회전값을 부드럽게 0으로 전환
-//             tr.rotation = Quaternion.Lerp(tr.rotation, Quaternion.identity, Time.deltaTime * 5f);
-//         }
-//     }
-// }
+    //             anim.SetFloat("Turn", smoothedTurn);
+
+    //             // 회전값을 부드럽게 0으로 전환
+    //             tr.rotation = Quaternion.Lerp(tr.rotation, Quaternion.identity, Time.deltaTime * 5f);
+    //         }
+    //     }
+    // }
     // void TransRotation()
     // {
     //     Transform tr = controllerableCharacter.transform;
-        
+
     //     Ray ray = mainCam.ScreenPointToRay(Input.mousePosition);
     //     if (Physics.Raycast(ray, out RaycastHit hit))
     //     {
@@ -189,7 +199,7 @@ public class KeyboardController : IController
     //         {
     //             // anim.SetIKRotationWeight(1);
     //             Quaternion targetRotation = Quaternion.LookRotation(lookDir);
-                
+
     //             // tr.rotation = Quaternion.Lerp(tr.rotation, targetRotation, Time.deltaTime * 10f);
     //             tr.rotation = targetRotation;
 
@@ -215,7 +225,7 @@ public class KeyboardController : IController
         applySpeed = runSpeed;
         GenNoise = true;
         applyNoise = runNoise;
-        anim.SetBool(run,true);
+        anim.SetBool(run, true);
     }
 
 
@@ -224,9 +234,9 @@ public class KeyboardController : IController
         GenNoise = false;
         applySpeed = walkSpeed;
         applyNoise = 0;
-        anim.SetBool(run,false);
+        anim.SetBool(run, false);
     }
-    
+
     public float ApplyNoise()
     {
         return applyNoise;
@@ -242,6 +252,40 @@ public class KeyboardController : IController
     public void SetNoise(bool x)
     {
         GenNoise = x;
-
     }
+
+    public void MovePlayer(Vector3 position)
+    {
+        Debug.Log("position");
+        targetPosition = position;
+    }
+
+    public void FixedTick(float deltaTime)
+    {
+        if (GameManager.Instance.CanPlayerMove()) return;
+        if (targetPosition == null) return;
+        
+        
+        Vector3 flatdir = new Vector3(targetPosition.Value.x, controllerableCharacter.transform.localPosition.y, targetPosition.Value.z);
+        Vector3 targetdir = (flatdir - controllerableCharacter.transform.localPosition);
+        float distance = targetdir.magnitude;
+        if (distance < 0.1f)
+        {;
+            rigid.velocity = Vector3.zero;
+            targetPosition = null;
+
+            GameManager.Instance.ActPlay(true);
+            GameManager.Instance.tutorialManager.Start();
+        }
+        else
+        {
+            targetdir = targetdir.normalized;
+            Vector3 velocity = new Vector3(targetdir.x * walkSpeed, rigid.velocity.y, targetdir.z * walkSpeed);
+            rigid.velocity = velocity;
+            anim.SetBool(walk, true);
+
+        }
+    }
+
+
 }

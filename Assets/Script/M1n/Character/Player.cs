@@ -39,7 +39,7 @@ public class Player : Character
             controller.LateTick(Time.deltaTime);
         }
     }
-    void Start()
+    void Awake()
     {
         RunNoise = RunSound;
         CoinNoise = CoinSound;
@@ -51,8 +51,11 @@ public class Player : Character
         interactController = new InteractController();
         interactController.OnPosessed(this);
     }
-    void OnAnimatorIK(int layerIndex)
-    {
+
+    public void Move(Vector3 vector3){
+        Debug.Log(vector3);
+        
+        KeyboardControll?.MovePlayer(vector3);
         
     }
 
@@ -65,6 +68,13 @@ public class Player : Character
         if (controller != null)
         {
             controller.Tick(Time.deltaTime);
+        }
+    }
+    void FixedUpdate()
+    {
+        if (controller != null)
+        {
+            controller.FixedTick(Time.deltaTime);
         }
     }
     public Image Lights;

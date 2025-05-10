@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialManager : MonoBehaviour
+public class TutorialManager 
 {
     [System.Serializable]
     public class DialogueLine
@@ -18,7 +18,7 @@ public class TutorialManager : MonoBehaviour
 
     public string jsonFileName = "Tutorial_Start";
 
-    void Start()
+    public void Start()
     {
         TextAsset jsonText = Resources.Load<TextAsset>("Data/" + jsonFileName);
         if (jsonText != null)

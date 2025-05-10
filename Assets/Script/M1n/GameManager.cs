@@ -9,8 +9,11 @@ public class GameManager : MonoBehaviour
      
     public List<GameObject> AllPC = new List<GameObject>();
     bool OnComputer,DoorBtn = false;
-
+    public Player player;
+    public Vector3 tutoPos;
+    public Vector3 gamestartPos;
     private static GameManager _instance;
+    public TutorialManager tutorialManager;
     public static GameManager Instance
     {
         get {
@@ -35,6 +38,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        tutorialManager = new TutorialManager();
         DontDestroyOnLoad(gameObject);
     }
     public bool AbleComputer(){
@@ -66,5 +70,17 @@ AIlionON = true;
     }
     public bool AbleExit(){
         return AIlionON;
+    }
+    bool canPlay = true;
+    public bool CanPlayerMove(){
+        return canPlay;
+    }
+    public void ActPlay(bool x){
+        canPlay = x;
+    }
+    void Start()
+    {
+        ActPlay(false);
+        player.Move(tutoPos);
     }
 }
