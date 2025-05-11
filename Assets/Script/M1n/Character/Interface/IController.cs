@@ -11,5 +11,5 @@ public interface IController
     public void LateTick(float deltaTime);
     public void FixedTick(float deltaTime);
     void RunningCancel();
-    public void MovePlayer(Vector3 vector3);
+    public void MovePlayer(Vector3 vector3,bool maingame);
 }

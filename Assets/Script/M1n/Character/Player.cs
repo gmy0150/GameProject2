@@ -52,30 +52,18 @@ public class Player : Character
         interactController.OnPosessed(this);
     }
 
-    public void Move(Vector3 vector3){
-        Debug.Log(vector3);
-        
-        KeyboardControll?.MovePlayer(vector3);
-        
+    public void Move(Vector3 vector3,bool maingame){
+        KeyboardControll?.MovePlayer(vector3,maingame);
     }
 
     void Update()
     {
-        if (interactController != null)
-        {
-            interactController.TIck(Time.deltaTime);
-        }
-        if (controller != null)
-        {
-            controller.Tick(Time.deltaTime);
-        }
+        interactController?.TIck(Time.deltaTime);
+        controller?.Tick(Time.deltaTime);
     }
     void FixedUpdate()
     {
-        if (controller != null)
-        {
-            controller.FixedTick(Time.deltaTime);
-        }
+        controller?.FixedTick(Time.deltaTime);
     }
     public Image Lights;
     public InteractController GetInterActControll()

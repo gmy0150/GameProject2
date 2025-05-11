@@ -16,6 +16,7 @@ public class Cartoon : MonoBehaviour
 
     void Start()
     {
+        GameManager.Instance.ActPlay(false);
         ResetCartoonState(); // 상태 초기화
 
         if (pages.Count > 0)
@@ -25,13 +26,15 @@ public class Cartoon : MonoBehaviour
         }
 
         nextButton.onClick.AddListener(NextPage);
-
+        Debug.Log("작동?");
+        Debug.Log(nextButton);
         if (fadePanel != null)
         {
             fadePanel.color = new Color(0, 0, 0, 0);
             fadePanel.gameObject.SetActive(false);
         }
     }
+    
 
     private void ResetCartoonState()
     {
@@ -72,12 +75,16 @@ public class Cartoon : MonoBehaviour
 
             fadePanel.DOFade(1f, fadeDuration).SetUpdate(true).OnComplete(() =>
             {
-                SceneManager.LoadScene(nextSceneName);
+                GameManager.Instance.MainGameStart();
+                // SceneManager.LoadScene(nextSceneName);
+                transform.gameObject.SetActive(false);
+                Destroy(this);
             });
         }
         else
         {
-            SceneManager.LoadScene(nextSceneName);
+            transform.gameObject.SetActive(false);
+            Destroy(this);
         }
     }
 }

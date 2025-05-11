@@ -5,19 +5,21 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public GameObject computer,Btn;
-     
+    public GameObject computer, Btn;
+
     public List<GameObject> AllPC = new List<GameObject>();
-    bool OnComputer,DoorBtn = false;
+    bool OnComputer, DoorBtn = false;
     public Player player;
     public Vector3 tutoPos;
     public Vector3 gamestartPos;
+    public Vector3 gameMovePos;
     private static GameManager _instance;
     public TutorialManager tutorialManager;
     public static GameManager Instance
     {
-        get {
-            if(!_instance)
+        get
+        {
+            if (!_instance)
             {
                 _instance = FindObjectOfType(typeof(GameManager)) as GameManager;
 
@@ -25,7 +27,8 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
-    public int PcCount(){
+    public int PcCount()
+    {
         return AllPC.Count;
     }
     private void Awake()
@@ -41,46 +44,72 @@ public class GameManager : MonoBehaviour
         tutorialManager = new TutorialManager();
         DontDestroyOnLoad(gameObject);
     }
-    public bool AbleComputer(){
+    public bool AbleComputer()
+    {
         return OnComputer;
     }
-    public void OnComputerActive(){
+    public void OnComputerActive()
+    {
         Debug.Log("컴퓨터 켜짐");
         OnComputer = true;
         computer.layer = 12;
-        if(!computer.GetComponent<ComputerBtn>())
-        computer.AddComponent<ComputerBtn>();
+        if (!computer.GetComponent<ComputerBtn>())
+            computer.AddComponent<ComputerBtn>();
     }
-    public bool AbleButton(){
+    public bool AbleButton()
+    {
         return DoorBtn;
     }
-    public void OnDoorActive(){
+    public void OnDoorActive()
+    {
         DoorBtn = true;
-        Debug.Log("작3동함?");
         Btn.layer = 12;
-        if(!Btn.GetComponent<DoorBtn>())
-        Btn.AddComponent<DoorBtn>();
-        
+        if (!Btn.GetComponent<DoorBtn>())
+            Btn.AddComponent<DoorBtn>();
     }
     bool AIlionON = false;
     [SerializeField] GameObject wallexit;
-    public void OnAilion(){
-wallexit.SetActive(false);
-AIlionON = true;
+    public void OnAilion()
+    {
+        wallexit.SetActive(false);
+        AIlionON = true;
     }
-    public bool AbleExit(){
+    public bool AbleExit()
+    {
         return AIlionON;
     }
     bool canPlay = true;
-    public bool CanPlayerMove(){
+    public bool CanPlayerMove()
+    {
         return canPlay;
     }
-    public void ActPlay(bool x){
+    public void ActPlay(bool x)
+    {
         canPlay = x;
     }
     void Start()
     {
         ActPlay(false);
-        player.Move(tutoPos);
+        player.Move(tutoPos,false);
+    }
+    bool isMainGame;
+    public void MainGameStart()
+    {
+        gamestartPos.y = player.transform.position.y;
+        player.transform.position = gamestartPos;
+        player.transform.rotation = Quaternion.identity;
+        ActPlay(false);
+        isMainGame = true;
+    }
+    float gameTimer;
+    void Update()
+    {
+        if(isMainGame){
+            gameTimer += Time.deltaTime;
+            if(gameTimer > 1.5f){
+                player.Move(gameMovePos,true);
+                isMainGame = false;
+            }
+        }
     }
 }

@@ -17,6 +17,8 @@ public class KeyboardController : IController
     bool GenNoise;
     Animator anim;
     private Vector3? targetPosition = null;
+    public event OnMessage onMessage;
+    public delegate void OnMessage(int currentHealth);
     public bool GetHide()//찾는거 있음
     {
         return isHide;
@@ -254,12 +256,13 @@ public class KeyboardController : IController
         GenNoise = x;
     }
 
-    public void MovePlayer(Vector3 position)
+    public void MovePlayer(Vector3 position,bool maingame)
     {
         Debug.Log("position");
         targetPosition = position;
+        this.maingame = maingame;
     }
-
+    bool maingame;
     public void FixedTick(float deltaTime)
     {
         if (GameManager.Instance.CanPlayerMove()) return;
@@ -275,7 +278,11 @@ public class KeyboardController : IController
             targetPosition = null;
 
             GameManager.Instance.ActPlay(true);
+            if(!maingame)
             GameManager.Instance.tutorialManager.Start();
+            else{
+                
+            }
         }
         else
         {
