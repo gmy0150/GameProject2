@@ -34,12 +34,12 @@ public class PauseManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         pauseMenu.SetActive(false);
-
+        gameUIRoot.SetActive(true);
         if (gameUIRoot != null)
             gameUIRoot.SetActive(true); // 게임 UI 다시 보이기
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
         isPaused = false;
     }
