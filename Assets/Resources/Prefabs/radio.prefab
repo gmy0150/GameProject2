@@ -261,8 +261,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a42d785786756834dbf76f79979c83bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Radiotiemr: 15
+  Radiotiemr: 8
   uiimage: {fileID: 2248203707465050098}
+  otherobj: {fileID: 0}
   radius: 30
 --- !u!1 &4576378672953583439
 GameObject:
