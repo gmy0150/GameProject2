@@ -6,6 +6,8 @@ namespace BehaviorTree
 {
     public abstract class Node :ScriptableObject
     {
+        protected static Node curnode = null;
+
         public abstract Node Clone();
         public abstract void initNode();
 

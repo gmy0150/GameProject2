@@ -17,7 +17,7 @@ public class Selector : CompositeNode
             NodeState state = node.Evaluate();
             if (state == NodeState.SUCCESS || state == NodeState.RUNNING)
             {
-                return state;  // ÇÏ³ª¶óµµ SUCCESS³ª RUNNINGÀÌ ÀÖÀ¸¸é ±×°É ¹ÝÈ¯
+                return state;  // ï¿½Ï³ï¿½ï¿½ï¿½ SUCCESSï¿½ï¿½ RUNNINGï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½×°ï¿½ ï¿½ï¿½È¯
             }
         }
         return NodeState.FAILURE;

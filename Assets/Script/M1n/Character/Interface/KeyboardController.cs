@@ -48,6 +48,7 @@ public class KeyboardController : IController
     bool bClickMouse;
     public void Tick(float deltaTime)
     {
+        if (!GameManager.Instance.CanPlayerMove()) return;
 
         if (!isHide)
         {
@@ -101,7 +102,6 @@ public class KeyboardController : IController
             bMoveKeyDown = true;
         }
         direction.Normalize();
-            if (!GameManager.Instance.CanPlayerMove()) return;
         if (bMoveKeyDown)
         {
             anim.SetBool(walk, true);
