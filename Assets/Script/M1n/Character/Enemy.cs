@@ -125,9 +125,6 @@ public class Enemy : Character
         }
         string[] triggers = {"MoveProbArea","Stun","CheckNoise"};
         for(int i = 0; triggers.Count() > i; i++){
-            Debug.Log("i" + i);
-                Debug.Log($"trigger{triggers[i]}");
-                Debug.Log($"exclude{exclude}");
             if(triggers[i] == exclude){
                 UIImage.sprite = Resources.Load<Sprite>(UIPAth + exclude);
                 Debug.Log("넘");
@@ -284,7 +281,6 @@ public class Enemy : Character
         Vector3 newVec = vec;
         newVec.y = transform.position.y;
         float distanceToTarget = Vector3.Distance(transform.position, newVec);
-        Debug.Log(distanceToTarget);
         if (distanceToTarget < 1.5f)  
         {
             probSuccess = true;

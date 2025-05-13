@@ -58,7 +58,6 @@ public class TestOne : MonoBehaviour
                 {
                     Enemy.VisibilityResult visibility = enemyAI.CheckVisibility(segments);
                     meshFilter.mesh = CreateFanMesh(visibility);
-                    Debug.Log("Aa");
                 }
             }
         }

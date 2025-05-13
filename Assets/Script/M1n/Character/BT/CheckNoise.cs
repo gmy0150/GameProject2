@@ -24,7 +24,6 @@ public class CheckNoise : Node
         Vector3 noiseVec = runner.GetNoiseVec();
         if (runner.isEndProb())
         {
-            Debug.Log(runner.isEndProb());
             return NodeState.SUCCESS;
         }
 
