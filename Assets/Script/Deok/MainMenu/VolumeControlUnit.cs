@@ -1,12 +1,12 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 using TMPro;
-using UnityEngine.Audio;
 
 [System.Serializable]
 public class VolumeControlUnit
 {
-    public string mixerParamName; // AudioMixer 파라미터 이름 (예: "MasterVolume")
+    public string mixerParamName;
 
     public TextMeshProUGUI valueText;
     public Button minusButton;
@@ -17,6 +17,7 @@ public class VolumeControlUnit
 
     private const int minVolume = 0;
     private const int maxVolume = 100;
+    private const int safeMinVolume = 10;  // 최소 보장값 (볼륨 0으로 저장 시 보호)
 
     public void Initialize()
     {
@@ -26,12 +27,14 @@ public class VolumeControlUnit
         {
             currentVolume = Mathf.Max(minVolume, currentVolume - 10);
             UpdateText();
+            SetVolumeToMixer(VolumeManager.Instance.audioMixer, currentVolume);
         });
 
         plusButton.onClick.AddListener(() =>
         {
             currentVolume = Mathf.Min(maxVolume, currentVolume + 10);
             UpdateText();
+            SetVolumeToMixer(VolumeManager.Instance.audioMixer, currentVolume);
         });
     }
 
@@ -47,13 +50,22 @@ public class VolumeControlUnit
         float db = Mathf.Log10(Mathf.Max(linearVolume, 0.0001f)) * 20f;
         mixer.SetFloat(mixerParamName, db);
 
-        // 디버그 로그
-        Debug.Log($"[DEBUG] {mixerParamName} SetFloat({db} dB) 적용됨 (volume: {volumeValue})");
+        Debug.Log($"[DEBUG] {mixerParamName} ➔ {db} dB 적용됨 (volume: {volumeValue})");
     }
 
     public void Load(AudioMixer mixer)
     {
         currentVolume = PlayerPrefs.GetInt(mixerParamName, 100);
+
+        // 안전 보정 (볼륨 0이면 기본값 100으로 복구)
+        if (currentVolume < safeMinVolume)
+        {
+            Debug.LogWarning($"[RESET] {mixerParamName} 값이 {currentVolume}이라서 100으로 초기화됨");
+            currentVolume = 100;
+            PlayerPrefs.SetInt(mixerParamName, currentVolume);
+            PlayerPrefs.Save();
+        }
+
         savedVolume = currentVolume;
         UpdateText();
         SetVolumeToMixer(mixer, savedVolume);
@@ -63,6 +75,7 @@ public class VolumeControlUnit
     {
         savedVolume = currentVolume;
         PlayerPrefs.SetInt(mixerParamName, savedVolume);
+        PlayerPrefs.Save();
         SetVolumeToMixer(mixer, savedVolume);
     }
 
