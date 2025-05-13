@@ -652,7 +652,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e1e235e92622b240aea4106c8fc14f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  segments: 16
+  segments: 32
   BaseMesh: {fileID: 0}
   InvMeshes: {fileID: 2100000, guid: 09445e6409ab0bc41ba6e8e3065ae8c4, type: 2}
 --- !u!1 &1930930295311952773
@@ -718,7 +718,7 @@ Transform:
   m_GameObject: {fileID: 1968752245499945658}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.497973, y: 57.826584, z: -45.776344}
+  m_LocalPosition: {x: -9.497973, y: 56.5, z: -45.776344}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1178,7 +1178,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5121494008643997915}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 13.997973, y: -56.176582, z: 55.58634}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0

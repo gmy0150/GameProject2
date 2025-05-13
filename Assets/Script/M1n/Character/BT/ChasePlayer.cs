@@ -21,6 +21,8 @@ public class ChasePlayer : Node
     public override NodeState Evaluate()
     {
         runner.UseAnim("ChasePlayer");
+            runner.AboveUI("",false);
+
         if (runner.GetType() == typeof(GuardDog))
         {
             MoveTime += Time.deltaTime;

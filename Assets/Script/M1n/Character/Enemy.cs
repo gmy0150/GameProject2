@@ -304,6 +304,7 @@ public class Enemy : Character
         public List<Vector3> blockedPoints;
     }
     public GameObject RayShoot;
+    
     public VisibilityResult CheckVisibility(int rayCount)
     {
         VisibilityResult result = new VisibilityResult();
