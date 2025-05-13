@@ -11,10 +11,11 @@ public class PauseManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused) ResumeGame();
-            else PauseGame();
+            if (isPaused) return;  // Pause 중일 때는 ESC 무시
+            PauseGame();           // Pause 상태가 아닐 때만 ESC로 PauseMenu 띄우기
         }
     }
+
 
     public void PauseGame()
     {

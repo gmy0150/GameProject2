@@ -13,7 +13,7 @@ public class FadeScript : MonoBehaviour
 
     private void Awake()
     {
-        DG.Tweening.DOTween.Init();
+        DOTween.Init();
     }
 
     private void Start()
@@ -24,7 +24,7 @@ public class FadeScript : MonoBehaviour
             return;
         }
 
-        // 시작 시 화면이 검게 → 투명하게 페이드 아웃
+        // 시작 시 페이드 아웃 효과
         panelImage.color = new Color(0, 0, 0, 1);
         panelImage.DOFade(0f, fadeDuration).SetUpdate(true);
     }
@@ -34,7 +34,7 @@ public class FadeScript : MonoBehaviour
         Debug.Log("Fade 시작 → 대상 씬: " + sceneName);
 
         panelImage.gameObject.SetActive(true);
-        panelImage.color = new Color(0, 0, 0, 0); // 투명 상태로 시작
+        panelImage.color = new Color(0, 0, 0, 0); // 투명으로 시작
 
         panelImage.DOFade(1f, fadeDuration)
             .SetUpdate(true)

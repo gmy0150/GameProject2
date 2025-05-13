@@ -35,24 +35,41 @@ public class VolumeControlUnit
         });
     }
 
-    public void UpdateText()
+    private void UpdateText()
     {
         if (valueText != null)
             valueText.text = currentVolume.ToString();
     }
 
+    private void SetVolumeToMixer(AudioMixer mixer, int volumeValue)
+    {
+        float linearVolume = Mathf.Clamp01(volumeValue / 100f);
+        float db = Mathf.Log10(Mathf.Max(linearVolume, 0.0001f)) * 20f;
+        mixer.SetFloat(mixerParamName, db);
+
+        // 디버그 로그
+        Debug.Log($"[DEBUG] {mixerParamName} SetFloat({db} dB) 적용됨 (volume: {volumeValue})");
+    }
+
+    public void Load(AudioMixer mixer)
+    {
+        currentVolume = PlayerPrefs.GetInt(mixerParamName, 100);
+        savedVolume = currentVolume;
+        UpdateText();
+        SetVolumeToMixer(mixer, savedVolume);
+    }
+
     public void Apply(AudioMixer mixer)
     {
         savedVolume = currentVolume;
-        float db = Mathf.Lerp(-80f, 0f, savedVolume / 100f);
-        mixer.SetFloat(mixerParamName, db);
+        PlayerPrefs.SetInt(mixerParamName, savedVolume);
+        SetVolumeToMixer(mixer, savedVolume);
     }
 
     public void Revert(AudioMixer mixer)
     {
         currentVolume = savedVolume;
         UpdateText();
-        float db = Mathf.Lerp(-80f, 0f, savedVolume / 100f);
-        mixer.SetFloat(mixerParamName, db);
+        SetVolumeToMixer(mixer, savedVolume);
     }
 }

@@ -593,6 +593,16 @@ MonoBehaviour:
   - {fileID: 1834626222}
   - {fileID: 2077710560}
   - {fileID: 228535790}
+  pageSounds:
+  - {fileID: 8300000, guid: a02975519e2ce4f40a231f090120ab24, type: 3}
+  - {fileID: 8300000, guid: f4477c7eabdc30a4982d6471df81ea9d, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: a5890eabec019ca44b4a6e2d654a649c, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   nextButton: {fileID: 23724867}
   fadePanel: {fileID: 0}
   fadeDuration: 3
