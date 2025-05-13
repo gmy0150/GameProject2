@@ -273,7 +273,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: cc01da8453f251346a9609b5676d1043, type: 2}
   m_CullingMode: 1
-  m_UpdateMode: 0
+  m_UpdateMode: 2
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -299,7 +299,6 @@ MonoBehaviour:
   Prefab: {fileID: 2774047279429761632, guid: 53a89c5e63442374ead625f508807bb9, type: 3}
   lineRenderer: {fileID: 5547722622821605544}
   RunSound: 10
-  WalkSound: 8
   CoinSound: 10
   maxThrowDistance: 10
   maxThrowForce: 12
@@ -312,6 +311,9 @@ MonoBehaviour:
   Layer:
     serializedVersion: 2
     m_Bits: 4096
+  Enemy:
+    serializedVersion: 2
+    m_Bits: 256
   Lights: {fileID: 0}
   Picture:
     serializedVersion: 2
@@ -713,7 +715,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4904324285704727485}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: eb2424ec46c9569469a4c3b9e59b9c83, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -818,7 +820,7 @@ Transform:
   m_GameObject: {fileID: 5587910933537995629}
   serializedVersion: 2
   m_LocalRotation: {x: 0.00000008146034, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.49034184, z: -0.0000000018796806}
+  m_LocalPosition: {x: -0, y: 0.49034184, z: 0.96}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -845,6 +847,7 @@ SkinnedMeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 8578991229988381114, guid: 560274f17e7b6a74b8dc638c37b1f8ff, type: 3}
+  - {fileID: 2100000, guid: 2ad64366f6d1a08478f6e1dcc4aa9fc7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
