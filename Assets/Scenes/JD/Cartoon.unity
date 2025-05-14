@@ -598,15 +598,15 @@ MonoBehaviour:
   - {fileID: 8300000, guid: f4477c7eabdc30a4982d6471df81ea9d, type: 3}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 04a8d23e09c911843ad4752ae1dfad48, type: 3}
   - {fileID: 0}
   - {fileID: 8300000, guid: a5890eabec019ca44b4a6e2d654a649c, type: 3}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: ba4f33a77d61ffa4b8a45a9a33cd182e, type: 3}
   - {fileID: 0}
   nextButton: {fileID: 23724867}
   fadePanel: {fileID: 0}
   fadeDuration: 3
-  nextSceneName: Game
+  nextSceneName: Test_Game
 --- !u!1 &744919774
 GameObject:
   m_ObjectHideFlags: 0

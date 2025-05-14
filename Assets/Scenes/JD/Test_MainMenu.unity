@@ -2749,6 +2749,8 @@ GameObject:
   m_Component:
   - component: {fileID: 509323896}
   - component: {fileID: 509323895}
+  - component: {fileID: 509323897}
+  - component: {fileID: 509323898}
   m_Layer: 0
   m_Name: Volume Controller
   m_TagString: Untagged
@@ -2808,6 +2810,54 @@ Transform:
   - {fileID: 1745218289}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &509323897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509323894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4483d44d1ca5257468b9bc1b5e79b5a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolumeText: {fileID: 1261806568}
+  bgmVolumeText: {fileID: 2036281553}
+  sfxVolumeText: {fileID: 421372225}
+  uiSfxVolumeText: {fileID: 1135804488}
+--- !u!114 &509323898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509323894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3eaaf8faaecbc849ba1dc0ac4594646, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  masterVolumeUnit:
+    mixerParamName: MasterVolume
+    valueText: {fileID: 1261806568}
+    minusButton: {fileID: 970978343}
+    plusButton: {fileID: 18536557}
+  bgmVolumeUnit:
+    mixerParamName: BGMVolume
+    valueText: {fileID: 2036281553}
+    minusButton: {fileID: 1159674135}
+    plusButton: {fileID: 275344309}
+  sfxVolumeUnit:
+    mixerParamName: SFXVolume
+    valueText: {fileID: 421372225}
+    minusButton: {fileID: 1705738480}
+    plusButton: {fileID: 1763387745}
+  uiSfxVolumeUnit:
+    mixerParamName: UI_SFXVolume
+    valueText: {fileID: 1135804488}
+    minusButton: {fileID: 117321731}
+    plusButton: {fileID: 2124646759}
 --- !u!1 &566855785
 GameObject:
   m_ObjectHideFlags: 0
@@ -10653,7 +10703,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiAudioSource: {fileID: 1745218288}
-  clickSound: {fileID: 8300000, guid: 2300702b2181cec4886dbbaefc29ad6d, type: 3}
+  clickSound: {fileID: 8300000, guid: edfb7d1ff4bbbef4dadf9052dc013fc2, type: 3}
   masterVolumeParam: MasterVolume
   uiSfxVolumeParam: UI_SFXVolume
 --- !u!82 &1745218288
