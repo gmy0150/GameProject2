@@ -13048,7 +13048,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 2069376413656364010, guid: 5e28fd36865d5394093c26c2e23c144b,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: d741062287ca93547b5123811b27a17a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 1534be96cd7fb7e46858b56b7283741e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
@@ -13147,7 +13147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bgmAudioSource: {fileID: 2105997652}
-  mainMenuBGM: {fileID: 8300000, guid: d741062287ca93547b5123811b27a17a, type: 3}
+  mainMenuBGM: {fileID: 8300000, guid: 1534be96cd7fb7e46858b56b7283741e, type: 3}
   inGameBGM: {fileID: 8300000, guid: bc81665e7fda73e439a37a12a3519988, type: 3}
   fadeDuration: 0.5
 --- !u!1 &2124646757
