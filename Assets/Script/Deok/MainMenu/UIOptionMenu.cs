@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIOptionMenu : MonoBehaviour
 {
@@ -24,19 +25,23 @@ public class UIOptionMenu : MonoBehaviour
     public RectTransform screenPanelRect;
     public CanvasGroup screenCanvasGroup;
 
-    [Header("볼륨 매니저 연결")]
-    public VolumeManager volumeManager;
-
     [Header("해상도 설정 스크립트")]
     public ScreenSettingsManager screenSettingsManager;
 
+    [Header("메인메뉴 패널")]
     public GameObject mainMenuPanel;
+
+    [Header("볼륨 컨트롤 유닛 연결")]
+    public VolumeControlUnit masterVolumeUnit;
+    public VolumeControlUnit bgmVolumeUnit;
+    public VolumeControlUnit sfxVolumeUnit;
+    public VolumeControlUnit uiSfxVolumeUnit;
 
     private bool isAnimating = false;
     private Vector2 hiddenPosition;
     private Vector2 visiblePosition = Vector2.zero;
 
-    void Start()
+    void Start() 
     {
         hiddenPosition = new Vector2(optionPanel.rect.width, 0);
         optionPanel.anchoredPosition = hiddenPosition;
@@ -50,6 +55,15 @@ public class UIOptionMenu : MonoBehaviour
 
         screenPanelRect.anchoredPosition = new Vector2(screenPanelRect.rect.width, 0);
         screenCanvasGroup.alpha = 0f;
+
+        // ✅ VolumeManager → UI SFX까지 포함한 연결
+        VolumeManager.Instance.BindUI(masterVolumeUnit, bgmVolumeUnit, sfxVolumeUnit, uiSfxVolumeUnit);
+
+        // ✅ 설정값 불러오기
+        VolumeManager.Instance.LoadAll();
+        screenSettingsManager?.LoadScreenSettings();
+
+        Debug.Log("🔄 OptionMenu 초기화 완료: VolumeManager & ScreenSettings 반영됨");
     }
 
     public void OpenOptionMenu()
@@ -65,11 +79,8 @@ public class UIOptionMenu : MonoBehaviour
         canvasGroup.DOFade(1f, 1f).OnComplete(() =>
         {
             isAnimating = false;
-            DOVirtual.DelayedCall(0.01f, () =>
-            {
-                optionButton.interactable = true;
-                backButton.interactable = true;
-            });
+            optionButton.interactable = true;
+            backButton.interactable = true;
         });
     }
 
@@ -81,17 +92,15 @@ public class UIOptionMenu : MonoBehaviour
         optionButton.interactable = false;
         backButton.interactable = false;
 
-        optionPanel.DOAnchorPos(hiddenPosition, 0.1f).SetEase(Ease.InExpo);
-        canvasGroup.DOFade(0f, 0.1f).OnComplete(() =>
+        CloseAllSubPanels();
+
+        optionPanel.DOAnchorPos(hiddenPosition, 0.2f).SetEase(Ease.InExpo);
+        canvasGroup.DOFade(0f, 0.2f).OnComplete(() =>
         {
             optionPanel.gameObject.SetActive(false);
+            HandleAfterClose();
             isAnimating = false;
-            optionButton.interactable = true;
-            backButton.interactable = true;
         });
-
-        soundPanel.SetActive(false);
-        screenPanel.SetActive(false);
     }
 
     public void OpenSoundPanel()
@@ -109,9 +118,9 @@ public class UIOptionMenu : MonoBehaviour
     public void ConfirmSoundPanel()
     {
         if (isAnimating) return;
-        isAnimating = true;
+        isAnimating = true; 
 
-        volumeManager.ApplyAll(); // 🎵 사운드 적용
+        VolumeManager.Instance.ApplyAll();
 
         soundPanelRect.DOAnchorPos(new Vector2(soundPanelRect.rect.width, 0), 0.4f).SetEase(Ease.InExpo);
         soundCanvasGroup.DOFade(0f, 0.4f).OnComplete(() =>
@@ -123,13 +132,8 @@ public class UIOptionMenu : MonoBehaviour
 
     public void CloseSoundPanelToOption()
     {
-        volumeManager.RevertAll(); // 🎵 변경사항 되돌리기
-
-        soundPanelRect.DOAnchorPos(new Vector2(soundPanelRect.rect.width, 0), 0.4f).SetEase(Ease.InExpo);
-        soundCanvasGroup.DOFade(0f, 0.4f).OnComplete(() =>
-        {
-            soundPanel.SetActive(false);
-        });
+        VolumeManager.Instance.RevertAll();
+        AnimatePanelClose(soundPanel, soundPanelRect, soundCanvasGroup);
     }
 
     public void OpenScreenPanel()
@@ -146,11 +150,7 @@ public class UIOptionMenu : MonoBehaviour
 
     public void CloseScreenPanelToOption()
     {
-        screenPanelRect.DOAnchorPos(new Vector2(screenPanelRect.rect.width, 0), 0.4f).SetEase(Ease.InExpo);
-        screenCanvasGroup.DOFade(0f, 0.4f).OnComplete(() =>
-        {
-            screenPanel.SetActive(false);
-        });
+        AnimatePanelClose(screenPanel, screenPanelRect, screenCanvasGroup);
     }
 
     public void ConfirmAllSettings()
@@ -158,26 +158,55 @@ public class UIOptionMenu : MonoBehaviour
         if (isAnimating) return;
         isAnimating = true;
 
-        volumeManager.ApplyAll(); // 🎵 전체 사운드 저장
-        if (screenSettingsManager != null)
-        {
-            screenSettingsManager.SaveOnly(); // 🖥️ 해상도 저장
-        }
+        VolumeManager.Instance.ApplyAll();
+        screenSettingsManager?.SaveOnly();
 
         PlayerPrefs.Save();
+
+        CloseAllSubPanels();
 
         optionPanel.DOAnchorPos(hiddenPosition, 0.2f).SetEase(Ease.InExpo);
         canvasGroup.DOFade(0f, 0.2f).OnComplete(() =>
         {
             optionPanel.gameObject.SetActive(false);
+            HandleAfterClose();
+            isAnimating = false;
+        });
+    }
+
+    private void CloseAllSubPanels()
+    {
+        soundPanel.SetActive(false);
+        screenPanel.SetActive(false);
+    }
+
+    private void AnimatePanelClose(GameObject panel, RectTransform rect, CanvasGroup group)
+    {
+        rect.DOAnchorPos(new Vector2(rect.rect.width, 0), 0.4f).SetEase(Ease.InExpo);
+        group.DOFade(0f, 0.4f).OnComplete(() =>
+        {
+            panel.SetActive(false);
+        });
+    }
+
+    private void HandleAfterClose()
+    {
+        string currentScene = SceneManager.GetActiveScene().name;
+
+        if (currentScene == "Test_MainMenu")
+        {
             if (mainMenuPanel != null)
             {
                 mainMenuPanel.SetActive(true);
             }
-            isAnimating = false;
-        });
-
-        soundPanel.SetActive(false);
-        screenPanel.SetActive(false);
+        }
+        else if (currentScene == "Test_Game")
+        {
+            PauseManager pauseManager = FindObjectOfType<PauseManager>();
+            if (pauseManager != null && pauseManager.gameUIRoot != null)
+            {
+                pauseManager.gameUIRoot.SetActive(true);
+            }
+        }
     }
 }
