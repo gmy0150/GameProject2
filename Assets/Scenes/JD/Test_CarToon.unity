@@ -604,7 +604,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ba4f33a77d61ffa4b8a45a9a33cd182e, type: 3}
   - {fileID: 0}
   nextButton: {fileID: 23724867}
-  fadePanel: {fileID: 0}
+  fadePanel: {fileID: 764441174}
   fadeDuration: 3
   nextSceneName: Test_Game
 --- !u!1 &744919774
