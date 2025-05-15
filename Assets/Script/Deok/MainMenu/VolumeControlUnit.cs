@@ -57,8 +57,7 @@ public class VolumeControlUnit
     {
         currentVolume = PlayerPrefs.GetInt(mixerParamName, 100);
 
-        // 안전 보정 (볼륨 0이면 기본값 100으로 복구)
-        if (currentVolume < safeMinVolume)
+        if (currentVolume < 0 || currentVolume > 100)
         {
             Debug.LogWarning($"[RESET] {mixerParamName} 값이 {currentVolume}이라서 100으로 초기화됨");
             currentVolume = 100;
@@ -70,6 +69,7 @@ public class VolumeControlUnit
         UpdateText();
         SetVolumeToMixer(mixer, savedVolume);
     }
+
 
     public void Apply(AudioMixer mixer)
     {
