@@ -14,6 +14,7 @@ public class Cartoon : MonoBehaviour
 
     [Header("🕹️ 버튼 & 페이드")]
     public Button nextButton;
+    public Button skipButton;
     public Image fadePanel;
     public float fadeDuration = 1f;
     public string nextSceneName = "Game";
@@ -26,7 +27,6 @@ public class Cartoon : MonoBehaviour
         InitAudioSource();
         ResetCartoonState();
 
-        // 첫 페이지 표시 & 사운드 재생
         if (pages.Count > 0)
         {
             pages[0].gameObject.SetActive(true);
@@ -35,6 +35,7 @@ public class Cartoon : MonoBehaviour
         }
 
         nextButton.onClick.AddListener(NextPage);
+        skipButton.onClick.AddListener(SkipCartoon);
 
         if (fadePanel != null)
         {
@@ -61,15 +62,18 @@ public class Cartoon : MonoBehaviour
             if (img == null) continue;
 
             img.gameObject.SetActive(false);
-            img.color = new Color(1, 1, 1, 0); // 투명 초기화
+            img.color = new Color(1, 1, 1, 0); 
         }
     }
 
     private void PlayPageSound(int index)
     {
+        audioSource.Stop(); 
+
         if (index >= 0 && index < pageSounds.Count && pageSounds[index] != null)
         {
-            audioSource.PlayOneShot(pageSounds[index]);
+            audioSource.clip = pageSounds[index];
+            audioSource.Play();
         }
     }
 
@@ -90,6 +94,14 @@ public class Cartoon : MonoBehaviour
         {
             StartFadeAndLoadScene();
         }
+    }
+
+    private void SkipCartoon()
+    {
+        if (audioSource.isPlaying)
+            audioSource.Stop();
+
+        StartFadeAndLoadScene();
     }
 
     private void StartFadeAndLoadScene()
