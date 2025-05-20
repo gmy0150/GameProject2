@@ -41,17 +41,17 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 04abe18ae3adb9341838b851d1c9b4c5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -24.193369
+      value: 13.9
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 04abe18ae3adb9341838b851d1c9b4c5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.17128247
+      value: 0.31964934
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 04abe18ae3adb9341838b851d1c9b4c5,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 39
+      value: 14.05
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 04abe18ae3adb9341838b851d1c9b4c5,
         type: 3}
@@ -96,17 +96,17 @@ PrefabInstance:
     - target: {fileID: -8657434364802654418, guid: 04abe18ae3adb9341838b851d1c9b4c5,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -4819223349682164798, guid: 04abe18ae3adb9341838b851d1c9b4c5,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: -4766017759750415202, guid: 04abe18ae3adb9341838b851d1c9b4c5,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 04abe18ae3adb9341838b851d1c9b4c5,
         type: 3}
@@ -116,7 +116,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 04abe18ae3adb9341838b851d1c9b4c5,
         type: 3}
       propertyPath: m_Layer
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1244638988078496439, guid: 04abe18ae3adb9341838b851d1c9b4c5,
         type: 3}
@@ -184,10 +184,6 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2466953936284346231}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 04abe18ae3adb9341838b851d1c9b4c5,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2894989410867933373}
     - targetCorrespondingSourceObject: {fileID: -4819223349682164798, guid: 04abe18ae3adb9341838b851d1c9b4c5,
         type: 3}
       insertIndex: -1
@@ -291,8 +287,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8cddae493f01aa41a0d7b3b104a0bfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shoot: 0
-  hasCoin: 0
 --- !u!65 &7236398730639649212
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -312,8 +306,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.4665618, y: 3.356293, z: 1.4}
-  m_Center: {x: 1.2032809, y: 1.6868551, z: -0.3}
+  m_Size: {x: 2.56, y: 3.72, z: 1.55}
+  m_Center: {x: 1.24, y: 1.55, z: -0.24}
 --- !u!114 &2466953936284346231
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -388,17 +382,3 @@ MonoBehaviour:
     fillPass:
       shader: {fileID: 0}
       serializedProperties: []
---- !u!114 &2894989410867933373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9187637497429447991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8cddae493f01aa41a0d7b3b104a0bfd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shoot: 0
-  hasCoin: 0

@@ -28,7 +28,7 @@ public class Player : Character
     public bool InteractPoint;
     public Mesh BaseMesh;
     public Mesh BoxMesh;
-
+    public Animator animator;
     public LayerMask Layer;
     public LayerMask Enemy;
     IController KeyboardControll;
@@ -39,7 +39,7 @@ public class Player : Character
             controller.LateTick(Time.deltaTime);
         }
     }
-    void Start()
+    void Awake()
     {
         RunNoise = RunSound;
         CoinNoise = CoinSound;
@@ -50,22 +50,21 @@ public class Player : Character
 
         interactController = new InteractController();
         interactController.OnPosessed(this);
+        animator = GetComponent<Animator>();
     }
-    void OnAnimatorIK(int layerIndex)
-    {
-        
+
+    public void Move(Vector3 vector3,bool maingame){
+        KeyboardControll?.MovePlayer(vector3,maingame);
     }
 
     void Update()
     {
-        if (interactController != null)
-        {
-            interactController.TIck(Time.deltaTime);
-        }
-        if (controller != null)
-        {
-            controller.Tick(Time.deltaTime);
-        }
+        interactController?.TIck(Time.deltaTime);
+        controller?.Tick(Time.deltaTime);
+    }
+    void FixedUpdate()
+    {
+        controller?.FixedTick(Time.deltaTime);
     }
     public Image Lights;
     public InteractController GetInterActControll()

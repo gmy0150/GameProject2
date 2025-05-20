@@ -15,13 +15,14 @@ public class Sequence : CompositeNode
             NodeState state = node.Evaluate();
             if (state == NodeState.FAILURE)
             {
-                return NodeState.FAILURE;  // ÇÏ³ª¶óµµ FAILURE°¡ ÀÖÀ¸¸é FAILURE ¹ÝÈ¯
+                return NodeState.FAILURE;  // ï¿½Ï³ï¿½ï¿½ï¿½ FAILUREï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ FAILURE ï¿½ï¿½È¯
             }
             if (state == NodeState.RUNNING)
             {
-                return NodeState.RUNNING;  // ÇÏ³ª¶óµµ RUNNINGÀÌ¸é RUNNING ¹ÝÈ¯
+                return NodeState.RUNNING;  // ï¿½Ï³ï¿½ï¿½ï¿½ RUNNINGï¿½Ì¸ï¿½ RUNNING ï¿½ï¿½È¯
             }
         }
-        return NodeState.SUCCESS;  // ¸ðµç ÀÚ½ÄÀÌ SUCCESS¸é SUCCESS ¹ÝÈ¯
+        
+        return NodeState.SUCCESS;  // ï¿½ï¿½ï¿½ ï¿½Ú½ï¿½ï¿½ï¿½ SUCCESSï¿½ï¿½ SUCCESS ï¿½ï¿½È¯
     }
 }

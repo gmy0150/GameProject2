@@ -21,6 +21,9 @@ public class ChasePlayer : Node
     public override NodeState Evaluate()
     {
         runner.UseAnim("ChasePlayer");
+        runner.AboveUI(this.GetType().Name);
+        
+
         if (runner.GetType() == typeof(GuardDog))
         {
             MoveTime += Time.deltaTime;
@@ -28,7 +31,7 @@ public class ChasePlayer : Node
             Debug.Log(player.ToString());
             if (BarkTime > BarkTimer)
             {
-                runner.MakeNoise(runner.gameObject,10,10);
+                runner.MakeNoise(runner.gameObject, 10, 10);
                 Debug.Log("¢��");
                 BarkTime = 0;
             }
@@ -41,7 +44,7 @@ public class ChasePlayer : Node
             if (MoveTime > Timer)
             {
                 runner.missPlayer();
-                
+
                 runner.StopMove();
                 Debug.Log("��");
                 MoveTime = 0;
@@ -51,7 +54,7 @@ public class ChasePlayer : Node
         }
         else
         {
-            if(player.GetInterActControll().GetHide())
+            if (player.GetInterActControll().GetHide())
             {
                 runner.missPlayer();
                 runner.StopMove();

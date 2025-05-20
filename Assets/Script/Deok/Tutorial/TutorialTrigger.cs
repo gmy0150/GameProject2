@@ -6,6 +6,7 @@ public class TutorialTrigger : MonoBehaviour
     public string jsonFileName = "Tutorial_Continue"; // 사용할 JSON 파일명
     public int dialogueIndex = 0; // 몇 번째 대사를 보여줄지 (0부터 시작)
     private bool hasTriggered = false;
+    private bool hasExitTriggered = false;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,6 +15,7 @@ public class TutorialTrigger : MonoBehaviour
 
         Debug.Log("✅ 플레이어가 트리거에 진입했습니다.");
 
+        GameManager.Instance.ActPlay(true);
         hasTriggered = true;
 
         TextAsset jsonText = Resources.Load<TextAsset>("Data/" + jsonFileName);
@@ -49,4 +51,6 @@ public class TutorialTrigger : MonoBehaviour
     {
         public List<TutorialManager.DialogueLine> lines;
     }
+
+
 }

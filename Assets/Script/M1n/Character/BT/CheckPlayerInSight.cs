@@ -13,6 +13,7 @@ public class CheckPlayerInSight : Node
 
     public override NodeState Evaluate()
     {
+        runner.AboveUI("",false);
         if (runner != null)
         {
             return runner.GetPlayer() ? NodeState.SUCCESS : NodeState.FAILURE;

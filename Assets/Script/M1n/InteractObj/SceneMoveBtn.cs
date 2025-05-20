@@ -9,7 +9,10 @@ public class SceneMoveBtn : UseageInteract
     {
         base.Interact(character, controller);
         Debug.Log("눌림");
-        fadeScript.FadeToScene(SceneName);
+        GameObject prefab = Resources.Load<GameObject>("Prefabs/Second_Scene");
+        if(prefab != null){
+            Instantiate(prefab);
+        }
     }
     public override bool IsOneTimeInteraction()
     {

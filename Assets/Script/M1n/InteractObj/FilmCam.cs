@@ -41,6 +41,8 @@ public class FilmCam : StorageItem
             Lights.color = Color.white;
             Lights.transform.parent.gameObject.SetActive(true);
             Time.timeScale = 0;
+        GameManager.Instance.ActPlay(false);
+
 
             Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
             {
@@ -66,6 +68,8 @@ public class FilmCam : StorageItem
         yield return new WaitForSecondsRealtime(1f);
 
         Time.timeScale = 1;
+        GameManager.Instance.ActPlay(true);
+
         Lights.transform.parent.gameObject.SetActive(false);
 
         if (GameManager.Instance.PcCount() == TakenPc.Count)
@@ -88,7 +92,7 @@ public class FilmCam : StorageItem
     IEnumerator ShowDialogueDelayed(string objName)
     {
         yield return new WaitForSecondsRealtime(0.2f);
-        Debug.Log("📸 [FilmCam] 호출된 오브젝트 이름: " + objName);  // ✅ 로그 ①
+        Debug.Log("[FilmCam] 호출된 오브젝트 이름: " + objName);  // ✅ 로그 ①
         PhotoTriggerManager.Instance.ShowDialogueFromObjectName(objName);
     }
 

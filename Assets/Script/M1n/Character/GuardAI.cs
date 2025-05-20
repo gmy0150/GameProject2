@@ -76,7 +76,7 @@ public class GuardAI : Enemy
     protected override void Update()
     {
         base.Update();
-
+        
         MakeNoise(gameObject, 15, 10);
     }
 

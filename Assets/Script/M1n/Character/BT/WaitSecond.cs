@@ -20,6 +20,7 @@ public class WaitSecond : Node
     public override NodeState Evaluate()
     {
         
+
         runner.UseAnim("Idle");
         runner.StopMove();
         ArroundTimer += Time.deltaTime;

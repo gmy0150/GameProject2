@@ -20,10 +20,10 @@ public class CheckNoise : Node
     }
     public override NodeState Evaluate()
     {
+        
         Vector3 noiseVec = runner.GetNoiseVec();
         if (runner.isEndProb())
         {
-            Debug.Log(runner.isEndProb());
             return NodeState.SUCCESS;
         }
 
@@ -43,7 +43,7 @@ public class CheckNoise : Node
             noiseVec.y = runner.transform.position.y;
             Quaternion targetRotation = Quaternion.LookRotation(noiseVec - runner.transform.position);
 
-
+            runner.AboveUI(this.GetType().Name);
             runner.transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
 
             if (!hasReachedAngle && Quaternion.Angle(currentRotation, targetRotation) < 1f)

@@ -14,6 +14,7 @@ public class Patrol : Node
         runner.UseAnim("Move");
         if (!runner.GetPatrol())
         {
+            runner.AboveUI("",false);
             runner.Patrols();
         }
         else

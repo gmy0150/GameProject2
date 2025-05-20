@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
 using BehaviorTree;
+using UnityEngine.UI;
+using System.Linq;
+using Unity.VisualScripting;
+
 
 public class Enemy : Character
 {
@@ -47,6 +51,7 @@ public class Enemy : Character
     }
     protected virtual void Update()
     {
+        UIImage.transform.position = new Vector3(transform.position.x, UIImage.transform.position.y, transform.position.z);
         if (aIPath != null)
         {
             aIPath.maxSpeed = applyspeed;
@@ -55,6 +60,7 @@ public class Enemy : Character
         {
             NewNode.Evaluate();
         }
+
     }
     public virtual bool GetPlayer() => DetectPlayer;
 
@@ -104,6 +110,25 @@ public class Enemy : Character
                 anim.SetBool(trigger,true);
             }
         }
+    }
+    [Header("UI Image")]
+    [SerializeField] private Image UIImage;
+    string UIPAth = "UI/In_Game/";
+    public void AboveUI(string exclude = "",bool active = true){
+        
+            UIImage.gameObject.SetActive(active);
+        if(!active){
+            return;
+        }
+        string[] triggers = {"ChasePlayer","Stun","CheckNoise"};
+        for(int i = 0; triggers.Count() > i; i++){
+            if(triggers[i] == exclude){
+                UIImage.sprite = Resources.Load<Sprite>(UIPAth + exclude);
+            }
+            if(triggers[i] != exclude){
+            }
+        }
+
     }
 
 
@@ -252,7 +277,6 @@ public class Enemy : Character
         Vector3 newVec = vec;
         newVec.y = transform.position.y;
         float distanceToTarget = Vector3.Distance(transform.position, newVec);
-        Debug.Log(distanceToTarget);
         if (distanceToTarget < 1.5f)  
         {
             probSuccess = true;
@@ -272,6 +296,7 @@ public class Enemy : Character
         public List<Vector3> blockedPoints;
     }
     public GameObject RayShoot;
+    
     public VisibilityResult CheckVisibility(int rayCount)
     {
         VisibilityResult result = new VisibilityResult();
@@ -302,7 +327,7 @@ public class Enemy : Character
                 rayDirection.y = 0;
                 // Raycast ����
                 RaycastHit hit;
-                if (Physics.Raycast(NewVector, rayDirection, out hit, Distance))
+                if (Physics.Raycast(transform.position, rayDirection, out hit, Distance))
                 {
                     // Player�� �����ϸ� visiblePoints�� �߰�
                     if (hit.collider.GetComponentInParent<Player>())
@@ -327,6 +352,7 @@ public class Enemy : Character
                 {
                     result.visiblePoints.Add(enemyTransform.position + rayDirection * Distance);
                 }
+                Debug.DrawRay(NewVector, rayDirection * hit.distance, Color.red, 0.1f);
             }
             return result;
         }

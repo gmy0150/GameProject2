@@ -10,7 +10,6 @@ public class Closet : UseageInteract
         InventoryManager.Instance.ExitSlot();
         if (!isHide)
         {
-            Debug.Log("작동하자");
             Hide();
         }
     }
@@ -35,7 +34,6 @@ public class Closet : UseageInteract
             Rigidbody rigidbody = character.GetComponent<Rigidbody>();
             rigidbody.velocity = Vector3.zero;
             controller.RunningCancel();
-            // controller.Crouch();
             Render(false);
             character.ControllerDisable();
         }
@@ -43,13 +41,11 @@ public class Closet : UseageInteract
         {
             Render(true);
             character.ControllerEnable();
-
         }
     }
     protected void Render(bool x)
     {
         controller.SetNoise(x);
-        
         character.GetComponentInChildren<SkinnedMeshRenderer>().enabled = x;
         character.GetComponentInChildren<Collider>().enabled = x;
         character.GetComponent<Rigidbody>().useGravity = x;

@@ -6,52 +6,35 @@ using DG.Tweening;
 
 public class Cartoon : MonoBehaviour
 {
-    [Header("📷 페이지 이미지 리스트")]
     public List<Image> pages = new List<Image>();
-
-    [Header("🔊 페이지마다 재생할 사운드 리스트")]
-    public List<AudioClip> pageSounds = new List<AudioClip>();
-
-    [Header("🕹️ 버튼 & 페이드")]
     public Button nextButton;
-    public Button skipButton;
     public Image fadePanel;
     public float fadeDuration = 1f;
     public string nextSceneName = "Game";
 
     private int currentPage = 0;
-    private AudioSource audioSource;
 
     void Start()
     {
-        InitAudioSource();
-        ResetCartoonState();
+        GameManager.Instance.ActPlay(false);
+        ResetCartoonState(); // 상태 초기화
 
         if (pages.Count > 0)
         {
             pages[0].gameObject.SetActive(true);
             pages[0].DOFade(1f, fadeDuration);
-            PlayPageSound(0);
         }
 
         nextButton.onClick.AddListener(NextPage);
-        skipButton.onClick.AddListener(SkipCartoon);
-
+        Debug.Log("작동?");
+        Debug.Log(nextButton);
         if (fadePanel != null)
         {
             fadePanel.color = new Color(0, 0, 0, 0);
             fadePanel.gameObject.SetActive(false);
         }
     }
-
-    private void InitAudioSource()
-    {
-        audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            audioSource = gameObject.AddComponent<AudioSource>();
-        }
-    }
+    
 
     private void ResetCartoonState()
     {
@@ -62,22 +45,11 @@ public class Cartoon : MonoBehaviour
             if (img == null) continue;
 
             img.gameObject.SetActive(false);
-            img.color = new Color(1, 1, 1, 0); 
+            img.color = new Color(1, 1, 1, 0); // 투명한 상태로 초기화
         }
     }
 
-    private void PlayPageSound(int index)
-    {
-        audioSource.Stop(); 
-
-        if (index >= 0 && index < pageSounds.Count && pageSounds[index] != null)
-        {
-            audioSource.clip = pageSounds[index];
-            audioSource.Play();
-        }
-    }
-
-    private void NextPage()
+    void NextPage()
     {
         currentPage++;
 
@@ -85,10 +57,8 @@ public class Cartoon : MonoBehaviour
         {
             var nextImage = pages[currentPage];
             nextImage.gameObject.SetActive(true);
-            nextImage.color = new Color(1, 1, 1, 0);
-            nextImage.DOFade(1f, fadeDuration);
-
-            PlayPageSound(currentPage);
+            nextImage.color = new Color(1, 1, 1, 0); // 투명하게 시작
+            nextImage.DOFade(1f, fadeDuration);     // 부드럽게 등장
         }
         else
         {
@@ -96,15 +66,7 @@ public class Cartoon : MonoBehaviour
         }
     }
 
-    private void SkipCartoon()
-    {
-        if (audioSource.isPlaying)
-            audioSource.Stop();
-
-        StartFadeAndLoadScene();
-    }
-
-    private void StartFadeAndLoadScene()
+    void StartFadeAndLoadScene()
     {
         if (fadePanel != null)
         {
@@ -113,12 +75,16 @@ public class Cartoon : MonoBehaviour
 
             fadePanel.DOFade(1f, fadeDuration).SetUpdate(true).OnComplete(() =>
             {
-                SceneManager.LoadScene(nextSceneName);
+                GameManager.Instance.MainGameStart();
+                // SceneManager.LoadScene(nextSceneName);
+                transform.gameObject.SetActive(false);
+                Destroy(this);
             });
         }
         else
         {
-            SceneManager.LoadScene(nextSceneName);
+            transform.gameObject.SetActive(false);
+            Destroy(this);
         }
     }
 }
