@@ -1,5 +1,18 @@
 [
     {
+        "itemName": "Health",
+        "lines": [
+            {
+                "message": "시체네",
+                "iconName": "nothing"
+            },
+            {
+                "message": "주인공: 1?",
+                "iconName": "sad"
+            }
+        ]
+    },
+    {
         "itemName": "UFO 1",
         "lines": [
             {

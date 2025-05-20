@@ -44,14 +44,5 @@ public class TutorialTrigger : MonoBehaviour
         public TutorialManager.DialogueLine[] array;
     }
 
-    // void OnTriggerExit(Collider other)
-    // {
-    //     if (hasExitTriggered) return;
-    //     if (!other.CompareTag("Player")) return;
-    //     if (hasTriggered && !hasExitTriggered)
-    //     {
-    //         GameManager.Instance.ActPlay(false);
-    //         hasExitTriggered = true;
-    //     }
-    // }
+
 }
