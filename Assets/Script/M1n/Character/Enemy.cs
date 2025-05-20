@@ -124,7 +124,6 @@ public class Enemy : Character
         for(int i = 0; triggers.Count() > i; i++){
             if(triggers[i] == exclude){
                 UIImage.sprite = Resources.Load<Sprite>(UIPAth + exclude);
-                Debug.Log("넘");
             }
             if(triggers[i] != exclude){
             }

@@ -43,7 +43,6 @@ public class CheckNoise : Node
             noiseVec.y = runner.transform.position.y;
             Quaternion targetRotation = Quaternion.LookRotation(noiseVec - runner.transform.position);
 
-            Debug.Log("의심지역 발생");
             runner.AboveUI(this.GetType().Name);
             runner.transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
 

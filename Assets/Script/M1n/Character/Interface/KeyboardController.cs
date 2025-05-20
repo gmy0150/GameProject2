@@ -47,7 +47,8 @@ public class KeyboardController : IController
     }
     bool bClickMouse;
     public void Tick(float deltaTime)
-    {
+    {   
+        Debug.Log(GameManager.Instance.CanPlayerMove());
         if (!GameManager.Instance.CanPlayerMove()) return;
 
         if (!isHide)

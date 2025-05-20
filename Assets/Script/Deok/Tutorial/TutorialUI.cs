@@ -31,7 +31,7 @@ public class TutorialUI : MonoBehaviour
     public void ShowTutorialDialogue(List<TutorialManager.DialogueLine> lines)
     {
         Time.timeScale = 0f;
-
+        GameManager.Instance.ActPlay(false);
         if (playerScript != null)
             playerScript.enabled = false;
 
@@ -89,6 +89,8 @@ public class TutorialUI : MonoBehaviour
                 playerScript.enabled = true;
 
             Time.timeScale = 1f;
+        GameManager.Instance.ActPlay(true);
+
         }
     }
 
