@@ -1,27 +1,102 @@
 [
     {
-        "message": "1번째 문구.",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "헉! 여기에도 경비원이 있었잖아?",
+                "iconName": "Surprise"
+            },
+            {
+                "message": "조용히... 조용히... 경비원이 못 볼 때 몰래 지나가야겠는데...",
+                "iconName": "Sad"
+            }
+        ]
     },
     {
-        "message": "2번째 문구 ",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "뭐야? 저기 또 경비원이 있잖아? 저녀석은 움직일 생각도 안하는 것 같은데...",
+                "iconName": "Sad"
+            }
+        ]
     },
     {
-        "message": "3번째 문구.",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "아잇! 또 경비원이야? 도대체 뭐길래 경비원이 이렇게 많은거야?",
+                "iconName": "Angry"
+            }
+        ]
     },
     {
-        "message": "4번째 문구 ",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "라고 할 줄 알았겠지만!!",
+                "iconName": "Happy"
+            }
+        ]
     },
     {
-        "message": "5번째 문구 ",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "이럴 줄 알고 내 비장의 무기 뿅망치도 준비했지롱!",
+                "iconName": "Happy"
+            }
+        ]
     },
     {
-        "message": "6번째 문구 ",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "헉! 이게 뭐야!! 이거 시체잖아?? 이 녀석들.. 뭘 지키고 있나 했더만.. 시체를 지키고 있었다고?",
+                "iconName": "Surprise"
+            }
+        ]
+    },
+    {
+        "lines": [
+            {
+                "message": "일단 일단.. 사진이라도 찍어둬야겠어...",
+                "iconName": "Nothing"
+            }
+        ]
+    },
+    {
+        "lines": [
+            {
+                "message": "음? 시체 밑에 떨어져 있는 저건 뭐지? 이거 래퍼 마체테의 목걸이... 같은데...?",
+                "iconName": "Nothing"
+            }
+        ]
+    },
+    {
+        "lines": [
+            {
+                "message": "으아악!! 이게 뭐야!!! 축축하고 미끌거리잖아!! 이 촉수 같은 건 뭐냐고!!",
+                "iconName": "Nothing"
+            }
+        ]
+    },
+    {
+        "lines": [
+            {
+                "message": "이런 물건은 난생 처음 보는데...",
+                "iconName": "Nothing"
+            }
+        ]
+    },
+    {
+        "lines": [
+            {
+                "message": "이봐 거기 누구야!!",
+                "iconName": "Surprise"
+            }
+        ]
+    },
+    {
+        "lines": [
+            {
+                "message": "헉! 방금 소리 때문에 누가 들은 거 아니야? 어디 숨을 곳... 숨을 곳...",
+                "iconName": "Surprise"
+            }
+        ]
     }
-
 ]
