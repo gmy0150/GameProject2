@@ -279,10 +279,13 @@ public class KeyboardController : IController
             targetPosition = null;
 
             GameManager.Instance.ActPlay(true);
-            if(!maingame)
-            GameManager.Instance.tutorialManager.Start();
-            else{
-                
+            anim.SetBool(walk, false);
+            
+            if (!maingame)
+                GameManager.Instance.tutorialManager.Start();
+            else
+            {
+
             }
         }
         else
