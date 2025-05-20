@@ -66,5 +66,13 @@
                 "iconName": "Surprise"
             }
         ]
+    },
+    {
+        "lines": [
+            {
+                "message": "마지막 문장 문장 문장",
+                "iconName": "Sad"
+            }
+        ]
     }
 ]

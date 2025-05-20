@@ -28,13 +28,18 @@ public class TutoCloset : Closet
         }
 
     }
+    public GameObject finalTriggerPrefab;
     public override void InteractAgain()
     {
         if (isHide && GameManager.Instance.CanPlayerMove())
         {
             Hide();
             // 수정
-            
+            if (finalTriggerPrefab != null && !finalTriggerPrefab.activeSelf)
+            {
+                finalTriggerPrefab.SetActive(true);
+            }
+
         }
     }
 }
