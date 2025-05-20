@@ -33,7 +33,7 @@ public class TutoCloset : Closet
         if (isHide && GameManager.Instance.CanPlayerMove())
         {
             Hide();
-            
+            // 수정
             
         }
     }
