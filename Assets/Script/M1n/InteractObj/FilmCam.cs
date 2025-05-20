@@ -43,6 +43,7 @@ public class FilmCam : StorageItem
             Time.timeScale = 0;
         GameManager.Instance.ActPlay(false);
 
+
             Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
             {
                 StartCoroutine(TakePicture(hitobj));

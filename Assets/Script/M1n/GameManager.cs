@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     public Vector3 gameMovePos;
     public TutorialManager tutorialManager;
     private static GameManager _instance;
+    public AnimationManage animation;
     public static GameManager Instance
     {
         get
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
+         animation = new AnimationManage();
         if (_instance == null)
         {
             _instance = this;
@@ -86,6 +88,11 @@ public class GameManager : MonoBehaviour
     public void ActPlay(bool x)
     {
         canPlay = x;
+        if (x)
+        {
+            animation.TransAnim(player.animator, "Walking", false);
+            animation.TransAnim(player.animator, "Running", false);
+        }
     }
     void Start()
     {

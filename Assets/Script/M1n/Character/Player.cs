@@ -28,7 +28,7 @@ public class Player : Character
     public bool InteractPoint;
     public Mesh BaseMesh;
     public Mesh BoxMesh;
-
+    public Animator animator;
     public LayerMask Layer;
     public LayerMask Enemy;
     IController KeyboardControll;
@@ -50,6 +50,7 @@ public class Player : Character
 
         interactController = new InteractController();
         interactController.OnPosessed(this);
+        animator = GetComponent<Animator>();
     }
 
     public void Move(Vector3 vector3,bool maingame){
