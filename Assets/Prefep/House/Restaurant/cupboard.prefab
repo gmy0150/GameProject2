@@ -78,6 +78,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: cupboard door1 (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 281818830ab8ff74da5de78584b07911,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -166,6 +171,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: cupboard door2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 7d5ce59f95a60bf4397aac2b7d7a65c4,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -261,6 +271,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: cupboard door1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 281818830ab8ff74da5de78584b07911,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -298,42 +313,42 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 2ac71021fb7cc544bb0ce6e2f0d18f82,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -71.56878
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2ac71021fb7cc544bb0ce6e2f0d18f82,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.073169
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2ac71021fb7cc544bb0ce6e2f0d18f82,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.7152138
+      value: 0.7105214
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2ac71021fb7cc544bb0ce6e2f0d18f82,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.4999997
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2ac71021fb7cc544bb0ce6e2f0d18f82,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.49999994
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2ac71021fb7cc544bb0ce6e2f0d18f82,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.5000003
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2ac71021fb7cc544bb0ce6e2f0d18f82,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.5000001
+      value: 0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2ac71021fb7cc544bb0ce6e2f0d18f82,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2ac71021fb7cc544bb0ce6e2f0d18f82,
         type: 3}
@@ -364,6 +379,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: cupboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2ac71021fb7cc544bb0ce6e2f0d18f82,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -34,7 +34,7 @@ public class InventorySlot : MonoBehaviour
             icon.sprite = null;
             icon.enabled = false;
         }
-
+        InventoryManager.Instance.ExitSlot();
         storedItem = null;
         SetSelected(false);
     }
@@ -49,16 +49,9 @@ public class InventorySlot : MonoBehaviour
         if (storedItem != null)
         {
             storedItem.UseItem();
-            ClearItem();
         }
     }
-    public void UseFilm()
-    {
-        if (storedItem != null)
-        {
-            storedItem.UseItem();
-        }
-    }
+
     public StorageItem GetItem(){
         return storedItem;
     }

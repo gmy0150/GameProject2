@@ -26,37 +26,37 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 92372dfdf48e1d14a877597dd11bde51,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -58.81
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 92372dfdf48e1d14a877597dd11bde51,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.4683058
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 92372dfdf48e1d14a877597dd11bde51,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.075722
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 92372dfdf48e1d14a877597dd11bde51,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.00000058114523
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 92372dfdf48e1d14a877597dd11bde51,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 4.1484696e-14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 92372dfdf48e1d14a877597dd11bde51,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 92372dfdf48e1d14a877597dd11bde51,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.00000008146035
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 92372dfdf48e1d14a877597dd11bde51,
         type: 3}
@@ -66,7 +66,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: 92372dfdf48e1d14a877597dd11bde51,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: -180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 92372dfdf48e1d14a877597dd11bde51,
         type: 3}
@@ -97,6 +97,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: frame
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 92372dfdf48e1d14a877597dd11bde51,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

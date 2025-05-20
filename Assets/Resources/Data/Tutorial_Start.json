@@ -1,10 +1,14 @@
 [
     {
-        "message": "어서 와! 이곳은 튜토리얼이야.",
-        "iconName": "Happy"
-    },
-    {
-        "message": "WASD 키로 움직여봐!",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "어서 와! 이곳은 튜토리얼이야.",
+                "iconName": "Happy"
+            },
+            {
+                "message": "WASD 키로 움직여봐!",
+                "iconName": "Happy"
+            }
+        ]
     }
 ]

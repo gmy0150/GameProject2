@@ -18,13 +18,11 @@ public class MoveProbArea : Node
             Debug.Log(runner.isEndProb());
         if (runner.isEndProb())
         {
-            Debug.Log(111);
             runner.UseAnim("Move");
             runner.MoveProb(runner.GetNoiseVec());
             if (runner.GetProb())
             {
                 ProbTime += Time.time;
-                Debug.Log(ProbTime);
                 if (ProbTime > 3)
                 {
                     runner.ProbEnd();
@@ -32,7 +30,6 @@ public class MoveProbArea : Node
                     runner.InitProb();
                     runner.StopMove();
 
-                    Debug.Log("작");
                     ProbTime = 0;
                     return NodeState.SUCCESS;
                 }
@@ -40,5 +37,15 @@ public class MoveProbArea : Node
         }
 
         return NodeState.RUNNING;
+    }
+
+    public override void initNode()
+    {
+        runner.ProbEnd();
+        runner.InitNoise();
+        runner.InitProb();
+        runner.StopMove();
+
+        ProbTime = 0;
     }
 }

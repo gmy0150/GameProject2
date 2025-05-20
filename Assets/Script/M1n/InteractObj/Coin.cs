@@ -10,8 +10,8 @@ public class Coin : StorageItem
     LineRenderer lineRenderer;
     float gravity = -9.81f;
     GameObject CoinPrefab;
-    Mesh Base;
-    MeshFilter filter;
+     bool shoot = false;
+     bool hasCoin = false;
 
     public string itemName = "Coin"; // 🪙 아이템 확인 코드 - 메시지 JSON에서 찾을 이름
 
@@ -19,9 +19,7 @@ public class Coin : StorageItem
     {
         base.Interact(character, controller);
 
-        filter = GetComponent<MeshFilter>();
-        Base = filter.mesh;
-        filter.mesh = null;
+        
 
         GetCoin(); // 🪙 아이템 확인 코드 - 아이템 획득 처리
 
@@ -179,8 +177,9 @@ public class Coin : StorageItem
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Ground" && shoot)
+        if (collision.gameObject.layer == 6 && shoot)
         {
+            Debug.Log("?");
             Rigidbody rigid = GetComponent<Rigidbody>();
             rigid.velocity = Vector3.zero;
             UseCoin();
@@ -195,6 +194,8 @@ public class Coin : StorageItem
     public override void UseItem()
     {
         ThrowCoin(dir, throwF);
+            InventoryManager.Instance.GetSlot().ClearItem();
+
     }
 
     public override void UpdateTime(float time)

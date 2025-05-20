@@ -7,6 +7,8 @@ namespace BehaviorTree
     public abstract class Node :ScriptableObject
     {
         public abstract Node Clone();
+        public abstract void initNode();
+
         public enum NodeState
         {
             SUCCESS, FAILURE, RUNNING
@@ -28,7 +30,20 @@ namespace BehaviorTree
             Node game = Instantiate(this);
             Debug.Log(game.GetType());
         }
+        public static void InitTree(Node root)
+    {
+        if (root == null) return;
 
+        root.initNode();
+
+        if (root is CompositeNode composite)
+        {
+            foreach (var child in composite.nodes)
+            {
+                InitTree(child);
+            }
+        }
+    }
         public abstract NodeState Evaluate();
     }
 }

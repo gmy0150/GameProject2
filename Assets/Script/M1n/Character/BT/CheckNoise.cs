@@ -11,22 +11,23 @@ public class CheckNoise : Node
     private float ArroundTimer = 0f;
     private float Timer = 1f;
     private Vector3 TempVec = Vector3.zero;
-    
+    bool hasReachedAngle = false;
+    bool isFirst = false;
+
     public override Node Clone()
     {
         return new CheckNoise();
     }
-bool hasReachedAngle = false;
-bool isFirst = false;
     public override NodeState Evaluate()
     {
         Vector3 noiseVec = runner.GetNoiseVec();
-        if(runner.isEndProb()){
+        if (runner.isEndProb())
+        {
             Debug.Log(runner.isEndProb());
             return NodeState.SUCCESS;
         }
-        
-        if (noiseVec != Vector3.zero&& !isFirst && !runner.isEndProb() )
+
+        if (noiseVec != Vector3.zero && !isFirst && !runner.isEndProb())
         {
             isFirst = true;
             ArroundTimer = 0;
@@ -35,7 +36,7 @@ bool isFirst = false;
             runner.StopMove();
         }
 
-        if ( noiseVec != Vector3.zero && !runner.isEndProb() && runner.isProb())
+        if (noiseVec != Vector3.zero && !runner.isEndProb() && runner.isProb())
         {
             float rotationSpeed = 2;
             Quaternion currentRotation = runner.transform.rotation;
@@ -44,13 +45,14 @@ bool isFirst = false;
 
 
             runner.transform.rotation = Quaternion.Slerp(currentRotation, targetRotation, rotationSpeed * Time.deltaTime);
-            
-             if (!hasReachedAngle && Quaternion.Angle(currentRotation, targetRotation) < 1f)
+
+            if (!hasReachedAngle && Quaternion.Angle(currentRotation, targetRotation) < 1f)
             {
-                    hasReachedAngle = true;
+                hasReachedAngle = true;
             }
-            if(hasReachedAngle){
-                ArroundTimer +=Time.deltaTime;
+            if (hasReachedAngle)
+            {
+                ArroundTimer += Time.deltaTime;
             }
             if (ArroundTimer >= Timer)
             {
@@ -59,11 +61,21 @@ bool isFirst = false;
                 runner.EndProbarea();
                 return NodeState.SUCCESS;
             }
-        Debug.Log("?");
-         return NodeState.RUNNING;
-        }else{
+            return NodeState.RUNNING;
+        }
+        else
+        {
             return NodeState.FAILURE;
         }
-        
+
+    }
+
+    public override void initNode()
+    {
+        ArroundTimer = 0f;
+        TempVec = Vector3.zero;
+        hasReachedAngle = false;
+        isFirst = false;
+        runner.EndProbarea();
     }
 }

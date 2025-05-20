@@ -41,27 +41,27 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ffb0c118ea96c744b9cbc37fb158912a,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.18301433
+      value: 0.2588191
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffb0c118ea96c744b9cbc37fb158912a,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0.18301433
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffb0c118ea96c744b9cbc37fb158912a,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.6830123
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffb0c118ea96c744b9cbc37fb158912a,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.6830123
+      value: -0.9659258
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffb0c118ea96c744b9cbc37fb158912a,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: -90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ffb0c118ea96c744b9cbc37fb158912a,
         type: 3}
@@ -97,6 +97,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: monitor
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ffb0c118ea96c744b9cbc37fb158912a,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

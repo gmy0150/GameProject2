@@ -5,17 +5,26 @@ using UnityEngine;
 
 public abstract class StorageItem : InteractObject
 {
+    public LayerMask interact;
+
     public Sprite icon;
     public string itemname;
     [SerializeField]
     protected bool isInteract = true;
     protected bool isActive;
+
+    [SerializeField] protected float interactDis;
+    protected Mesh Base;
+    protected MeshFilter filter;
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
         isInteract = false;
         InventoryManager.Instance.AddItemToInventory(this);
         Debug.Log("작동해줘");
+        filter = GetComponent<MeshFilter>();
+        Base = filter.mesh;
+        filter.mesh = null;
     }
     public abstract void inititem();
     public override void InteractAgain()

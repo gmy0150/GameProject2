@@ -11,7 +11,6 @@ public class Patrol : Node
 
     public override NodeState Evaluate()
     {
-
         runner.UseAnim("Move");
         if (!runner.GetPatrol())
         {
@@ -23,6 +22,10 @@ public class Patrol : Node
         }
         return NodeState.RUNNING;
 
+    }
 
+    public override void initNode()
+    {
+        throw new System.NotImplementedException();
     }
 }

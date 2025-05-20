@@ -8,10 +8,14 @@ public class CameraAlertUI : MonoBehaviour
 {
     public static CameraAlertUI Instance;
 
-    [Header("📷 Camera Dialogue UI Elements")]
+    [Header("\ud83d\udcf7 Camera Dialogue UI Elements")]
     public GameObject messagePanel;
     public TextMeshProUGUI messageText;
     public Image iconImage;
+
+    [Header("Player Control References")]
+    public Player playerScript;
+    public Animator playerAnimator;
 
     private Queue<PhotoTriggerManager.PhotoLine> dialogueQueue = new Queue<PhotoTriggerManager.PhotoLine>();
     private Coroutine typingCoroutine;
@@ -26,16 +30,27 @@ public class CameraAlertUI : MonoBehaviour
 
     public void ShowPhotoDialogue(List<PhotoTriggerManager.PhotoLine> lines)
     {
+        Time.timeScale = 0f;
+
+        if (playerScript != null)
+            playerScript.enabled = false;
+
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetFloat("Speed", 0f);
+            playerAnimator.SetBool("IsRunning", false);
+            playerAnimator.SetFloat("MoveX", 0f);
+            playerAnimator.SetFloat("MoveY", 0f);
+            playerAnimator.SetBool("isWalking", false);
+        }
+
         dialogueQueue.Clear();
         foreach (var line in lines)
-        {
             dialogueQueue.Enqueue(line);
-        }
 
         messagePanel.SetActive(true);
         ShowNextLine();
     }
-
 
     void Update()
     {
@@ -56,9 +71,15 @@ public class CameraAlertUI : MonoBehaviour
 
     void ShowNextLine()
     {
+        Debug.Log("ShowNextLine 호출됨. 남은 메시지 수: " + dialogueQueue.Count);
+
         if (dialogueQueue.Count > 0)
         {
+            
             var line = dialogueQueue.Dequeue();
+            fullCurrentText = line.message;
+            Debug.Log("다음 메시지: " + line.message);
+
             fullCurrentText = line.message;
 
             iconImage.sprite = !string.IsNullOrEmpty(line.iconName)
@@ -91,5 +112,10 @@ public class CameraAlertUI : MonoBehaviour
     void HidePanel()
     {
         messagePanel?.SetActive(false);
+
+        if (playerScript != null)
+            playerScript.enabled = true;
+
+        Time.timeScale = 1f;
     }
 }
