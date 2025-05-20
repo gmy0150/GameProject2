@@ -203,7 +203,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 18536558}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1745218287}
+        m_TargetAssemblyTypeName: UISoundPlayer, Assembly-CSharp
+        m_MethodName: PlayClickSound2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &18536558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -804,7 +816,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 117321732}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1745218287}
+        m_TargetAssemblyTypeName: UISoundPlayer, Assembly-CSharp
+        m_MethodName: PlayClickSound2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &117321732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1594,7 +1618,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 275344310}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1745218287}
+        m_TargetAssemblyTypeName: UISoundPlayer, Assembly-CSharp
+        m_MethodName: PlayClickSound2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &275344310
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5279,7 +5315,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 970978344}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1745218287}
+        m_TargetAssemblyTypeName: UISoundPlayer, Assembly-CSharp
+        m_MethodName: PlayClickSound2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &970978344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5832,6 +5880,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1745218287}
+        m_TargetAssemblyTypeName: UISoundPlayer, Assembly-CSharp
+        m_MethodName: PlayClickSound2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1123963539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6257,6 +6317,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1745218287}
+        m_TargetAssemblyTypeName: UISoundPlayer, Assembly-CSharp
+        m_MethodName: PlayClickSound2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1145770948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6588,7 +6660,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1159674136}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1745218287}
+        m_TargetAssemblyTypeName: UISoundPlayer, Assembly-CSharp
+        m_MethodName: PlayClickSound2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1159674136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8232,6 +8316,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1745218287}
+        m_TargetAssemblyTypeName: UISoundPlayer, Assembly-CSharp
+        m_MethodName: PlayClickSound2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1349832241
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9414,6 +9510,18 @@ MonoBehaviour:
       - m_Target: {fileID: 407204948}
         m_TargetAssemblyTypeName: ScreenSettingsManager, Assembly-CSharp
         m_MethodName: ToggleFullscreen
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1745218287}
+        m_TargetAssemblyTypeName: UISoundPlayer, Assembly-CSharp
+        m_MethodName: PlayClickSound2
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -10633,7 +10741,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1705738481}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1705738481
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10704,6 +10824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiAudioSource: {fileID: 1745218288}
   clickSound: {fileID: 8300000, guid: edfb7d1ff4bbbef4dadf9052dc013fc2, type: 3}
+  clickSound_2: {fileID: 8300000, guid: f4384eda428376c43984aed16cde1660, type: 3}
   masterVolumeParam: MasterVolume
   uiSfxVolumeParam: UI_SFXVolume
 --- !u!82 &1745218288
@@ -10974,7 +11095,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1763387746}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1745218287}
+        m_TargetAssemblyTypeName: UISoundPlayer, Assembly-CSharp
+        m_MethodName: PlayClickSound2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1763387746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13231,7 +13364,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2124646760}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1745218287}
+        m_TargetAssemblyTypeName: UISoundPlayer, Assembly-CSharp
+        m_MethodName: PlayClickSound2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2124646760
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,8 +3,9 @@ using UnityEngine.Audio;
 
 public class UISoundPlayer : MonoBehaviour
 {
-    public AudioSource uiAudioSource; // UI 사운드 재생 전용 AudioSource
-    public AudioClip clickSound;      // 클릭 사운드 클립
+    public AudioSource uiAudioSource;
+    public AudioClip clickSound;
+    public AudioClip clickSound_2; // ✅ 추가: 다른 버튼용 사운드
 
     [Header("AudioMixer Parameter Names")]
     public string masterVolumeParam = "MasterVolume";
@@ -12,30 +13,33 @@ public class UISoundPlayer : MonoBehaviour
 
     private void Reset()
     {
-        // 자동 연결 (에디터에서 붙여줄 때)
         if (uiAudioSource == null)
             uiAudioSource = GetComponent<AudioSource>();
     }
 
     public void PlayClickSound()
     {
-        if (uiAudioSource == null || clickSound == null || VolumeManager.Instance == null)
+        PlayClickSoundInternal(clickSound);
+    }
+
+    public void PlayClickSound2() // ✅ 버튼에 연결할 함수
+    {
+        PlayClickSoundInternal(clickSound_2);
+    }
+
+    private void PlayClickSoundInternal(AudioClip clip)
+    {
+        if (uiAudioSource == null || clip == null || VolumeManager.Instance == null)
             return;
 
         float masterDb, uiDb;
-
-        // AudioMixer에서 현재 볼륨 값(dB) 가져오기
         VolumeManager.Instance.audioMixer.GetFloat(masterVolumeParam, out masterDb);
         VolumeManager.Instance.audioMixer.GetFloat(uiSfxVolumeParam, out uiDb);
 
-        // dB ➔ 선형 볼륨 값으로 변환
         float masterVolume = Mathf.Pow(10f, masterDb / 20f);
         float uiVolume = Mathf.Pow(10f, uiDb / 20f);
 
-        // 실제 최종 볼륨 (Master * UI SFX)
         uiAudioSource.volume = masterVolume * uiVolume;
-
-        // 효과음 재생
-        uiAudioSource.PlayOneShot(clickSound);
+        uiAudioSource.PlayOneShot(clip);
     }
 }
