@@ -158,7 +158,6 @@ public class Enemy : Character
     {
         if(stun)return;
         applyspeed = RunSpeed;
-        UseAnim(ChasePlayer);
         aIPath.enabled = true;
         Vector3 newvec = player.transform.position;
         newvec.y = transform.position.y;
