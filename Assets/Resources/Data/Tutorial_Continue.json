@@ -24,19 +24,11 @@
             {
                 "message": "아잇! 또 경비원이야? 도대체 뭐길래 경비원이 이렇게 많은거야?",
                 "iconName": "Angry"
-            }
-        ]
-    },
-    {
-        "lines": [
+            },
             {
                 "message": "라고 할 줄 알았겠지만!!",
                 "iconName": "Happy"
-            }
-        ]
-    },
-    {
-        "lines": [
+            },
             {
                 "message": "이럴 줄 알고 내 비장의 무기 뿅망치도 준비했지롱!",
                 "iconName": "Happy"
