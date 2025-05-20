@@ -15,7 +15,6 @@ public class MoveProbArea : Node
 
     public override NodeState Evaluate()
     {
-        runner.AboveUI(this.GetType().Name);
         
         if (runner.isEndProb())
         {

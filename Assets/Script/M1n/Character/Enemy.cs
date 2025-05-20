@@ -60,10 +60,7 @@ public class Enemy : Character
         {
             NewNode.Evaluate();
         }
-        if(Input.GetKeyDown(KeyCode.C)){
-                UIImage.sprite = Resources.Load<Sprite>(UIPAth+"MoveProbArea.png");
-                Debug.Log(UIImage);
-        }
+
     }
     public virtual bool GetPlayer() => DetectPlayer;
 
@@ -123,7 +120,7 @@ public class Enemy : Character
         if(!active){
             return;
         }
-        string[] triggers = {"MoveProbArea","Stun","CheckNoise"};
+        string[] triggers = {"ChasePlayer","Stun","CheckNoise"};
         for(int i = 0; triggers.Count() > i; i++){
             if(triggers[i] == exclude){
                 UIImage.sprite = Resources.Load<Sprite>(UIPAth + exclude);

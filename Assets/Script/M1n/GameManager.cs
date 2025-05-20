@@ -13,8 +13,8 @@ public class GameManager : MonoBehaviour
     public Vector3 tutoPos;
     public Vector3 gamestartPos;
     public Vector3 gameMovePos;
-    private static GameManager _instance;
     public TutorialManager tutorialManager;
+    private static GameManager _instance;
     public static GameManager Instance
     {
         get
