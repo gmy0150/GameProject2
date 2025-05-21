@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Closet : UseageInteract
 {
+    GameObject door1, door2;
+    void Start()
+    {
+        door1 = transform.GetChild(1).gameObject;
+        door2 = transform.GetChild(2).gameObject;
+        
+    }
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
@@ -36,6 +43,8 @@ public class Closet : UseageInteract
             controller.RunningCancel();
             Render(false);
             character.ControllerDisable();
+            door1.transform.localRotation = Quaternion.Euler(0, 90, 0);
+            door2.transform.localRotation = Quaternion.Euler(0, -90, 0);
         }
         else
         {
