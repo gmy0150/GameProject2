@@ -23,4 +23,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/JD/Test_CarToon.unity
     guid: a61c67994ff9af849acc4a2356342599
+  - enabled: 1
+    path: Assets/Scenes/Game_Scene/Cartoon_2.unity
+    guid: 60b36ba407c9ee548bc95af52acb02f1
+  - enabled: 1
+    path: Assets/Scenes/JD/Test_CarToon_2.unity
+    guid: f9ffafa09e148194e9d27fd58a9ad074
   m_configObjects: {}

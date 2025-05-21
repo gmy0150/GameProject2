@@ -3793,7 +3793,7 @@ MonoBehaviour:
   bgmAudioSource: {fileID: 427822886}
   mainMenuBGM: {fileID: 8300000, guid: 1534be96cd7fb7e46858b56b7283741e, type: 3}
   inGameBGM: {fileID: 8300000, guid: bc81665e7fda73e439a37a12a3519988, type: 3}
-  fadeDuration: 0.5
+  fadeDuration: 1.5
 --- !u!82 &427822886
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5317,7 +5317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeScript: {fileID: 862072909}
-  Scene: Game
+  Scene: Cartoon_2
 --- !u!1 &691184164
 GameObject:
   m_ObjectHideFlags: 0
