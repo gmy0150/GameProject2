@@ -5317,7 +5317,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeScript: {fileID: 862072909}
-  Scene: Game
+  Scene: Cartoon_2
 --- !u!1 &691184164
 GameObject:
   m_ObjectHideFlags: 0

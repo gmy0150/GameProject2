@@ -505,26 +505,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 473402916}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79a9309b2ac50f944827abe14564a69d, type: 3}
+  m_Script: {fileID: 11500000, guid: c5e9cfd9de18e874e82bd930a992c90f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pages:
+  cartoonPages:
   - {fileID: 2113620612}
   - {fileID: 112639224}
   - {fileID: 744919776}
   - {fileID: 283501348}
   - {fileID: 1362444404}
-  pageSounds:
+  cartoonSounds:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  nextButton: {fileID: 23724867}
-  skipButton: {fileID: 871332482}
-  fadePanel: {fileID: 764441174}
-  fadeDuration: 3
-  nextSceneName: Game
+  nextPageButton: {fileID: 23724867}
+  skipCartoonButton: {fileID: 871332482}
+  fadeOverlay: {fileID: 764441174}
+  fadeTime: 1.5
+  targetSceneName: Game
 --- !u!1 &688883501
 GameObject:
   m_ObjectHideFlags: 0
