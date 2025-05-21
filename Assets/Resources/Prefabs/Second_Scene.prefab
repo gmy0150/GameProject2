@@ -200,7 +200,9 @@ MonoBehaviour:
   - {fileID: 8259152073921175970}
   - {fileID: 3971099049062587535}
   - {fileID: 3161480311490465470}
+  pageSounds: []
   nextButton: {fileID: 6429789967245619988}
+  skipButton: {fileID: 0}
   fadePanel: {fileID: 8809232944576312517}
   fadeDuration: 3
   nextSceneName: Game

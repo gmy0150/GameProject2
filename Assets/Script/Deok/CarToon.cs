@@ -118,12 +118,16 @@ public class Cartoon : MonoBehaviour
 
             fadePanel.DOFade(1f, fadeDuration).SetUpdate(true).OnComplete(() =>
             {
-                SceneManager.LoadScene(nextSceneName);
+                 GameManager.Instance.MainGameStart();
+                // SceneManager.LoadScene(nextSceneName);
+                transform.gameObject.SetActive(false);
+                Destroy(this);
             });
         }
         else
         {
-            SceneManager.LoadScene(nextSceneName);
+            transform.gameObject.SetActive(false);
+            Destroy(this);
         }
     }
 }

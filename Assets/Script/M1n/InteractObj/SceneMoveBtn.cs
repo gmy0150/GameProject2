@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class SceneMoveBtn : UseageInteract
 {
-    public FadeScript fadeScript;  // 인스펙터에 연결
-    public string SceneName;
+
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
