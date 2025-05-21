@@ -13,15 +13,15 @@ public class Player : Character
     public GameObject Prefab;
 
     public LineRenderer lineRenderer;
-    
+
     [Header("소리 거리")]
-    public float RunSound , CoinSound;
-    public static float RunNoise , CoinNoise;
-    
+    public float RunSound, CoinSound;
+    public static float RunNoise, CoinNoise;
+
     [Header("던지는 거리")]
     public float maxThrowDistance = 40;
     public float maxThrowForce = 40;
-    
+
     InteractController interactController;
     public float interactionDistance = 5.0f;
     public bool ViewPoint;
@@ -53,8 +53,9 @@ public class Player : Character
         animator = GetComponent<Animator>();
     }
 
-    public void Move(Vector3 vector3,bool maingame){
-        KeyboardControll?.MovePlayer(vector3,maingame);
+    public void Move(Vector3 vector3, bool maingame)
+    {
+        KeyboardControll?.MovePlayer(vector3, maingame);
     }
 
     void Update()
@@ -172,5 +173,11 @@ public class Player : Character
                 }
             }
         }
+    }
+    public void Die()
+    {
+        animator.SetTrigger("Die");
+        controller = null;
+        
     }
 }

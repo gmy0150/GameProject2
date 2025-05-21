@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using EPOOutline;
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour
     }
     private void Awake()
     {
-         animation = new AnimationManage();
+        animation = new AnimationManage();
         if (_instance == null)
         {
             _instance = this;
@@ -97,7 +98,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         ActPlay(false);
-        player.Move(tutoPos,false);
+        player.Move(tutoPos, false);
     }
     bool isMainGame;
     public void MainGameStart()
@@ -111,12 +112,29 @@ public class GameManager : MonoBehaviour
     float gameTimer;
     void Update()
     {
-        if(isMainGame){
+        if (isMainGame) {
             gameTimer += Time.deltaTime;
-            if(gameTimer > 1.5f){
-                player.Move(gameMovePos,true);
+            if (gameTimer > 1.5f) {
+                player.Move(gameMovePos, true);
                 isMainGame = false;
             }
         }
+    }
+
+    public void GameOver(GuardAI guard)
+    {
+        StartCoroutine(GameRestart(guard));
+    }
+    Vector3 savePos;
+    public void SavePos()
+    {
+        savePos = player.transform.position;
+    }
+    IEnumerator GameRestart(GuardAI guard)
+    {
+        yield return new WaitForSeconds(1f);
+        guard.missPlayer();
+        player.transform.position = savePos;
+        player.transform.rotation = Quaternion.identity;
     }
 }
