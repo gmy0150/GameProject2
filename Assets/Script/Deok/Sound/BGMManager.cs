@@ -26,7 +26,7 @@ public class BGMManager : MonoBehaviour
 
     private void Start()
     {
-        // 씬 시작 시 강제 호출
+        // 씬 시작 시 BGM 결정
         OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
@@ -39,13 +39,20 @@ public class BGMManager : MonoBehaviour
     {
         Debug.Log("씬 로드됨: " + scene.name);
 
+        // 🎯 BGM 지정된 씬
         if (scene.name == "MainMenu" || scene.name == "Test_MainMenu")
         {
             FadeToBGM(mainMenuBGM);
         }
-        else if (scene.name == "GameScene" || scene.name == "Test_Game")
+        else if (scene.name == "Game" || scene.name == "Test_Game")
         {
             FadeToBGM(inGameBGM);
+        }
+        else
+        {
+            // 🎯 그 외 씬에서는 부드럽게 BGM 정지
+            Debug.Log("[BGMManager] 이 씬에서는 BGM 없음. 페이드 아웃 중지.");
+            FadeToBGM(null);
         }
     }
 
@@ -63,7 +70,6 @@ public class BGMManager : MonoBehaviour
     {
         if (bgmAudioSource.isPlaying)
         {
-            // 페이드 아웃
             float startVolume = bgmAudioSource.volume;
 
             for (float t = 0; t < fadeDuration; t += Time.deltaTime)
@@ -76,22 +82,25 @@ public class BGMManager : MonoBehaviour
             bgmAudioSource.Stop();
         }
 
-        // 새 클립으로 교체 후 페이드 인
-        bgmAudioSource.clip = newClip;
-
-        if (newClip != null)
+        // 🎯 newClip이 null이면 BGM 중단 후 종료
+        if (newClip == null)
         {
-            bgmAudioSource.Play();
-
-            for (float t = 0; t < fadeDuration; t += Time.deltaTime)
-            {
-                bgmAudioSource.volume = Mathf.Lerp(0f, 1f, t / fadeDuration);
-                yield return null;
-            }
-
-            bgmAudioSource.volume = 1f;
+            bgmAudioSource.clip = null;
+            fadeCoroutine = null;
+            yield break;
         }
 
+        // 🎯 새 클립 재생
+        bgmAudioSource.clip = newClip;
+        bgmAudioSource.Play();
+
+        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        {
+            bgmAudioSource.volume = Mathf.Lerp(0f, 1f, t / fadeDuration);
+            yield return null;
+        }
+
+        bgmAudioSource.volume = 1f;
         fadeCoroutine = null;
     }
 }
