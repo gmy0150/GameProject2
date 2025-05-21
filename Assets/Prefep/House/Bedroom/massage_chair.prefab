@@ -10,38 +10,53 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6.9199996
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.0004754
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6.0004754
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
+        type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.1821487
+      value: -59.91
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -3.6915612
+      value: 0.20000178
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -17.668312
+      value: 71.67
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.7071068
+      value: -0.27059954
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.7071068
+      value: 0.27059954
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.6532809
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: -0.6532809
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
         type: 3}
@@ -56,7 +71,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 135
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: b0cadb8e76a858a4fa469236af566efc,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b0cadb8e76a858a4fa469236af566efc,
         type: 3}
@@ -68,8 +88,44 @@ PrefabInstance:
       propertyPath: m_Name
       value: massage_chair
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b0cadb8e76a858a4fa469236af566efc,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b0cadb8e76a858a4fa469236af566efc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4847776549701521197}
   m_SourcePrefab: {fileID: 100100000, guid: b0cadb8e76a858a4fa469236af566efc, type: 3}
+--- !u!1 &3289955696700909733 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b0cadb8e76a858a4fa469236af566efc,
+    type: 3}
+  m_PrefabInstance: {fileID: 2407504505285137908}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &4847776549701521197
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3289955696700909733}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.57022387, y: 0.879746, z: 0.99997246}
+  m_Center: {x: 0.0014596721, y: 0.218429, z: 0.49998608}
