@@ -8,6 +8,7 @@ public class Closet : UseageInteract
     Quaternion door1Rotation, door2Rotation;
     void Start()
     {
+        base.Start();
         door1 = transform.GetChild(1).gameObject;
         door2 = transform.GetChild(2).gameObject;
         door1Rotation = door1.transform.rotation;

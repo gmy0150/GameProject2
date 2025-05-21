@@ -51,6 +51,7 @@ public class Enemy : Character
     }
     protected virtual void Update()
     {
+        if(UIImage)
         UIImage.transform.position = new Vector3(transform.position.x, UIImage.transform.position.y, transform.position.z);
         if (aIPath != null)
         {
