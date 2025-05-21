@@ -237,18 +237,7 @@ public class GuardAI : Enemy
     {
         patrolSuccess = false;
     }
-    void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.CompareTag("Player"))
-        {
-            Player player = collision.gameObject.GetComponent<Player>();
-            if (player != null)
-            {
-                player.Die();
-                GameManager.Instance.GameOver(this);
-            }
-        }
-    }
+    
 
 
 

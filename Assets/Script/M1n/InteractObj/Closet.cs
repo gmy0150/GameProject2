@@ -5,11 +5,13 @@ using UnityEngine;
 public class Closet : UseageInteract
 {
     GameObject door1, door2;
+    Quaternion door1Rotation, door2Rotation;
     void Start()
     {
         door1 = transform.GetChild(1).gameObject;
         door2 = transform.GetChild(2).gameObject;
-        
+        door1Rotation = door1.transform.rotation;
+        door2Rotation = door2.transform.rotation;
     }
     public override void Interact(Player character, IController controller)
     {
@@ -43,13 +45,16 @@ public class Closet : UseageInteract
             controller.RunningCancel();
             Render(false);
             character.ControllerDisable();
-            door1.transform.localRotation = Quaternion.Euler(0, 90, 0);
-            door2.transform.localRotation = Quaternion.Euler(0, -90, 0);
+            // door1.transform.rotation = Quaternion.Euler(door1.transform.rotation.x, door1.transform.rotation.x - 90, door1.transform.rotation.z);
+            // door2.transform.rotation = Quaternion.Euler(door1.transform.rotation.x, door1.transform.rotation.x + 90, door1.transform.rotation.z);
+            // Debug.Log(door1.transform.localRotation.x);
         }
         else
         {
             Render(true);
             character.ControllerEnable();
+            // door1.transform.rotation = door1Rotation;
+            // door2.transform.rotation = door2Rotation;
         }
     }
     protected void Render(bool x)

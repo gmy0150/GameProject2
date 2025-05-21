@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameOver(GuardAI guard)
+    public void GameOver(Enemy guard)
     {
         StartCoroutine(GameRestart(guard));
     }
@@ -130,7 +130,7 @@ public class GameManager : MonoBehaviour
     {
         savePos = player.transform.position;
     }
-    IEnumerator GameRestart(GuardAI guard)
+    IEnumerator GameRestart(Enemy guard)
     {
         yield return new WaitForSeconds(1f);
         guard.missPlayer();

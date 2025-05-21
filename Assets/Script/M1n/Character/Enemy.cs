@@ -70,7 +70,8 @@ public class Enemy : Character
         ShowShape();
     }
     bool stun;
-    public void HitEnemy(){
+    public void HitEnemy()
+    {
         StopMove();
         missPlayer();
         stun = true;
@@ -78,10 +79,12 @@ public class Enemy : Character
         //ui창 띄우기 애니매이션 재생
         Time.timeScale = 1;
     }
-    public void releaseStun(){
+    public void releaseStun()
+    {
         stun = false;
     }
-    public bool GetStun(){
+    public bool GetStun()
+    {
         return stun;
     }
     public virtual void StopMove()
@@ -99,33 +102,43 @@ public class Enemy : Character
     string Move = "Move";
     string ChasePlayer = "ChasePlayer";
     string CheckNoise = "CheckNoise";
-    public void UseAnim(string exclude){
-        if(anim == null)return;
-        
-        string[] triggers = {Idle,Move,ChasePlayer,CheckNoise};
-        foreach(string trigger in triggers){
-            if(trigger != exclude){
-                anim.SetBool(trigger,false);
-            }else{
-                anim.SetBool(trigger,true);
+    public void UseAnim(string exclude)
+    {
+        if (anim == null) return;
+
+        string[] triggers = { Idle, Move, ChasePlayer, CheckNoise };
+        foreach (string trigger in triggers)
+        {
+            if (trigger != exclude)
+            {
+                anim.SetBool(trigger, false);
+            }
+            else
+            {
+                anim.SetBool(trigger, true);
             }
         }
     }
     [Header("UI Image")]
     [SerializeField] private Image UIImage;
     string UIPAth = "UI/In_Game/";
-    public void AboveUI(string exclude = "",bool active = true){
-        
-            UIImage.gameObject.SetActive(active);
-        if(!active){
+    public void AboveUI(string exclude = "", bool active = true)
+    {
+
+        UIImage.gameObject.SetActive(active);
+        if (!active)
+        {
             return;
         }
-        string[] triggers = {"ChasePlayer","Stun","CheckNoise"};
-        for(int i = 0; triggers.Count() > i; i++){
-            if(triggers[i] == exclude){
+        string[] triggers = { "ChasePlayer", "Stun", "CheckNoise" };
+        for (int i = 0; triggers.Count() > i; i++)
+        {
+            if (triggers[i] == exclude)
+            {
                 UIImage.sprite = Resources.Load<Sprite>(UIPAth + exclude);
             }
-            if(triggers[i] != exclude){
+            if (triggers[i] != exclude)
+            {
             }
         }
 
@@ -156,7 +169,7 @@ public class Enemy : Character
     bool chase;
     public virtual void StartChase(Player player)
     {
-        if(stun)return;
+        if (stun) return;
         applyspeed = RunSpeed;
         UseAnim(ChasePlayer);
         aIPath.enabled = true;
@@ -184,7 +197,7 @@ public class Enemy : Character
 
     protected virtual void MoveToTarget(Vector3 newTarget)
     {
-        if(stun)return;
+        if (stun) return;
 
         aIPath.enabled = true;
         newTarget.y = transform.position.y;
@@ -209,7 +222,7 @@ public class Enemy : Character
         noise = Vector3.zero;
         Debug.Log("왜 ");
     }
-    
+
     public virtual void InitProb()
     {
     }
@@ -269,7 +282,7 @@ public class Enemy : Character
 
     public void MoveProb(Vector3 vec)
     {
-        if(stun)return;
+        if (stun) return;
 
         MoveToTarget(vec);
 
@@ -277,14 +290,14 @@ public class Enemy : Character
         Vector3 newVec = vec;
         newVec.y = transform.position.y;
         float distanceToTarget = Vector3.Distance(transform.position, newVec);
-        if (distanceToTarget < 1.5f)  
+        if (distanceToTarget < 1.5f)
         {
             probSuccess = true;
         }
     }
-    public virtual void ProbEnd(){}
-    public virtual void StartProb(){}
-    public virtual bool isProb(){return false;}
+    public virtual void ProbEnd() { }
+    public virtual void StartProb() { }
+    public virtual bool isProb() { return false; }
     public bool GetProb() { return probSuccess; }
     public virtual void Patrols() { }
     public virtual void StopPatrol() { }
@@ -296,13 +309,13 @@ public class Enemy : Character
         public List<Vector3> blockedPoints;
     }
     public GameObject RayShoot;
-    
+
     public VisibilityResult CheckVisibility(int rayCount)
     {
         VisibilityResult result = new VisibilityResult();
         result.visiblePoints = new List<Vector3>();
         result.blockedPoints = new List<Vector3>();
-        if(stun) return result;
+        if (stun) return result;
 
         Vector3 NewVector = transform.position;
         if (scollider != null)
@@ -364,7 +377,7 @@ public class Enemy : Character
         VisibilityResult result = new VisibilityResult();
         result.visiblePoints = new List<Vector3>();
         result.blockedPoints = new List<Vector3>();
-        if(stun) return result;
+        if (stun) return result;
 
         Transform enemyTransform = transform;
 
@@ -414,8 +427,18 @@ public class Enemy : Character
 
     void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.layer == LayerMask.NameToLayer("Enemy")){
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        {
             StartCoroutine(TempBlockENemy(collision.transform.position));
+        }
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            Player player = collision.gameObject.GetComponent<Player>();
+            if (player != null)
+            {
+                player.Die();
+                GameManager.Instance.GameOver(this);
+            }
         }
     }
 
@@ -423,16 +446,23 @@ public class Enemy : Character
     {
         throw new System.NotImplementedException();
     }
-    IEnumerator TempBlockENemy(Vector3 enemyPos){
+    IEnumerator TempBlockENemy(Vector3 enemyPos)
+    {
         Bounds bounds = new Bounds(enemyPos, Vector3.one * 0.5f);
-        GraphUpdateObject guo = new GraphUpdateObject(bounds){
-            modifyWalkability = true,setWalkability = false
+        GraphUpdateObject guo = new GraphUpdateObject(bounds)
+        {
+            modifyWalkability = true,
+            setWalkability = false
         };
         AstarPath.active.UpdateGraphs(guo);
         yield return new WaitForSeconds(0.3f);
-        GraphUpdateObject guorestore = new GraphUpdateObject(bounds){
-            modifyWalkability = true,setWalkability = true
+        GraphUpdateObject guorestore = new GraphUpdateObject(bounds)
+        {
+            modifyWalkability = true,
+            setWalkability = true
         };
         AstarPath.active.UpdateGraphs(guorestore);
     }
+
+    
 }
