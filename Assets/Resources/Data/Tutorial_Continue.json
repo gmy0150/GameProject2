@@ -66,5 +66,13 @@
                 "iconName": "Happy"
             }
         ]
+    },
+    {
+        "lines": [
+            {
+                "message": "사진 뭐시기 무시기 뭐시기",
+                "iconName": "Surprise"
+            }
+        ]
     }
 ]
