@@ -54,6 +54,7 @@ public class Player : Character
         interactController = new InteractController();
         interactController.OnPosessed(this);
         animator = GetComponent<Animator>();
+        GameManager.Instance.SavePos();
     }
 
     public void Move(Vector3 vector3, bool maingame)

@@ -437,6 +437,7 @@ public class Enemy : Character
             Player player = collision.gameObject.GetComponent<Player>();
             if (player != null)
             {
+
                 player.Die();
                 GameManager.Instance.GameOver(this);
             }
