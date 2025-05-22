@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Stun
   m_EditorClassIdentifier: 
   root: {fileID: 11400000, guid: bee581c592907a643b6160a35955815d, type: 2}
-  StunTimer: 1
+  StunTimer: 5
