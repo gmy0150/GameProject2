@@ -1,53 +1,127 @@
 [
-    {
-        "itemName": "Health",
-        "lines": [
-            {
-                "message": "음? 시체 밑에 떨어져 있는 저건 뭐지? 이거 래퍼 마체테의 목걸이... 같은데...?",
-                "iconName": "Nothing"
-            },
-            {
-                "message": "으아악!! 이게 뭐야!!! 축축하고 미끌거리잖아!! 이 촉수 같은 건 뭐냐고!!",
-                "iconName": "Nothing"
-            },
-            {
-                "message": "이런 물건은 난생 처음 보는데...",
-                "iconName": "Nothing"
-            },
-            {
-                "message": "이봐 거기 누구야!!",
-                "iconName": "Surprise"
-            },
-            {
-                "message": "헉! 방금 소리 때문에 누가 들은 거 아니야? 어디 숨을 곳... 숨을 곳...",
-                "iconName": "Surprise"
-            }
-        ]
-    },
-    {
-        "itemName": "UFO 1",
-        "lines": [
-            {
-                "message": "으엑! 이게 뭐야!! 뭐 이런 징그러운 게 다 있어!!",
-                "iconName": "nothing"
-            },
-            {
-                "message": "주인공: 이건 어디에 쓰는 물건이지?",
-                "iconName": "sad"
-            }
-        ]
-    },
-    {
-        "itemName": "UFO 2",
-        "lines": [
-            {
-                "message": "이번에도 똑같이 생긴 물건이군…",
-                "iconName": "neutral"
-            },
-            {
-                "message": "하지만 무언가 다르다. 이번엔 움직였어.",
-                "iconName": "surprised"
-            }
-        ]
-    }
+  {
+    "itemName": "Health",
+    "lines": [
+      {
+        "message": "음? 시체 밑에 떨어져 있는 저건 뭐지? 이거 래퍼 마체테의 목걸이... 같은데...?",
+        "iconName": "Nothing"
+      },
+      {
+        "message": "으아악!! 이게 뭐야!!! 축축하고 미끌거리잖아!! 이 촉수 같은 건 뭐냐고!!",
+        "iconName": "Nothing"
+      },
+      {
+        "message": "이런 물건은 난생 처음 보는데...",
+        "iconName": "Nothing"
+      },
+      {
+        "message": "이봐 거기 누구야!!",
+        "iconName": "Surprise"
+      },
+      {
+        "message": "헉! 방금 소리 때문에 누가 들은 거 아니야? 어디 숨을 곳... 숨을 곳...",
+        "iconName": "Surprise"
+      }
+    ]
+  },
+  {
+    "itemName": "UFO 1",
+    "lines": [
+      {
+        "message": "응? 이게 뭐야.. 나도 모르게 찍은 이 커다란 물체는.. 설마...",
+        "iconName": "Nothing"
+      },
+      {
+        "message": "UFO???????????????????????",
+        "iconName": "Surprise"
+      },
+      {
+        "message": "아니 집에 비행 접시가 왜 있는거야???? 이건 특종이지!! 특종!!",
+        "iconName": "Happy"
+      },
+      {
+        "message": "이 자식!! 집에 이런걸 숨겨두고 있었다고?? 이 자식!! 도대체 뭘 숨기고 있는거야??",
+        "iconName": "Happy"
+      },
+      {
+        "message": "특종이구만 특종! 이번 기사 제목은 ' 지구 주차장, 외계에 개방되다 ' 라고!! 하하하!!!",
+        "iconName": "Happy"
+      }
+    ]
+  },
+  {
+    "itemName": "Arm",
+    "lines": [
+      {
+        "message": "잠깐만...",
+        "iconName": "nothing"
+      },
+      {
+        "message": "방금.. 내가 찍은거.. 사람 팔 아니야..?",
+        "iconName": "sad"
+      },
+      {
+        "message": "으아악!!! 진짜 사람 팔이잖아!!! 이거 범죄 현장 아니야???",
+        "iconName": "Surprise"
+      },
+      {
+        "message": "나도 모르게 사진부터 찍어 버렸는데.. 하.. 이게 기자의 숙명이란 건가..",
+        "iconName": "Sad"
+      },
+      {
+        "message": "좋아.. 제목은 '신선한 공포, 냉장고 속 진실' 이야.. 이건 특종거리야.. 확실해!!",
+        "iconName": "Happy"
+      }
+    ]
+  },
+  {
+    "itemName": "Plant",
+    "lines": [
+      {
+        "message": "으엥? 방금 나도 모르게 찍은 이 식물.. 이거 식물 맞아??",
+        "iconName": "nothing"
+      },
+      {
+        "message": "보라색인데.. 입이 달려 있잖아??",
+        "iconName": "Surprise"
+      },
+      {
+        "message": "그리고 방금 저거!! 움직인거 아니야?? 으악! 움직였잖아??",
+        "iconName": "Surprise"
+      },
+      {
+        "message": "이거이거.. 놀라기 전에 사진부터 찍는걸 보면 나도 못말리겠네..",
+        "iconName": "Happy"
+      },
+      {
+        "message": "이 사진의 제목은.. ' 웃는 식물은 위험하다 ' 이거야! 헤드라인 감인데???'",
+        "iconName": "Happy"
+      }
+    ]
+  },
+  {
+    "itemName": "open Egg",
+    "lines": [
+      {
+        "message": "으으.. 뭐야 뭐야.. 방 전체가 끈적한 알로 뒤덮였잖아..?",
+        "iconName": "Surprise"
+      },
+      {
+        "message": "가까이서 보니까.. 더... 역! 겹! 잖! 아!!!!!!!!.",
+        "iconName": "surprise"
+      },
+      {
+        "message": "아으 끈적끈적하고.. 찝찝해 죽겠어..",
+        "iconName": "Sad"
+      },
+      {
+        "message": "나란 녀석은.. 또 본능에 이끌려서 사진을 찍기 전까지 아무것도 눈에 들어오지 않았네..",
+        "iconName": "Happy"
+      },
+      {
+        "message": "좋아.. 이번 기사 제목은 ' 방 안 가득 외계 육아 중 ' 이라는 제목이다.. 이것도 특종이네!'",
+        "iconName": "Happy"
+      }
+    ]
+  }
 ]
