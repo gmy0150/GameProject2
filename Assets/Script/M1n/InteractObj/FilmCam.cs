@@ -60,7 +60,6 @@ public class FilmCam : StorageItem
         }
     }
 
-    public AilionAI Ailion;
     public GameObject AilionPc;
 
     IEnumerator TakePicture(GameObject go)

@@ -108,7 +108,7 @@ public class Cartoon : MonoBehaviour
     {
         StartFadeAndLoadScene(); // ✅ Skip도 Fade 후 씬 전환
     }
-
+    public bool isStart = false;
     private void StartFadeAndLoadScene()
     {
         if (fadePanel != null)
@@ -118,9 +118,12 @@ public class Cartoon : MonoBehaviour
 
             fadePanel.DOFade(1f, fadeDuration).SetUpdate(true).OnComplete(() =>
             {
-                 GameManager.Instance.MainGameStart();
+                if (!isStart)
+                    GameManager.Instance.MainGameStart();
+                else
+                    GameManager.Instance.OnAilionDiaglogueEnd();
                 // SceneManager.LoadScene(nextSceneName);
-                transform.gameObject.SetActive(false);
+                    transform.gameObject.SetActive(false);
                 Destroy(this);
             });
         }

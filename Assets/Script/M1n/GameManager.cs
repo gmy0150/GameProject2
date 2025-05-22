@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
     {
         wallexit.SetActive(false);
         AIlionON = true;
-        GameObject prefab = Resources.Load<GameObject>("Prefabs/Second_Scene");
+        GameObject prefab = Resources.Load<GameObject>("Prefabs/Third_Scene");
         if (prefab != null)
         {
             Instantiate(prefab);
