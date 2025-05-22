@@ -3,12 +3,24 @@
         "itemName": "Health",
         "lines": [
             {
-                "message": "시체네",
-                "iconName": "nothing"
+                "message": "음? 시체 밑에 떨어져 있는 저건 뭐지? 이거 래퍼 마체테의 목걸이... 같은데...?",
+                "iconName": "Nothing"
             },
             {
-                "message": "주인공: 1?",
-                "iconName": "sad"
+                "message": "으아악!! 이게 뭐야!!! 축축하고 미끌거리잖아!! 이 촉수 같은 건 뭐냐고!!",
+                "iconName": "Nothing"
+            },
+            {
+                "message": "이런 물건은 난생 처음 보는데...",
+                "iconName": "Nothing"
+            },
+            {
+                "message": "이봐 거기 누구야!!",
+                "iconName": "Surprise"
+            },
+            {
+                "message": "헉! 방금 소리 때문에 누가 들은 거 아니야? 어디 숨을 곳... 숨을 곳...",
+                "iconName": "Surprise"
             }
         ]
     },

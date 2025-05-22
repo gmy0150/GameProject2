@@ -44,34 +44,26 @@
             {
                 "message": "일단 일단.. 사진이라도 찍어둬야겠어...",
                 "iconName": "Nothing"
-            },
-            {
-                "message": "음? 시체 밑에 떨어져 있는 저건 뭐지? 이거 래퍼 마체테의 목걸이... 같은데...?",
-                "iconName": "Nothing"
-            },
-            {
-                "message": "으아악!! 이게 뭐야!!! 축축하고 미끌거리잖아!! 이 촉수 같은 건 뭐냐고!!",
-                "iconName": "Nothing"
-            },
-            {
-                "message": "이런 물건은 난생 처음 보는데...",
-                "iconName": "Nothing"
-            },
-            {
-                "message": "이봐 거기 누구야!!",
-                "iconName": "Surprise"
-            },
-            {
-                "message": "헉! 방금 소리 때문에 누가 들은 거 아니야? 어디 숨을 곳... 숨을 곳...",
-                "iconName": "Surprise"
             }
         ]
     },
     {
         "lines": [
             {
-                "message": "마지막 문장 문장 문장",
-                "iconName": "Sad"
+                "message": "...저건... 마체테?!",
+                "iconName": "Surprise"
+            },
+            {
+                "message": "아까 그 목걸이 주인이... 이 사건과 연관이 있다고?",
+                "iconName": "Surprise"
+            },
+            {
+                "message": "이거이거... 냄새가 나는데... 아주 큰 특종의 냄새 말이지.",
+                "iconName": "Happy"
+            },
+            {
+                "message": "여기 볼일도 다 봤겠다.. 마체테의 집으로 가볼까?",
+                "iconName": "Happy"
             }
         ]
     }
