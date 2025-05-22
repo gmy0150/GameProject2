@@ -50,8 +50,20 @@
     {
         "lines": [
             {
-                "message": "마지막 문장 문장 문장",
-                "iconName": "Sad"
+                "message": "...저건... 마체테?!",
+                "iconName": "Surprise"
+            },
+            {
+                "message": "아까 그 목걸이 주인이... 이 사건과 연관이 있다고?",
+                "iconName": "Surprise"
+            },
+            {
+                "message": "이거이거... 냄새가 나는데... 아주 큰 특종의 냄새 말이지.",
+                "iconName": "Happy"
+            },
+            {
+                "message": "여기 볼일도 다 봤겠다.. 마체테의 집으로 가볼까?",
+                "iconName": "Happy"
             }
         ]
     }

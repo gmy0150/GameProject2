@@ -2,11 +2,19 @@
     {
         "lines": [
             {
-                "message": "어서 와! 이곳은 튜토리얼이야.",
+                "message": "좋아.. 여기가 바로 비밀이 숨겨져 있다는 그 집이군?",
+                "iconName": "Nothing"
+            },
+            {
+                "message": "여길 지키는 경비원을 피해 오느라.. 힘들어 죽는 줄 알았네..",
+                "iconName": "Sad"
+            },
+            {
+                "message": "하지만~ 나처럼 산전수전 다 겪은 기자님 앞에서는 이런 경비쯤은 아무것도 아니다 이말이야~",
                 "iconName": "Happy"
             },
             {
-                "message": "WASD 키로 움직여봐!",
+                "message": "자~ 한번 들어가 볼까",
                 "iconName": "Happy"
             }
         ]
