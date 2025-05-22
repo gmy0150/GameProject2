@@ -30,9 +30,9 @@ public class ItemAlertUI : MonoBehaviour
 
     public void ShowDialogue(List<DialogueLine> lines)
     {
+        GameManager.Instance.ActPlay(false);
         Time.timeScale = 0f;
 
-        GameManager.Instance.ActPlay(false);
 
         if (playerScript != null)
             playerScript.enabled = false;

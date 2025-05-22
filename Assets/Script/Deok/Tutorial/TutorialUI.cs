@@ -44,8 +44,8 @@ public class TutorialUI : MonoBehaviour
             return;
         }
 
-        Time.timeScale = 0f;
         GameManager.Instance.ActPlay(false);
+        Time.timeScale = 0f;
         if (playerScript != null)
             playerScript.enabled = false;
 

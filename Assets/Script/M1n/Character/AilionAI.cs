@@ -7,14 +7,24 @@ public class AilionAI : Enemy
     protected override void Update()
     {
         base.Update();
-        if(goChase)
-        StartChase(Player);
+        if (goChase)
+            StartChase(Player);
     }
     bool goChase;
     Player Player;
-    public void ChaseStart(Player player){
+    public void ChaseStart(Player player)
+    {
         goChase = true;
         this.Player = player;
+    }
+    public override void missPlayer()
+    {
+
+    }
+    void Start()
+    {
+        base.Start();
+        startPos = transform.position;
     }
 
 }

@@ -74,12 +74,23 @@ public class GameManager : MonoBehaviour
         SavePos();
 
     }
+    public AilionAI Ailion;
+    public void OnAilionDiaglogueEnd()
+    {
+        Ailion.gameObject.SetActive(true);
+        Ailion.ChaseStart(player);
+    }
     bool AIlionON = false;
     [SerializeField] GameObject wallexit;
-    public void OnAilion()
+    public void ONAilionPic()
     {
         wallexit.SetActive(false);
         AIlionON = true;
+        GameObject prefab = Resources.Load<GameObject>("Prefabs/Third_Scene");
+        if (prefab != null)
+        {
+            Instantiate(prefab);
+        }
     }
     public bool AbleExit()
     {
@@ -93,7 +104,7 @@ public class GameManager : MonoBehaviour
     public void ActPlay(bool x)
     {
         canPlay = x;
-        if (x)
+        if (!x)
         {
             animation.TransAnim(player.animator, "Walking", false);
             animation.TransAnim(player.animator, "Running", false);

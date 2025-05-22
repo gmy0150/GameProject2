@@ -38,10 +38,10 @@ public class FilmCam : StorageItem
                 transform.rotation = targetRotation;
             }
 
+            GameManager.Instance.ActPlay(false);
             Lights.color = Color.white;
             Lights.transform.parent.gameObject.SetActive(true);
             Time.timeScale = 0;
-        GameManager.Instance.ActPlay(false);
 
 
             Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
@@ -60,7 +60,6 @@ public class FilmCam : StorageItem
         }
     }
 
-    public AilionAI Ailion;
     public GameObject AilionPc;
 
     IEnumerator TakePicture(GameObject go)
@@ -79,11 +78,7 @@ public class FilmCam : StorageItem
 
         if (go == AilionPc)
         {
-            Ailion.gameObject.SetActive(true);
-            Ailion.ChaseStart(Player);
-            GameManager.Instance.OnAilion();
-        }else{
-            Debug.Log("");
+            GameManager.Instance.ONAilionPic();
         }
 
         StartCoroutine(ShowDialogueDelayed(go.name));
