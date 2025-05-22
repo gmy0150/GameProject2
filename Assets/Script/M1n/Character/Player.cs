@@ -32,6 +32,9 @@ public class Player : Character
     public LayerMask Layer;
     public LayerMask Enemy;
     IController KeyboardControll;
+    public GameObject Hammer;
+    public GameObject Camera;
+    public GameObject HandCoin;
     void LateUpdate()
     {
         if (controller != null)

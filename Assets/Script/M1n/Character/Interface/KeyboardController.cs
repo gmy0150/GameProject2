@@ -258,7 +258,6 @@ public class KeyboardController : IController
 
     public void MovePlayer(Vector3 position,bool maingame)
     {
-        Debug.Log("position");
         targetPosition = position;
         this.maingame = maingame;
     }

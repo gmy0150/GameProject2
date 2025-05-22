@@ -101,5 +101,6 @@ public class FilmCam : StorageItem
         Player = GameObject.FindAnyObjectByType<Player>();
         interact = Player.Picture;
         Lights = Player.Lights;
+        HandAnything = Player.Camera;
     }
 }

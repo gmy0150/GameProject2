@@ -16,7 +16,6 @@ public abstract class InteractObject :  MonoBehaviour, IInterActerable
     {
         Outlinable outlinable = GetComponent<Outlinable>();
         outlinable.OutlineParameters.Enabled = false;
-        Debug.Log(outlinable.OutlineParameters.Enabled);
         // outlinable.RenderStyle = RenderStyle.FrontBack;
         // outlinable.BackParameters.Enabled = false;
     }

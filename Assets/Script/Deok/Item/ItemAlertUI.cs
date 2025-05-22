@@ -79,9 +79,9 @@ public class ItemAlertUI : MonoBehaviour
                 : null;
 
             iconImage.enabled = (iconImage.sprite != null);
-
             messagePanel.SetActive(true);
             typingCoroutine = StartCoroutine(TypeText(line.message));
+            
         }
         else
         {

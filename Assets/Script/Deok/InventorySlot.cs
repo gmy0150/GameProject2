@@ -35,7 +35,12 @@ public class InventorySlot : MonoBehaviour
             icon.enabled = false;
         }
         InventoryManager.Instance.ExitSlot();
+        if (storedItem != null)
+        {
+            storedItem.SetHandActive(false);
+        }
         storedItem = null;
+
         SetSelected(false);
     }
 

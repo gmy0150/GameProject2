@@ -324,9 +324,9 @@ public class Enemy : Character
 
             NewVector.y = scollider.bounds.center.y;
 
-
             Transform enemyTransform = transform;
-
+            Vector3 rayStartPos = transform.position;
+            rayStartPos.y = NewVector.y;
             // ��ä�� ������ Raycast
             for (int i = 0; i <= rayCount; i++)
             {
@@ -338,10 +338,10 @@ public class Enemy : Character
                 Vector3 rayDirection = rotation * enemyTransform.forward; // ����
 
                 // 2D ��鿡�� y���� �����ϰ� rayDirection�� y���� 0���� ����
-                rayDirection.y = 0;
+                rayDirection.y = 0f;
                 // Raycast ����
                 RaycastHit hit;
-                if (Physics.Raycast(transform.position, rayDirection, out hit, Distance))
+                if (Physics.Raycast(rayStartPos, rayDirection, out hit, Distance))
                 {
                     // Player�� �����ϸ� visiblePoints�� �߰�
                     if (hit.collider.GetComponentInParent<Player>())

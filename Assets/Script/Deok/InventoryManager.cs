@@ -41,24 +41,22 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            InitSlot();
             selectedIndex = index;
 
                 for (int i = 0; i < slots.Length; i++)
                 {
                     slots[i].SetSelected(i == selectedIndex);
                 }
+            InitSlot();
 
 
-            Debug.Log($"슬롯 {selectedIndex + 1} 선택됨");
 
         }
     }
 
     public void ExitSlot()
     {
-        InitSlot();
-
+        GetActiveItem().SetHandActive(false);
         selectedIndex = -1;
         for (int i = 0; i < slots.Length; i++)
         {
@@ -72,7 +70,9 @@ public class InventoryManager : MonoBehaviour
         if (selectedIndex != -1)
         {
             var ReturnValue = slots[selectedIndex];
+
             return ReturnValue.GetItem();
+
         }
         return null;
     }
