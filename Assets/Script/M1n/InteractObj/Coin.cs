@@ -9,7 +9,6 @@ public class Coin : StorageItem
     float maxThrowForce;
     LineRenderer lineRenderer;
     float gravity = -9.81f;
-    GameObject CoinPrefab;
      bool shoot = false;
      bool hasCoin = false;
 
@@ -22,7 +21,6 @@ public class Coin : StorageItem
         maxThrowDistance = character.maxThrowDistance;
         maxThrowForce = character.maxThrowForce;
         lineRenderer = character.lineRenderer;
-        CoinPrefab = character.Prefab;
     }
 
     public override bool CanInteract()

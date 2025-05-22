@@ -22,7 +22,7 @@ public class Enemy : Character
     float PlayerY;
     public Animator anim;
     Collider scollider;
-
+    Vector3 Startpos;
     protected virtual void Start()
     {
         anim = GetComponent<Animator>();
@@ -32,6 +32,7 @@ public class Enemy : Character
             applyspeed = MoveSpeed;
 
         }
+        Startpos = transform.position;
         if (node != null)
         {
             NewNode = node.Clone();
@@ -310,6 +311,7 @@ public class Enemy : Character
         public List<Vector3> blockedPoints;
     }
     public GameObject RayShoot;
+    internal Vector3 startPos;
 
     public VisibilityResult CheckVisibility(int rayCount)
     {

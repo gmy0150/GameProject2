@@ -10,7 +10,6 @@ using UnityEngine.UI;
 public class Player : Character
 {
     IController controller;
-    public GameObject Prefab;
 
     public LineRenderer lineRenderer;
 
@@ -26,7 +25,6 @@ public class Player : Character
     public float interactionDistance = 5.0f;
     public bool ViewPoint;
     public bool InteractPoint;
-    public Mesh BaseMesh;
     public Mesh BoxMesh;
     public Animator animator;
     public LayerMask Layer;
@@ -183,5 +181,10 @@ public class Player : Character
         animator.SetTrigger("Die");
         controller = null;
         
+    }
+
+    public void restart()
+    {
+        controller = KeyboardControll;
     }
 }

@@ -14,7 +14,7 @@ public class ExitTrigger : MonoBehaviour
     }
     void Clear(){
         Debug.Log("?");
-        parnel.SetActive(true);
+        parnel?.SetActive(true);
         Time.timeScale = 0;
     }
 }

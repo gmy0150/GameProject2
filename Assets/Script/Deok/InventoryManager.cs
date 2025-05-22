@@ -56,7 +56,8 @@ public class InventoryManager : MonoBehaviour
 
     public void ExitSlot()
     {
-        GetActiveItem().SetHandActive(false);
+        if(GetActiveItem() != null)
+            GetActiveItem().SetHandActive(false);
         selectedIndex = -1;
         for (int i = 0; i < slots.Length; i++)
         {

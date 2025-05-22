@@ -48,7 +48,7 @@ public class Box : StorageItem
         isHide = false;
         isInteract = true;
         SkinnedMeshRenderer skined = character.GetComponentInChildren<SkinnedMeshRenderer>();
-        skined.sharedMesh = character.BaseMesh;
+        // skined.sharedMesh = character.BaseMesh;
         TransTimer = 0;
     }
 

@@ -296,7 +296,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 9
   RunSpeed: 13
-  Prefab: {fileID: 2774047279429761632, guid: 53a89c5e63442374ead625f508807bb9, type: 3}
   lineRenderer: {fileID: 5547722622821605544}
   RunSound: 10
   CoinSound: 10
@@ -305,9 +304,7 @@ MonoBehaviour:
   interactionDistance: 5
   ViewPoint: 1
   InteractPoint: 0
-  BaseMesh: {fileID: 5060444177187149915, guid: 560274f17e7b6a74b8dc638c37b1f8ff,
-    type: 3}
-  BoxMesh: {fileID: 5060444177187149915, guid: 6b88be8d77ba77442a8146bd0b9d8469, type: 3}
+  BoxMesh: {fileID: 0}
   animator: {fileID: 0}
   Layer:
     serializedVersion: 2
@@ -453,7 +450,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!1 &3045123128035990662
 GameObject:
   m_ObjectHideFlags: 0

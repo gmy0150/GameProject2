@@ -58,6 +58,8 @@ public class GameManager : MonoBehaviour
         computer.layer = 12;
         if (!computer.GetComponent<ComputerBtn>())
             computer.AddComponent<ComputerBtn>();
+        SavePos();
+
     }
     public bool AbleButton()
     {
@@ -69,6 +71,8 @@ public class GameManager : MonoBehaviour
         Btn.layer = 12;
         if (!Btn.GetComponent<DoorBtn>())
             Btn.AddComponent<DoorBtn>();
+        SavePos();
+
     }
     bool AIlionON = false;
     [SerializeField] GameObject wallexit;
@@ -94,6 +98,8 @@ public class GameManager : MonoBehaviour
             animation.TransAnim(player.animator, "Walking", false);
             animation.TransAnim(player.animator, "Running", false);
         }
+        SavePos();
+
     }
     void Start()
     {
@@ -103,6 +109,7 @@ public class GameManager : MonoBehaviour
     bool isMainGame;
     public void MainGameStart()
     {
+        SavePos();
         gamestartPos.y = player.transform.position.y;
         player.transform.position = gamestartPos;
         player.transform.rotation = Quaternion.identity;
@@ -133,8 +140,10 @@ public class GameManager : MonoBehaviour
     IEnumerator GameRestart(Enemy guard)
     {
         yield return new WaitForSeconds(1f);
+        guard.transform.position = guard.startPos;
         guard.missPlayer();
         player.transform.position = savePos;
         player.transform.rotation = Quaternion.identity;
+        player.restart(); 
     }
 }
