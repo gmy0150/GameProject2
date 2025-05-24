@@ -73,7 +73,8 @@ public class TestOne : MonoBehaviour
             return null; 
         }
         Material mat = new Material(shader);
-        mat.color = Color.red; 
+        mat.SetColor("_Color", Color.red);
+    mat.SetFloat("_Alpha", 0.8f);
         return mat;
     }
     void CheckShowMat()
