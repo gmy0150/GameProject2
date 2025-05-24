@@ -11,21 +11,34 @@ public class Stun : Node
     {
         var clone = CreateInstance<Stun>();
         clone.StunTimer = this.StunTimer;
+        clone.releaseTimer = this.releaseTimer;
 
         return clone;
     }
     public float StunTimer;
     float Timer;
+    public float releaseTimer;
     public override NodeState Evaluate()
     {
         // runner.UseAnim("Stun");
         if (runner.GetStun())
         {
-        runner.AboveUI(this.GetType().Name);
+            runner.AboveUI(this.GetType().Name);
+                runner.UseAnim("");
+            // runner.UseAnim(this.GetType().Name);
             Timer += Time.deltaTime;
-            if(Timer > StunTimer){
-                runner.releaseStun();
+            if (Timer > StunTimer)
+            {
+                runner.InitNoise();
+                Debug.Log("??");
+                runner.anim.SetTrigger("StandUp");
+                runner.releaseStun(releaseTimer);
                 initNode();
+            }
+            else
+            {
+                
+                runner.anim.SetTrigger("Stun");
             }
         }
         else

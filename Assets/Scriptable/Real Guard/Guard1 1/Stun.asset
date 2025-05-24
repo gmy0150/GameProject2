@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   root: {fileID: 11400000, guid: bee581c592907a643b6160a35955815d, type: 2}
   StunTimer: 5
+  releaseTimer: 5.2

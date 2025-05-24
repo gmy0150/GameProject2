@@ -115,9 +115,16 @@ public class Enemy : Character
         //ui창 띄우기 애니매이션 재생
         Time.timeScale = 1;
     }
-    public void releaseStun()
+    float releaseTimer;
+    public void releaseStun(float time)
     {
-        stun = false;
+        releaseTimer += Time.deltaTime;
+        if (releaseTimer >= time)
+        {
+            Debug.Log(time + "초 후에 스턴 해제");
+            Debug.Log(releaseTimer + "초 경과");
+            stun = false;
+        }
     }
     public bool GetStun()
     {
@@ -140,11 +147,13 @@ public class Enemy : Character
     protected string Move = "Move";
     string ChasePlayer = "ChasePlayer";
     string CheckNoise = "CheckNoise";
+    string Stun = "Stun";
+    string StandUp = "StandUp";
     public void UseAnim(string exclude)
     {
         if (anim == null) return;
 
-        string[] triggers = { Idle, Move, ChasePlayer, CheckNoise };
+        string[] triggers = { Idle, Move, ChasePlayer, CheckNoise,Stun ,StandUp };
         foreach (string trigger in triggers)
         {
             if (trigger != exclude)
