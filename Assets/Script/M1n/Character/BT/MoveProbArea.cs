@@ -15,7 +15,7 @@ public class MoveProbArea : Node
 
     public override NodeState Evaluate()
     {
-            Debug.Log(runner.isEndProb());
+        
         if (runner.isEndProb())
         {
             runner.UseAnim("Move");
@@ -31,6 +31,8 @@ public class MoveProbArea : Node
                     runner.StopMove();
 
                     ProbTime = 0;
+                    curnode = this;
+                    Debug.Log(curnode.GetType().Name);
                     return NodeState.SUCCESS;
                 }
             }

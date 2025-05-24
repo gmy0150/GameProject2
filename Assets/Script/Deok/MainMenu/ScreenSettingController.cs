@@ -48,6 +48,30 @@ public class ScreenSettingsManager : MonoBehaviour
         ApplyResolution();
         UpdateResolutionText();
         fullscreenText.text = isFullscreen ? "On" : "Off";
+
+        LoadScreenSettings();
+    }
+
+    public void LoadScreenSettings()
+    {
+        if (PlayerPrefs.HasKey("ScreenResIndex") && PlayerPrefs.HasKey("Fullscreen"))
+        {
+            savedResolutionIndex = PlayerPrefs.GetInt("ScreenResIndex");
+            savedFullscreen = PlayerPrefs.GetInt("Fullscreen") == 1;
+        }
+        else
+        {
+            Resolution current = Screen.currentResolution;
+            savedResolutionIndex = GetClosestResolutionIndex(current.width, current.height);
+            savedFullscreen = true;
+        }
+
+        currentResolutionIndex = savedResolutionIndex;
+        isFullscreen = savedFullscreen;
+
+        ApplyResolution();
+        UpdateResolutionText();
+        fullscreenText.text = isFullscreen ? "On" : "Off";
     }
 
     public void ChangeResolutionLeft()

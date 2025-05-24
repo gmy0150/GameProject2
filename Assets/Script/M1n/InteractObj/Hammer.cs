@@ -7,6 +7,9 @@ public class Hammer : StorageItem
     public override void inititem()
     {
         interact = character.Enemy;
+        HandAnything = character.Hammer;
+        SetHandActive(true);
+        Debug.Log("처음시작");
     }
     
 
@@ -15,7 +18,6 @@ public class Hammer : StorageItem
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, interact))
         {
-            Debug.Log($"충돌전 :");
 
             Vector3 hitPos = hit.point;
             hitPos.y = character.transform.position.y;
@@ -24,7 +26,6 @@ public class Hammer : StorageItem
                 return;
             }
             Enemy enemy = hit.collider.gameObject.GetComponentInParent<Enemy>();
-            Debug.Log($"충돌gn : {enemy}");
             enemy.HitEnemy();
             InventoryManager.Instance.GetSlot().ClearItem();
 

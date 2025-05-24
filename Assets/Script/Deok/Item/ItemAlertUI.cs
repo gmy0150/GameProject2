@@ -30,7 +30,9 @@ public class ItemAlertUI : MonoBehaviour
 
     public void ShowDialogue(List<DialogueLine> lines)
     {
+        GameManager.Instance.ActPlay(false);
         Time.timeScale = 0f;
+
 
         if (playerScript != null)
             playerScript.enabled = false;
@@ -44,6 +46,8 @@ public class ItemAlertUI : MonoBehaviour
         dialogueQueue.Clear();
         foreach (var line in lines)
             dialogueQueue.Enqueue(line);
+
+            messagePanel.SetActive(true);
 
         ShowNextLine();
     }
@@ -77,9 +81,9 @@ public class ItemAlertUI : MonoBehaviour
                 : null;
 
             iconImage.enabled = (iconImage.sprite != null);
-
             messagePanel.SetActive(true);
             typingCoroutine = StartCoroutine(TypeText(line.message));
+            
         }
         else
         {
@@ -109,5 +113,7 @@ public class ItemAlertUI : MonoBehaviour
             playerScript.enabled = true;
 
         Time.timeScale = 1f;
+        GameManager.Instance.ActPlay(true);
+
     }
 }

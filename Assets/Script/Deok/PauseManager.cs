@@ -1,9 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PauseManager : MonoBehaviour
 {
-    public GameObject pauseMenu;     // 일시정지 메뉴 UI
-    public GameObject gameUIRoot;    // 게임 중 UI 전체 (인벤토리, 체력바 등)
+    public GameObject pauseMenu;
+    public GameObject gameUIRoot;
 
     private bool isPaused = false;
 
@@ -11,8 +13,14 @@ public class PauseManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (isPaused) ResumeGame();
-            else PauseGame();
+            if (isPaused)
+            {
+                ResumeGame();
+            }
+            else
+            {
+                PauseGame();
+            }
         }
     }
 
@@ -22,7 +30,7 @@ public class PauseManager : MonoBehaviour
         pauseMenu.SetActive(true);
 
         if (gameUIRoot != null)
-            gameUIRoot.SetActive(false); // 게임 UI 전체 숨기기
+            gameUIRoot.SetActive(false);
 
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
@@ -32,15 +40,39 @@ public class PauseManager : MonoBehaviour
 
     public void ResumeGame()
     {
-        Time.timeScale = 1f;
         pauseMenu.SetActive(false);
 
         if (gameUIRoot != null)
-            gameUIRoot.SetActive(true); // 게임 UI 다시 보이기
+            gameUIRoot.SetActive(true);
 
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+
+        // 대화창이 열려있는지 검사
+        GameObject tutorialDialogue = GameObject.Find("Tutorial_Manager/Canvas");
+        GameObject photoDialogue = GameObject.Find("Photo_Manager/Canvas");
+        GameObject messageDialogue = GameObject.Find("Message_Manager/Canvas");
+
+        bool isTutorialActive = tutorialDialogue != null && tutorialDialogue.activeInHierarchy;
+        bool isPhotoActive = photoDialogue != null && photoDialogue.activeInHierarchy;
+        bool isMessageActive = messageDialogue != null && messageDialogue.activeInHierarchy;
+
+        Debug.Log($"[체크] Tutorial_Manager active = {isTutorialActive}");
+        Debug.Log($"[체크] Message_Manager active = {isMessageActive}");
+        Debug.Log($"[체크] Photo_Manager active = {isPhotoActive}");
+
+        bool isDialogueActive = isTutorialActive || isMessageActive || isPhotoActive;
 
         isPaused = false;
+
+        if (!isDialogueActive)
+        {
+            Time.timeScale = 1f;
+            Debug.Log("[재개됨] 대화창 없음 → Time.timeScale = 1f");
+        }
+        else
+        {
+            Debug.Log("[중단 유지] 대화창이 열려있어 → Time.timeScale = 0f 유지됨");
+        }
     }
 }

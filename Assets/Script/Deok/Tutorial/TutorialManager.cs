@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TutorialManager : MonoBehaviour
+public class TutorialManager 
 {
     [System.Serializable]
     public class DialogueLine
@@ -11,31 +11,45 @@ public class TutorialManager : MonoBehaviour
     }
 
     [System.Serializable]
+    public class DialogueGroup
+    {
+        public List<DialogueLine> lines;
+    }
+
+    [System.Serializable]
     public class DialogueWrapper
     {
-        public DialogueLine[] array;
+        public DialogueGroup[] array;
     }
 
     public string jsonFileName = "Tutorial_Start";
+    public int dialogueIndex = 0;
 
-    void Start()
+    public void Start()
     {
         TextAsset jsonText = Resources.Load<TextAsset>("Data/" + jsonFileName);
         if (jsonText != null)
         {
             DialogueWrapper wrapper = JsonUtility.FromJson<DialogueWrapper>("{\"array\":" + jsonText.text + "}");
-            List<DialogueLine> lines = new List<DialogueLine>(wrapper.array);
+            List<DialogueGroup> allGroups = new List<DialogueGroup>(wrapper.array);
 
-            // ✅ 내부 타입 그대로 넘기는 전용 함수 사용
-            TutorialUI.Instance.ShowTutorialDialogue(lines);
+            if (dialogueIndex >= 0 && dialogueIndex < allGroups.Count)
+            {
+                var linesToShow = allGroups[dialogueIndex].lines;
+                TutorialUI.Instance.ShowTutorialDialogue(linesToShow);
+            }
+            else
+            {
+                Debug.LogError($"❌ dialogueIndex {dialogueIndex}가 JSON 배열 범위를 벗어났습니다.");
+            }
         }
         else
         {
-            Debug.LogError("❌ JSON 파일을 찾을 수 없습니다: " + jsonFileName);
+            Debug.LogError("❌ JSON 파일을 찾을 수 없습니다: Resources/Data/" + jsonFileName);
         }
     }
 
-    // 다른 스크립트에서도 쓰고 싶으면 여기에 공유해도 됨
+    // 필요하면 다른 클래스에서 대사를 공유할 수 있도록
     public static class DialogueDataBridge
     {
         public static List<DialogueLine> CurrentLines;

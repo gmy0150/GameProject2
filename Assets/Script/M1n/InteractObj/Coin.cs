@@ -9,24 +9,18 @@ public class Coin : StorageItem
     float maxThrowForce;
     LineRenderer lineRenderer;
     float gravity = -9.81f;
-    GameObject CoinPrefab;
      bool shoot = false;
      bool hasCoin = false;
 
-    public string itemName = "Coin"; // 🪙 아이템 확인 코드 - 메시지 JSON에서 찾을 이름
 
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
-
-        
-
         GetCoin(); // 🪙 아이템 확인 코드 - 아이템 획득 처리
-
+        
         maxThrowDistance = character.maxThrowDistance;
         maxThrowForce = character.maxThrowForce;
         lineRenderer = character.lineRenderer;
-        CoinPrefab = character.Prefab;
     }
 
     public override bool CanInteract()
@@ -69,7 +63,7 @@ public class Coin : StorageItem
         hasCoin = true;
 
         // ✅🪙 아이템 확인 코드 - JSON에서 여러 대사와 표정 정보 가져오기
-        var data = MessageManager.Instance.GetItemMessage(itemName);
+        var data = MessageManager.Instance.GetItemMessage(itemname);
         if (data != null && data.lines != null && data.lines.Count > 0)
         {
             ItemAlertUI.Instance.ShowDialogue(data.lines); // 여러 줄 출력
@@ -157,7 +151,9 @@ public class Coin : StorageItem
 
     void ThrowCoin(Vector3 throwDirection, float throwForce)
     {
+        SetHandActive(true);
         shoot = true;
+
         Vector3 transpo = character.transform.position;
         transpo.y = character.transform.position.y + 1;
         transform.position = transpo + throwDirection;
@@ -206,9 +202,11 @@ public class Coin : StorageItem
             HasCoin();
         }
     }
-
+    
     public override void inititem()
     {
         lineRenderer.positionCount = 0;
+        HandAnything = character.HandCoin;
+        SetHandActive(true);
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class StorageItem : InteractObject
 {
     public LayerMask interact;
+    protected GameObject HandAnything;
 
     public Sprite icon;
     public string itemname;
@@ -49,5 +50,9 @@ public abstract class StorageItem : InteractObject
     public override bool IsOneTimeInteraction()
     {
         return true;
+    }
+    public void SetHandActive(bool isActive)
+    {
+        HandAnything.gameObject.SetActive(isActive);
     }
 }

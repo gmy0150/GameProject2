@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class Closet : UseageInteract
 {
+    GameObject door1, door2;
+    Quaternion door1Rotation, door2Rotation;
+    void Start()
+    {
+        base.Start();
+        door1 = transform.GetChild(1).gameObject;
+        door2 = transform.GetChild(2).gameObject;
+        door1Rotation = door1.transform.rotation;
+        door2Rotation = door2.transform.rotation;
+    }
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
         InventoryManager.Instance.ExitSlot();
         if (!isHide)
         {
-            Debug.Log("작동하자");
             Hide();
         }
     }
@@ -35,21 +44,23 @@ public class Closet : UseageInteract
             Rigidbody rigidbody = character.GetComponent<Rigidbody>();
             rigidbody.velocity = Vector3.zero;
             controller.RunningCancel();
-            // controller.Crouch();
             Render(false);
             character.ControllerDisable();
+            // door1.transform.rotation = Quaternion.Euler(door1.transform.rotation.x, door1.transform.rotation.x - 90, door1.transform.rotation.z);
+            // door2.transform.rotation = Quaternion.Euler(door1.transform.rotation.x, door1.transform.rotation.x + 90, door1.transform.rotation.z);
+            // Debug.Log(door1.transform.localRotation.x);
         }
         else
         {
             Render(true);
             character.ControllerEnable();
-
+            // door1.transform.rotation = door1Rotation;
+            // door2.transform.rotation = door2Rotation;
         }
     }
     protected void Render(bool x)
     {
         controller.SetNoise(x);
-        
         character.GetComponentInChildren<SkinnedMeshRenderer>().enabled = x;
         character.GetComponentInChildren<Collider>().enabled = x;
         character.GetComponent<Rigidbody>().useGravity = x;

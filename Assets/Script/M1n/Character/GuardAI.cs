@@ -76,7 +76,7 @@ public class GuardAI : Enemy
     protected override void Update()
     {
         base.Update();
-
+        
         MakeNoise(gameObject, 15, 10);
     }
 
@@ -237,6 +237,7 @@ public class GuardAI : Enemy
     {
         patrolSuccess = false;
     }
+    
 
 
 
@@ -254,6 +255,5 @@ public class GuardAI : Enemy
 
 
 
-   
 
 }

@@ -1,27 +1,78 @@
 [
     {
-        "message": "1번째 문구.",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "헉! 여기에도 경비원이 있었잖아?",
+                "iconName": "Surprise"
+            },
+            {
+                "message": "조용히... 조용히... 경비원이 못 볼 때 몰래 지나가야겠는데...",
+                "iconName": "Sad"
+            }
+        ]
     },
     {
-        "message": "2번째 문구 ",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "뭐야? 저기 또 경비원이 있잖아? 저녀석은 움직일 생각도 안하는 것 같은데...",
+                "iconName": "Sad"
+            }
+        ]
     },
     {
-        "message": "3번째 문구.",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "아잇! 또 경비원이야? 도대체 뭐길래 경비원이 이렇게 많은거야?",
+                "iconName": "Angry"
+            },
+            {
+                "message": "라고 할 줄 알았겠지만!!",
+                "iconName": "Happy"
+            },
+            {
+                "message": "이럴 줄 알고 내 비장의 무기 뿅망치도 준비했지롱!",
+                "iconName": "Happy"
+            }
+        ]
     },
     {
-        "message": "4번째 문구 ",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "헉! 이게 뭐야!! 이거 시체잖아?? 이 녀석들.. 뭘 지키고 있나 했더만.. 시체를 지키고 있었다고?",
+                "iconName": "Surprise"
+            },
+            {
+                "message": "일단 일단.. 사진이라도 찍어둬야겠어...",
+                "iconName": "Nothing"
+            }
+        ]
     },
     {
-        "message": "5번째 문구 ",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "...저건... 마체테?!",
+                "iconName": "Surprise"
+            },
+            {
+                "message": "아까 그 목걸이 주인이... 이 사건과 연관이 있다고?",
+                "iconName": "Surprise"
+            },
+            {
+                "message": "이거이거... 냄새가 나는데... 아주 큰 특종의 냄새 말이지.",
+                "iconName": "Happy"
+            },
+            {
+                "message": "여기 볼일도 다 봤겠다.. 마체테의 집으로 가볼까?",
+                "iconName": "Happy"
+            }
+        ]
     },
     {
-        "message": "6번째 문구 ",
-        "iconName": "Happy"
+        "lines": [
+            {
+                "message": "사진 뭐시기 무시기 뭐시기",
+                "iconName": "Surprise"
+            }
+        ]
     }
-
 ]

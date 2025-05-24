@@ -101,7 +101,9 @@ public class TestOne : MonoBehaviour
         // Visible Points (���� ��ǥ�� ��ȯ)
         for (int i = 0; i < visiblePoints.Count; i++)
         {
-            vertices[i + 1] = transform.InverseTransformPoint(visiblePoints[i]);
+            Vector3 localPos = transform.InverseTransformPoint(visiblePoints[i]);
+            localPos.y = 0;
+            vertices[i + 1] = localPos;
             colors[i + 1] = Color.red; // Visible �κ� ���� ����
             
         }
@@ -110,7 +112,9 @@ public class TestOne : MonoBehaviour
         int blockedStartIndex = 1 + visiblePoints.Count;
         for (int i = 0; i < blockedPoints.Count; i++)
         {
-            vertices[blockedStartIndex + i] = transform.InverseTransformPoint(blockedPoints[i]);
+            Vector3 localpos = transform.InverseTransformPoint(blockedPoints[i]);
+            localpos.y = 0;
+            vertices[blockedStartIndex + i] = localpos;
             colors[blockedStartIndex + i] = Color.red;
         }
 

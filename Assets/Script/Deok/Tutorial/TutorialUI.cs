@@ -25,13 +25,27 @@ public class TutorialUI : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        panel?.SetActive(false);
+
+        if (panel != null)
+            panel.SetActive(false);
+
+        if (messageText == null)
+            Debug.LogError("❌ messageText가 연결되지 않았습니다.");
+
+        if (iconImage == null)
+            Debug.LogError("❌ iconImage가 연결되지 않았습니다.");
     }
 
     public void ShowTutorialDialogue(List<TutorialManager.DialogueLine> lines)
     {
-        Time.timeScale = 0f;
+        if (lines == null || lines.Count == 0)
+        {
+            Debug.LogWarning("⚠️ ShowTutorialDialogue에 빈 대사가 들어왔습니다.");
+            return;
+        }
 
+        GameManager.Instance.ActPlay(false);
+        Time.timeScale = 0f;
         if (playerScript != null)
             playerScript.enabled = false;
 
@@ -43,18 +57,23 @@ public class TutorialUI : MonoBehaviour
 
         dialogueQueue.Clear();
         foreach (var line in lines)
-            dialogueQueue.Enqueue(line);
+        {
+            if (line != null)
+                dialogueQueue.Enqueue(line);
+        }
 
         ShowNextLine();
     }
 
     private void Update()
     {
-        if (panel.activeSelf && Input.GetKeyDown(KeyCode.Space))
+        if (panel != null && panel.activeSelf && Input.GetKeyDown(KeyCode.Space))
         {
             if (isTyping)
             {
-                StopCoroutine(typingCoroutine);
+                if (typingCoroutine != null)
+                    StopCoroutine(typingCoroutine);
+
                 messageText.text = fullCurrentText;
                 isTyping = false;
             }
@@ -70,34 +89,49 @@ public class TutorialUI : MonoBehaviour
         if (dialogueQueue.Count > 0)
         {
             var line = dialogueQueue.Dequeue();
-            fullCurrentText = line.message;
+            fullCurrentText = line?.message ?? "";
 
-            iconImage.sprite = !string.IsNullOrEmpty(line.iconName)
-                ? Resources.Load<Sprite>("Icons/" + line.iconName)
-                : null;
+            if (iconImage != null)
+            {
+                iconImage.sprite = !string.IsNullOrEmpty(line.iconName)
+                    ? Resources.Load<Sprite>("Icons/" + line.iconName)
+                    : null;
 
-            iconImage.enabled = (iconImage.sprite != null);
-            panel.SetActive(true);
+                iconImage.enabled = (iconImage.sprite != null);
+            }
+
+            if (panel != null)
+                panel.SetActive(true);
 
             typingCoroutine = StartCoroutine(TypeText(fullCurrentText));
         }
         else
         {
-            panel.SetActive(false);
+            if (panel != null)
+                panel.SetActive(false);
 
             if (playerScript != null)
                 playerScript.enabled = true;
 
             Time.timeScale = 1f;
+        GameManager.Instance.ActPlay(true);
+
         }
     }
 
     IEnumerator TypeText(string text)
     {
         isTyping = true;
+
+        if (messageText == null)
+        {
+            Debug.LogError("❌ messageText가 null입니다.");
+            yield break;
+        }
+
         messageText.text = "";
 
-        foreach (char c in text)
+        foreach (char c in text ?? "")
         {
             messageText.text += c;
             yield return new WaitForSecondsRealtime(0.05f);

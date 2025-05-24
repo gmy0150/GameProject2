@@ -9,5 +9,7 @@ public interface IController
     public void SetHide(bool x);
     public void SetNoise(bool x);
     public void LateTick(float deltaTime);
+    public void FixedTick(float deltaTime);
     void RunningCancel();
+    public void MovePlayer(Vector3 vector3,bool maingame);
 }

@@ -395,6 +395,7 @@ GameObject:
   - component: {fileID: 2941294798298914299}
   - component: {fileID: 3040432787301925968}
   - component: {fileID: 9133496683245357233}
+  - component: {fileID: 2581130083820879109}
   m_Layer: 8
   m_Name: Ailion
   m_TagString: Untagged
@@ -458,6 +459,7 @@ MonoBehaviour:
   Distance: 5
   node: {fileID: 0}
   anim: {fileID: 0}
+  UIImage: {fileID: 0}
   RayShoot: {fileID: 0}
 --- !u!114 &3040432787301925968
 MonoBehaviour:
@@ -534,6 +536,27 @@ MonoBehaviour:
   slowWhenNotFacingTarget: 1
   preventMovingBackwards: 0
   constrainInsideGraph: 0
+--- !u!65 &2581130083820879109
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3774437777282249177}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 0.61}
+  m_Center: {x: 0, y: 0.83, z: 0.18}
 --- !u!1 &3800291711876190934
 GameObject:
   m_ObjectHideFlags: 0

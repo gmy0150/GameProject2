@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7dfd85f2e25311a4cb77bc68035fdcc2, type: 3}
   m_Name: Stun
   m_EditorClassIdentifier: 
-  root: {fileID: 11400000, guid: 37895af245f1e874886ba0a8f1eb7a3f, type: 2}
-  StunTimer: 1
+  root: {fileID: 11400000, guid: bee581c592907a643b6160a35955815d, type: 2}
+  StunTimer: 5

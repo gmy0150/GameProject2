@@ -6,25 +6,28 @@ public class TutorialTrigger : MonoBehaviour
     public string jsonFileName = "Tutorial_Continue"; // 사용할 JSON 파일명
     public int dialogueIndex = 0; // 몇 번째 대사를 보여줄지 (0부터 시작)
     private bool hasTriggered = false;
+    private bool hasExitTriggered = false;
 
     private void OnTriggerEnter(Collider other)
     {
         if (hasTriggered) return;
         if (!other.CompareTag("Player")) return;
 
+        Debug.Log("✅ 플레이어가 트리거에 진입했습니다.");
+
+        GameManager.Instance.ActPlay(true);
         hasTriggered = true;
 
         TextAsset jsonText = Resources.Load<TextAsset>("Data/" + jsonFileName);
         if (jsonText != null)
         {
             var wrapper = JsonUtility.FromJson<DialogueWrapper>("{\"array\":" + jsonText.text + "}");
-            var allLines = new List<TutorialManager.DialogueLine>(wrapper.array);
+            var allGroups = new List<DialogueGroup>(wrapper.array);
 
-            if (dialogueIndex >= 0 && dialogueIndex < allLines.Count)
+            if (dialogueIndex >= 0 && dialogueIndex < allGroups.Count)
             {
-                // ✅ 특정 인덱스만 골라서 리스트로 만들어 전달
-                var selectedLineList = new List<TutorialManager.DialogueLine> { allLines[dialogueIndex] };
-                TutorialUI.Instance.ShowTutorialDialogue(selectedLineList);
+                var selectedLines = allGroups[dialogueIndex].lines;
+                TutorialUI.Instance.ShowTutorialDialogue(selectedLines);
             }
             else
             {
@@ -40,6 +43,14 @@ public class TutorialTrigger : MonoBehaviour
     [System.Serializable]
     public class DialogueWrapper
     {
-        public TutorialManager.DialogueLine[] array;
+        public DialogueGroup[] array;
     }
+
+    [System.Serializable]
+    public class DialogueGroup
+    {
+        public List<TutorialManager.DialogueLine> lines;
+    }
+
+
 }

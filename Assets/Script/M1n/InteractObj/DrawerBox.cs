@@ -39,6 +39,7 @@ public class DrawerBox : UseageInteract
     }
     void Start()
     {
+        base.Start();
         closePos = GBox.transform.localPosition.y;
         openPos = closePos + openy;
     }   

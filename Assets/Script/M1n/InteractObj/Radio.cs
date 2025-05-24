@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Radio : UseageInteract
 {
     bool Active;
     [SerializeField]float Radiotiemr;
     float timer;
+    [SerializeField]Image uiimage;
+    [SerializeField]GameObject otherobj;
     public override void UpdateTime(float time)
     {
         
@@ -25,7 +28,7 @@ public class Radio : UseageInteract
     {
         if(Active)
         timer += Time.deltaTime;
-        if(Radiotiemr > timer){
+        if(Radiotiemr < timer){
             TunOff();
         }
     }
@@ -34,12 +37,16 @@ public class Radio : UseageInteract
     void TunOff(){
         ContactEnemy = false;
         Active = false;
+        uiimage.gameObject.SetActive(false);
     }
     void TunOn(){
         Active = true;
+            
         Vector3 origin = transform.position;
+        if(otherobj)
+        origin = otherobj.transform.position;
         origin.y = 1f;
-
+        uiimage.gameObject.SetActive(true);
         for (float anglestep = 0; anglestep < 360f; anglestep += 10)
         {
             float currentAngle = anglestep * Mathf.Deg2Rad;
