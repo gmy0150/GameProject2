@@ -19,26 +19,30 @@ public class WaitSecond : Node
     public float switchTime = 3;
     public override NodeState Evaluate()
     {
-        
-
         runner.UseAnim("Idle");
         runner.StopMove();
-        ArroundTimer += Time.deltaTime;
-        SwitchTimer += Time.deltaTime;
-        float targetAngle = lookingRight ? lookAngle : -lookAngle;
-        Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
-        runner.transform.rotation = Quaternion.Slerp(runner.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        if (SwitchTimer >= switchTime)
+        if (runner.GetPatrol()||runner.GetProb())
         {
-            lookingRight = !lookingRight;
-            SwitchTimer = 0;
-        }
-        if (ArroundTimer > Timer)
-        {
-            runner.RestartPatrol();
-            ArroundTimer = 0;
-            return NodeState.SUCCESS;
+            ArroundTimer += Time.deltaTime;
+            SwitchTimer += Time.deltaTime;
+            float targetAngle = lookingRight ? lookAngle : -lookAngle;
+            Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
+            runner.transform.rotation = Quaternion.Slerp(runner.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            Debug.Log("AARround");
+            if (SwitchTimer >= switchTime)
+            {
+                lookingRight = !lookingRight;
+                SwitchTimer = 0;
+            }
+            if (ArroundTimer > Timer)
+            {
+                SwitchTimer = 0;
+                ArroundTimer = 0;
+                runner.RestartPatrol();
+                runner.InitProb();
+                return NodeState.SUCCESS;
+            }
         }
 
         return NodeState.RUNNING;

@@ -13,7 +13,6 @@ public class TutorialTrigger : MonoBehaviour
         if (hasTriggered) return;
         if (!other.CompareTag("Player")) return;
 
-        Debug.Log("✅ 플레이어가 트리거에 진입했습니다.");
 
         GameManager.Instance.ActPlay(true);
         hasTriggered = true;

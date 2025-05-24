@@ -186,5 +186,6 @@ public class Player : Character
     public void restart()
     {
         controller = KeyboardControll;
+        controller.RunningCancel();
     }
 }

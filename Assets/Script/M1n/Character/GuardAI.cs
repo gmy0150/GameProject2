@@ -211,13 +211,14 @@ public class GuardAI : Enemy
     bool patrolSuccess = false;
     public override void Patrols()
     {
-        MoveToTarget(wayPoints[wayPointIndex]);
+        MoveToTarget(wayPoints[wayPointIndex],Move,MoveSpeed);
         isPatrolling = true;
         if (aIPath.reachedDestination)
         {
             wayPointIndex = (wayPointIndex + 1) % wayPoints.Length;
             aIPath.isStopped = true;
             patrolSuccess = true;
+            Debug.Log("patrol success");
         }
     }
     
@@ -237,23 +238,4 @@ public class GuardAI : Enemy
     {
         patrolSuccess = false;
     }
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

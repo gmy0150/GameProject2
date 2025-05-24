@@ -19,9 +19,9 @@ public class Stun : Node
     public override NodeState Evaluate()
     {
         // runner.UseAnim("Stun");
-        runner.AboveUI(this.GetType().Name);
         if (runner.GetStun())
         {
+        runner.AboveUI(this.GetType().Name);
             Timer += Time.deltaTime;
             if(Timer > StunTimer){
                 runner.releaseStun();

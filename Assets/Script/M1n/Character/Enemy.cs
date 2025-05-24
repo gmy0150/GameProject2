@@ -6,11 +6,13 @@ using BehaviorTree;
 using UnityEngine.UI;
 using System.Linq;
 using Unity.VisualScripting;
+using EPOOutline;
 
 
 public class Enemy : Character
 {
     protected bool DetectPlayer;
+    protected bool AttractPlayer;
     protected AIPath aIPath;
     [Header("�þ߹���, �Ÿ�")]
     [Range(0, 360)]
@@ -18,13 +20,19 @@ public class Enemy : Character
     public float Distance = 5f;   // ��ä�� ������
 
     public Node node;
-    Node NewNode;
+     Node NewNode;
     float PlayerY;
     public Animator anim;
     Collider scollider;
-    Vector3 Startpos;
+    internal Vector3 startPos;
+    public Slider CheckPlayerSlider;
+    [SerializeField]float DetectTimer = 2.5f;
+    public Player player;
+    float maxTimer;
     protected virtual void Start()
     {
+        CheckPlayerSlider.value = 1;
+        maxTimer = DetectTimer;
         anim = GetComponent<Animator>();
         if (GetComponent<AIPath>() != null)
         {
@@ -32,28 +40,33 @@ public class Enemy : Character
             applyspeed = MoveSpeed;
 
         }
-        Startpos = transform.position;
+        startPos = transform.position;
         if (node != null)
         {
             NewNode = node.Clone();
 
-
             NewNode.SetRunner(this);
         }
         ShowShape();
-        Player player = GameObject.FindAnyObjectByType<Player>();
+         player = GameObject.FindAnyObjectByType<Player>();
         if (player != null)
         {
             PlayerY = player.transform.position.y;
         }
         scollider = GetComponentInChildren<Collider>();
-
+    }
+    public void InitNode()
+    {
+        Node.InitTree(NewNode);
 
     }
+    
     protected virtual void Update()
     {
-        if(UIImage)
-        UIImage.transform.position = new Vector3(transform.position.x, UIImage.transform.position.y, transform.position.z);
+        if (UIImage)
+            UIImage.transform.position = new Vector3(transform.position.x, UIImage.transform.position.y, transform.position.z);
+            if (CheckPlayerSlider)
+            CheckPlayerSlider.transform.position = new Vector3(transform.position.x, CheckPlayerSlider.transform.position.y, transform.position.z);
         if (aIPath != null)
         {
             aIPath.maxSpeed = applyspeed;
@@ -62,13 +75,34 @@ public class Enemy : Character
         {
             NewNode.Evaluate();
         }
+        if (DetectPlayer)
+        {
+            Debug.Log("!!!!");
+            DetectTimer -= Time.deltaTime;
+            CheckPlayerSlider.value = DetectTimer / maxTimer;
+            if (DetectTimer <= 0)
+            {
+                Debug.Log("DetectPlayer");
+                AttractPlayer = true;
+                CheckPlayerSlider.gameObject.SetActive(false);
+                // DetectTimer = maxTimer;
+            }
+        }
+        else
+        {
+                CheckPlayerSlider.gameObject.SetActive(true);
+            DetectTimer = maxTimer;
+            CheckPlayerSlider.value = DetectTimer / maxTimer;
+        }
 
     }
-    public virtual bool GetPlayer() => DetectPlayer;
+    public virtual bool GetPlayer() => AttractPlayer;
+    public virtual bool GetDetectPlayer() => DetectPlayer;
 
     public virtual void missPlayer()
     {
         DetectPlayer = false;
+        AttractPlayer = false;
         ShowShape();
     }
     bool stun;
@@ -97,11 +131,13 @@ public class Enemy : Character
             aIPath.enabled = false;
         }
         if (chase)
+        {
             chase = false;
+        }
         //aIPath.isStopped = true;
     }
     string Idle = "Idle";
-    string Move = "Move";
+    protected string Move = "Move";
     string ChasePlayer = "ChasePlayer";
     string CheckNoise = "CheckNoise";
     public void UseAnim(string exclude)
@@ -197,10 +233,11 @@ public class Enemy : Character
     }
 
 
-    protected virtual void MoveToTarget(Vector3 newTarget)
+    protected virtual void MoveToTarget(Vector3 newTarget,string anim,float speed)
     {
         if (stun) return;
-
+        applyspeed = speed;
+        UseAnim(anim);
         aIPath.enabled = true;
         newTarget.y = transform.position.y;
         aIPath.destination = newTarget;
@@ -222,7 +259,6 @@ public class Enemy : Character
     public virtual void InitNoise()
     {
         noise = Vector3.zero;
-        Debug.Log("왜 ");
     }
 
     public virtual void InitProb()
@@ -286,9 +322,7 @@ public class Enemy : Character
     {
         if (stun) return;
 
-        MoveToTarget(vec);
-
-        applyspeed = MoveSpeed;
+        MoveToTarget(vec, ChasePlayer, RunSpeed);
         Vector3 newVec = vec;
         newVec.y = transform.position.y;
         float distanceToTarget = Vector3.Distance(transform.position, newVec);
@@ -297,6 +331,7 @@ public class Enemy : Character
             probSuccess = true;
         }
     }
+    
     public virtual void ProbEnd() { }
     public virtual void StartProb() { }
     public virtual bool isProb() { return false; }
@@ -311,7 +346,6 @@ public class Enemy : Character
         public List<Vector3> blockedPoints;
     }
     public GameObject RayShoot;
-    internal Vector3 startPos;
 
     public VisibilityResult CheckVisibility(int rayCount)
     {
@@ -329,10 +363,11 @@ public class Enemy : Character
             Transform enemyTransform = transform;
             Vector3 rayStartPos = transform.position;
             rayStartPos.y = NewVector.y;
+            bool foundPlayer = false;
             // ��ä�� ������ Raycast
             for (int i = 0; i <= rayCount; i++)
             {
-                if (DetectPlayer == true)
+                if (AttractPlayer == true)
                     return result;
 
                 float currentAngle = -RadiusAngle / 2 + RadiusAngle * (i / (float)rayCount);
@@ -349,6 +384,7 @@ public class Enemy : Character
                     if (hit.collider.GetComponentInParent<Player>())
                     {
                         DetectPlayer = true;
+                        foundPlayer = true;
                         // Debug.Log(hit.collider.GetComponent<Player>().GetInterActControll().GetHide());
                         if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
                         {
@@ -356,10 +392,7 @@ public class Enemy : Character
                             DetectPlayer = false;
                         }
                     }
-                    else
-                    {
-                        DetectPlayer = false;
-                    }
+
 
                     result.visiblePoints.Add(hit.point);
 
@@ -370,9 +403,11 @@ public class Enemy : Character
                 }
                 Debug.DrawRay(NewVector, rayDirection * hit.distance, Color.red, 0.1f);
             }
-            return result;
+            if(!foundPlayer)
+            {
+                DetectPlayer = false;
+            }
         }
-        else Debug.Log("xx");
         return result;
     }
     public VisibilityResult CheckVisibility(int rayCount, float newy)

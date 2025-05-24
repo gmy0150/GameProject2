@@ -72,7 +72,9 @@ public class TestOne : MonoBehaviour
         {
             return null; 
         }
-        return new Material(shader);
+        Material mat = new Material(shader);
+        mat.color = Color.red; 
+        return mat;
     }
     void CheckShowMat()
     {

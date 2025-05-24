@@ -97,5 +97,6 @@ public class FilmCam : StorageItem
         interact = Player.Picture;
         Lights = Player.Lights;
         HandAnything = Player.Camera;
+        SetHandActive(true);
     }
 }
