@@ -151,8 +151,8 @@ public class GameManager : MonoBehaviour
     IEnumerator GameRestart(Enemy guard)
     {
         yield return new WaitForSeconds(1f);
+        guard.InitNode();
         guard.transform.position = guard.startPos;
-        guard.missPlayer();
         player.transform.position = savePos;
         player.transform.rotation = Quaternion.identity;
         player.restart(); 

@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(BoxCollider))]
 public class Coin : StorageItem
 {
     float maxThrowDistance;
     float maxThrowForce;
     LineRenderer lineRenderer;
     float gravity = -9.81f;
-     bool shoot = false;
-     bool hasCoin = false;
+    bool shoot = false;
+    bool hasCoin = false;
 
 
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
         GetCoin(); // 🪙 아이템 확인 코드 - 아이템 획득 처리
-        
+
         maxThrowDistance = character.maxThrowDistance;
         maxThrowForce = character.maxThrowForce;
         lineRenderer = character.lineRenderer;
@@ -58,7 +60,7 @@ public class Coin : StorageItem
         hasCoin = false;
     }
 
-        public void GetCoin()
+    public void GetCoin()
     {
         hasCoin = true;
 
@@ -175,7 +177,6 @@ public class Coin : StorageItem
     {
         if (collision.gameObject.layer == 6 && shoot)
         {
-            Debug.Log("?");
             Rigidbody rigid = GetComponent<Rigidbody>();
             rigid.velocity = Vector3.zero;
             UseCoin();
@@ -190,7 +191,7 @@ public class Coin : StorageItem
     public override void UseItem()
     {
         ThrowCoin(dir, throwF);
-            InventoryManager.Instance.GetSlot().ClearItem();
+        InventoryManager.Instance.GetSlot().ClearItem();
 
     }
 
@@ -202,7 +203,7 @@ public class Coin : StorageItem
             HasCoin();
         }
     }
-    
+
     public override void inititem()
     {
         lineRenderer.positionCount = 0;

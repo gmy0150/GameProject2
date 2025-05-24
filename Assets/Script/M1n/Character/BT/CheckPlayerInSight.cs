@@ -13,17 +13,29 @@ public class CheckPlayerInSight : Node
 
     public override NodeState Evaluate()
     {
-        runner.AboveUI("",false);
         if (runner != null)
         {
-            return runner.GetPlayer() ? NodeState.SUCCESS : NodeState.FAILURE;
+            if (runner.GetDetectPlayer())
+            {
+                runner.AboveUI("CheckNoise", true);
+                if (runner.GetPlayer())
+                {
+                    return NodeState.SUCCESS;
+                }
+                else
+                {
+                runner.StopMove();
+                    runner.gameObject.transform.LookAt(runner.player.transform.position);
+                    
+                }
+                return NodeState.RUNNING;
+            }
         }
-        Debug.Log("����");
         return NodeState.FAILURE;
     }
 
     public override void initNode()
     {
-        throw new System.NotImplementedException();
+        
     }
 }

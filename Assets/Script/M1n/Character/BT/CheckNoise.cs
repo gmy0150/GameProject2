@@ -33,6 +33,7 @@ public class CheckNoise : Node
             ArroundTimer = 0;
             runner.StartProb();
             runner.InitProb();
+            
             runner.StopMove();
         }
 

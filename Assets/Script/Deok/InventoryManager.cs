@@ -12,7 +12,7 @@ public class InventoryManager : MonoBehaviour
     {
         Instance = this;
         slots[0].SetItem(Cam);
-        Cam.inititem();
+        // Cam.inititem();
     }
 
 
@@ -36,6 +36,8 @@ public class InventoryManager : MonoBehaviour
     {
         if (selectedIndex == index)
         {
+            if(GetActiveItem() != null)
+                GetActiveItem().SetHandActive(false);
             ExitSlot();
             return;
         }
@@ -56,8 +58,7 @@ public class InventoryManager : MonoBehaviour
 
     public void ExitSlot()
     {
-        if(GetActiveItem() != null)
-            GetActiveItem().SetHandActive(false);
+        
         selectedIndex = -1;
         for (int i = 0; i < slots.Length; i++)
         {
