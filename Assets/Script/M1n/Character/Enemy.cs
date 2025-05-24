@@ -474,16 +474,18 @@ public class Enemy : Character
 
     void OnCollisionEnter(Collision collision)
     {
+        
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-        {
-            StartCoroutine(TempBlockENemy(collision.transform.position));
-        }
+            {
+                StartCoroutine(TempBlockENemy(collision.transform.position));
+            }
         if (collision.gameObject.CompareTag("Player"))
         {
             Player player = collision.gameObject.GetComponent<Player>();
             if (player != null)
             {
-
+                if (stun)
+                    return;
                 player.Die();
                 GameManager.Instance.GameOver(this);
             }
