@@ -68,6 +68,21 @@ public class PhotoTriggerManager : MonoBehaviour
             if (group.itemName == objectName)
             {
                 Debug.Log("✅ [PTM] 일치하는 대사 찾음!"); // ✅ 로그 ④
+
+                // ✅ 1번 업적: 비밀 오브젝트 사진 찍음
+                if (QuestManager.Instance != null && QuestManager.Instance.IsSecretObjectByName(objectName))
+                {
+                    Debug.Log("🏆 [PTM] 1번 업적 조건 충족! FoundSecret() 호출");
+                    QuestManager.Instance.FoundSecret();
+                }
+
+                // ✅ 4번 업적: 비밀방 오브젝트 사진 찍음
+                if (QuestManager.Instance != null && QuestManager.Instance.IsFinalPhotoTarget(objectName))
+                {
+                    Debug.Log("🏁 [PTM] 4번 업적 조건 충족! CompleteFinalPhotoMission() 호출");
+                    QuestManager.Instance.CompleteFinalPhotoMission();
+                }
+
                 CameraAlertUI.Instance.ShowPhotoDialogue(group.lines);
                 return;
             }
@@ -75,5 +90,6 @@ public class PhotoTriggerManager : MonoBehaviour
 
         Debug.LogWarning("❌ [PTM] 일치하는 대사가 없습니다: " + objectName); // ✅ 로그 ⑤
     }
+
 
 }

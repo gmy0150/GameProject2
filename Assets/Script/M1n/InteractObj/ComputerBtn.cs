@@ -10,6 +10,13 @@ public class ComputerBtn : UseageInteract
         if(GameManager.Instance.AbleComputer()){
             base.Interact(character, controller);
             GameManager.Instance.OnDoorActive();
+
+            // ✅ 2번 업적 완료 처리
+            if (QuestManager.Instance != null)
+            {
+                QuestManager.Instance.CompleteCurrentQuest();
+            }
+            
             InteractAgain();
             Debug.Log("컴퓨터 작동");
         }

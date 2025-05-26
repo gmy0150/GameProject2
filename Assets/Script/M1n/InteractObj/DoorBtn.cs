@@ -12,6 +12,11 @@ public class DoorBtn : UseageInteract
         return;
             base.Interact(character, controller);
             AilenRoom.SetActive(true);
+
+        if (QuestManager.Instance != null)
+        {
+            QuestManager.Instance.CompleteSecretButtonMission();
+        }
             Debug.Log("버튼눌림");
         
     }
