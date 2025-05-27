@@ -558,6 +558,67 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3395773554181790459, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f6c2eda2215d42d44ac2db1a9cd3d74b,
+        type: 3}
+    - target: {fileID: 4364181693836380844, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 935863889e8f2e84cb252cd710d787d7,
+        type: 3}
+    - target: {fileID: 5988643422566197243, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6756d47446b168340be1010584680af0,
+        type: 3}
+    - target: {fileID: 6015372897939466170, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fb792744428ab6f4289b31b448e8925a,
+        type: 3}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: ac002290edad7d748999ee31b1bbcb7f, type: 3}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 832fde87f19a486478c3f4e2eb81522a, type: 3}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 59c2885d74952bd43873614da3430938, type: 3}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 973a2ed35f2242e41bc338bb0ebc914d, type: 3}
+    - target: {fileID: 7868377322623908247, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 612edf8fb7c0a0c4882d467833f91446,
+        type: 3}
+    - target: {fileID: 8661434980776832794, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0eb5f0b31ee1a1e4fb61e736d7f27572,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
