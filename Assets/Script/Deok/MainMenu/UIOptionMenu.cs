@@ -2,6 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class UIOptionMenu : MonoBehaviour
 {
@@ -40,8 +41,7 @@ public class UIOptionMenu : MonoBehaviour
     private bool isAnimating = false;
     private Vector2 hiddenPosition;
     private Vector2 visiblePosition = Vector2.zero;
-
-    void Start() 
+    void Start()
     {
         hiddenPosition = new Vector2(optionPanel.rect.width, 0);
         optionPanel.anchoredPosition = hiddenPosition;
@@ -118,7 +118,7 @@ public class UIOptionMenu : MonoBehaviour
     public void ConfirmSoundPanel()
     {
         if (isAnimating) return;
-        isAnimating = true; 
+        isAnimating = true;
 
         VolumeManager.Instance.ApplyAll();
 
@@ -209,4 +209,34 @@ public class UIOptionMenu : MonoBehaviour
             }
         }
     }
+
+    private bool canPressEsc = true;
+    private IEnumerator StartEscCooldown()
+    {
+        canPressEsc = false;
+        yield return new WaitForSeconds(1f);
+        canPressEsc = true;
+    }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && canPressEsc)
+        {
+            if (screenPanel.activeSelf)
+            {
+                CloseScreenPanelToOption();
+                StartCoroutine(StartEscCooldown());
+            }
+            else if (soundPanel.activeSelf)
+            {
+                CloseSoundPanelToOption();
+                StartCoroutine(StartEscCooldown());
+            }
+            else if (optionPanel.gameObject.activeSelf && canvasGroup.alpha > 0.5f)
+            {
+                backButton.onClick.Invoke(); // Back 버튼 기능 수행
+                StartCoroutine(StartEscCooldown());
+            }
+        }
+    }
+
 }
