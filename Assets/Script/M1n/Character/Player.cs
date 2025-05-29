@@ -70,6 +70,7 @@ public class Player : Character
         controller?.FixedTick(Time.deltaTime);
     }
     public Image Lights;
+    public Image PicChildImage;
     public InteractController GetInterActControll()
     {
         return interactController;

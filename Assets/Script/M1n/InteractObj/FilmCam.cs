@@ -42,7 +42,17 @@ public class FilmCam : StorageItem
             Lights.color = Color.white;
             Lights.transform.parent.gameObject.SetActive(true);
             Time.timeScale = 0;
-
+            if (picchildImage != null)
+            {
+             foreach (Sprite sprite in sprites)
+                {
+                    if (sprite.name == hitobj.name)
+                    {
+                        picchildImage.sprite = sprite;
+                        break;
+                    }
+                }
+            }
 
             Lights.DOFade(0, 1).SetEase(Ease.InBack).SetUpdate(true).OnComplete(() =>
             {
@@ -59,7 +69,7 @@ public class FilmCam : StorageItem
             outlinable.OutlineParameters.Enabled = true;
         }
     }
-
+    public Sprite[] sprites;
     public GameObject AilionPc;
 
     IEnumerator TakePicture(GameObject go)
@@ -90,12 +100,13 @@ public class FilmCam : StorageItem
         Debug.Log("[FilmCam] 호출된 오브젝트 이름: " + objName);  // ✅ 로그 ①
         PhotoTriggerManager.Instance.ShowDialogueFromObjectName(objName);
     }
-
+    Image picchildImage;
     public override void inititem()
     {
         Player = GameObject.FindAnyObjectByType<Player>();
         interact = Player.Picture;
         Lights = Player.Lights;
+        picchildImage = Player.PicChildImage;
         HandAnything = Player.Camera;
         SetHandActive(true);
     }
