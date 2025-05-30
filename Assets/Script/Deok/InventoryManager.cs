@@ -43,12 +43,14 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
+            if(GetActiveItem() != null)
+                GetActiveItem().SetHandActive(false);
             selectedIndex = index;
 
-                for (int i = 0; i < slots.Length; i++)
-                {
-                    slots[i].SetSelected(i == selectedIndex);
-                }
+            for (int i = 0; i < slots.Length; i++)
+            {
+                slots[i].SetSelected(i == selectedIndex);
+            }
             InitSlot();
 
 
@@ -94,7 +96,6 @@ public class InventoryManager : MonoBehaviour
         if (GetActiveItem() != null)
         {
             GetActiveItem().inititem();
-
         }
     }
 
