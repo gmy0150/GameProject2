@@ -120,7 +120,14 @@ public class UIOptionMenu : MonoBehaviour
         if (isAnimating) return;
         isAnimating = true;
 
-        VolumeManager.Instance.ApplyAll();
+        VolumeManager.Instance.ApplyAll(); // ⚙️ 설정 적용
+
+        StartCoroutine(CloseSoundPanelAfterDelay()); // ⏳ 잠깐 기다렸다가 닫기
+    }
+
+    private IEnumerator CloseSoundPanelAfterDelay()
+    {
+        yield return new WaitForSeconds(0.1f); // 👈 이 시간 동안 ApplyAll로 인한 내부 처리가 안정화됨
 
         soundPanelRect.DOAnchorPos(new Vector2(soundPanelRect.rect.width, 0), 0.4f).SetEase(Ease.InExpo);
         soundCanvasGroup.DOFade(0f, 0.4f).OnComplete(() =>
@@ -133,8 +140,21 @@ public class UIOptionMenu : MonoBehaviour
     public void CloseSoundPanelToOption()
     {
         VolumeManager.Instance.RevertAll();
-        AnimatePanelClose(soundPanel, soundPanelRect, soundCanvasGroup);
+        StartCoroutine(CloseSoundPanelAfterDelay());
     }
+
+        public void CloseScreenPanelDelayed()
+    {
+        // 해상도 변경 직후 잠시 대기 → DOTween이 안정적으로 적용되도록 유도
+        StartCoroutine(CloseScreenPanelAfterDelay());
+    }
+
+    private IEnumerator CloseScreenPanelAfterDelay()
+    {
+        yield return new WaitForSeconds(0.1f); // 짧은 대기
+        AnimatePanelClose(screenPanel, screenPanelRect, screenCanvasGroup);
+    }
+
 
     public void OpenScreenPanel()
     {

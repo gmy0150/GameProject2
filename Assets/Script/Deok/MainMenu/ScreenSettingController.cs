@@ -93,22 +93,21 @@ public class ScreenSettingsManager : MonoBehaviour
     }
 
     // ✅ OK 버튼: 저장 + 적용 + 닫기
-    public void ApplyAll()
+        public void ApplyAll()
     {
         ApplyResolution();
 
-        // 저장
         PlayerPrefs.SetInt("ScreenResIndex", currentResolutionIndex);
         PlayerPrefs.SetInt("Fullscreen", isFullscreen ? 1 : 0);
         PlayerPrefs.Save();
 
-        // 되돌릴 기준값도 갱신
         savedResolutionIndex = currentResolutionIndex;
         savedFullscreen = isFullscreen;
 
         Debug.Log($"💾 설정 저장: {resolutions[currentResolutionIndex].width}x{resolutions[currentResolutionIndex].height}, 전체화면: {isFullscreen}");
 
-        uiOptionMenu.CloseScreenPanelToOption();
+        // ❌ 바로 닫지 말고 UIOptionMenu에게 닫으라고 지시
+        uiOptionMenu.CloseScreenPanelDelayed();
     }
 
     // ✅ 뒤로가기 버튼: 저장하지 않고 이전 설정으로 되돌리기
@@ -123,7 +122,7 @@ public class ScreenSettingsManager : MonoBehaviour
 
         Debug.Log("↩️ 설정 되돌림 (저장 안됨)");
 
-        uiOptionMenu.CloseScreenPanelToOption();
+        uiOptionMenu.CloseScreenPanelDelayed();
     }
 
     // 외부 저장 전용 (사운드에서 전체 저장 시 호출)
