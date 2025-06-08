@@ -31,7 +31,10 @@ public class Enemy : Character
     float maxTimer;
     protected virtual void Start()
     {
-        CheckPlayerSlider.value = 1;
+        if(CheckPlayerSlider != null)
+        {
+            CheckPlayerSlider.value = 1;
+        }
         maxTimer = DetectTimer;
         anim = GetComponent<Animator>();
         if (GetComponent<AIPath>() != null)
