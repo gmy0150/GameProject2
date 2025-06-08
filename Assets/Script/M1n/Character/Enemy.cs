@@ -20,14 +20,14 @@ public class Enemy : Character
     public float Distance = 5f;   // ��ä�� ������
 
     public Node node;
-     Node NewNode;
+    Node NewNode;
     float PlayerY;
     public Animator anim;
     Collider scollider;
     internal Vector3 startPos;
     public Slider CheckPlayerSlider;
     [SerializeField]float DetectTimer = 2.5f;
-    public Player player;
+    public Player player{ get; private set; }
     float maxTimer;
     protected virtual void Start()
     {
@@ -78,6 +78,7 @@ public class Enemy : Character
         {
             NewNode.Evaluate();
         }
+        
         if (DetectPlayer)
         {
             Debug.Log("!!!!");
@@ -93,8 +94,8 @@ public class Enemy : Character
         }
         else
         {
-                CheckPlayerSlider.gameObject.SetActive(true);
             DetectTimer = maxTimer;
+            CheckPlayerSlider.gameObject.SetActive(true);
             CheckPlayerSlider.value = DetectTimer / maxTimer;
         }
 
