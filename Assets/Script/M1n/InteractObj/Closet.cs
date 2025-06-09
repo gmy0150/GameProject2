@@ -17,11 +17,11 @@ public class Closet : UseageInteract
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
-        InventoryManager.Instance.ExitSlot();
         if (!isHide)
         {
             Hide();
         }
+        InventoryManager.Instance.ExitSlot();
     }
     public override void InteractAgain()
     {
@@ -60,6 +60,8 @@ public class Closet : UseageInteract
     }
     protected void Render(bool x)
     {
+        Debug.Log(InventoryManager.Instance.GetActiveItem());
+        InventoryManager.Instance.GetActiveItem()?.SetHandActive(x);
         controller.SetNoise(x);
         character.GetComponentInChildren<SkinnedMeshRenderer>().enabled = x;
         character.GetComponentInChildren<Collider>().enabled = x;

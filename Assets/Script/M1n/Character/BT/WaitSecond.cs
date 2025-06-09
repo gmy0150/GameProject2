@@ -29,7 +29,6 @@ public class WaitSecond : Node
             float targetAngle = lookingRight ? lookAngle : -lookAngle;
             Quaternion targetRotation = Quaternion.Euler(0, targetAngle, 0);
             runner.transform.rotation = Quaternion.Slerp(runner.transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            Debug.Log("AARround");
             if (SwitchTimer >= switchTime)
             {
                 lookingRight = !lookingRight;

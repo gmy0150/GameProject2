@@ -181,12 +181,18 @@ public class Player : Character
     {
         animator.SetTrigger("Die");
         controller = null;
-        
+
     }
 
     public void restart()
     {
         controller = KeyboardControll;
         controller.RunningCancel();
+    }
+    public void Hide(bool x)
+    {
+        GetComponentInChildren<SkinnedMeshRenderer>().enabled = x;
+        GetComponentInChildren<Collider>().enabled = x;
+        GetComponent<Rigidbody>().useGravity = x;
     }
 }
