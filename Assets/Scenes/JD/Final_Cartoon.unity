@@ -1536,16 +1536,17 @@ MonoBehaviour:
   - {fileID: 1499819111}
   - {fileID: 1769914901}
   cartoonSounds:
+  - {fileID: 8300000, guid: 4fb4f3ff541aa8040a1322f0670116b3, type: 3}
+  - {fileID: 8300000, guid: 254c29fa2e0aca54e8cff24fe567b9f1, type: 3}
   - {fileID: 0}
+  - {fileID: 8300000, guid: 1cbeac77d627089459dc3eff6b556273, type: 3}
   - {fileID: 0}
+  - {fileID: 8300000, guid: a114244a3942d1243ad4f3830bbd6cb3, type: 3}
+  - {fileID: 8300000, guid: 8e2d9ab4e6b31ed4081ddf17a162a8d7, type: 3}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 3b4a392eae4af8f48be9bb6b401705bb, type: 3}
+  - {fileID: 8300000, guid: fef4c5477c2d61a4abe67a8ba0f7088d, type: 3}
+  - {fileID: 8300000, guid: f6097525e14a2ae46912dda7537125a6, type: 3}
   nextPageButton: {fileID: 2076934143}
   skipCartoonButton: {fileID: 1113393782}
   fadeOverlay: {fileID: 1861903633}

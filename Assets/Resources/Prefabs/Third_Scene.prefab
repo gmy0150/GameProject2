@@ -212,7 +212,29 @@ MonoBehaviour:
   - {fileID: 6754670758361861671}
   - {fileID: 7101351486434114608}
   - {fileID: 7232208783180230949}
-  pageSounds: []
+  - {fileID: 0}
+  pageSounds:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: 88809269a2b718d4aa71a8ab3710569c, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: 581a85c9881eed44bb4f52e96f036fce, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: e37061464303a874b933b823d0e846f3, type: 3}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: 14f83cb524a38eb4d90826a5d2957872, type: 3}
+  - {fileID: 8300000, guid: b42e5e0a90f9d014b97776ed1c917877, type: 3}
+  - {fileID: 0}
+  - {fileID: 8300000, guid: 9126984140f9c714cb6013b885d5a12c, type: 3}
   nextButton: {fileID: 3105986232384144076}
   skipButton: {fileID: 8244380550670889936}
   fadePanel: {fileID: 5337324209007679583}
