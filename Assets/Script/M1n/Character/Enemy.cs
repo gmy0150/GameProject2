@@ -66,6 +66,7 @@ public class Enemy : Character
     
     protected virtual void Update()
     {
+        if (GameManager.Instance.isGameOver) return;
         if (UIImage)
             UIImage.transform.position = new Vector3(transform.position.x, UIImage.transform.position.y, transform.position.z);
             if (CheckPlayerSlider)
@@ -486,7 +487,7 @@ public class Enemy : Character
         return result;
     }
 
-
+    
     void OnCollisionEnter(Collision collision)
     {
         
@@ -502,7 +503,7 @@ public class Enemy : Character
                 if (stun)
                     return;
                 player.Die();
-                GameManager.Instance.GameOver(this);
+                GameManager.Instance.GameOver();
             }
         }
     }

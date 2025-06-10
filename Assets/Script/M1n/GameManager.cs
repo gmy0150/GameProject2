@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public TutorialManager tutorialManager;
     private static GameManager _instance;
     public AnimationManage animation;
+    Enemy[] enemies;
     public static GameManager Instance
     {
         get
@@ -122,6 +123,7 @@ public class GameManager : MonoBehaviour
     {
         ActPlay(false);
         player.Move(tutoPos, false);
+        enemies = FindObjectsOfType<Enemy>();
     }
     bool isMainGame;
     public void MainGameStart()
@@ -150,21 +152,31 @@ public class GameManager : MonoBehaviour
             OnAilionDiaglogueEnd();
         }
     }
-
-    public void GameOver(Enemy guard)
+    public bool isGameOver = false;
+    public void GameOver()
     {
-        StartCoroutine(GameRestart(guard));
+        isGameOver = true;
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.StopMove();
+        }
+        StartCoroutine(GameRestart());
     }
     Vector3 savePos;
     public void SavePos()
     {
         savePos = player.transform.position;
     }
-    IEnumerator GameRestart(Enemy guard)
+    IEnumerator GameRestart()
     {
         yield return new WaitForSeconds(3f);
-        guard.InitNode();
-        guard.transform.position = guard.startPos;
+        isGameOver = false;
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.InitNode();
+            enemy.StopMove();
+            enemy.transform.position = enemy.startPos;
+        }
         player.transform.position = savePos;
         player.transform.rotation = Quaternion.identity;
         player.restart(); 
