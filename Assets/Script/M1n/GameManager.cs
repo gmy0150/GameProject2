@@ -77,6 +77,13 @@ public class GameManager : MonoBehaviour
     public AilionAI Ailion;
     public void OnAilionDiaglogueEnd()
     {
+        //ailion 소환
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.gameObject.SetActive(false);
+            enemy.SliderActive(false);
+        }
         Ailion.gameObject.SetActive(true);
         Ailion.ChaseStart(player);
     }
@@ -130,12 +137,18 @@ public class GameManager : MonoBehaviour
     float gameTimer;
     void Update()
     {
-        if (isMainGame) {
+        if (isMainGame)
+        {
             gameTimer += Time.deltaTime;
-            if (gameTimer > 1.5f) {
+            if (gameTimer > 1.5f)
+            {
                 player.Move(gameMovePos, true);
                 isMainGame = false;
             }
+        }
+        if( Input.GetKeyDown(KeyCode.R))
+        {
+            OnAilionDiaglogueEnd();
         }
     }
 
