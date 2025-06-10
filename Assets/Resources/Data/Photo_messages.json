@@ -25,7 +25,7 @@
     ]
   },
   {
-    "itemName": "UFO 1",
+    "itemName": "UFO",
     "lines": [
       {
         "message": "응? 이게 뭐야.. 나도 모르게 찍은 이 커다란 물체는.. 설마...",
@@ -122,6 +122,16 @@
         "message": "좋아.. 이번 기사 제목은 ' 방 안 가득 외계 육아 중 ' 이라는 제목이다.. 이것도 특종이네!'",
         "iconName": "Happy"
       }
+    ]
+  },
+  {
+    "itemName": "Picture complete",
+    "lines": [
+      {
+        "message": "다 찍었다?",
+        "iconName": "Surprise"
+      }
+      
     ]
   }
 ]

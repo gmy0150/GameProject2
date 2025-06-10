@@ -59,7 +59,6 @@ public class GameManager : MonoBehaviour
         if (!computer.GetComponent<ComputerBtn>())
             computer.AddComponent<ComputerBtn>();
         SavePos();
-
     }
     public bool AbleButton()
     {

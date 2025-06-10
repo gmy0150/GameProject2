@@ -81,10 +81,6 @@ public class FilmCam : StorageItem
         
         Lights.transform.parent.gameObject.SetActive(false);
 
-        if (GameManager.Instance.PcCount() == TakenPc.Count)
-        {
-            GameManager.Instance.OnComputerActive();
-        }
 
         if (go == AilionPc)
         {
@@ -92,6 +88,11 @@ public class FilmCam : StorageItem
         }
 
         StartCoroutine(ShowDialogueDelayed(go.name));
+        
+        if (GameManager.Instance.PcCount() == TakenPc.Count)
+        {
+            GameManager.Instance.OnComputerActive();
+        }
     }
 
     IEnumerator ShowDialogueDelayed(string objName)

@@ -46,6 +46,7 @@ public class QuestManager : MonoBehaviour
         if (secretsFound == 4)
         {
             CompleteCurrentQuest();
+            PhotoTriggerManager.Instance.ShowDialogueFromObjectName("Picture complete");
         }
     }
 

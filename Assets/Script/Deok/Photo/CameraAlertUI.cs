@@ -35,14 +35,6 @@ public class CameraAlertUI : MonoBehaviour
         if (playerScript != null)
             playerScript.enabled = false;
 
-        if (playerAnimator != null)
-        {
-            playerAnimator.SetFloat("Speed", 0f);
-            playerAnimator.SetBool("IsRunning", false);
-            playerAnimator.SetFloat("MoveX", 0f);
-            playerAnimator.SetFloat("MoveY", 0f);
-            playerAnimator.SetBool("isWalking", false);
-        }
 
         dialogueQueue.Clear();
         foreach (var line in lines)
