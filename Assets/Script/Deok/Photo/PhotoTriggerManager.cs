@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PhotoTriggerManager : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class PhotoTriggerManager : MonoBehaviour
     [System.Serializable]
     public class PhotoDialogueGroup
     {
-        public string itemName;  
-        public List<PhotoLine> lines; 
+        public string itemName;
+        public List<PhotoLine> lines;
     }
 
     [System.Serializable]
@@ -56,41 +57,47 @@ public class PhotoTriggerManager : MonoBehaviour
         }
     }
 
-    public void ShowDialogueFromObjectName(string objectName)
+    public void ShowDialogueFromObjectName(string objectName, Action onCompleteCallback = null)
     {
-        objectName = objectName.Replace("_", " ");  // 혹시 _ -> 공백 매핑
-
-        Debug.Log("🔍 [PTM] 찾는 오브젝트 이름: " + objectName); // ✅ 로그 ②
+        objectName = objectName.Replace("_", " ");
 
         foreach (var group in allGroups)
         {
-            Debug.Log("📝 [PTM] 현재 JSON 항목: " + group.itemName); // ✅ 로그 ③
-
             if (group.itemName == objectName)
             {
-                Debug.Log("✅ [PTM] 일치하는 대사 찾음!"); // ✅ 로그 ④
-
-                // ✅ 1번 업적: 비밀 오브젝트 사진 찍음
-                if (QuestManager.Instance != null && QuestManager.Instance.IsSecretObjectByName(objectName))
+                if (objectName == "Picture complete")
                 {
-                    Debug.Log("🏆 [PTM] 1번 업적 조건 충족! FoundSecret() 호출");
-                    QuestManager.Instance.FoundSecret();
+                    CameraAlertUI.Instance.ShowPhotoDialogue(group.lines, onCompleteCallback);
+                    return;
                 }
 
-                // ✅ 4번 업적: 비밀방 오브젝트 사진 찍음
+                bool wasFirstQuestCompleted = false;
+
+                if (QuestManager.Instance != null && QuestManager.Instance.IsSecretObjectByName(objectName))
+                {
+                    wasFirstQuestCompleted = QuestManager.Instance.FoundSecret();
+                }
+
                 if (QuestManager.Instance != null && QuestManager.Instance.IsFinalPhotoTarget(objectName))
                 {
-                    Debug.Log("🏁 [PTM] 4번 업적 조건 충족! CompleteFinalPhotoMission() 호출");
                     QuestManager.Instance.CompleteFinalPhotoMission();
                 }
 
-                CameraAlertUI.Instance.ShowPhotoDialogue(group.lines);
+                if (wasFirstQuestCompleted)
+                {
+                    CameraAlertUI.Instance.ShowPhotoDialogue(group.lines, () => {
+                        QuestManager.Instance.TriggerFirstQuestCompletion();
+                    });
+                }
+                else
+                {
+                    CameraAlertUI.Instance.ShowPhotoDialogue(group.lines, onCompleteCallback);
+                }
                 return;
             }
         }
-
-        Debug.LogWarning("❌ [PTM] 일치하는 대사가 없습니다: " + objectName); // ✅ 로그 ⑤
+        
+        Debug.LogWarning("❌ [PTM] 일치하는 대사가 없습니다: " + objectName);
+        onCompleteCallback?.Invoke();
     }
-
-
 }
