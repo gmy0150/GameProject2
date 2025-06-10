@@ -138,5 +138,24 @@
       }
       
     ]
+  },
+  {
+    "itemName": "Computer complete",
+    "lines": [
+      {
+        "message": "컴퓨터 작동 완료. cctv gogo ",
+        "iconName": "Surprise"
+      }
+    ]
+  },
+  {
+    "itemName": "Button complete",
+    "lines": [
+      {
+        "message": "button 작동완 마지막 외계인 ",
+        "iconName": "Surprise"
+      }
+    ]
   }
+
 ]

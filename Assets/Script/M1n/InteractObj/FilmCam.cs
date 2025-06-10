@@ -60,13 +60,17 @@ public class FilmCam : StorageItem
             });
 
             TakenPc.Add(hitobj);
+            
+            MeshRenderer meshRenderer = hitobj.GetComponent<MeshRenderer>();
+            if (meshRenderer != null)
+            {
+                if (!hitobj.GetComponent<Outlinable>())
+                    hitobj.AddComponent<Outlinable>();
 
-            if (!hitobj.GetComponent<Outlinable>())
-                hitobj.AddComponent<Outlinable>();
-
-            Outlinable outlinable = hitobj.GetComponent<Outlinable>();
-            outlinable.AddRenderer(hitobj.GetComponent<MeshRenderer>());
-            outlinable.OutlineParameters.Enabled = true;
+                Outlinable outlinable = hitobj.GetComponent<Outlinable>();
+                outlinable.AddRenderer(meshRenderer);
+                outlinable.OutlineParameters.Enabled = true;
+            }
         }
     }
     public Sprite[] sprites;
@@ -87,6 +91,11 @@ public class FilmCam : StorageItem
             GameManager.Instance.ONAilionPic();
         }
 
+        if (QuestManager.Instance != null && QuestManager.Instance.IsFinalPhotoTarget(go.name))
+        {
+            QuestManager.Instance.CompleteFinalPhotoMission();
+        }
+
         StartCoroutine(ShowDialogueDelayed(go.name));
         
         if (GameManager.Instance.PcCount() == TakenPc.Count)
@@ -98,7 +107,7 @@ public class FilmCam : StorageItem
     IEnumerator ShowDialogueDelayed(string objName)
     {
         yield return new WaitForSecondsRealtime(0.2f);
-        Debug.Log("[FilmCam] 호출된 오브젝트 이름: " + objName);  // ✅ 로그 ①
+        Debug.Log("[FilmCam] 호출된 오브젝트 이름: " + objName);
         PhotoTriggerManager.Instance.ShowDialogueFromObjectName(objName);
     }
     Image picchildImage;
