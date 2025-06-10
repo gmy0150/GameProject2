@@ -87,5 +87,14 @@
                 "voiceName": "voice_surprise_1"
             }
         ]
+    },
+    {
+        "lines": [
+            {
+                "message": "이제 게임 시작이군",
+                "iconName": "Surprise",
+                "voiceName": "voice_surprise_1" 
+            }
+        ]
     }
 ]
