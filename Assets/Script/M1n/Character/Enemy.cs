@@ -78,27 +78,38 @@ public class Enemy : Character
         {
             NewNode.Evaluate();
         }
-        
-        if (DetectPlayer)
+
+        if (CheckPlayerSlider != null)
         {
-            Debug.Log("!!!!");
-            DetectTimer -= Time.deltaTime;
-            CheckPlayerSlider.value = DetectTimer / maxTimer;
-            if (DetectTimer <= 0)
+            if (DetectPlayer)
             {
-                Debug.Log("DetectPlayer");
-                AttractPlayer = true;
-                CheckPlayerSlider.gameObject.SetActive(false);
-                // DetectTimer = maxTimer;
+                Debug.Log("!!!!");
+                DetectTimer -= Time.deltaTime;
+                CheckPlayerSlider.value = DetectTimer / maxTimer;
+                if (DetectTimer <= 0)
+                {
+                    Debug.Log("DetectPlayer");
+                    AttractPlayer = true;
+                    CheckPlayerSlider.gameObject.SetActive(false);
+                    // DetectTimer = maxTimer;
+                }
             }
-        }
-        else
-        {
-            DetectTimer = maxTimer;
-            CheckPlayerSlider.gameObject.SetActive(true);
-            CheckPlayerSlider.value = DetectTimer / maxTimer;
+            else
+            {
+                DetectTimer = maxTimer;
+                CheckPlayerSlider.gameObject.SetActive(true);
+                CheckPlayerSlider.value = DetectTimer / maxTimer;
+            }
+            
         }
 
+    }
+    public void SliderActive(bool active)
+    {
+        if (CheckPlayerSlider != null)
+        {
+            CheckPlayerSlider.gameObject.SetActive(active);
+        }
     }
     public virtual bool GetPlayer() => AttractPlayer;
     public virtual bool GetDetectPlayer() => DetectPlayer;
