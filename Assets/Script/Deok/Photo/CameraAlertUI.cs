@@ -21,13 +21,15 @@ public class CameraAlertUI : MonoBehaviour
     private Coroutine typingCoroutine;
     private bool isTyping = false;
     private string fullCurrentText = "";
+    private AudioSource audioSource;
 
     private void Awake()
     {
         Instance = this;
         messagePanel?.SetActive(false);
-    }
 
+        audioSource = gameObject.AddComponent<AudioSource>();
+    }
     public void ShowPhotoDialogue(List<PhotoTriggerManager.PhotoLine> lines)
     {
         Time.timeScale = 0f;
@@ -75,18 +77,32 @@ public class CameraAlertUI : MonoBehaviour
 
         if (dialogueQueue.Count > 0)
         {
-            
             var line = dialogueQueue.Dequeue();
             fullCurrentText = line.message;
             Debug.Log("다음 메시지: " + line.message);
 
-            fullCurrentText = line.message;
+            if (!string.IsNullOrEmpty(line.voiceName))
+            {
+                AudioClip clip = Resources.Load<AudioClip>("Voices/" + line.voiceName);
+                if (clip != null)
+                {
+                    if (audioSource.isPlaying)
+                        audioSource.Stop();
+
+                    audioSource.clip = clip;
+                    audioSource.Play();
+                }
+                else
+                {
+                    Debug.LogWarning("AudioClip 로드 실패: " + line.voiceName);
+                }
+            }
 
             iconImage.sprite = !string.IsNullOrEmpty(line.iconName)
                 ? Resources.Load<Sprite>("Icons/" + line.iconName)
                 : null;
-
             iconImage.enabled = (iconImage.sprite != null);
+
             typingCoroutine = StartCoroutine(TypeText(line.message));
         }
         else
@@ -94,6 +110,7 @@ public class CameraAlertUI : MonoBehaviour
             HidePanel();
         }
     }
+
 
     IEnumerator TypeText(string text)
     {
