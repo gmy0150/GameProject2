@@ -13,13 +13,14 @@ public class PhotoTriggerManager : MonoBehaviour
     {
         public string message;
         public string iconName;
+        public string voiceName;
     }
 
     [System.Serializable]
     public class PhotoDialogueGroup
     {
-        public string itemName;        // ex: "UFO 1"
-        public List<PhotoLine> lines;  // multiple lines
+        public string itemName;  
+        public List<PhotoLine> lines; 
     }
 
     [System.Serializable]

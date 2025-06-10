@@ -21,6 +21,7 @@ public class TutorialUI : MonoBehaviour
     private Coroutine typingCoroutine;
     private bool isTyping = false;
     private string fullCurrentText = "";
+    private AudioSource audioSource;
 
     private void Awake()
     {
@@ -34,6 +35,8 @@ public class TutorialUI : MonoBehaviour
 
         if (iconImage == null)
             Debug.LogError("❌ iconImage가 연결되지 않았습니다.");
+
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     public void ShowTutorialDialogue(List<TutorialManager.DialogueLine> lines)
@@ -90,6 +93,19 @@ public class TutorialUI : MonoBehaviour
         {
             var line = dialogueQueue.Dequeue();
             fullCurrentText = line?.message ?? "";
+            if (!string.IsNullOrEmpty(line.voiceName))
+        {
+            AudioClip clip = Resources.Load<AudioClip>("Voices/" + line.voiceName);
+            
+            if (clip != null)
+            {
+                audioSource.PlayOneShot(clip);
+            }
+            else
+            {
+                Debug.LogWarning("⚠️ 음성 클립을 찾을 수 없습니다: Voices/" + line.voiceName);
+            }
+        }
 
             if (iconImage != null)
             {
