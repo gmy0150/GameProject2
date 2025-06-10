@@ -162,7 +162,7 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator GameRestart(Enemy guard)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(3f);
         guard.InitNode();
         guard.transform.position = guard.startPos;
         player.transform.position = savePos;

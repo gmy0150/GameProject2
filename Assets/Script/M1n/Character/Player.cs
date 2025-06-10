@@ -178,7 +178,7 @@ public class Player : Character
     }
     public void Die()
     {
-        animator.SetTrigger("Die");
+        animator.SetBool("Die",true);
         controller = null;
 
     }
@@ -187,6 +187,7 @@ public class Player : Character
     {
         controller = KeyboardControll;
         controller.RunningCancel();
+        animator.SetBool("Die",false);
     }
     public void Hide(bool x)
     {
