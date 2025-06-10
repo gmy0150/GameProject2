@@ -253,6 +253,7 @@ MonoBehaviour:
   fadePanel: {fileID: 4748122793222920657}
   fadeDuration: 3
   nextSceneName: Test_Game
+  isStart: 0
 --- !u!1 &2235957742580269002
 GameObject:
   m_ObjectHideFlags: 0
