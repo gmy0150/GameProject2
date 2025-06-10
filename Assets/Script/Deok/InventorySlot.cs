@@ -19,11 +19,13 @@ public class InventorySlot : MonoBehaviour
         Debug.Log("?>");
         icon.sprite = item.icon;
         icon.enabled = true;
+
         storedItem = item;
     }
     void Update()
     {
-        if(isActive && storedItem!=null){
+        if (isActive && storedItem != null)
+        {
             storedItem.UpdateTime(Time.deltaTime);
         }
     }
@@ -37,7 +39,7 @@ public class InventorySlot : MonoBehaviour
         InventoryManager.Instance.ExitSlot();
         if (storedItem != null)
         {
-            storedItem.SetHandActive(false);
+            SetActive(false);
         }
         storedItem = null;
 
@@ -57,7 +59,8 @@ public class InventorySlot : MonoBehaviour
         }
     }
 
-    public StorageItem GetItem(){
+    public StorageItem GetItem()
+    {
         return storedItem;
     }
     bool isActive;
@@ -65,13 +68,17 @@ public class InventorySlot : MonoBehaviour
     {
         if (slotTransform == null)
             slotTransform = GetComponent<RectTransform>();
-        if(selected)
+        if (selected)
             isActive = true;
-            else
+        else
             isActive = false;
         currentTween?.Kill();
 
         float targetScale = selected ? 1.15f : 1f;
         currentTween = slotTransform.DOScale(targetScale, 0.2f).SetEase(Ease.OutQuad);
+    }
+    public void SetActive(bool active)
+    {
+        storedItem.SetHandActive(active);
     }
 }

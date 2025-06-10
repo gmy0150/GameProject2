@@ -21,8 +21,6 @@ public class Patrol : Node
         }
         else
         {
-            Debug.Log("cur");
-
             return NodeState.SUCCESS;
         }
         return NodeState.RUNNING;
