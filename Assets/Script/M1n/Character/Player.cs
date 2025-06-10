@@ -103,7 +103,6 @@ public class Player : Character
     // public float angleLimit = 60;
     // public float detectionRange = 20;
     // public float CircleRange = 8;
-    public GameObject go;
 
     private void OnDrawGizmos()
     {
