@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
     private static GameManager _instance;
     public AnimationManage animation;
     Enemy[] enemies;
+    FadeInScene fadeInScene;
     public static GameManager Instance
     {
         get
@@ -46,6 +47,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         tutorialManager = new TutorialManager();
+        fadeInScene = FindObjectOfType<FadeInScene>();
         DontDestroyOnLoad(gameObject);
     }
     public bool AbleComputer()
@@ -169,7 +171,9 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator GameRestart()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.5f);
+        fadeInScene.FadeIn();
+        yield return new WaitUntil(() => fadeInScene.IsFadeStart());
         isGameOver = false;
         foreach (Enemy enemy in enemies)
         {
@@ -179,6 +183,9 @@ public class GameManager : MonoBehaviour
         }
         player.transform.position = savePos;
         player.transform.rotation = Quaternion.identity;
+        player.animator.SetBool("Die", false);
+        yield return new WaitUntil(() => fadeInScene.IsFadeEnd());
+        
         player.restart(); 
     }
 }
