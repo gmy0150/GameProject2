@@ -3,29 +3,29 @@
     "itemName": "Tuto corpse",
     "lines": [
       {
-        "message": "음? 시체 밑에 떨어져 있는 저건 뭐지? 이거 래퍼 마체테의 목걸이... 같은데...?",
+        "message": "음? 시체 밑에 떨어져 있는 저건 뭐지?",
         "iconName": "Nothing",
-        "voiceName": "voice_surprise_1"
+        "voiceName": "imp_cool-1"
       },
       {
-        "message": "으아악!! 이게 뭐야!!! 축축하고 미끌거리잖아!! 이 촉수 같은 건 뭐냐고!!",
-        "iconName": "Nothing",
-        "voiceName": "voice_surprise_1"
+        "message": "으아악!! 이게 뭐야!!! 축축하고 미끌거리잖아!!",
+        "iconName": "Surprise",
+        "voiceName": "imp_terrified-3"
       },
       {
-        "message": "이런 물건은 난생 처음 보는데...",
-        "iconName": "Nothing",
-        "voiceName": "voice_surprise_1"
+        "message": "이 징그러운 촉수는 뭐냐고 대체!!!",
+        "iconName": "Surprise",
+        "voiceName": "imp_terrified-1"
       },
       {
         "message": "이봐 거기 누구야!!",
-        "iconName": "Surprise",
-        "voiceName": "voice_surprise_1"
+        "iconName": "Rapper",
+        "voiceName": "male_5_phrases_negative_8"
       },
       {
-        "message": "헉! 방금 소리 때문에 누가 들은 거 아니야? 어디 숨을 곳... 숨을 곳...",
+        "message": "헉! 누가 온다!! 저기 장롱에 숨어야겠어!!",
         "iconName": "Surprise",
-        "voiceName": "voice_surprise_1"
+        "voiceName": "imp_terrified-5"
       }
     ]
   },
@@ -34,23 +34,28 @@
     "lines": [
       {
         "message": "응? 이게 뭐야.. 나도 모르게 찍은 이 커다란 물체는.. 설마...",
-        "iconName": "Nothing"
+        "iconName": "Nothing",
+        "voiceName": "Tuto1"
       },
       {
-        "message": "UFO???????????????????????",
-        "iconName": "Surprise"
+        "message": "UFO?????????",
+        "iconName": "Surprise",
+        "voiceName": "imp_terrified-4"
       },
       {
-        "message": "아니 집에 비행 접시가 왜 있는거야???? 이건 특종이지!! 특종!!",
-        "iconName": "Happy"
+        "message": "아니 집에 비행 접시가 왜 있는거야????",
+        "iconName": "Happy",
+        "voiceName": "imp_demand-5"
       },
       {
-        "message": "이 자식!! 집에 이런걸 숨겨두고 있었다고?? 이 자식!! 도대체 뭘 숨기고 있는거야??",
-        "iconName": "Happy"
+        "message": "이 자식!! 도대체 집에 뭘 숨기고 있는거야??",
+        "iconName": "Happy",
+        "voiceName": "imp_ask-3"
       },
       {
-        "message": "특종이구만 특종! 이번 기사 제목은 ' 지구 주차장, 외계에 개방되다 ' 라고!! 하하하!!!",
-        "iconName": "Happy"
+        "message": "특종이네!! 이번 기사 제목은 ' 지구 주차장, 외계에 개방되다 ' 라고!! 후후후..",
+        "iconName": "Happy",
+        "voiceName": "imp_amused-5"
       }
     ]
   },
@@ -59,23 +64,28 @@
     "lines": [
       {
         "message": "잠깐만...",
-        "iconName": "nothing"
+        "iconName": "nothing",
+        "voiceName": "imp_prompt-1"
       },
       {
         "message": "방금.. 내가 찍은거.. 사람 팔 아니야..?",
-        "iconName": "sad"
+        "iconName": "sad",
+        "voiceName": "imp_agree-4"
       },
       {
         "message": "으아악!!! 진짜 사람 팔이잖아!!! 이거 범죄 현장 아니야???",
-        "iconName": "Surprise"
+        "iconName": "Surprise",
+        "voiceName": "imp_terrified-3"
       },
       {
         "message": "나도 모르게 사진부터 찍어 버렸는데.. 하.. 이게 기자의 숙명이란 건가..",
-        "iconName": "Sad"
+        "iconName": "Sad",
+        "voiceName": "imp_tough-5"
       },
       {
-        "message": "좋아.. 제목은 '신선한 공포, 냉장고 속 진실' 이야.. 이건 특종거리야.. 확실해!!",
-        "iconName": "Happy"
+        "message": "좋아.. 제목은 '신선한 공포, 냉장고 속 진실' 이건 특종거리야!!",
+        "iconName": "Happy",
+        "voiceName": "imp_smug-5"
       }
     ]
   },
@@ -84,23 +94,28 @@
     "lines": [
       {
         "message": "으엥? 방금 나도 모르게 찍은 이 식물.. 이거 식물 맞아??",
-        "iconName": "nothing"
+        "iconName": "nothing",
+        "voiceName": "imp_cool-5"
       },
       {
-        "message": "보라색인데.. 입이 달려 있잖아??",
-        "iconName": "Surprise"
+        "message": "보라색인데.. 입이 달려 있잖아..?",
+        "iconName": "Surprise",
+        "voiceName": "imp_ask-1"
       },
       {
-        "message": "그리고 방금 저거!! 움직인거 아니야?? 으악! 움직였잖아??",
-        "iconName": "Surprise"
+        "message": "그리고 방금 저거!! 움직인거 아니야??",
+        "iconName": "Surprise",
+        "voiceName": "Tuto4"
       },
       {
         "message": "이거이거.. 놀라기 전에 사진부터 찍는걸 보면 나도 못말리겠네..",
-        "iconName": "Happy"
+        "iconName": "Happy",
+        "voiceName": "imp_snotty-3"
       },
       {
-        "message": "이 사진의 제목은.. ' 웃는 식물은 위험하다 ' 이거야! 헤드라인 감인데???'",
-        "iconName": "Happy"
+        "message": "이 사진의 제목은.. ' 웃는 식물은 위험하다 ' 이거야!'",
+        "iconName": "Happy",
+        "voiceName": "imp_content-5"
       }
     ]
   },
@@ -109,23 +124,28 @@
     "lines": [
       {
         "message": "으으.. 뭐야 뭐야.. 방 전체가 끈적한 알로 뒤덮였잖아..?",
-        "iconName": "Surprise"
+        "iconName": "Nothing",
+        "voiceName": "imp_tough-2"
       },
       {
-        "message": "가까이서 보니까.. 더... 역! 겹! 잖! 아!!!!!!!!.",
-        "iconName": "surprise"
+        "message": "가까이서 보니까.. 더... 역! 겹! 잖! 아!!!!.",
+        "iconName": "surprise",
+        "voiceName": "imp_terrified-3"
       },
       {
         "message": "아으 끈적끈적하고.. 찝찝해 죽겠어..",
-        "iconName": "Sad"
+        "iconName": "Sad",
+        "voiceName": "imp_nervous-5"
       },
       {
         "message": "나란 녀석은.. 또 본능에 이끌려서 사진을 찍기 전까지 아무것도 눈에 들어오지 않았네..",
-        "iconName": "Happy"
+        "iconName": "Happy",
+        "voiceName": "imp_nervous-4"
       },
       {
-        "message": "좋아.. 이번 기사 제목은 ' 방 안 가득 외계 육아 중 ' 이라는 제목이다.. 이것도 특종이네!'",
-        "iconName": "Happy"
+        "message": "좋아.. 이번 기사 제목은 ' 방 안 가득 외계 육아 중 ' 이라는 제목이다..",
+        "iconName": "Happy",
+        "voiceName": "imp_disagree-3"
       }
     ]
   },
@@ -133,18 +153,49 @@
     "itemName": "Picture complete",
     "lines": [
       {
-        "message": "다 찍었다?",
-        "iconName": "Surprise"
+        "message": "사진을 보니까.. 저택에 큰 비밀이 숨겨져 있군..",
+        "iconName": "Nothing",
+        "voiceName": "imp_content-1"
+      },
+      {
+        "message": "컴퓨터 이런거에 비밀이라도 숨겨놓지 않았을려나..",
+        "iconName": "Nothing",
+        "voiceName": "imp_content-3"
+      },
+      {
+        "message": "한번 확인 해봐야겠어..",
+        "iconName": "Nothing",
+        "voiceName": "imp_content-4"
       }
-      
     ]
   },
   {
     "itemName": "Computer complete",
     "lines": [
       {
-        "message": "컴퓨터 작동 완료. cctv gogo ",
-        "iconName": "Surprise"
+        "message": "응? 컴퓨터에 온 메세지가 하나 있네",
+        "iconName": "Surprise",
+        "voiceName": "imp_prompt-1"
+      },
+      {
+        "message": "마체테.. 절대 저택의 비밀방을 들키지 마라..?",
+        "iconName": "Sad",
+        "voiceName": "imp_sad-2"
+      },
+      {
+        "message": "그리고 그 저택을 여는 버튼을 들키지도 말고?",
+        "iconName": "Sad",
+        "voiceName": "imp_sad-1"
+      },
+      {
+        "message": "비밀방을 여는 버튼이 저택 어딘가에 있나 보구만..",
+        "iconName": "Nothing",
+        "voiceName": "imp_tough-2"
+      },
+      {
+        "message": "그 버튼을 한번 찾아봐야겠네..",
+        "iconName": "Happy",
+        "voiceName": "imp_smug-5"
       }
     ]
   },
@@ -152,8 +203,19 @@
     "itemName": "Button complete",
     "lines": [
       {
-        "message": "button 작동완 마지막 외계인 ",
-        "iconName": "Surprise"
+        "message": "응? 뭔가 이상한 소리가 들렸는데..?",
+        "iconName": "Surprise",
+        "voiceName": "imp_prompt-1"
+      },
+      {
+        "message": "저택에 무슨 일이라도 생긴건가?",
+        "iconName": "Nothing",
+        "voiceName": "imp_normal-3"
+      },
+      {
+        "message": "한번 확인해봐야 겠네",
+        "iconName": "Nothing",
+        "voiceName": "imp_normal-4"
       }
     ]
   }
