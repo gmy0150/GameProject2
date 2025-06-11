@@ -1,26 +1,26 @@
 [
     {
         "lines": [
-            {
-                "message": "좋아.. 여기가 바로 비밀이 숨겨져 있다는 그 집이군?",
-                "iconName": "Nothing",
-                "voiceName": "voice_surprise_1"
-            },
-            {
-                "message": "여길 지키는 경비원을 피해 오느라.. 힘들어 죽는 줄 알았네..",
-                "iconName": "Sad",
-                "voiceName": "voice_surprise_1"
-            },
-            {
-                "message": "하지만~ 나처럼 산전수전 다 겪은 기자님 앞에서는 이런 경비쯤은 아무것도 아니다 이말이야~",
-                "iconName": "Happy",
-                "voiceName": "voice_surprise_1"
-            },
-            {
-                "message": "자~ 한번 들어가 볼까",
-                "iconName": "Happy",
-                "voiceName": "voice_surprise_1"
-            }
+          {
+            "message": "좋아.. 여기가 바로 비밀이 숨겨져 있다는 그 집이군?",
+            "iconName": "Nothing",
+            "voiceName": "imp_content-4"
+          },
+          {
+            "message": "여길 지키는 경비원을 피해 오느라.. 힘들어 죽는 줄 알았네..",
+            "iconName": "Sad",
+            "voiceName": "imp_cool-4"
+          },
+          {
+            "message": "하지만~ 나처럼 산전수전 다 겪은 기자님 앞에서는 이런 경비쯤은 아무것도 아니다 이말이야~",
+            "iconName": "Happy",
+            "voiceName": "imp_nervous-2"
+          },
+          {
+            "message": "자~ 한번 들어가 볼까",
+            "iconName": "Happy",
+            "voiceName": "imp_joy-2"
+          }
         ]
     }
 ]
