@@ -14,7 +14,7 @@ public class Cartoon : MonoBehaviour
 
     [Header("🕹️ 버튼 & 페이드")]
     public Button nextButton;
-    public Button skipButton;           // ✅ Skip 버튼 추가
+    public Button skipButton;
     public Image fadePanel;
     public float fadeDuration = 1f;
     public string nextSceneName = "Game";
@@ -22,12 +22,15 @@ public class Cartoon : MonoBehaviour
     private int currentPage = 0;
     private AudioSource audioSource;
 
+    // ✅ Space 입력 쿨타임
+    private float spaceCooldown = 1f;
+    private float spaceTimer = 0f;
+
     void Start()
     {
         InitAudioSource();
         ResetCartoonState();
 
-        // 첫 페이지 표시 & 사운드 재생
         if (pages.Count > 0)
         {
             pages[0].gameObject.SetActive(true);
@@ -36,16 +39,25 @@ public class Cartoon : MonoBehaviour
         }
 
         nextButton.onClick.AddListener(NextPage);
-
         if (skipButton != null)
         {
-            skipButton.onClick.AddListener(SkipToScene); // ✅ 스킵 버튼 연결
+            skipButton.onClick.AddListener(SkipToScene);
         }
 
         if (fadePanel != null)
         {
             fadePanel.color = new Color(0, 0, 0, 0);
             fadePanel.gameObject.SetActive(false);
+        }
+    }
+
+    void Update()
+    {
+        spaceTimer += Time.unscaledDeltaTime;
+        if (Input.GetKeyDown(KeyCode.Space) && spaceTimer >= spaceCooldown)
+        {
+            spaceTimer = 0f;
+            nextButton?.onClick.Invoke(); // ✅ Next 버튼처럼 작동
         }
     }
 
@@ -65,9 +77,8 @@ public class Cartoon : MonoBehaviour
         foreach (var img in pages)
         {
             if (img == null) continue;
-
             img.gameObject.SetActive(false);
-            img.color = new Color(1, 1, 1, 0); // 투명 초기화
+            img.color = new Color(1, 1, 1, 0);
         }
     }
 
@@ -75,7 +86,7 @@ public class Cartoon : MonoBehaviour
     {
         if (audioSource.isPlaying)
         {
-            audioSource.Stop(); // 이전 사운드 정지
+            audioSource.Stop();
         }
 
         if (index >= 0 && index < pageSounds.Count && pageSounds[index] != null)
@@ -106,8 +117,9 @@ public class Cartoon : MonoBehaviour
 
     private void SkipToScene()
     {
-        StartFadeAndLoadScene(); // ✅ Skip도 Fade 후 씬 전환
+        StartFadeAndLoadScene();
     }
+
     public bool isStart = false;
     private void StartFadeAndLoadScene()
     {
@@ -122,8 +134,8 @@ public class Cartoon : MonoBehaviour
                     GameManager.Instance.MainGameStart();
                 else
                     GameManager.Instance.OnAilionDiaglogueEnd();
-                // SceneManager.LoadScene(nextSceneName);
-                    transform.gameObject.SetActive(false);
+
+                transform.gameObject.SetActive(false);
                 Destroy(this);
             });
         }

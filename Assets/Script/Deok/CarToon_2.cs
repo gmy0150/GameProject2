@@ -22,16 +22,19 @@ public class Cartoon_2 : MonoBehaviour
     private int cartoonPageIndex = 0;
     private AudioSource cartoonAudio;
 
+    // ✅ Spacebar 연속 입력 방지용
+    private float spaceCooldown = 1f;
+    private float spaceTimer = 0f;
+
     void Start()
     {
         SetupAudioSource();
         ResetPages();
 
-        // 첫 페이지 보여주기
         if (cartoonPages.Count > 0)
         {
             cartoonPages[0].gameObject.SetActive(true);
-            cartoonPages[0].DOFade(1f, fadeTime);
+            cartoonPages[0].DOFade(1f, fadeTime).SetUpdate(true);
             PlaySoundForPage(0);
         }
 
@@ -42,6 +45,17 @@ public class Cartoon_2 : MonoBehaviour
         {
             fadeOverlay.color = new Color(0, 0, 0, 0);
             fadeOverlay.gameObject.SetActive(false);
+        }
+    }
+
+    void Update()
+    {
+        spaceTimer += Time.unscaledDeltaTime;
+
+        if (Input.GetKeyDown(KeyCode.Space) && spaceTimer >= spaceCooldown)
+        {
+            spaceTimer = 0f;
+            nextPageButton?.onClick.Invoke();
         }
     }
 
@@ -73,6 +87,7 @@ public class Cartoon_2 : MonoBehaviour
         if (index >= 0 && index < cartoonSounds.Count && cartoonSounds[index] != null)
         {
             cartoonAudio.clip = cartoonSounds[index];
+            cartoonAudio.ignoreListenerPause = true;
             cartoonAudio.Play();
         }
     }
@@ -86,7 +101,7 @@ public class Cartoon_2 : MonoBehaviour
             var nextImg = cartoonPages[cartoonPageIndex];
             nextImg.gameObject.SetActive(true);
             nextImg.color = new Color(1, 1, 1, 0);
-            nextImg.DOFade(1f, fadeTime);
+            nextImg.DOFade(1f, fadeTime).SetUpdate(true);
 
             PlaySoundForPage(cartoonPageIndex);
         }
@@ -105,11 +120,13 @@ public class Cartoon_2 : MonoBehaviour
 
             fadeOverlay.DOFade(1f, fadeTime).SetUpdate(true).OnComplete(() =>
             {
+                Time.timeScale = 1f;
                 SceneManager.LoadScene(targetSceneName);
             });
         }
         else
         {
+            Time.timeScale = 1f;
             SceneManager.LoadScene(targetSceneName);
         }
     }
