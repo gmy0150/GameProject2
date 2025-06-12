@@ -22,6 +22,7 @@ public class Radio : UseageInteract
     {
         base.Interact(character, controller);
         TunOn();
+        character.SetAudio("Radio");
         
     }
     void Update()

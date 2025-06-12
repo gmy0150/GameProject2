@@ -59,7 +59,7 @@ public class FilmCam : StorageItem
                 Quaternion targetRotation = Quaternion.LookRotation(lookDir);
                 transform.rotation = targetRotation;
             }
-
+            Player.SetAudio("Photo");
             GameManager.Instance.ActPlay(false);
             Lights.color = Color.white;
             Lights.transform.parent.gameObject.SetActive(true);

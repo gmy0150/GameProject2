@@ -34,6 +34,31 @@ public class Player : Character
     public GameObject Hammer;
     public GameObject Camera;
     public GameObject HandCoin;
+        AudioSource sfxAudioSource;
+    public AudioClip[] AudioClips;
+    public void SetAudio(string name)
+    {
+        if (sfxAudioSource.isPlaying && sfxAudioSource.clip.name == name)
+        {
+            return;
+        }
+        AudioClip clip = System.Array.Find(AudioClips, x => x.name == name);
+        if (clip != null)
+        {
+            sfxAudioSource.clip = clip;
+            sfxAudioSource.Play();
+            StartCoroutine(ClearClipAfterPlay(clip.length));
+        }
+        else
+        {
+            Debug.LogWarning("AudioClip not found: " + name);
+        }
+    }
+        private IEnumerator ClearClipAfterPlay(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        sfxAudioSource.clip = null;
+    }
     void LateUpdate()
     {
         if (controller != null)
@@ -58,6 +83,9 @@ public class Player : Character
     }
     void Start()
     {
+        sfxAudioSource = gameObject.AddComponent<AudioSource>();
+        sfxAudioSource.loop = false;
+        sfxAudioSource.playOnAwake = false;
         cursorUI.Start();
     }
     public void Move(Vector3 vector3, bool maingame)
