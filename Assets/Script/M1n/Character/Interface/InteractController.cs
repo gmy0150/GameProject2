@@ -131,6 +131,10 @@ public class InteractController
     }
     public bool GetHide()
     {
+        if(interactable != null)
+        {
+            return interactable.GetHide();
+        }
         if (currentInteractable != null)
         {
             Debug.Log(currentInteractable);
@@ -138,10 +142,6 @@ public class InteractController
 
         }
 
-        if(saveActiveInteractable != null)
-        {
-            return saveActiveInteractable.GetHide();
-        }
         else
         {
             return false;
@@ -152,7 +152,7 @@ public class InteractController
     {
         if (currentInteractable != null)
         {
-            currentInteractable.InteractAgain();//�ٽ� �Է�
+            currentInteractable.InteractAgain();
             isInteracting = false;
         }
     }
