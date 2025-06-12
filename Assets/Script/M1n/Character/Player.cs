@@ -88,7 +88,6 @@ public class Player : Character
         sfxAudioSource.loop = false;
         sfxAudioSource.playOnAwake = false;
         cursorUI.Start();
-        Cursor.visible = false;
 
     }
     public void Move(Vector3 vector3, bool maingame)
@@ -98,6 +97,7 @@ public class Player : Character
 
     void Update()
     {
+        
         interactController?.TIck(Time.deltaTime);
         controller?.Tick(Time.deltaTime);
         cursorUI.update();

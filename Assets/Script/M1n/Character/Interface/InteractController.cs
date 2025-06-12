@@ -106,7 +106,6 @@ public class InteractController
                     InventoryManager.Instance.InitSlot();
                     saveActiveInteractable = candidate;
                     bestInteractable = candidate;
-                    saveHide = candidate;
                     minDistance = distance;
                 }
             }
@@ -122,7 +121,6 @@ public class InteractController
             }
         }
     }
-    IInterActerable saveHide = null;
     public void SetInteractable(IInterActerable interactable)
     {
         this.interactable = interactable;
@@ -139,11 +137,7 @@ public class InteractController
             return currentInteractable.GetHide();
 
         }
-        else if (saveHide != null)
-        {
 
-            return saveHide.GetHide();
-        }
         if(saveActiveInteractable != null)
         {
             return saveActiveInteractable.GetHide();

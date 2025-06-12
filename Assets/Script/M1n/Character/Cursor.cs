@@ -17,6 +17,8 @@ public class CursorUI
     {
         Vector3 mousePos = Input.mousePosition;
         customCursorUI.rectTransform.position = mousePos;
+        Cursor.visible = false;
+
     }
     public void SetCursorImage(Sprite sprite = null, bool actImage = true)
     {
