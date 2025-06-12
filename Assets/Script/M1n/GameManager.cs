@@ -80,6 +80,7 @@ public class GameManager : MonoBehaviour
     public void OnAilionDiaglogueEnd()
     {
         //ailion 소환
+        player.AilionMeet();
         Enemy[] enemies = FindObjectsOfType<Enemy>();
         foreach (Enemy enemy in enemies)
         {
@@ -88,6 +89,7 @@ public class GameManager : MonoBehaviour
         }
         Ailion.gameObject.SetActive(true);
         Ailion.ChaseStart(player);
+
     }
     bool AIlionON = false;
     [SerializeField] GameObject wallexit;
@@ -180,12 +182,16 @@ public class GameManager : MonoBehaviour
             enemy.InitNode();
             enemy.StopMove();
             enemy.transform.position = enemy.startPos;
+            enemy.transform.rotation = enemy.startRot;
         }
         player.transform.position = savePos;
         player.transform.rotation = Quaternion.identity;
         player.animator.SetBool("Die", false);
         yield return new WaitUntil(() => fadeInScene.IsFadeEnd());
-        
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.InitNode();
+        }
         player.restart(); 
     }
 }
