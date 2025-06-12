@@ -168,10 +168,12 @@ MonoBehaviour:
   interact:
     serializedVersion: 2
     m_Bits: 2048
-  icon: {fileID: 21300000, guid: 1853dbf5c2195914ba0a42d4e9d24576, type: 3}
+  icon: {fileID: 21300000, guid: 0f979ef9149e823488ed0f5283241d12, type: 3}
   itemname: coin
   isInteract: 1
   interactDis: 8
+  cursorImage: {fileID: 0}
+  cusorInterectImage: {fileID: 0}
 --- !u!65 &1896665467580077438
 BoxCollider:
   m_ObjectHideFlags: 0
