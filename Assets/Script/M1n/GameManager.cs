@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
 
 
     }
+    
     bool AIlionON = false;
     [SerializeField] GameObject wallexit;
     public void ONAilionPic()

@@ -17,6 +17,7 @@ public class Closet : UseageInteract
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
+        if (GameManager.Instance.AbleExit()) return;
         if (!isHide)
         {
             Hide();
