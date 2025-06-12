@@ -135,7 +135,7 @@ public class FilmCam : StorageItem
     }
         public override void ActiveFalse()
     {
-        SetHandActive(false);
-        character.cursorUI.SetCursorImage();
+        // SetHandActive(false);
+        Player.cursorUI.SetCursorImage();
     }
 }
