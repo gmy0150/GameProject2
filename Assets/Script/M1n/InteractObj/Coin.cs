@@ -33,16 +33,9 @@ public class Coin : StorageItem
     public override void InteractAgain()
     {
         base.InteractAgain();
-        if (!shoot)
-        {
-            filter.mesh = Base;
-            gameObject.SetActive(false);
-            UseCoin();
-        }
-        else
-        {
-            ShootCoin();
-        }
+
+        ShootCoin();
+
     }
 
     public void UseCoin()
@@ -70,6 +63,7 @@ public class Coin : StorageItem
         {
             ItemAlertUI.Instance.ShowDialogue(data.lines); // 여러 줄 출력
         }
+        // character.cursorUI.SetCursorImage(null);
     }
 
 
@@ -192,6 +186,7 @@ public class Coin : StorageItem
     {
         ThrowCoin(dir, throwF);
         InventoryManager.Instance.GetSlot().ClearItem();
+        character.cursorUI.SetCursorImage();
 
     }
 
@@ -209,5 +204,17 @@ public class Coin : StorageItem
         lineRenderer.positionCount = 0;
         HandAnything = character.HandCoin;
         SetHandActive(true);
+        character.cursorUI.SetCursorImage(null, false);
+    }
+    public override void ActiveFalse()
+    {
+        SetHandActive(false);
+        shoot = false;
+        if (lineRenderer != null)
+        {
+            lineRenderer.positionCount = 0;
+        }
+        character.cursorUI.SetCursorImage();
+
     }
 }

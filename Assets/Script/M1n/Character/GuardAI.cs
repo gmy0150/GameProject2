@@ -218,7 +218,6 @@ public class GuardAI : Enemy
             wayPointIndex = (wayPointIndex + 1) % wayPoints.Length;
             aIPath.isStopped = true;
             patrolSuccess = true;
-            Debug.Log("patrol success");
         }
     }
     

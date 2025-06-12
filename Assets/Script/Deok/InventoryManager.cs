@@ -37,7 +37,7 @@ public class InventoryManager : MonoBehaviour
         if (selectedIndex == index)
         {
             if(GetActiveItem() != null)
-                GetActiveItem().SetHandActive(false);
+                GetActiveItem().ActiveFalse();
             ExitSlot();
             return;
         }
@@ -52,15 +52,12 @@ public class InventoryManager : MonoBehaviour
                 slots[i].SetSelected(i == selectedIndex);
             }
             InitSlot();
-
-
-
         }
     }
 
     public void ExitSlot()
     {
-        
+        GetActiveItem()?.ActiveFalse();
         selectedIndex = -1;
         for (int i = 0; i < slots.Length; i++)
         {

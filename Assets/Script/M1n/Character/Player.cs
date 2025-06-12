@@ -9,6 +9,7 @@ using UnityEngine.UI;
 
 public class Player : Character
 {
+    public CursorUI cursorUI = new CursorUI();
     IController controller;
 
     public LineRenderer lineRenderer;
@@ -53,8 +54,12 @@ public class Player : Character
         interactController.OnPosessed(this);
         animator = GetComponent<Animator>();
         GameManager.Instance.SavePos();
-    }
 
+    }
+    void Start()
+    {
+        cursorUI.Start();
+    }
     public void Move(Vector3 vector3, bool maingame)
     {
         KeyboardControll?.MovePlayer(vector3, maingame);
@@ -64,6 +69,7 @@ public class Player : Character
     {
         interactController?.TIck(Time.deltaTime);
         controller?.Tick(Time.deltaTime);
+        cursorUI.update();
     }
     void FixedUpdate()
     {

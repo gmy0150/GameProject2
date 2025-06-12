@@ -17,12 +17,13 @@ public abstract class StorageItem : InteractObject
     [SerializeField] protected float interactDis;
     protected Mesh Base;
     protected MeshFilter filter;
+    public Sprite cursorImage;
+    public Sprite cusorInterectImage;
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
         isInteract = false;
         InventoryManager.Instance.AddItemToInventory(this);
-        Debug.Log("작동해줘");
         filter = GetComponent<MeshFilter>();
         Base = filter.mesh;
         filter.mesh = null;
@@ -44,6 +45,7 @@ public abstract class StorageItem : InteractObject
     public override void UpdateTime(float time)
     {
         isActive = false;
+
     }
     public override bool RotateInteract() => isActive;
 
@@ -55,4 +57,5 @@ public abstract class StorageItem : InteractObject
     {
         HandAnything.gameObject.SetActive(isActive);
     }
+    public abstract void ActiveFalse();
 }
