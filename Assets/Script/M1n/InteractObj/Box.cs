@@ -7,12 +7,13 @@ public class Box : StorageItem
 {
     float TransTimer;
     Mesh BaseMesh;
-    Material BaseMaterial;
+    Material[] BaseMaterial;
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
         // character.GetInterActControll().ResetInteraction();
         Debug.Log("작동");
+        SetHandActive(false);
     }
     
     public override void InteractAgain()
@@ -38,12 +39,13 @@ public class Box : StorageItem
     {
         SkinnedMeshRenderer skined = character.GetComponentInChildren<SkinnedMeshRenderer>();
         BaseMesh = skined.sharedMesh;
-        BaseMaterial = skined.material;
+        BaseMaterial = skined.materials;
         isHide = true;
         isInteract = false;
         controller.RunningCancel();
         skined.sharedMesh = character.BoxMesh;
-        skined.material = character.BoxMesh.GetComponent<MeshRenderer>().material;
+        skined.materials = new Material[] { character.BoxMaterial };
+
         
     }
     void CancelTransformation()
@@ -52,8 +54,8 @@ public class Box : StorageItem
         isHide = false;
         isInteract = true;
         SkinnedMeshRenderer skined = character.GetComponentInChildren<SkinnedMeshRenderer>();
-        skined.sharedMesh = baseMesh;
-        skined.material = baseMaterial;
+        skined.sharedMesh = BaseMesh;
+        skined.materials = BaseMaterial;
         TransTimer = 0;
     }
 

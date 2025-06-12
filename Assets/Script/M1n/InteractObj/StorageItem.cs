@@ -55,7 +55,7 @@ public abstract class StorageItem : InteractObject
     }
     public void SetHandActive(bool isActive)
     {
-        HandAnything.gameObject.SetActive(isActive);
+        HandAnything?.gameObject.SetActive(isActive);
     }
     public abstract void ActiveFalse();
 }
