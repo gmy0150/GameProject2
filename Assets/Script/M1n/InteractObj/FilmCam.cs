@@ -82,15 +82,6 @@ public class FilmCam : StorageItem
             });
 
             TakenPc.Add(hitobj);
-<<<<<<< Updated upstream
-=======
-
-            MeshRenderer meshRenderer = hitobj.GetComponent<MeshRenderer>();
-            if (meshRenderer != null)
-            {
-                if (!hitobj.GetComponent<Outlinable>())
-                    hitobj.AddComponent<Outlinable>();
->>>>>>> Stashed changes
 
             if (!hitobj.GetComponent<Outlinable>())
                 hitobj.AddComponent<Outlinable>();
@@ -123,14 +114,6 @@ public class FilmCam : StorageItem
         }
 
         StartCoroutine(ShowDialogueDelayed(go.name));
-<<<<<<< Updated upstream
-=======
-
-        if (GameManager.Instance.PcCount() == TakenPc.Count)
-        {
-            GameManager.Instance.OnComputerActive();
-        }
->>>>>>> Stashed changes
     }
 
     IEnumerator ShowDialogueDelayed(string objName)
