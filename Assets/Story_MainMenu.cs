@@ -39,7 +39,7 @@ public class Story_MainMenu : MonoBehaviour
             bgmAudioSource.Play();
         }
     }
-//
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))

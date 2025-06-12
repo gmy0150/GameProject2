@@ -180,7 +180,6 @@ public class Coin : StorageItem
                 character.MakeNoise(gameObject, Player.CoinNoise, 12);
             }
         }
-        Debug.Log(collision.gameObject.layer);
     }
 
     public override void UseItem()

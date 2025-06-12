@@ -389,7 +389,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   storyBGM: {fileID: 8300000, guid: 5679c312a70fe134294b9e86c4d5d6b6, type: 3}
-  fadeScript: {fileID: 1942842049}
+  fadeScript: {fileID: 0}
   targetSceneName: MainMenu
 --- !u!1 &1301771167
 GameObject:
