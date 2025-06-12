@@ -16,7 +16,6 @@ public class InventorySlot : MonoBehaviour
     }
     public void SetItem(StorageItem item)
     {
-        Debug.Log("?>");
         icon.sprite = item.icon;
         icon.enabled = true;
 
@@ -39,7 +38,7 @@ public class InventorySlot : MonoBehaviour
         InventoryManager.Instance.ExitSlot();
         if (storedItem != null)
         {
-            SetActive(false);
+            storedItem.ActiveFalse();
         }
         storedItem = null;
 

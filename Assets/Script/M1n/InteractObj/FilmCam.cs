@@ -11,8 +11,29 @@ public class FilmCam : StorageItem
     Image Lights;
     private Player Player;
     List<GameObject> TakenPc = new List<GameObject>();
-    public override void Init() {}
 
+    public override void Init() { }
+    public override void UpdateTime(float time)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, interact))
+        {
+            Vector3 hitPos = hit.point;
+            hitPos.y = Player.transform.position.y;
+            float distance = Vector3.Distance(Player.transform.position, hitPos);
+            if (distance > interactDis)
+            {//interact보다 distance가 크면 return
+                return;
+            }
+            GameObject hitobj = hit.collider.gameObject;
+                if (TakenPc.Contains(hitobj)) return;
+            Player.cursorUI.SetCursorImage(cursorImage);
+        }
+        else
+        {
+            Player.cursorUI.SetCursorImage(cusorInterectImage);
+        }
+    }
     public override void UseItem()
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -20,11 +41,12 @@ public class FilmCam : StorageItem
         {
             Vector3 hitPos = hit.point;
             hitPos.y = Player.transform.position.y;
-            float distance = Vector3.Distance(Player.transform.position,hitPos);
-            if(distance > interactDis){//interact보다 distance가 크면 return
+            float distance = Vector3.Distance(Player.transform.position, hitPos);
+            if (distance > interactDis)
+            {//interact보다 distance가 크면 return
                 return;
             }
-            
+
 
             GameObject hitobj = hit.collider.gameObject;
             if (TakenPc.Contains(hitobj)) return;
@@ -44,7 +66,7 @@ public class FilmCam : StorageItem
             Time.timeScale = 0;
             if (picchildImage != null)
             {
-             foreach (Sprite sprite in sprites)
+                foreach (Sprite sprite in sprites)
                 {
                     if (sprite.name == hitobj.name)
                     {
@@ -60,6 +82,15 @@ public class FilmCam : StorageItem
             });
 
             TakenPc.Add(hitobj);
+<<<<<<< Updated upstream
+=======
+
+            MeshRenderer meshRenderer = hitobj.GetComponent<MeshRenderer>();
+            if (meshRenderer != null)
+            {
+                if (!hitobj.GetComponent<Outlinable>())
+                    hitobj.AddComponent<Outlinable>();
+>>>>>>> Stashed changes
 
             if (!hitobj.GetComponent<Outlinable>())
                 hitobj.AddComponent<Outlinable>();
@@ -78,7 +109,7 @@ public class FilmCam : StorageItem
 
         Time.timeScale = 1;
         GameManager.Instance.ActPlay(true);
-        
+
         Lights.transform.parent.gameObject.SetActive(false);
 
         if (GameManager.Instance.PcCount() == TakenPc.Count)
@@ -92,6 +123,14 @@ public class FilmCam : StorageItem
         }
 
         StartCoroutine(ShowDialogueDelayed(go.name));
+<<<<<<< Updated upstream
+=======
+
+        if (GameManager.Instance.PcCount() == TakenPc.Count)
+        {
+            GameManager.Instance.OnComputerActive();
+        }
+>>>>>>> Stashed changes
     }
 
     IEnumerator ShowDialogueDelayed(string objName)
@@ -109,5 +148,11 @@ public class FilmCam : StorageItem
         picchildImage = Player.PicChildImage;
         HandAnything = Player.Camera;
         SetHandActive(true);
+        
+    }
+        public override void ActiveFalse()
+    {
+        SetHandActive(false);
+        character.cursorUI.SetCursorImage();
     }
 }

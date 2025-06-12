@@ -62,4 +62,10 @@ public class Box : StorageItem
     {
         
     }
+
+        public override void ActiveFalse()
+    {
+        SetHandActive(false);
+        character.cursorUI.SetCursorImage();
+    }
 }

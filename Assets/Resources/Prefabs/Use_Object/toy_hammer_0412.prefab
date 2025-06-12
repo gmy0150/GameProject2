@@ -213,6 +213,8 @@ MonoBehaviour:
   itemname: 
   isInteract: 1
   interactDis: 5
+  cursorImage: {fileID: 21300000, guid: bcee52e8a185efd4983c3a86e2fc1507, type: 3}
+  cusorInterectImage: {fileID: 21300000, guid: a32c37c812e70904da2afadcbd81316b, type: 3}
 --- !u!65 &3991499857167688601
 BoxCollider:
   m_ObjectHideFlags: 0
