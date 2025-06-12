@@ -275,7 +275,6 @@ public class Enemy : Character
         aIPath.enabled = true;
         Vector3 newvec = player.transform.position;
         newvec.y = transform.position.y;
-        AstarPath.active.Scan();
         aIPath.destination = newvec;
         aIPath.isStopped = false;
         if (GetComponentInChildren<TestOne>())

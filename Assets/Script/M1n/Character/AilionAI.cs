@@ -26,7 +26,6 @@ public class AilionAI : Enemy
     {
         base.Start();
         startPos = transform.position;
-        AstarPath.active.Scan();
 
     }
 

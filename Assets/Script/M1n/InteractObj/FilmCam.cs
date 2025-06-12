@@ -107,9 +107,11 @@ public class FilmCam : StorageItem
         {
             GameManager.Instance.OnComputerActive();
         }
-
-        if (go == AilionPc)
+        Debug.Log($"go.name: {go.name}");  // ✅ 로그 ②
+        Debug.Log($"AilionPc.name: {AilionPc.name}");  // ✅ 로그 ②
+        if (go.name == AilionPc.name)
         {
+            Debug.Log("작업해라");
             GameManager.Instance.ONAilionPic();
         }
 

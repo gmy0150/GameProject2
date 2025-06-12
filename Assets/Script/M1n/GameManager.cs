@@ -87,8 +87,10 @@ public class GameManager : MonoBehaviour
             enemy.gameObject.SetActive(false);
             enemy.SliderActive(false);
         }
+        AstarPath.active.Scan();
         Ailion.gameObject.SetActive(true);
         Ailion.ChaseStart(player);
+
 
     }
     bool AIlionON = false;
