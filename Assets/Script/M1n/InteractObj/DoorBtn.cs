@@ -18,8 +18,22 @@ public class DoorBtn : UseageInteract
             QuestManager.Instance.CompleteSecretButtonMission();
         }
         character.SetAudio("Button");
+<<<<<<< Updated upstream
         
         
+=======
+        Debug.Log("작동함");
+        director.Play();
+
+>>>>>>> Stashed changes
+    }
+    void Update()
+    {
+        if (isHide && director.state != PlayState.Playing)
+        {
+            GameManager.Instance.ActPlay(true);
+        }
+
     }
     public override void InteractAgain()
     {

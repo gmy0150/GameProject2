@@ -40,7 +40,7 @@ public class Box : StorageItem
         controller.RunningCancel();
         SkinnedMeshRenderer skined = character.GetComponentInChildren<SkinnedMeshRenderer>();
         skined.sharedMesh = character.BoxMesh;
-        
+        skined.material = character.BoxMaterial;
     }
     void CancelTransformation()
     {
