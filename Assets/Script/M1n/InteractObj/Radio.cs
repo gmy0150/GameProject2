@@ -40,34 +40,53 @@ public class Radio : UseageInteract
         Active = false;
         uiimage.gameObject.SetActive(false);
     }
-    void TunOn(){
-        Active = true;
-            
-        Vector3 origin = transform.position;
-        if(otherobj)
-        origin = otherobj.transform.position;
-        origin.y = 1f;
-        uiimage.gameObject.SetActive(true);
-        for (float anglestep = 0; anglestep < 360f; anglestep += 10)
-        {
-            float currentAngle = anglestep * Mathf.Deg2Rad;
-            Vector3 direction = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle));
-            RaycastHit[] hits = Physics.RaycastAll(origin, direction, radius);
+    void TunOn()
+{
+    Active = true;
 
-            foreach (RaycastHit hit in hits)
+    Vector3 origin = transform.position;
+    if (otherobj)
+        origin = otherobj.transform.position;
+    origin.y = 1f;
+    uiimage.gameObject.SetActive(true);
+
+    float closestDistOverall = Mathf.Infinity;
+    Enemy closestEnemyOverall = null;
+    Vector3 closestHitPos = Vector3.zero;
+
+    for (float anglestep = 0; anglestep < 360f; anglestep += 10)
+    {
+        float currentAngle = anglestep * Mathf.Deg2Rad;
+        Vector3 direction = new Vector3(Mathf.Cos(currentAngle), 0, Mathf.Sin(currentAngle));
+        Debug.DrawRay(origin, direction * radius, Color.green, 1f);
+
+        RaycastHit[] hits = Physics.RaycastAll(origin, direction, radius);
+
+        foreach (var hit in hits)
+        {
+            Enemy enemy = hit.collider.GetComponent<Enemy>();
+            if (enemy != null)
             {
-                if(ContactEnemy) return;
-                if (hit.collider.GetComponent<Enemy>())
+                float dist = Vector3.Distance(origin, hit.point);
+                if (dist < closestDistOverall)
                 {
-                    Enemy enemy = hit.collider.GetComponent<Enemy>();
-                    Vector3 hittrans = (enemy.transform.position - origin).normalized;
-                    Vector3 hitpos = origin + hittrans;
-                    Debug.Log(hitpos);
-                    enemy.ProbArea(hitpos);
-                    ContactEnemy = true;
+                    closestDistOverall = dist;
+                    closestEnemyOverall = enemy;
+                    closestHitPos = hit.point;
                 }
             }
         }
     }
+
+    if (closestEnemyOverall != null)
+    {
+        Vector3 hittrans = (closestEnemyOverall.transform.position - origin).normalized;
+        Vector3 hitpos = origin + hittrans;
+        Debug.Log(hitpos);
+        closestEnemyOverall.ProbArea(hitpos);
+        ContactEnemy = true;
+    }
+}
+
 
 }
