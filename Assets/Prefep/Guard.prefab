@@ -280,7 +280,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8830196273332348141, guid: 1c5289ab155fbca49b6509cecb97260a, type: 3}
+  - {fileID: 2100000, guid: 81da2476d10a30d43812023ef983b700, type: 2}
   - {fileID: 2100000, guid: 48e0c9e67a8090a439e06d7ae2f939e6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -741,18 +741,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MoveSpeed: 5
   RunSpeed: 10.5
-  RadiusAngle: 60
+  RadiusAngle: 45
   Distance: 20
   node: {fileID: 11400000, guid: bee581c592907a643b6160a35955815d, type: 2}
   anim: {fileID: 0}
   CheckPlayerSlider: {fileID: 5859110019642067034}
-  DetectTimer: 0.5
-  player: {fileID: 0}
+  DetectTimer: 1
   UIImage: {fileID: 3999976178485733834}
   RayShoot: {fileID: 0}
   wayPoints:
-  - {x: 115.1, y: 1, z: 20.5}
-  - {x: 139.3, y: 1, z: 20.05}
+  - {x: 127.7, y: 1, z: 49.4}
   wayPointIndex: 0
   GuardColor: {r: 0, g: 0, b: 0, a: 1}
   Loop: 1
@@ -1706,7 +1704,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7098773718759589753}
   m_LocalRotation: {x: 0.31598538, y: 0.3596048, z: -0.13088542, w: 0.8681629}
-  m_LocalPosition: {x: 0, y: 0, z: 0.46}
+  m_LocalPosition: {x: 0, y: 0, z: -0.47}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1716,7 +1714,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 40, y: 45, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.46, y: 3.21}
+  m_AnchoredPosition: {x: -0.47, y: 1.63}
   m_SizeDelta: {x: 160, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5859110019642067034

@@ -1,77 +1,104 @@
 [
     {
         "lines": [
-            {
-                "message": "헉! 여기에도 경비원이 있었잖아?",
-                "iconName": "Surprise"
-            },
-            {
-                "message": "조용히... 조용히... 경비원이 못 볼 때 몰래 지나가야겠는데...",
-                "iconName": "Sad"
-            }
+          {
+            "message": "헉! 여기에도 경비원이 있었잖아?",
+            "iconName": "Surprise",
+            "voiceName": "imp_demand-5"
+          },
+          {
+            "message": "조용히... 경비원이 못 볼 때 몰래 지나가야겠는데...",
+            "iconName": "Sad",
+            "voiceName": "imp_sad-1"
+          }
         ]
     },
     {
         "lines": [
-            {
-                "message": "뭐야? 저기 또 경비원이 있잖아? 저녀석은 움직일 생각도 안하는 것 같은데...",
-                "iconName": "Sad"
-            }
+          {
+            "message": "저기 길 막고 있는 경비병은 뭐야..?",
+            "iconName": "Sad",
+            "voiceName": "imp_sad-3"
+          },
+          {
+            "message": "여기 떨어진 캔을 던져서 주의를 끌어야겠네.",
+            "iconName": "Sad",
+            "voiceName": "imp_sad-2"
+          }
         ]
     },
     {
         "lines": [
-            {
-                "message": "아잇! 또 경비원이야? 도대체 뭐길래 경비원이 이렇게 많은거야?",
-                "iconName": "Angry"
-            },
-            {
-                "message": "라고 할 줄 알았겠지만!!",
-                "iconName": "Happy"
-            },
-            {
-                "message": "이럴 줄 알고 내 비장의 무기 뿅망치도 준비했지롱!",
-                "iconName": "Happy"
-            }
+          {
+            "message": "도대체 여기 뭘 숨기고 있는거야?",
+            "iconName": "Angry",
+            "voiceName": "imp_irritated-1"
+          },
+          {
+            "message": "경비병을 이렇게나 많이 두고말이야!!",
+            "iconName": "Angry",
+            "voiceName": "imp_irritated-4"
+          },
+          {
+            "message": "특종 거리 없으면 진짜 화낼거니까!!",
+            "iconName": "Angry",
+            "voiceName": "imp_irritated-3"
+          }
         ]
     },
     {
         "lines": [
-            {
-                "message": "헉! 이게 뭐야!! 이거 시체잖아?? 이 녀석들.. 뭘 지키고 있나 했더만.. 시체를 지키고 있었다고?",
-                "iconName": "Surprise"
-            },
-            {
-                "message": "일단 일단.. 사진이라도 찍어둬야겠어...",
-                "iconName": "Nothing"
-            }
+          {
+            "message": "헉! 이게 뭐야!! 이거 시체잖아?? 이런게 왜 여기에??",
+            "iconName": "Surprise",
+            "voiceName": "imp_demand-5"
+          },
+          {
+            "message": "일단 일단.. 사진이라도 찍어둬야겠어...",
+            "iconName": "Sad",
+            "voiceName": "imp_muse-4"
+          }
         ]
     },
     {
         "lines": [
-            {
-                "message": "...저건... 마체테?!",
-                "iconName": "Surprise"
-            },
-            {
-                "message": "아까 그 목걸이 주인이... 이 사건과 연관이 있다고?",
-                "iconName": "Surprise"
-            },
-            {
-                "message": "이거이거... 냄새가 나는데... 아주 큰 특종의 냄새 말이지.",
-                "iconName": "Happy"
-            },
-            {
-                "message": "여기 볼일도 다 봤겠다.. 마체테의 집으로 가볼까?",
-                "iconName": "Happy"
-            }
+          {
+            "message": "...저건... 마체테?!",
+            "iconName": "Surprise",
+            "voiceName": "Tuto4"
+          },
+          {
+            "message": "저 녀석이 이 사건과 관련이 있나?",
+            "iconName": "Surprise",
+            "voiceName": "Tuto2"
+          },
+          {
+            "message": "이거이거... 냄새가 나는데... 아주 큰 특종의 냄새 말이지.",
+            "iconName": "Happy",
+            "voiceName": "Tuto1"
+          },
+          {
+            "message": "여기 볼일도 다 봤겠다.. 마체테의 집으로 가볼까?",
+            "iconName": "Happy",
+            "voiceName": "imp_amused-5"
+          }
         ]
     },
     {
         "lines": [
             {
                 "message": "사진 뭐시기 무시기 뭐시기",
-                "iconName": "Surprise"
+                "iconName": "Surprise",
+                "voiceName": "voice_surprise_1"
+            }
+        ]
+    },
+    {
+        "lines": [
+            {
+                "message": "이제 게임 시작이군",
+                "iconName": "Surprise",
+                "voiceName": "voice_surprise_1" 
             }
         ]
     }

@@ -14,7 +14,7 @@ public class ComputerBtn : UseageInteract
             // ✅ 2번 업적 완료 처리
             if (QuestManager.Instance != null)
             {
-                QuestManager.Instance.CompleteCurrentQuest();
+                QuestManager.Instance.CompleteComputerMission();
             }
             
             InteractAgain();

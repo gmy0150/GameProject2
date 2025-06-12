@@ -6,15 +6,24 @@ using UnityEngine;
 public class ExitTrigger : MonoBehaviour
 {
     public GameObject parnel;
+    public GameObject cartoonPrefab; 
+
     void OnTriggerEnter(Collider other)
     {
         if(!GameManager.Instance.AbleExit())
         return;
+
         Clear();
     }
-    void Clear(){
-        Debug.Log("?");
-        parnel?.SetActive(true);
+
+    void Clear()
+    {
+        Debug.Log("Exit On");
+
+        if (cartoonPrefab != null)
+        {
+            Instantiate(cartoonPrefab);
+        }
         Time.timeScale = 0;
     }
 }

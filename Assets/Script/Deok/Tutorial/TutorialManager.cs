@@ -8,6 +8,7 @@ public class TutorialManager
     {
         public string message;
         public string iconName;
+        public string voiceName;
     }
 
     [System.Serializable]

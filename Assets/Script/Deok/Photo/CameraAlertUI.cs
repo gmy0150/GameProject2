@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class CameraAlertUI : MonoBehaviour
 {
     public static CameraAlertUI Instance;
 
-    [Header("\ud83d\udcf7 Camera Dialogue UI Elements")]
+    [Header("📸 Camera Dialogue UI Elements")]
     public GameObject messagePanel;
     public TextMeshProUGUI messageText;
     public Image iconImage;
@@ -21,35 +22,58 @@ public class CameraAlertUI : MonoBehaviour
     private Coroutine typingCoroutine;
     private bool isTyping = false;
     private string fullCurrentText = "";
+    private AudioSource audioSource;
+    private Action onDialogueComplete;
+
+    private Dictionary<string, AudioClip> preloadedClips = new Dictionary<string, AudioClip>();
 
     private void Awake()
     {
-        Instance = this;
-        messagePanel?.SetActive(false);
+        if (Instance == null)
+        {
+            Instance = this;
+            messagePanel?.SetActive(false);
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
-    public void ShowPhotoDialogue(List<PhotoTriggerManager.PhotoLine> lines)
+    public void ShowPhotoDialogue(List<PhotoTriggerManager.PhotoLine> lines, Action onComplete = null)
     {
         Time.timeScale = 0f;
 
         if (playerScript != null)
             playerScript.enabled = false;
 
-        if (playerAnimator != null)
-        {
-            playerAnimator.SetFloat("Speed", 0f);
-            playerAnimator.SetBool("IsRunning", false);
-            playerAnimator.SetFloat("MoveX", 0f);
-            playerAnimator.SetFloat("MoveY", 0f);
-            playerAnimator.SetBool("isWalking", false);
-        }
+        PreloadAudioClips(lines);
 
         dialogueQueue.Clear();
         foreach (var line in lines)
             dialogueQueue.Enqueue(line);
 
+        this.onDialogueComplete = onComplete;
+
         messagePanel.SetActive(true);
         ShowNextLine();
+    }
+
+    void PreloadAudioClips(List<PhotoTriggerManager.PhotoLine> lines)
+    {
+        preloadedClips.Clear();
+        foreach (var line in lines)
+        {
+            if (!string.IsNullOrEmpty(line.voiceName) && !preloadedClips.ContainsKey(line.voiceName))
+            {
+                AudioClip clip = Resources.Load<AudioClip>("Voices/" + line.voiceName);
+                if (clip != null)
+                {
+                    preloadedClips.Add(line.voiceName, clip);
+                }
+            }
+        }
     }
 
     void Update()
@@ -58,9 +82,9 @@ public class CameraAlertUI : MonoBehaviour
         {
             if (isTyping)
             {
-                StopCoroutine(typingCoroutine);
-                messageText.text = fullCurrentText;
+                if (typingCoroutine != null) StopCoroutine(typingCoroutine);
                 isTyping = false;
+                messageText.text = fullCurrentText;
             }
             else
             {
@@ -71,22 +95,24 @@ public class CameraAlertUI : MonoBehaviour
 
     void ShowNextLine()
     {
-        Debug.Log("ShowNextLine 호출됨. 남은 메시지 수: " + dialogueQueue.Count);
+        audioSource.Stop();
+        audioSource.clip = null;
 
         if (dialogueQueue.Count > 0)
         {
-            
             var line = dialogueQueue.Dequeue();
             fullCurrentText = line.message;
-            Debug.Log("다음 메시지: " + line.message);
 
-            fullCurrentText = line.message;
+            if (!string.IsNullOrEmpty(line.voiceName) && preloadedClips.ContainsKey(line.voiceName))
+            {
+                audioSource.clip = preloadedClips[line.voiceName];
+                audioSource.Play();
+            }
 
-            iconImage.sprite = !string.IsNullOrEmpty(line.iconName)
-                ? Resources.Load<Sprite>("Icons/" + line.iconName)
-                : null;
-
+            iconImage.sprite = !string.IsNullOrEmpty(line.iconName) ? Resources.Load<Sprite>("Icons/" + line.iconName) : null;
             iconImage.enabled = (iconImage.sprite != null);
+
+            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
             typingCoroutine = StartCoroutine(TypeText(line.message));
         }
         else
@@ -99,23 +125,23 @@ public class CameraAlertUI : MonoBehaviour
     {
         isTyping = true;
         messageText.text = "";
-
         foreach (char c in text)
         {
             messageText.text += c;
             yield return new WaitForSecondsRealtime(0.05f);
         }
-
         isTyping = false;
     }
 
     void HidePanel()
     {
         messagePanel?.SetActive(false);
-
-        if (playerScript != null)
-            playerScript.enabled = true;
-
+        if (playerScript != null) playerScript.enabled = true;
         Time.timeScale = 1f;
+
+        audioSource.Stop();
+        audioSource.clip = null;
+        
+        onDialogueComplete?.Invoke();
     }
 }

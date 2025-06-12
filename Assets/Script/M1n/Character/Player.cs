@@ -109,7 +109,6 @@ public class Player : Character
     // public float angleLimit = 60;
     // public float detectionRange = 20;
     // public float CircleRange = 8;
-    public GameObject go;
 
     private void OnDrawGizmos()
     {
@@ -185,7 +184,7 @@ public class Player : Character
     }
     public void Die()
     {
-        animator.SetTrigger("Die");
+        animator.SetBool("Die",true);
         controller = null;
 
     }
@@ -194,6 +193,7 @@ public class Player : Character
     {
         controller = KeyboardControll;
         controller.RunningCancel();
+        animator.SetBool("Die",false);
     }
     public void Hide(bool x)
     {

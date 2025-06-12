@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     public TutorialManager tutorialManager;
     private static GameManager _instance;
     public AnimationManage animation;
+    Enemy[] enemies;
+    FadeInScene fadeInScene;
     public static GameManager Instance
     {
         get
@@ -45,6 +47,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
         tutorialManager = new TutorialManager();
+        fadeInScene = FindObjectOfType<FadeInScene>();
         DontDestroyOnLoad(gameObject);
     }
     public bool AbleComputer()
@@ -59,7 +62,6 @@ public class GameManager : MonoBehaviour
         if (!computer.GetComponent<ComputerBtn>())
             computer.AddComponent<ComputerBtn>();
         SavePos();
-
     }
     public bool AbleButton()
     {
@@ -123,6 +125,7 @@ public class GameManager : MonoBehaviour
     {
         ActPlay(false);
         player.Move(tutoPos, false);
+        enemies = FindObjectsOfType<Enemy>();
     }
     bool isMainGame;
     public void MainGameStart()
@@ -151,23 +154,38 @@ public class GameManager : MonoBehaviour
             OnAilionDiaglogueEnd();
         }
     }
-
-    public void GameOver(Enemy guard)
+    public bool isGameOver = false;
+    public void GameOver()
     {
-        StartCoroutine(GameRestart(guard));
+        isGameOver = true;
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.StopMove();
+        }
+        StartCoroutine(GameRestart());
     }
     Vector3 savePos;
     public void SavePos()
     {
         savePos = player.transform.position;
     }
-    IEnumerator GameRestart(Enemy guard)
+    IEnumerator GameRestart()
     {
-        yield return new WaitForSeconds(1f);
-        guard.InitNode();
-        guard.transform.position = guard.startPos;
+        yield return new WaitForSeconds(1.5f);
+        fadeInScene.FadeIn();
+        yield return new WaitUntil(() => fadeInScene.IsFadeStart());
+        isGameOver = false;
+        foreach (Enemy enemy in enemies)
+        {
+            enemy.InitNode();
+            enemy.StopMove();
+            enemy.transform.position = enemy.startPos;
+        }
         player.transform.position = savePos;
         player.transform.rotation = Quaternion.identity;
+        player.animator.SetBool("Die", false);
+        yield return new WaitUntil(() => fadeInScene.IsFadeEnd());
+        
         player.restart(); 
     }
 }
