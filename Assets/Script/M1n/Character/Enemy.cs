@@ -97,11 +97,11 @@ public class Enemy : Character
     }
     protected virtual void Update()
     {
-        if (GameManager.Instance.isGameOver) return;
         if (UIImage)
             UIImage.transform.position = new Vector3(transform.position.x, UIImage.transform.position.y, transform.position.z);
         if (CheckPlayerSlider)
             CheckPlayerSlider.transform.position = new Vector3(transform.position.x, CheckPlayerSlider.transform.position.y, transform.position.z);
+        if (GameManager.Instance.isGameOver) return;
         if (aIPath != null)
         {
             aIPath.maxSpeed = applyspeed;

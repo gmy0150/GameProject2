@@ -47,6 +47,7 @@ public class Box : StorageItem
         skined.sharedMesh = character.BoxMesh;
         skined.materials = new Material[] { character.BoxMaterial };
         character.GetInterActControll().GetHide();
+        character.GetInterActControll().SetInteractable(this);
         Debug.Log("???작동");
     }
     void CancelTransformation()
@@ -58,6 +59,8 @@ public class Box : StorageItem
         skined.sharedMesh = BaseMesh;
         skined.materials = BaseMaterial;
         TransTimer = 0;
+        character.GetInterActControll().SetInteractable(null);
+
     }
 
     public override void UseItem()
