@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Audio; // 오디오 믹서를 사용하기 위해 추가
 
 public class TutorialUI : MonoBehaviour
 {
@@ -39,7 +40,29 @@ public class TutorialUI : MonoBehaviour
             Debug.LogError("❌ iconImage가 연결되지 않았습니다.");
 
         audioSource = gameObject.AddComponent<AudioSource>();
+
+        // ▼▼▼ [수정] AudioSource를 생성한 직후, 믹서에 연결하는 함수를 호출합니다. ▼▼▼
+        SetupMixerOutput();
     }
+
+    // ▼▼▼ [수정] AudioSource의 출력을 SFXVolume 믹서 그룹으로 보내는 함수를 새로 만듭니다. ▼▼▼
+    void SetupMixerOutput()
+    {
+        // VolumeManager가 없으면 실행하지 않습니다.
+        if (VolumeManager.Instance == null || VolumeManager.Instance.audioMixer == null) return;
+
+        // SFX 오디오 소스를 'SFXVolume' 그룹에 연결
+        AudioMixerGroup[] sfxGroups = VolumeManager.Instance.audioMixer.FindMatchingGroups("SFXVolume");
+        if (sfxGroups.Length > 0)
+        {
+            audioSource.outputAudioMixerGroup = sfxGroups[0];
+        }
+        else
+        {
+            Debug.LogWarning("AudioMixer에서 'SFXVolume' 그룹을 찾을 수 없습니다.");
+        }
+    }
+
 
     public void ShowTutorialDialogue(List<TutorialManager.DialogueLine> lines)
     {
@@ -74,7 +97,7 @@ public class TutorialUI : MonoBehaviour
 
     void PreloadAudioClips(List<TutorialManager.DialogueLine> lines)
     {
-        preloadedClips.Clear(); 
+        preloadedClips.Clear();
         foreach (var line in lines)
         {
             if (line != null && !string.IsNullOrEmpty(line.voiceName) && !preloadedClips.ContainsKey(line.voiceName))
@@ -116,7 +139,7 @@ public class TutorialUI : MonoBehaviour
         {
             var line = dialogueQueue.Dequeue();
             fullCurrentText = line?.message ?? "";
-            
+
             if (!string.IsNullOrEmpty(line.voiceName) && preloadedClips.ContainsKey(line.voiceName))
             {
                 audioSource.clip = preloadedClips[line.voiceName];
@@ -135,7 +158,7 @@ public class TutorialUI : MonoBehaviour
             if (panel != null)
                 panel.SetActive(true);
 
-            if(typingCoroutine != null)
+            if (typingCoroutine != null)
                 StopCoroutine(typingCoroutine);
             typingCoroutine = StartCoroutine(TypeText(fullCurrentText));
         }
@@ -173,3 +196,4 @@ public class TutorialUI : MonoBehaviour
         isTyping = false;
     }
 }
+//
