@@ -2200,8 +2200,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiAudioSource: {fileID: 296751210}
-  clickSound: {fileID: 8300000, guid: edfb7d1ff4bbbef4dadf9052dc013fc2, type: 3}
-  clickSound_2: {fileID: 8300000, guid: f4384eda428376c43984aed16cde1660, type: 3}
+  clickSound: {fileID: 8300000, guid: c7dcd393b8ec22049b3974a6ae11df87, type: 3}
+  clickSound_2: {fileID: 8300000, guid: 00370f0dd015fe3468ada603055b34bd, type: 3}
   masterVolumeParam: MasterVolume
   uiSfxVolumeParam: UI_SFXVolume
 --- !u!82 &296751210

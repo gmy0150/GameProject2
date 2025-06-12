@@ -73,14 +73,12 @@ public class QuestManager : MonoBehaviour
         UpdateAchievements();
     }
 
-    // [수정] 2번 체크박스: 이제 코루틴을 시작합니다.
     public void CompleteComputerMission()
     {
         if (currentStep == 1)
             StartCoroutine(CompleteSecondQuestSequence());
     }
 
-    // [추가] 2번 퀘스트 완료 시퀀스 코루틴
     private IEnumerator CompleteSecondQuestSequence()
     {
         if (currentStep == 1)
@@ -103,14 +101,12 @@ public class QuestManager : MonoBehaviour
         UpdateAchievements();
     }
 
-    // [수정] 3번 체크박스: 이제 코루틴을 시작합니다.
     public void CompleteSecretButtonMission()
     {
         if (currentStep == 2)
             StartCoroutine(CompleteThirdQuestSequence());
     }
 
-    // [추가] 3번 퀘스트 완료 시퀀스 코루틴
     private IEnumerator CompleteThirdQuestSequence()
     {
         if (currentStep == 2)
