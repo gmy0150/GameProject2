@@ -24,36 +24,7 @@ public class ChasePlayer : Node
         runner.AboveUI(this.GetType().Name);
         
 
-        if (runner.GetType() == typeof(GuardDog))
-        {
-            MoveTime += Time.deltaTime;
-            BarkTime += Time.deltaTime;
-            Debug.Log(player.ToString());
-            if (BarkTime > BarkTimer)
-            {
-                runner.MakeNoise(runner.gameObject, 10, 10);
-                Debug.Log("¢��");
-                BarkTime = 0;
-            }
-            if (player.GetInterActControll().GetHide())
-            {
-                runner.missPlayer();
-                runner.StopMove();
-                return NodeState.FAILURE;
-            }
-            if (MoveTime > Timer)
-            {
-                runner.missPlayer();
-
-                runner.StopMove();
-                Debug.Log("��");
-                MoveTime = 0;
-                return NodeState.FAILURE;
-            }
-            runner.StartChase(player);
-        }
-        else
-        {
+        
             if (player.GetInterActControll().GetHide())
             {
                 runner.missPlayer();
@@ -61,7 +32,7 @@ public class ChasePlayer : Node
                 return NodeState.FAILURE;
             }
             runner.StartChase(player);
-        }
+        
         
         return NodeState.RUNNING;
     }

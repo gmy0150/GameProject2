@@ -134,6 +134,7 @@ public class Enemy : Character
             }
 
         }
+        GetProb();
 
     }
     public void SliderActive(bool active)
@@ -325,9 +326,7 @@ public class Enemy : Character
         noise = Vector3.zero;
     }
 
-    public virtual void InitProb()
-    {
-    }
+    public virtual void InitProb(){}
     protected bool EndProb = false;
 
     public virtual void EndProbarea()
@@ -345,43 +344,6 @@ public class Enemy : Character
     }
 
     protected bool probSuccess = false;
-    protected bool HomeSuccess = false;
-    Vector3 HomeSave;
-    public void MoveHome()
-    {
-        Vector3 curPos = transform.position;
-        Vector3 targetPos = new Vector3(HomeSave.x, curPos.y, HomeSave.z);
-        GoHome(targetPos);
-        applyspeed = MoveSpeed;
-        float distanceToTarget = Vector3.Distance(transform.position, targetPos);
-        TestOne t1;
-
-        t1 = GetComponentInChildren<TestOne>();
-        t1.InvMeshRen();
-        Debug.Log(distanceToTarget);
-        if (distanceToTarget < 1f)  // ���ϴ� ���� ���� ����
-        {
-            Debug.Log("����!");
-            HomeSuccess = true;
-            t1.ShowMesh();
-        }
-    }
-    public void SetHome(Vector3 vec)
-    {
-        HomeSave = vec;
-        Vector3 curPos = transform.position;
-        Vector3 targetPos = new Vector3(HomeSave.x, curPos.y, HomeSave.z);
-        HomeSave = targetPos;
-    }
-    public bool IsHome()
-    {
-        return Vector3.Distance(HomeSave, transform.position) < 1.0f;
-
-    }
-    public void HomeArrive() { HomeSuccess = false; }
-
-    public bool GetHome() { return HomeSuccess; }
-
     public void MoveProb(Vector3 vec)
     {
         if (stun) return;

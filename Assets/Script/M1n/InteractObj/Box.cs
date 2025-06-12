@@ -11,7 +11,7 @@ public class Box : StorageItem
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
-        // character.GetInterActControll().ResetInteraction();
+        HandAnything = character.Hammer;
         Debug.Log("작동");
         SetHandActive(false);
     }
@@ -70,9 +70,10 @@ public class Box : StorageItem
         
     }
 
-        public override void ActiveFalse()
+    public override void ActiveFalse()
     {
         SetHandActive(false);
         character.cursorUI.SetCursorImage();
+        
     }
 }

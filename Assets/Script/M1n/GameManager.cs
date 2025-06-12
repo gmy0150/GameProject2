@@ -176,7 +176,6 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         fadeInScene.FadeIn();
         yield return new WaitUntil(() => fadeInScene.IsFadeStart());
-        isGameOver = false;
         foreach (Enemy enemy in enemies)
         {
             enemy.InitNode();
@@ -192,6 +191,7 @@ public class GameManager : MonoBehaviour
         {
             enemy.InitNode();
         }
+        isGameOver = false;
         player.restart(); 
     }
 }
