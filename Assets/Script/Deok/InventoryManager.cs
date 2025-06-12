@@ -44,7 +44,7 @@ public class InventoryManager : MonoBehaviour
         else
         {
             if(GetActiveItem() != null)
-                GetActiveItem().SetHandActive(false);
+                GetActiveItem().ActiveFalse();
             selectedIndex = index;
 
             for (int i = 0; i < slots.Length; i++)
