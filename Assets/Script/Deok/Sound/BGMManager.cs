@@ -4,6 +4,9 @@ using System.Collections;
 
 public class BGMManager : MonoBehaviour
 {
+    // ▼▼▼ [수정] 이 부분이 바로 싱글톤(Singleton) 코드입니다. ▼▼▼
+    public static BGMManager Instance { get; private set; }
+    
     public AudioSource bgmAudioSource;
 
     [Header("BGM Clips")]
@@ -14,19 +17,28 @@ public class BGMManager : MonoBehaviour
     public float fadeDuration = 1.5f;
 
     private Coroutine fadeCoroutine;
+    private bool isTemporarilyStopped = false; // 카툰 등에 의해 BGM이 일시 정지되었는지 확인
 
     private void Awake()
     {
-        if (bgmAudioSource == null)
-            bgmAudioSource = GetComponent<AudioSource>();
-
-        DontDestroyOnLoad(gameObject);
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        // ▼▼▼ [수정] 싱글톤 인스턴스를 설정하는 코드입니다. ▼▼▼
+        if (Instance == null)
+        {
+            Instance = this;
+            if (bgmAudioSource == null)
+                bgmAudioSource = GetComponent<AudioSource>();
+            DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        else
+        {
+            // 이미 BGMManager가 존재하면 새로 생긴 것은 파괴합니다.
+            Destroy(gameObject); 
+        }
     }
 
     private void Start()
     {
-        // 씬 시작 시 BGM 결정
         OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
@@ -37,9 +49,9 @@ public class BGMManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("씬 로드됨: " + scene.name);
+        // 씬이 로드될 때, BGM이 일시정지 상태가 아니라면 씬에 맞는 BGM을 재생합니다.
+        if (isTemporarilyStopped) return;
 
-        // 🎯 BGM 지정된 씬
         if (scene.name == "MainMenu" || scene.name == "Test_MainMenu")
         {
             FadeToBGM(mainMenuBGM);
@@ -50,10 +62,25 @@ public class BGMManager : MonoBehaviour
         }
         else
         {
-            // 🎯 그 외 씬에서는 부드럽게 BGM 정지
-            Debug.Log("[BGMManager] 이 씬에서는 BGM 없음. 페이드 아웃 중지.");
             FadeToBGM(null);
         }
+    }
+
+    // 카툰이 시작될 때 이 함수를 호출하여 메인 BGM을 멈춥니다.
+    public void TemporarilyStopBGM()
+    {
+        if (isTemporarilyStopped) return;
+        isTemporarilyStopped = true;
+        FadeToBGM(null);
+    }
+
+    // 카툰이 끝날 때 이 함수를 호출하여 씬에 맞는 BGM을 다시 시작합니다.
+    public void ResumeSceneBGM()
+    {
+        if (!isTemporarilyStopped) return;
+        isTemporarilyStopped = false;
+        // 현재 씬을 다시 확인하여 적절한 BGM을 재생합니다.
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
     public void FadeToBGM(AudioClip newClip)
@@ -62,7 +89,6 @@ public class BGMManager : MonoBehaviour
         {
             StopCoroutine(fadeCoroutine);
         }
-
         fadeCoroutine = StartCoroutine(FadeBGM(newClip));
     }
 
@@ -71,18 +97,15 @@ public class BGMManager : MonoBehaviour
         if (bgmAudioSource.isPlaying)
         {
             float startVolume = bgmAudioSource.volume;
-
             for (float t = 0; t < fadeDuration; t += Time.deltaTime)
             {
                 bgmAudioSource.volume = Mathf.Lerp(startVolume, 0f, t / fadeDuration);
                 yield return null;
             }
-
             bgmAudioSource.volume = 0f;
             bgmAudioSource.Stop();
         }
 
-        // 🎯 newClip이 null이면 BGM 중단 후 종료
         if (newClip == null)
         {
             bgmAudioSource.clip = null;
@@ -90,17 +113,15 @@ public class BGMManager : MonoBehaviour
             yield break;
         }
 
-        // 🎯 새 클립 재생
         bgmAudioSource.clip = newClip;
         bgmAudioSource.Play();
-
+        float targetVolume = 1f;
         for (float t = 0; t < fadeDuration; t += Time.deltaTime)
         {
-            bgmAudioSource.volume = Mathf.Lerp(0f, 1f, t / fadeDuration);
+            bgmAudioSource.volume = Mathf.Lerp(0f, targetVolume, t / fadeDuration);
             yield return null;
         }
-
-        bgmAudioSource.volume = 1f;
+        bgmAudioSource.volume = targetVolume;
         fadeCoroutine = null;
     }
 }

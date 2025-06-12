@@ -520,6 +520,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9a914b17e8b2e36468dc926b3c3f4244, type: 3}
   - {fileID: 8300000, guid: fa413c4ddd533e643ba49a59c49193b7, type: 3}
   - {fileID: 8300000, guid: 121556aa036714d45a90b60867504cb7, type: 3}
+  cartoonBGM: {fileID: 8300000, guid: ad9c4c6dd21b3554cbcd1155ec3c9e79, type: 3}
   nextPageButton: {fileID: 23724867}
   skipCartoonButton: {fileID: 871332482}
   fadeOverlay: {fileID: 764441174}
@@ -551,17 +552,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 673150505}
-  m_LocalRotation: {x: -0, y: -0, z: 0.5, w: 0.8660254}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 735007533}
-  m_Father: {fileID: 1110989549}
+  m_Father: {fileID: 871332479}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 60}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 853, y: 350}
+  m_AnchoredPosition: {x: -23, y: 39.837097}
   m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &673150507
@@ -603,7 +604,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 0
+  m_Interactable: 1
   m_TargetGraphic: {fileID: 673150508}
   m_OnClick:
     m_PersistentCalls:
@@ -1096,6 +1097,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 688883502}
+  - {fileID: 673150506}
   m_Father: {fileID: 1110989549}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 60}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1224,7 +1226,6 @@ RectTransform:
   - {fileID: 764441176}
   - {fileID: 23724870}
   - {fileID: 871332479}
-  - {fileID: 673150506}
   m_Father: {fileID: 2135776106}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}

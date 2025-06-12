@@ -6,7 +6,10 @@ using UnityEngine;
 public class ExitTrigger : MonoBehaviour
 {
     public GameObject parnel;
-    public GameObject cartoonPrefab; 
+    public GameObject cartoonPrefab;
+
+    [Header("🎵 엔딩 BGM")]
+    public AudioClip endingBGM;
 
     void OnTriggerEnter(Collider other)
     {
@@ -19,6 +22,11 @@ public class ExitTrigger : MonoBehaviour
     void Clear()
     {
         Debug.Log("Exit On");
+
+        if (BGMManager.Instance != null)
+        {
+            BGMManager.Instance.FadeToBGM(endingBGM);
+        }
 
         if (cartoonPrefab != null)
         {

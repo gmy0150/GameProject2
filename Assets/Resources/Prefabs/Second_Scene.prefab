@@ -249,6 +249,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a5890eabec019ca44b4a6e2d654a649c, type: 3}
   - {fileID: 8300000, guid: ba4f33a77d61ffa4b8a45a9a33cd182e, type: 3}
   - {fileID: 8300000, guid: ba4f33a77d61ffa4b8a45a9a33cd182e, type: 3}
+  cartoonBGM: {fileID: 8300000, guid: 15601ebeab09c2b439466050195384d8, type: 3}
   nextButton: {fileID: 5455487076020799021}
   skipButton: {fileID: 4632781198151263430}
   fadePanel: {fileID: 4748122793222920657}
