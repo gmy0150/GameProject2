@@ -39,6 +39,7 @@ public class Closet : UseageInteract
     protected override void Hide()
     {
         isHide = !isHide;
+        character.SetAudio("Closet");
         if (isHide)
         {
             Rigidbody rigidbody = character.GetComponent<Rigidbody>();
@@ -54,9 +55,11 @@ public class Closet : UseageInteract
         {
             Render(true);
             character.ControllerEnable();
+
             // door1.transform.rotation = door1Rotation;
             // door2.transform.rotation = door2Rotation;
         }
+        
     }
     protected void Render(bool x)
     {

@@ -8,16 +8,17 @@ public class DoorBtn : UseageInteract
     public GameObject AilenRoom;
     public override void Interact(Player character, IController controller)
     {
-        if(!GameManager.Instance.AbleButton())
-        return;
-            base.Interact(character, controller);
-            AilenRoom.SetActive(true);
+        if (!GameManager.Instance.AbleButton())
+            return;
+        base.Interact(character, controller);
+        AilenRoom.SetActive(true);
 
         if (QuestManager.Instance != null)
         {
             QuestManager.Instance.CompleteSecretButtonMission();
         }
-            Debug.Log("버튼눌림");
+        character.SetAudio("Button");
+        
         
     }
     public override void InteractAgain()

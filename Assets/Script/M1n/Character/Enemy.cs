@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using System.Linq;
 using Unity.VisualScripting;
 using EPOOutline;
+using UnityEngine.Audio;
 
 
 public class Enemy : Character
@@ -25,14 +26,17 @@ public class Enemy : Character
     public Animator anim;
     Collider scollider;
     internal Vector3 startPos;
-    
+
     public Slider CheckPlayerSlider;
-    [SerializeField]float DetectTimer = 2.5f;
-    public Player player{ get; private set; }
+    [SerializeField] float DetectTimer = 2.5f;
+    public Player player { get; private set; }
     float maxTimer;
     protected virtual void Start()
     {
-        if(CheckPlayerSlider != null)
+        sfxAudioSource = gameObject.AddComponent<AudioSource>();
+        sfxAudioSource.loop = false;
+        sfxAudioSource.playOnAwake = false;
+        if (CheckPlayerSlider != null)
         {
             CheckPlayerSlider.value = 1;
         }
@@ -53,7 +57,7 @@ public class Enemy : Character
             NewNode.SetRunner(this);
         }
         ShowShape();
-         player = GameObject.FindAnyObjectByType<Player>();
+        player = GameObject.FindAnyObjectByType<Player>();
         if (player != null)
         {
             PlayerY = player.transform.position.y;
@@ -63,15 +67,40 @@ public class Enemy : Character
     public void InitNode()
     {
         Node.InitTree(NewNode);
-
     }
-    
+    AudioSource sfxAudioSource;
+    public AudioClip[] AudioClips;
+
+    public void SetAudio(string name)
+    {
+        if (sfxAudioSource.isPlaying && sfxAudioSource.clip.name == name)
+        {
+            return;
+        }
+        AudioClip clip = System.Array.Find(AudioClips, x => x.name == name);
+        if (clip != null)
+        {
+            sfxAudioSource.clip = clip;
+            sfxAudioSource.Play();
+            StartCoroutine(ClearClipAfterPlay(clip.length));
+        }
+        else
+        {
+            Debug.LogWarning("AudioClip not found: " + name);
+        }
+    }
+    private IEnumerator ClearClipAfterPlay(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+        sfxAudioSource.clip = null;
+        isSound = false;
+    }
     protected virtual void Update()
     {
         if (GameManager.Instance.isGameOver) return;
         if (UIImage)
             UIImage.transform.position = new Vector3(transform.position.x, UIImage.transform.position.y, transform.position.z);
-            if (CheckPlayerSlider)
+        if (CheckPlayerSlider)
             CheckPlayerSlider.transform.position = new Vector3(transform.position.x, CheckPlayerSlider.transform.position.y, transform.position.z);
         if (aIPath != null)
         {
@@ -103,7 +132,7 @@ public class Enemy : Character
                 CheckPlayerSlider.gameObject.SetActive(true);
                 CheckPlayerSlider.value = DetectTimer / maxTimer;
             }
-            
+
         }
 
     }
@@ -171,7 +200,7 @@ public class Enemy : Character
     {
         if (anim == null) return;
 
-        string[] triggers = { Idle, Move, ChasePlayer, CheckNoise,Stun ,StandUp };
+        string[] triggers = { Idle, Move, ChasePlayer, CheckNoise, Stun, StandUp };
         foreach (string trigger in triggers)
         {
             if (trigger != exclude)
@@ -187,6 +216,8 @@ public class Enemy : Character
     [Header("UI Image")]
     [SerializeField] private Image UIImage;
     string UIPAth = "UI/In_Game/";
+    bool isSound = false;
+    string saveUIName;
     public void AboveUI(string exclude = "", bool active = true)
     {
 
@@ -201,6 +232,12 @@ public class Enemy : Character
             if (triggers[i] == exclude)
             {
                 UIImage.sprite = Resources.Load<Sprite>(UIPAth + exclude);
+                if (saveUIName != exclude && !isSound)
+                {
+                    saveUIName = exclude;
+                    isSound = true;
+                    SetAudio(exclude);
+                }
             }
             if (triggers[i] != exclude)
             {
@@ -260,7 +297,7 @@ public class Enemy : Character
     }
 
 
-    protected virtual void MoveToTarget(Vector3 newTarget,string anim,float speed)
+    protected virtual void MoveToTarget(Vector3 newTarget, string anim, float speed)
     {
         if (stun) return;
         applyspeed = speed;
@@ -358,7 +395,7 @@ public class Enemy : Character
             probSuccess = true;
         }
     }
-    
+
     public virtual void ProbEnd() { }
     public virtual void StartProb() { }
     public virtual bool isProb() { return false; }
@@ -431,7 +468,7 @@ public class Enemy : Character
                 }
                 Debug.DrawRay(NewVector, rayDirection * hit.distance, Color.red, 0.1f);
             }
-            if(!foundPlayer)
+            if (!foundPlayer)
             {
                 DetectPlayer = false;
             }
@@ -490,14 +527,14 @@ public class Enemy : Character
         return result;
     }
 
-    
+
     void OnCollisionEnter(Collision collision)
     {
-        
+
         if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-            {
-                StartCoroutine(TempBlockENemy(collision.transform.position));
-            }
+        {
+            StartCoroutine(TempBlockENemy(collision.transform.position));
+        }
         if (collision.gameObject.CompareTag("Player"))
         {
             Player player = collision.gameObject.GetComponent<Player>();
@@ -533,5 +570,5 @@ public class Enemy : Character
         AstarPath.active.UpdateGraphs(guorestore);
     }
 
-    
+
 }
