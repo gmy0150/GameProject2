@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.Audio; // 오디오 믹서를 사용하기 위해 추가
 
 public class CameraAlertUI : MonoBehaviour
 {
@@ -34,12 +35,30 @@ public class CameraAlertUI : MonoBehaviour
             Instance = this;
             messagePanel?.SetActive(false);
             audioSource = gameObject.AddComponent<AudioSource>();
+
+            SetupMixerOutput();
         }
         else
         {
             Destroy(gameObject);
         }
     }
+    
+    void SetupMixerOutput()
+    {
+        if (VolumeManager.Instance == null || VolumeManager.Instance.audioMixer == null) return;
+        
+        AudioMixerGroup[] sfxGroups = VolumeManager.Instance.audioMixer.FindMatchingGroups("SFXVolume");
+        if (sfxGroups.Length > 0)
+        {
+            audioSource.outputAudioMixerGroup = sfxGroups[0];
+        }
+        else
+        {
+            Debug.LogWarning("AudioMixer에서 'SFXVolume' 그룹을 찾을 수 없습니다.");
+        }
+    }
+
 
     public void ShowPhotoDialogue(List<PhotoTriggerManager.PhotoLine> lines, Action onComplete = null)
     {
