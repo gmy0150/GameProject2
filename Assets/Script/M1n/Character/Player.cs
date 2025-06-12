@@ -184,7 +184,7 @@ public class Player : Character
     }
     public void Die()
     {
-        animator.SetBool("Die",true);
+        animator.SetBool("Die", true);
         controller = null;
 
     }
@@ -193,7 +193,7 @@ public class Player : Character
     {
         controller = KeyboardControll;
         controller.RunningCancel();
-        animator.SetBool("Die",false);
+        animator.SetBool("Die", false);
     }
     public void Hide(bool x)
     {
@@ -201,4 +201,12 @@ public class Player : Character
         GetComponentInChildren<Collider>().enabled = x;
         GetComponent<Rigidbody>().useGravity = x;
     }
+    public void AilionMeet()
+    {
+        AnimatorOverrideController overridecontrol = new AnimatorOverrideController(animator.runtimeAnimatorController);
+        overridecontrol["Running"] = newRun;
+        animator.runtimeAnimatorController = overridecontrol;
+        Debug.Log("Ailion Meet");
+    }
+    public AnimationClip newRun;
 }
