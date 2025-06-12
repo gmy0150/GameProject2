@@ -35,6 +35,7 @@ public class Box : StorageItem
                 InteractAgain();
         }
     }
+
     void TransBox()
     {
         SkinnedMeshRenderer skined = character.GetComponentInChildren<SkinnedMeshRenderer>();
@@ -45,8 +46,8 @@ public class Box : StorageItem
         controller.RunningCancel();
         skined.sharedMesh = character.BoxMesh;
         skined.materials = new Material[] { character.BoxMaterial };
-
-        
+        character.GetInterActControll().GetHide();
+        Debug.Log("???작동");
     }
     void CancelTransformation()
     {
@@ -67,7 +68,7 @@ public class Box : StorageItem
 
     public override void inititem()
     {
-        
+        HandAnything = character.Hammer;
     }
 
         public override void ActiveFalse()

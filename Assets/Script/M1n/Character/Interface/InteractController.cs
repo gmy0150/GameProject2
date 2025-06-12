@@ -105,6 +105,7 @@ void UpdateOutline()
                     InventoryManager.Instance.InitSlot();
 
                     bestInteractable = candidate;
+                    saveHide = candidate;
                     minDistance = distance;
                 }
             }
@@ -120,6 +121,11 @@ void UpdateOutline()
             }
         }
     }
+    IInterActerable saveHide = null;
+    public void SetInteractable(IInterActerable interactable)
+    {
+        this.interactable = interactable;
+    }
     public bool IsInteracting()
     {
         return currentInteractable != null && !currentInteractable.IsOneTimeInteraction();
@@ -128,7 +134,14 @@ void UpdateOutline()
     {
         if (currentInteractable != null)
         {
+            Debug.Log(currentInteractable);
             return currentInteractable.GetHide();
+
+        }
+        else if (saveHide != null)
+        {
+
+            return saveHide.GetHide();
         }
         else
         {

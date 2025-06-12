@@ -88,6 +88,8 @@ public class Player : Character
         sfxAudioSource.loop = false;
         sfxAudioSource.playOnAwake = false;
         cursorUI.Start();
+        Cursor.visible = false;
+
     }
     public void Move(Vector3 vector3, bool maingame)
     {

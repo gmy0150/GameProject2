@@ -16,6 +16,7 @@ public class AilionAI : Enemy
     {
         goChase = true;
         this.Player = player;
+        
     }
     public override void missPlayer()
     {
