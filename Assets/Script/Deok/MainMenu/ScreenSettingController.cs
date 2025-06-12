@@ -13,10 +13,9 @@ public class ScreenSettingsManager : MonoBehaviour
 
     private Resolution[] resolutions = new Resolution[]
     {
-        new Resolution { width = 1280, height = 720 },
         new Resolution { width = 1920, height = 1080 },
         new Resolution { width = 2560, height = 1440 },
-        new Resolution { width = 3840, height = 2160 } // 4K 추가
+        new Resolution { width = 3840, height = 2160 }
     };
 
     private int currentResolutionIndex;
