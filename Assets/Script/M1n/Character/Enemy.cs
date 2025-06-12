@@ -115,15 +115,12 @@ public class Enemy : Character
         {
             if (DetectPlayer)
             {
-                Debug.Log("!!!!");
                 DetectTimer -= Time.deltaTime;
                 CheckPlayerSlider.value = DetectTimer / maxTimer;
                 if (DetectTimer <= 0)
                 {
-                    Debug.Log("DetectPlayer");
                     AttractPlayer = true;
                     CheckPlayerSlider.gameObject.SetActive(false);
-                    // DetectTimer = maxTimer;
                 }
             }
             else
@@ -277,6 +274,7 @@ public class Enemy : Character
         aIPath.enabled = true;
         Vector3 newvec = player.transform.position;
         newvec.y = transform.position.y;
+        AstarPath.active.Scan();
         aIPath.destination = newvec;
         aIPath.isStopped = false;
         if (GetComponentInChildren<TestOne>())
@@ -453,9 +451,9 @@ public class Enemy : Character
                         // Debug.Log(hit.collider.GetComponent<Player>().GetInterActControll().GetHide());
                         if (hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide())
                         {
-
                             DetectPlayer = false;
                         }
+                        Debug.Log(hit.collider.GetComponentInParent<Player>().GetInterActControll().GetHide());
                     }
 
 

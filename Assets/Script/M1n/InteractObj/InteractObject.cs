@@ -21,6 +21,7 @@ public abstract class InteractObject :  MonoBehaviour, IInterActerable
     }
     public virtual bool GetHide()
     {
+        Debug.Log(isHide);
         return this.isHide;
     }
 
