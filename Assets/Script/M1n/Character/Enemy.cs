@@ -73,6 +73,8 @@ public class Enemy : Character
 
     public void SetAudio(string name)
     {
+        AudioMixerGroup[] sfxGroups = VolumeManager.Instance.audioMixer.FindMatchingGroups("SFXVolume");
+        if (sfxGroups.Length > 0) sfxAudioSource.outputAudioMixerGroup = sfxGroups[0];
         if (sfxAudioSource.isPlaying && sfxAudioSource.clip.name == name)
         {
             return;
@@ -131,6 +133,7 @@ public class Enemy : Character
             }
 
         }
+        
         GetProb();
 
     }

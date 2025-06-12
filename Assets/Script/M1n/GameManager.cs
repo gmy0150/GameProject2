@@ -81,7 +81,7 @@ public class GameManager : MonoBehaviour
     {
         //ailion 소환
         player.AilionMeet();
-        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        Enemy[] enemies = FindObjectsOfType<Enemy>(false);
         foreach (Enemy enemy in enemies)
         {
             enemy.gameObject.SetActive(false);
@@ -90,6 +90,8 @@ public class GameManager : MonoBehaviour
         AstarPath.active.Scan();
         Ailion.gameObject.SetActive(true);
         Ailion.ChaseStart(player);
+        Destroy(InventoryManager.Instance.gameObject);
+        player.cursorUI.SetCursorImage();
 
 
     }

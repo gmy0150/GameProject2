@@ -71,7 +71,8 @@ public class Box : StorageItem
 
     public override void inititem()
     {
-        HandAnything = character.Hammer;
+        HandAnything = character.Camera;
+        SetHandActive(true);
     }
 
     public override void ActiveFalse()

@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
@@ -39,6 +40,8 @@ public class Player : Character
     public AudioClip[] AudioClips;
     public void SetAudio(string name)
     {
+        AudioMixerGroup[] sfxGroups = VolumeManager.Instance.audioMixer.FindMatchingGroups("SFXVolume");
+        if (sfxGroups.Length > 0) sfxAudioSource.outputAudioMixerGroup = sfxGroups[0];
         if (sfxAudioSource.isPlaying && sfxAudioSource.clip.name == name)
         {
             return;
