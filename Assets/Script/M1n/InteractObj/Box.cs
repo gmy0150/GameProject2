@@ -6,12 +6,14 @@ using UnityEngine;
 public class Box : StorageItem
 {
     float TransTimer;
-
+    Mesh BaseMesh;
+    Material[] BaseMaterial;
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
         // character.GetInterActControll().ResetInteraction();
         Debug.Log("작동");
+        SetHandActive(false);
     }
     
     public override void InteractAgain()
@@ -35,11 +37,15 @@ public class Box : StorageItem
     }
     void TransBox()
     {
+        SkinnedMeshRenderer skined = character.GetComponentInChildren<SkinnedMeshRenderer>();
+        BaseMesh = skined.sharedMesh;
+        BaseMaterial = skined.materials;
         isHide = true;
         isInteract = false;
         controller.RunningCancel();
-        SkinnedMeshRenderer skined = character.GetComponentInChildren<SkinnedMeshRenderer>();
         skined.sharedMesh = character.BoxMesh;
+        skined.materials = new Material[] { character.BoxMaterial };
+
         
     }
     void CancelTransformation()
@@ -48,7 +54,8 @@ public class Box : StorageItem
         isHide = false;
         isInteract = true;
         SkinnedMeshRenderer skined = character.GetComponentInChildren<SkinnedMeshRenderer>();
-        // skined.sharedMesh = character.BaseMesh;
+        skined.sharedMesh = BaseMesh;
+        skined.materials = BaseMaterial;
         TransTimer = 0;
     }
 

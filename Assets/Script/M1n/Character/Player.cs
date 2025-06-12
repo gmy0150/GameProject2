@@ -27,6 +27,7 @@ public class Player : Character
     public bool ViewPoint;
     public bool InteractPoint;
     public Mesh BoxMesh;
+    public Material BoxMaterial;
     public Animator animator;
     public LayerMask Layer;
     public LayerMask Enemy;
