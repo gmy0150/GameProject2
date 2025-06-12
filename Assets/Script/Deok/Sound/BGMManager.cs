@@ -4,7 +4,6 @@ using System.Collections;
 
 public class BGMManager : MonoBehaviour
 {
-    // ▼▼▼ [수정] 이 부분이 바로 싱글톤(Singleton) 코드입니다. ▼▼▼
     public static BGMManager Instance { get; private set; }
     
     public AudioSource bgmAudioSource;
@@ -17,11 +16,10 @@ public class BGMManager : MonoBehaviour
     public float fadeDuration = 1.5f;
 
     private Coroutine fadeCoroutine;
-    private bool isTemporarilyStopped = false; // 카툰 등에 의해 BGM이 일시 정지되었는지 확인
+    private bool isTemporarilyStopped = false;
 
     private void Awake()
     {
-        // ▼▼▼ [수정] 싱글톤 인스턴스를 설정하는 코드입니다. ▼▼▼
         if (Instance == null)
         {
             Instance = this;
@@ -32,8 +30,7 @@ public class BGMManager : MonoBehaviour
         }
         else
         {
-            // 이미 BGMManager가 존재하면 새로 생긴 것은 파괴합니다.
-            Destroy(gameObject); 
+            Destroy(gameObject);
         }
     }
 
@@ -49,7 +46,6 @@ public class BGMManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // 씬이 로드될 때, BGM이 일시정지 상태가 아니라면 씬에 맞는 BGM을 재생합니다.
         if (isTemporarilyStopped) return;
 
         if (scene.name == "MainMenu" || scene.name == "Test_MainMenu")
@@ -66,7 +62,6 @@ public class BGMManager : MonoBehaviour
         }
     }
 
-    // 카툰이 시작될 때 이 함수를 호출하여 메인 BGM을 멈춥니다.
     public void TemporarilyStopBGM()
     {
         if (isTemporarilyStopped) return;
@@ -74,12 +69,10 @@ public class BGMManager : MonoBehaviour
         FadeToBGM(null);
     }
 
-    // 카툰이 끝날 때 이 함수를 호출하여 씬에 맞는 BGM을 다시 시작합니다.
     public void ResumeSceneBGM()
     {
         if (!isTemporarilyStopped) return;
         isTemporarilyStopped = false;
-        // 현재 씬을 다시 확인하여 적절한 BGM을 재생합니다.
         OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
     }
 
@@ -97,7 +90,7 @@ public class BGMManager : MonoBehaviour
         if (bgmAudioSource.isPlaying)
         {
             float startVolume = bgmAudioSource.volume;
-            for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+            for (float t = 0; t < fadeDuration; t += Time.unscaledDeltaTime)
             {
                 bgmAudioSource.volume = Mathf.Lerp(startVolume, 0f, t / fadeDuration);
                 yield return null;
@@ -116,7 +109,7 @@ public class BGMManager : MonoBehaviour
         bgmAudioSource.clip = newClip;
         bgmAudioSource.Play();
         float targetVolume = 1f;
-        for (float t = 0; t < fadeDuration; t += Time.deltaTime)
+        for (float t = 0; t < fadeDuration; t += Time.unscaledDeltaTime)
         {
             bgmAudioSource.volume = Mathf.Lerp(0f, targetVolume, t / fadeDuration);
             yield return null;
