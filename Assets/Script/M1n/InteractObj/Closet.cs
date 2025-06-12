@@ -60,7 +60,6 @@ public class Closet : UseageInteract
     }
     protected void Render(bool x)
     {
-        Debug.Log(InventoryManager.Instance.GetActiveItem());
         InventoryManager.Instance.GetActiveItem()?.SetHandActive(x);
         controller.SetNoise(x);
         character.GetComponentInChildren<SkinnedMeshRenderer>().enabled = x;
