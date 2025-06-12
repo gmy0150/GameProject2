@@ -558,6 +558,51 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: cartoonBGM
+      value: 
+      objectReference: {fileID: 8300000, guid: 1dcf0dbe7ffc1814aa944ece5018ce78, type: 3}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: 93a60b4c4fc9b49909b32bf0a0d94e97, type: 3}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 9a914b17e8b2e36468dc926b3c3f4244, type: 3}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.data[7]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8b0503ccfba6045f3ba8b5fb42bb3732, type: 3}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.data[9]
+      value: 
+      objectReference: {fileID: 8300000, guid: ca1929f43202e41e6adace537383ea34, type: 3}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.data[11]
+      value: 
+      objectReference: {fileID: 8300000, guid: 925d5513f9cf74e42997acd23e0a1413, type: 3}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.data[13]
+      value: 
+      objectReference: {fileID: 8300000, guid: f77f5b2ec0000448b9ecdc8ef7fccaf9, type: 3}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.data[14]
+      value: 
+      objectReference: {fileID: 8300000, guid: e4bdd05acdefb4b8fb48ee5cd1ae9873, type: 3}
+    - target: {fileID: 7075926714499729310, guid: acea97e537549dc488d04827a52c1e7e,
+        type: 3}
+      propertyPath: pageSounds.Array.data[19]
+      value: 
+      objectReference: {fileID: 8300000, guid: 8e916fc00fe7f4d30b12fa0bd4c6c9b8, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

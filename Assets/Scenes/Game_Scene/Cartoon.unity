@@ -295,11 +295,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a5890eabec019ca44b4a6e2d654a649c, type: 3}
   - {fileID: 8300000, guid: ba4f33a77d61ffa4b8a45a9a33cd182e, type: 3}
   - {fileID: 8300000, guid: ba4f33a77d61ffa4b8a45a9a33cd182e, type: 3}
+  cartoonBGM: {fileID: 8300000, guid: fb714cc198544794a998c76d8d8e042b, type: 3}
   nextButton: {fileID: 54130712}
   skipButton: {fileID: 1597896791}
   fadePanel: {fileID: 860988643}
   fadeDuration: 3
   nextSceneName: Test_Game
+  isStart: 0
 --- !u!114 &138785684
 MonoBehaviour:
   m_ObjectHideFlags: 0

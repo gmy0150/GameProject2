@@ -10,6 +10,11 @@
             "message": "조용히... 경비원이 못 볼 때 몰래 지나가야겠는데...",
             "iconName": "Sad",
             "voiceName": "imp_sad-1"
+          },
+          {
+            "message": "뛰면 시끄러우니까 조용히 걸어가자..",
+            "iconName": "Sad",
+            "voiceName": "imp_suspicious-2"
           }
         ]
     },
@@ -24,6 +29,11 @@
             "message": "여기 떨어진 캔을 던져서 주의를 끌어야겠네.",
             "iconName": "Sad",
             "voiceName": "imp_sad-2"
+          },
+          {
+            "message": "아니면 저기 라디오를 틀어서 주의를 끌어볼까?.",
+            "iconName": "Sad",
+            "voiceName": "imp_suspicious-4"
           }
         ]
     },
@@ -86,20 +96,50 @@
     },
     {
         "lines": [
-            {
-                "message": "사진 뭐시기 무시기 뭐시기",
-                "iconName": "Surprise",
-                "voiceName": "voice_surprise_1"
-            }
+          {
+            "message": "아니.. 이 방은 도대체 뭐지.,?",
+            "iconName": "Surprise",
+            "voiceName": "imp_confused-3"
+          },
+          {
+            "message": "이 액체 안에 들어간 보디가드는 뭐야..?",
+            "iconName": "Sad",
+            "voiceName": "imp_confused-5"
+          },
+          {
+            "message": "이건.. 좀.. 섬뜩한데..",
+            "iconName": "Sad",
+            "voiceName": "imp_confused-4"
+          },
+          {
+            "message": "빨리 사진이나 찍고 도망가야겠다..",
+            "iconName": "Sad",
+            "voiceName": "imp_content-1"
+          }
         ]
     },
     {
         "lines": [
-            {
-                "message": "이제 게임 시작이군",
-                "iconName": "Surprise",
-                "voiceName": "voice_surprise_1" 
-            }
+          {
+            "message": "여기가 마체테 녀석의 저택인가?",
+            "iconName": "Nothing",
+            "voiceName": "imp_caution-2"
+          },
+          {
+            "message": "역시 부자답게 저택이 되게 크구나.",
+            "iconName": "Nothing",
+            "voiceName": "imp_bored-5"
+          },
+          {
+            "message": "여기에 그 녀석의 엄청난 비밀이 숨겨져 있겠지?",
+            "iconName": "Happy",
+            "voiceName": "imp_cool-5"
+          },
+          {
+            "message": "빨리 찾아서 촬영해야 겠구만..후후후..",
+            "iconName": "Happy",
+            "voiceName": "imp_cool-3"
+          }
         ]
     }
 ]

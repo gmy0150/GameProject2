@@ -520,7 +520,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9a914b17e8b2e36468dc926b3c3f4244, type: 3}
   - {fileID: 8300000, guid: fa413c4ddd533e643ba49a59c49193b7, type: 3}
   - {fileID: 8300000, guid: 121556aa036714d45a90b60867504cb7, type: 3}
-  cartoonBGM: {fileID: 8300000, guid: ad9c4c6dd21b3554cbcd1155ec3c9e79, type: 3}
+  cartoonBGM: {fileID: 8300000, guid: cf6e4107c9cc4cc458f438e13c024211, type: 3}
   nextPageButton: {fileID: 23724867}
   skipCartoonButton: {fileID: 871332482}
   fadeOverlay: {fileID: 764441174}
