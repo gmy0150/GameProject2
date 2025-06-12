@@ -41,17 +41,13 @@ public class TutorialUI : MonoBehaviour
 
         audioSource = gameObject.AddComponent<AudioSource>();
 
-        // ▼▼▼ [수정] AudioSource를 생성한 직후, 믹서에 연결하는 함수를 호출합니다. ▼▼▼
         SetupMixerOutput();
     }
 
-    // ▼▼▼ [수정] AudioSource의 출력을 SFXVolume 믹서 그룹으로 보내는 함수를 새로 만듭니다. ▼▼▼
     void SetupMixerOutput()
     {
-        // VolumeManager가 없으면 실행하지 않습니다.
         if (VolumeManager.Instance == null || VolumeManager.Instance.audioMixer == null) return;
 
-        // SFX 오디오 소스를 'SFXVolume' 그룹에 연결
         AudioMixerGroup[] sfxGroups = VolumeManager.Instance.audioMixer.FindMatchingGroups("SFXVolume");
         if (sfxGroups.Length > 0)
         {
