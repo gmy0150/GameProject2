@@ -6,12 +6,14 @@ using UnityEngine;
 public class DoorBtn : UseageInteract
 {
     public GameObject AilenRoom;
+    public GameObject Wall;
     public override void Interact(Player character, IController controller)
     {
         if (!GameManager.Instance.AbleButton())
             return;
         base.Interact(character, controller);
         AilenRoom.SetActive(true);
+        Wall.SetActive(false);
 
         if (QuestManager.Instance != null)
         {
