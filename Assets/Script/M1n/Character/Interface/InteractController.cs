@@ -44,46 +44,47 @@ public class InteractController
     }
     Outlinable currentOutlinable = null; // 현재 아웃라인을 적용 중인 오브젝트
 
-void UpdateOutline()
-{
-    Collider[] colliders = Physics.OverlapSphere(character.transform.position, interactionDistance, interactableLayer);
-    Outlinable closestOutlinable = null;
-    float closestDistance = Mathf.Infinity;
-
-    foreach (Collider col in colliders)
+    void UpdateOutline()
     {
-        IInterActerable candidate = col.GetComponent<IInterActerable>();
-        if (candidate == null)
-            continue;
+        Collider[] colliders = Physics.OverlapSphere(character.transform.position, interactionDistance, interactableLayer);
+        Outlinable closestOutlinable = null;
+        float closestDistance = Mathf.Infinity;
 
-        float distance = Vector3.Distance(character.transform.position, col.transform.position);
-
-        if (distance < interactionDistance && distance < closestDistance)
+        foreach (Collider col in colliders)
         {
-            Outlinable outlinable = col.GetComponent<Outlinable>();
-            if (outlinable != null)
+            IInterActerable candidate = col.GetComponent<IInterActerable>();
+            if (candidate == null)
+                continue;
+
+            float distance = Vector3.Distance(character.transform.position, col.transform.position);
+
+            if (distance < interactionDistance && distance < closestDistance)
             {
-                closestOutlinable = outlinable;
-                closestDistance = distance;
+                Outlinable outlinable = col.GetComponent<Outlinable>();
+                if (outlinable != null)
+                {
+                    closestOutlinable = outlinable;
+                    closestDistance = distance;
+                }
             }
         }
-    }
 
-    // 기존 오브젝트와 다르거나, 새로 선택된 게 없거나, 거리 초과 시 이전 오브젝트의 아웃라인을 끈다
-    if (currentOutlinable != null && 
-        (currentOutlinable != closestOutlinable || closestOutlinable == null || closestDistance > interactionDistance))
-    {
-        currentOutlinable.OutlineParameters.Enabled = false;
-        currentOutlinable = null;
-    }
+        // 기존 오브젝트와 다르거나, 새로 선택된 게 없거나, 거리 초과 시 이전 오브젝트의 아웃라인을 끈다
+        if (currentOutlinable != null &&
+            (currentOutlinable != closestOutlinable || closestOutlinable == null || closestDistance > interactionDistance))
+        {
+            currentOutlinable.OutlineParameters.Enabled = false;
+            currentOutlinable = null;
+        }
 
-    // 새로 선택된 오브젝트의 아웃라인을 켠다
-    if (closestOutlinable != null && !closestOutlinable.OutlineParameters.Enabled)
-    {
-        closestOutlinable.OutlineParameters.Enabled = true;
-        currentOutlinable = closestOutlinable;
+        // 새로 선택된 오브젝트의 아웃라인을 켠다
+        if (closestOutlinable != null && !closestOutlinable.OutlineParameters.Enabled)
+        {
+            closestOutlinable.OutlineParameters.Enabled = true;
+            currentOutlinable = closestOutlinable;
+        }
     }
-}
+    IInterActerable saveActiveInteractable = null;
     void TryInteract()
     {
         Collider[] colliders = Physics.OverlapSphere(character.transform.position, interactionDistance, interactableLayer);
@@ -103,7 +104,7 @@ void UpdateOutline()
                 if (candidate != null && candidate.CanInteract())
                 {
                     InventoryManager.Instance.InitSlot();
-
+                    saveActiveInteractable = candidate;
                     bestInteractable = candidate;
                     saveHide = candidate;
                     minDistance = distance;
@@ -142,6 +143,10 @@ void UpdateOutline()
         {
 
             return saveHide.GetHide();
+        }
+        if(saveActiveInteractable != null)
+        {
+            return saveActiveInteractable.GetHide();
         }
         else
         {
