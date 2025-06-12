@@ -25,6 +25,8 @@ public class CameraAlertUI : MonoBehaviour
     private AudioSource audioSource;
     private Action onDialogueComplete;
 
+    private Dictionary<string, AudioClip> preloadedClips = new Dictionary<string, AudioClip>();
+
     private void Awake()
     {
         if (Instance == null)
@@ -46,6 +48,8 @@ public class CameraAlertUI : MonoBehaviour
         if (playerScript != null)
             playerScript.enabled = false;
 
+        PreloadAudioClips(lines);
+
         dialogueQueue.Clear();
         foreach (var line in lines)
             dialogueQueue.Enqueue(line);
@@ -56,16 +60,31 @@ public class CameraAlertUI : MonoBehaviour
         ShowNextLine();
     }
 
+    void PreloadAudioClips(List<PhotoTriggerManager.PhotoLine> lines)
+    {
+        preloadedClips.Clear();
+        foreach (var line in lines)
+        {
+            if (!string.IsNullOrEmpty(line.voiceName) && !preloadedClips.ContainsKey(line.voiceName))
+            {
+                AudioClip clip = Resources.Load<AudioClip>("Voices/" + line.voiceName);
+                if (clip != null)
+                {
+                    preloadedClips.Add(line.voiceName, clip);
+                }
+            }
+        }
+    }
+
     void Update()
     {
         if (messagePanel.activeSelf && Input.GetKeyDown(KeyCode.Space))
         {
             if (isTyping)
             {
-                if (typingCoroutine != null)
-                    StopCoroutine(typingCoroutine);
-                messageText.text = fullCurrentText;
+                if (typingCoroutine != null) StopCoroutine(typingCoroutine);
                 isTyping = false;
+                messageText.text = fullCurrentText;
             }
             else
             {
@@ -76,30 +95,24 @@ public class CameraAlertUI : MonoBehaviour
 
     void ShowNextLine()
     {
+        audioSource.Stop();
+        audioSource.clip = null;
+
         if (dialogueQueue.Count > 0)
         {
             var line = dialogueQueue.Dequeue();
             fullCurrentText = line.message;
 
-            if (!string.IsNullOrEmpty(line.voiceName))
+            if (!string.IsNullOrEmpty(line.voiceName) && preloadedClips.ContainsKey(line.voiceName))
             {
-                AudioClip clip = Resources.Load<AudioClip>("Voices/" + line.voiceName);
-                if (clip != null)
-                {
-                    if (audioSource.isPlaying)
-                        audioSource.Stop();
-                    audioSource.clip = clip;
-                    audioSource.Play();
-                }
+                audioSource.clip = preloadedClips[line.voiceName];
+                audioSource.Play();
             }
 
-            iconImage.sprite = !string.IsNullOrEmpty(line.iconName)
-                ? Resources.Load<Sprite>("Icons/" + line.iconName)
-                : null;
+            iconImage.sprite = !string.IsNullOrEmpty(line.iconName) ? Resources.Load<Sprite>("Icons/" + line.iconName) : null;
             iconImage.enabled = (iconImage.sprite != null);
 
-            if (typingCoroutine != null)
-                StopCoroutine(typingCoroutine);
+            if (typingCoroutine != null) StopCoroutine(typingCoroutine);
             typingCoroutine = StartCoroutine(TypeText(line.message));
         }
         else
@@ -123,12 +136,12 @@ public class CameraAlertUI : MonoBehaviour
     void HidePanel()
     {
         messagePanel?.SetActive(false);
-
-        if (playerScript != null)
-            playerScript.enabled = true;
-
+        if (playerScript != null) playerScript.enabled = true;
         Time.timeScale = 1f;
 
+        audioSource.Stop();
+        audioSource.clip = null;
+        
         onDialogueComplete?.Invoke();
     }
 }

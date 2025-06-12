@@ -23,6 +23,8 @@ public class TutorialUI : MonoBehaviour
     private string fullCurrentText = "";
     private AudioSource audioSource;
 
+    private Dictionary<string, AudioClip> preloadedClips = new Dictionary<string, AudioClip>();
+
     private void Awake()
     {
         Instance = this;
@@ -58,6 +60,8 @@ public class TutorialUI : MonoBehaviour
             playerAnimator.SetBool("IsRunning", false);
         }
 
+        PreloadAudioClips(lines);
+
         dialogueQueue.Clear();
         foreach (var line in lines)
         {
@@ -66,6 +70,22 @@ public class TutorialUI : MonoBehaviour
         }
 
         ShowNextLine();
+    }
+
+    void PreloadAudioClips(List<TutorialManager.DialogueLine> lines)
+    {
+        preloadedClips.Clear(); 
+        foreach (var line in lines)
+        {
+            if (line != null && !string.IsNullOrEmpty(line.voiceName) && !preloadedClips.ContainsKey(line.voiceName))
+            {
+                AudioClip clip = Resources.Load<AudioClip>("Voices/" + line.voiceName);
+                if (clip != null)
+                {
+                    preloadedClips.Add(line.voiceName, clip);
+                }
+            }
+        }
     }
 
     private void Update()
@@ -77,8 +97,8 @@ public class TutorialUI : MonoBehaviour
                 if (typingCoroutine != null)
                     StopCoroutine(typingCoroutine);
 
-                messageText.text = fullCurrentText;
                 isTyping = false;
+                messageText.text = fullCurrentText;
             }
             else
             {
@@ -89,23 +109,19 @@ public class TutorialUI : MonoBehaviour
 
     void ShowNextLine()
     {
+        audioSource.Stop();
+        audioSource.clip = null;
+
         if (dialogueQueue.Count > 0)
         {
             var line = dialogueQueue.Dequeue();
             fullCurrentText = line?.message ?? "";
-            if (!string.IsNullOrEmpty(line.voiceName))
-        {
-            AudioClip clip = Resources.Load<AudioClip>("Voices/" + line.voiceName);
             
-            if (clip != null)
+            if (!string.IsNullOrEmpty(line.voiceName) && preloadedClips.ContainsKey(line.voiceName))
             {
-                audioSource.PlayOneShot(clip);
+                audioSource.clip = preloadedClips[line.voiceName];
+                audioSource.Play();
             }
-            else
-            {
-                Debug.LogWarning("⚠️ 음성 클립을 찾을 수 없습니다: Voices/" + line.voiceName);
-            }
-        }
 
             if (iconImage != null)
             {
@@ -119,6 +135,8 @@ public class TutorialUI : MonoBehaviour
             if (panel != null)
                 panel.SetActive(true);
 
+            if(typingCoroutine != null)
+                StopCoroutine(typingCoroutine);
             typingCoroutine = StartCoroutine(TypeText(fullCurrentText));
         }
         else
@@ -130,8 +148,7 @@ public class TutorialUI : MonoBehaviour
                 playerScript.enabled = true;
 
             Time.timeScale = 1f;
-        GameManager.Instance.ActPlay(true);
-
+            GameManager.Instance.ActPlay(true);
         }
     }
 
