@@ -182,7 +182,6 @@ public class Coin : StorageItem
             Debug.Log("동전 소리 발생");
             Debug.Log(character);
         }
-        Debug.Log(collision.gameObject.layer);
     }
 
     public override void UseItem()

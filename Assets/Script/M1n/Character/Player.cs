@@ -34,7 +34,7 @@ public class Player : Character
     public GameObject Hammer;
     public GameObject Camera;
     public GameObject HandCoin;
-        AudioSource sfxAudioSource;
+    AudioSource sfxAudioSource;
     public AudioClip[] AudioClips;
     public void SetAudio(string name)
     {

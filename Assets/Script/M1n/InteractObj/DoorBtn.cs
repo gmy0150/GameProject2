@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class DoorBtn : UseageInteract
 {
     public GameObject AilenRoom;
     public GameObject Wall;
+    public PlayableDirector director;
+    
     public override void Interact(Player character, IController controller)
     {
         if (!GameManager.Instance.AbleButton())
@@ -20,8 +23,8 @@ public class DoorBtn : UseageInteract
             QuestManager.Instance.CompleteSecretButtonMission();
         }
         character.SetAudio("Button");
-        
-        
+        director.Play();
+
     }
     public override void InteractAgain()
     {
