@@ -214,12 +214,12 @@ MonoBehaviour:
   - {fileID: 7232208783180230949}
   - {fileID: 0}
   pageSounds:
+  - {fileID: 8300000, guid: ac002290edad7d748999ee31b1bbcb7f, type: 3}
+  - {fileID: 8300000, guid: 832fde87f19a486478c3f4e2eb81522a, type: 3}
+  - {fileID: 8300000, guid: 59c2885d74952bd43873614da3430938, type: 3}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 973a2ed35f2242e41bc338bb0ebc914d, type: 3}
   - {fileID: 0}
   - {fileID: 8300000, guid: 88809269a2b718d4aa71a8ab3710569c, type: 3}
   - {fileID: 0}
