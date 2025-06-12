@@ -6,7 +6,8 @@ using UnityEngine;
 public class Box : StorageItem
 {
     float TransTimer;
-
+    Mesh BaseMesh;
+    Material BaseMaterial;
     public override void Interact(Player character, IController controller)
     {
         base.Interact(character, controller);
@@ -35,11 +36,14 @@ public class Box : StorageItem
     }
     void TransBox()
     {
+        SkinnedMeshRenderer skined = character.GetComponentInChildren<SkinnedMeshRenderer>();
+        BaseMesh = skined.sharedMesh;
+        BaseMaterial = skined.material;
         isHide = true;
         isInteract = false;
         controller.RunningCancel();
-        SkinnedMeshRenderer skined = character.GetComponentInChildren<SkinnedMeshRenderer>();
         skined.sharedMesh = character.BoxMesh;
+        skined.material = character.BoxMesh.GetComponent<MeshRenderer>().material;
         
     }
     void CancelTransformation()
@@ -48,7 +52,8 @@ public class Box : StorageItem
         isHide = false;
         isInteract = true;
         SkinnedMeshRenderer skined = character.GetComponentInChildren<SkinnedMeshRenderer>();
-        // skined.sharedMesh = character.BaseMesh;
+        skined.sharedMesh = baseMesh;
+        skined.material = baseMaterial;
         TransTimer = 0;
     }
 
