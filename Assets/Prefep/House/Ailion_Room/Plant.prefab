@@ -26,37 +26,37 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ccf744cccf4f20b46969eb794e1ef073,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -57.040707
+      value: -52.992786
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ccf744cccf4f20b46969eb794e1ef073,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.68
+      value: 1.6871129
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ccf744cccf4f20b46969eb794e1ef073,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 67.24263
+      value: 72.42594
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ccf744cccf4f20b46969eb794e1ef073,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: -0.52133304
+      value: -0.6092079
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ccf744cccf4f20b46969eb794e1ef073,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0.52133304
+      value: 0.6092079
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ccf744cccf4f20b46969eb794e1ef073,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.47771522
+      value: 0.35897875
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ccf744cccf4f20b46969eb794e1ef073,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.47771522
+      value: 0.35897875
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ccf744cccf4f20b46969eb794e1ef073,
         type: 3}
@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: ccf744cccf4f20b46969eb794e1ef073,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 275
+      value: 298.982
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: ccf744cccf4f20b46969eb794e1ef073,
         type: 3}
@@ -96,7 +96,12 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: ccf744cccf4f20b46969eb794e1ef073,
         type: 3}
       propertyPath: m_Name
-      value: plant_0502
+      value: Plant
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ccf744cccf4f20b46969eb794e1ef073,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
