@@ -179,7 +179,10 @@ public class Coin : StorageItem
             {
                 character.MakeNoise(gameObject, Player.CoinNoise, 12);
             }
+            Debug.Log("동전 소리 발생");
+            Debug.Log(character);
         }
+        Debug.Log(collision.gameObject.layer);
     }
 
     public override void UseItem()
@@ -209,7 +212,6 @@ public class Coin : StorageItem
     public override void ActiveFalse()
     {
         SetHandActive(false);
-        shoot = false;
         if (lineRenderer != null)
         {
             lineRenderer.positionCount = 0;

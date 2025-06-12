@@ -25,6 +25,7 @@ public class Enemy : Character
     public Animator anim;
     Collider scollider;
     internal Vector3 startPos;
+    
     public Slider CheckPlayerSlider;
     [SerializeField]float DetectTimer = 2.5f;
     public Player player{ get; private set; }
@@ -44,6 +45,7 @@ public class Enemy : Character
 
         }
         startPos = transform.position;
+        startRot = transform.rotation;
         if (node != null)
         {
             NewNode = node.Clone();
@@ -371,6 +373,7 @@ public class Enemy : Character
         public List<Vector3> blockedPoints;
     }
     public GameObject RayShoot;
+    public Quaternion startRot;
 
     public VisibilityResult CheckVisibility(int rayCount)
     {
