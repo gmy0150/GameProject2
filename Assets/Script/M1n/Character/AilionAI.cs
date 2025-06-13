@@ -23,6 +23,10 @@ public class AilionAI : Enemy
     {
 
     }
-
-
+    public Vector3 stapos;
+    void Start()
+    {
+        base.Start();
+        startPos = stapos;
+    }
 }
