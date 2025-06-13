@@ -25,7 +25,7 @@ public class Enemy : Character
     float PlayerY;
     public Animator anim;
     Collider scollider;
-    internal Vector3 startPos;
+    public Vector3 startPos;
 
     public Slider CheckPlayerSlider;
     [SerializeField] float DetectTimer = 2.5f;

@@ -97,7 +97,10 @@ public class Player : Character
     {
         KeyboardControll?.MovePlayer(vector3, maingame);
     }
-
+    void OnDisable()
+    {
+        cursorUI?.OnDisable();
+    }
     void Update()
     {
         

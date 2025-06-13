@@ -23,10 +23,6 @@ public class AilionAI : Enemy
     {
 
     }
-    void Start()
-    {
-        base.Start();
 
-    }
 
 }

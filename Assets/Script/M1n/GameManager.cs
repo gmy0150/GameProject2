@@ -93,8 +93,6 @@ public class GameManager : MonoBehaviour
         Ailion.ChaseStart(player);
         Destroy(InventoryManager.Instance.gameObject);
         player.cursorUI.SetCursorImage();
-
-
     }
     
     bool AIlionON = false;
@@ -157,9 +155,10 @@ public class GameManager : MonoBehaviour
                 isMainGame = false;
             }
         }
-        if( Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKey(KeyCode.R) && Input.GetKey( KeyCode.LeftControl))
         {
             OnDoorActive();
+            player.transform.localPosition = new Vector3(-137.4f,5.4f, 92.7f);
         }
     }
     public bool isGameOver = false;

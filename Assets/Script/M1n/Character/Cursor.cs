@@ -11,7 +11,7 @@ public class CursorUI
         customCursorUI = GameObject.Find("CustomCursor").GetComponent<Image>();
         baseImage = Resources.Load<Sprite>("UI/Mouse/DefaultCursor");
         BaseAbleIamage = Resources.Load<Sprite>("UI/Mouse/DefaultAbleCursor");
-        
+
     }
     public void update()
     {
@@ -38,5 +38,8 @@ public class CursorUI
         {
             customCursorUI.sprite = sprite;
         }
+    }
+    public void OnDisable() {
+        Cursor.visible = true;
     }
 }
