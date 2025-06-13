@@ -7,6 +7,7 @@ public class AilionAI : Enemy
     protected override void Update()
     {
         base.Update();
+        if (GameManager.Instance.isGameOver) return;
         if (goChase)
             StartChase(Player);
     }
@@ -25,7 +26,6 @@ public class AilionAI : Enemy
     void Start()
     {
         base.Start();
-        startPos = transform.position;
 
     }
 

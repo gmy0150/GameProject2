@@ -81,7 +81,8 @@ public class GameManager : MonoBehaviour
     {
         //ailion 소환
         player.AilionMeet();
-        Enemy[] enemies = FindObjectsOfType<Enemy>(false);
+        Ailion.gameObject.SetActive(true);
+        Enemy[] enemies = FindObjectsOfType<Enemy>(true);
         foreach (Enemy enemy in enemies)
         {
             enemy.gameObject.SetActive(false);
@@ -132,7 +133,7 @@ public class GameManager : MonoBehaviour
     {
         ActPlay(false);
         player.Move(tutoPos, false);
-        enemies = FindObjectsOfType<Enemy>();
+        enemies = FindObjectsOfType<Enemy>(true);
     }
     bool isMainGame;
     public void MainGameStart()
